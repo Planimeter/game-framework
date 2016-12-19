@@ -1,6 +1,21 @@
 # lgameframework
 Game development framework for Lua
 
+## Libraries
+
+* [lsdl](https://github.com/Planimeter/lsdl)  
+LuaJIT FFI bindings for SDL 2.0
+* [lopengl](https://github.com/Planimeter/lopengl)  
+LuaJIT FFI bindings for OpenGL
+* [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
+LuaJIT FFI bindings for PhysicsFS
+* [lclass](https://github.com/andrewmcwatters/lclass)  
+Lua with Classes
+* [lauxlib](https://github.com/Planimeter/lauxlib)  
+Lua 5.1.5 Auxiliary Library
+* [common](https://github.com/Planimeter/common)  
+Common game development classes
+
 ## License
 
 The MIT License
