@@ -4,6 +4,10 @@
 --
 --============================================================================--
 
-local GL = require( "lib.opengl" )
+local SDL = require( "lib.sdl" )
 
-module( "graphics" )
+module( "framework.window" )
+
+function createWindow()
+	window = SDL.SDL_CreateWindow()
+end

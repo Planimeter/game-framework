@@ -4,13 +4,6 @@
 --
 --============================================================================--
 
-module( "framework" )
+local physfs = require( "lib.physicsfs" )
 
-function load()
-end
-
-function update( dt )
-end
-
-function draw()
-end
+module( "framework.filesystem" )

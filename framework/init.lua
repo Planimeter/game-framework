@@ -4,10 +4,16 @@
 --
 --============================================================================--
 
-local SDL = require( "lib.sdl" )
+module( "framework" )
 
-module( "window" )
+function init()
+end
 
-function createWindow()
-	window = SDL.SDL_CreateWindow()
+function load()
+end
+
+function update( dt )
+end
+
+function draw()
 end
