@@ -16,13 +16,12 @@ ffi.cdef( io.read( "*all" ) )
 local SDL = ffi.load( "SDL2" )
 
 local function SDL_WINDOWPOS_UNDEFINED_DISPLAY(X)
-	return (bor(SDL_WINDOWPOS_UNDEFINED_MASK,(X)))
+	return (bor(0x1FFF0000,(X)))
 end
 
 local function SDL_WINDOWPOS_ISUNDEFINED(X)
 	return (band((X),0xFFFF0000) == SDL_WINDOWPOS_UNDEFINED_MASK)
 end
-
 
 local _M = {
 	--[[
