@@ -5,6 +5,7 @@
 --============================================================================--
 
 require( "framework.filesystem" )
+local ffi = require( "ffi" )
 
 local framework = framework
 local require   = require
@@ -20,6 +21,8 @@ function init()
 		},
 		window = {
 			title  = "",
+			x      = nil,
+			y      = nil,
 			width  = 800,
 			height = 600
 		}
@@ -40,6 +43,8 @@ function init()
 	if ( c.modules.window ) then
 		framework.window.createWindow(
 			c.window.title,
+			c.window.x,
+			c.window.y,
 			c.window.width,
 			c.window.height
 		)
