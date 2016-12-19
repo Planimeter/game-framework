@@ -7,3 +7,6 @@
 local physfs = require( "lib.physicsfs" )
 
 module( "framework.filesystem" )
+
+function isFile()
+end

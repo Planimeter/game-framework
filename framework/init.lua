@@ -4,15 +4,46 @@
 --
 --============================================================================--
 
-require( "framework.window" )
+require( "framework.filesystem" )
 
-local window     = framework.window
-local filesystem = framework.filesystem
+local framework = framework
+local require   = require
+local pairs     = pairs
 
 module( "framework" )
 
 function init()
-	window.createWindow()
+	local c = {
+		modules = {
+			window   = true,
+			graphics = true
+		},
+		window = {
+			title  = "",
+			width  = 800,
+			height = 600
+		}
+	}
+
+	if ( framework.filesystem.isFile( "conf.lua" ) ) then
+		require( "conf" )
+	end
+
+	if ( framework.conf ) then
+		framework.conf( c )
+	end
+
+	for k in pairs( c.modules ) do
+		require( "framework." .. k )
+	end
+
+	if ( c.modules.window ) then
+		framework.window.createWindow(
+			c.window.title,
+			c.window.width,
+			c.window.height
+		)
+	end
 end
 
 function load()
@@ -23,3 +54,5 @@ end
 
 function draw()
 end
+
+init()

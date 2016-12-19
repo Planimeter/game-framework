@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "SDL.h" )
+io.input( "lib/SDL.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( "SDL2" )
