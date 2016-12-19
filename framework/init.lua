@@ -5,7 +5,7 @@
 --============================================================================--
 
 require( "framework.filesystem" )
-local ffi = require( "ffi" )
+local SDL = require( "lib.sdl" )
 
 local framework = framework
 local require   = require
@@ -51,6 +51,16 @@ function init()
 	end
 end
 
+function main()
+	init()
+
+	while ( true ) do
+		local event = SDL.SDL_Event()
+		while ( SDL.SDL_PollEvent( event ) ) do
+		end
+	end
+end
+
 function load()
 end
 
@@ -60,4 +70,4 @@ end
 function draw()
 end
 
-init()
+main()

@@ -39,6 +39,8 @@ local _M = {
 	SDL_INIT_EVENTS         = 0x00004000,
 	SDL_INIT_NOPARACHUTE    = 0x00100000,  --[[< compatibility; this flag is ignored. ]]
 
+	SDL_Event = ffi.metatype( "SDL_Event", {} ),
+
 	--[[
 	 *  \brief Used to indicate that you don't care what the window position is.
 	 ]]
