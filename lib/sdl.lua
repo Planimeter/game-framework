@@ -47,7 +47,7 @@ local _M = {
 	SDL_INIT_HAPTIC         = 0x00001000,
 	SDL_INIT_GAMECONTROLLER = 0x00002000,  --[[< SDL_INIT_GAMECONTROLLER implies SDL_INIT_JOYSTICK ]]
 	SDL_INIT_EVENTS         = 0x00004000,
-	SDL_INIT_NOPARACHUTE    = 0x00100000  --[[< compatibility; this flag is ignored. ]]
+	SDL_INIT_NOPARACHUTE    = 0x00100000   --[[< compatibility; this flag is ignored. ]]
 }
 _M.SDL_INIT_EVERYTHING = bor(
                 _M.SDL_INIT_TIMER, _M.SDL_INIT_AUDIO, _M.SDL_INIT_VIDEO, _M.SDL_INIT_EVENTS,
