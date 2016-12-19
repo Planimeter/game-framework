@@ -4,9 +4,14 @@
 --
 --============================================================================--
 
+require( "framework.window" )
+
+local window = framework.window
+
 module( "framework" )
 
 function init()
+	window.createWindow()
 end
 
 function load()
