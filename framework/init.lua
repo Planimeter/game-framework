@@ -6,7 +6,8 @@
 
 require( "framework.window" )
 
-local window = framework.window
+local window     = framework.window
+local filesystem = framework.filesystem
 
 module( "framework" )
 
