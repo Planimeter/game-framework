@@ -24,6 +24,16 @@ local function SDL_WINDOWPOS_ISUNDEFINED(X)
 end
 
 local _M = {
+	SDL_Event = ffi.metatype( "SDL_Event", {} ),
+
+	--[[
+	 *  \brief Used to indicate that you don't care what the window position is.
+	 ]]
+	SDL_WINDOWPOS_UNDEFINED_MASK    = 0x1FFF0000,
+	SDL_WINDOWPOS_UNDEFINED_DISPLAY = SDL_WINDOWPOS_UNDEFINED_DISPLAY,
+	SDL_WINDOWPOS_UNDEFINED         = SDL_WINDOWPOS_UNDEFINED_DISPLAY(0),
+	SDL_WINDOWPOS_ISUNDEFINED       = SDL_WINDOWPOS_ISUNDEFINED,
+
 	--[[
 	 *  \name SDL_INIT_*
 	 *
@@ -37,17 +47,7 @@ local _M = {
 	SDL_INIT_HAPTIC         = 0x00001000,
 	SDL_INIT_GAMECONTROLLER = 0x00002000,  --[[< SDL_INIT_GAMECONTROLLER implies SDL_INIT_JOYSTICK ]]
 	SDL_INIT_EVENTS         = 0x00004000,
-	SDL_INIT_NOPARACHUTE    = 0x00100000,  --[[< compatibility; this flag is ignored. ]]
-
-	SDL_Event = ffi.metatype( "SDL_Event", {} ),
-
-	--[[
-	 *  \brief Used to indicate that you don't care what the window position is.
-	 ]]
-	SDL_WINDOWPOS_UNDEFINED_MASK    = 0x1FFF0000,
-	SDL_WINDOWPOS_UNDEFINED_DISPLAY = SDL_WINDOWPOS_UNDEFINED_DISPLAY,
-	SDL_WINDOWPOS_UNDEFINED         = SDL_WINDOWPOS_UNDEFINED_DISPLAY(0),
-	SDL_WINDOWPOS_ISUNDEFINED       = SDL_WINDOWPOS_ISUNDEFINED
+	SDL_INIT_NOPARACHUTE    = 0x00100000  --[[< compatibility; this flag is ignored. ]]
 }
 _M.SDL_INIT_EVERYTHING = bor(
                 _M.SDL_INIT_TIMER, _M.SDL_INIT_AUDIO, _M.SDL_INIT_VIDEO, _M.SDL_INIT_EVENTS,
