@@ -3,17 +3,17 @@ Game development framework for Lua
 
 ## Libraries
 
-* [Planimeter/lsdl](https://github.com/Planimeter/lsdl)  
+* [lsdl](https://github.com/Planimeter/lsdl)  
 LuaJIT FFI bindings for SDL 2.0
-* [Planimeter/lopengl](https://github.com/Planimeter/lopengl)  
+* [lopengl](https://github.com/Planimeter/lopengl)  
 LuaJIT FFI bindings for OpenGL
-* [Planimeter/lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
+* [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
 LuaJIT FFI bindings for PhysicsFS
-* [andrewmcwatters/lclass](https://github.com/andrewmcwatters/lclass)  
+* [lclass](https://github.com/andrewmcwatters/lclass)  
 Lua with Classes
-* [Planimeter/lauxlib](https://github.com/Planimeter/lauxlib)  
+* [lauxlib](https://github.com/Planimeter/lauxlib)  
 Lua 5.1.5 Auxiliary Library
-* [Planimeter/common](https://github.com/Planimeter/common)  
+* [common](https://github.com/Planimeter/common)  
 Common game development classes
 
 ## License
