@@ -19,21 +19,21 @@ local print     = print
 
 module( "framework" )
 
-local c = {
-	modules = {
-		window   = true,
-		graphics = true
-	},
-	window = {
-		title  = "",
-		x      = nil,
-		y      = nil,
-		width  = 800,
-		height = 600
-	}
-}
-
 function init()
+	local c = {
+		modules = {
+			window   = true,
+			graphics = true
+		},
+		window = {
+			title  = "",
+			x      = nil,
+			y      = nil,
+			width  = 800,
+			height = 600
+		}
+	}
+
 	if ( framework.filesystem.exists( "conf.lua" ) ) then
 		require( "conf" )
 	end
@@ -65,9 +65,10 @@ function main()
 	load()
 
 	while ( true ) do
-		local event = SDL.SDL_Event()
-		while ( SDL.SDL_PollEvent( event ) ~= 0 ) do
-		end
+		local event = nil
+		repeat
+			event = framework.event.poll()
+		until ( event == nil )
 
 		if ( update ) then
 			update()
