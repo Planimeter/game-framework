@@ -48,17 +48,29 @@ function init()
 		local height = c.window.height
 		framework.window.createWindow( title, x, y, width, height )
 	end
+
+	if ( framework.filesystem.exists( "main.lua" ) ) then
+		require( "main" )
+	end
 end
 
 function main()
 	init()
+	load()
 
 	while ( true ) do
 		local event = SDL.SDL_Event()
 		while ( SDL.SDL_PollEvent( event ) ) do
-		end
+			if ( update ) then
+				update()
+			end
 
-		framework.window.swap()
+			if ( draw ) then
+				draw()
+			end
+
+			framework.window.swap()
+		end
 	end
 end
 
