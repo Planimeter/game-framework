@@ -5,7 +5,6 @@
 --============================================================================--
 
 require( "framework.filesystem" )
-local SDL = require( "lib.sdl" )
 local ffi = require( "ffi" )
 local GL  = require( "lib.opengl" )
 
