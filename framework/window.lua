@@ -10,17 +10,11 @@ local ffi = require( "ffi" )
 module( "framework.window" )
 
 function createWindow( title, x, y, width, height )
-	SDL.SDL_InitSubSystem( SDL.SDL_INIT_VIDEO )
+	x = x or SDL.SDL_WINDOWPOS_UNDEFINED
+	y = y or SDL.SDL_WINDOWPOS_UNDEFINED
 
 	local flags = ffi.C.SDL_WINDOW_OPENGL
-	window = SDL.SDL_CreateWindow(
-		title,
-		x or SDL.SDL_WINDOWPOS_UNDEFINED,
-		y or SDL.SDL_WINDOWPOS_UNDEFINED,
-		width,
-		height,
-		flags
-	)
+	window = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
 end
 
 function swap()
