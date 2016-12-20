@@ -14,10 +14,6 @@ function createWindow( title, x, y, width, height )
 	x = x or SDL.SDL_WINDOWPOS_UNDEFINED
 	y = y or SDL.SDL_WINDOWPOS_UNDEFINED
 
-	SDL.SDL_GL_SetAttribute( ffi.C.SDL_GL_CONTEXT_PROFILE_MASK, ffi.C.SDL_GL_CONTEXT_PROFILE_CORE )
-	SDL.SDL_GL_SetAttribute( ffi.C.SDL_GL_CONTEXT_MAJOR_VERSION, 2 )
-	SDL.SDL_GL_SetAttribute( ffi.C.SDL_GL_CONTEXT_MINOR_VERSION, 1 )
-
 	local flags = ffi.C.SDL_WINDOW_OPENGL
 	window      = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
 	context     = SDL.SDL_GL_CreateContext( window )
