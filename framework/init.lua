@@ -13,22 +13,22 @@ local pairs     = pairs
 
 module( "framework" )
 
-function init()
-	local c = {
-		modules = {
-			window   = true,
-			graphics = true
-		},
-		window = {
-			title  = "",
-			x      = nil,
-			y      = nil,
-			width  = 800,
-			height = 600
-		}
+local c = {
+	modules = {
+		window   = true,
+		graphics = true
+	},
+	window = {
+		title  = "",
+		x      = nil,
+		y      = nil,
+		width  = 800,
+		height = 600
 	}
+}
 
-	if ( framework.filesystem.isFile( "conf.lua" ) ) then
+function init()
+	if ( framework.filesystem.exists( "conf.lua" ) ) then
 		require( "conf" )
 	end
 
@@ -41,13 +41,12 @@ function init()
 	end
 
 	if ( c.modules.window ) then
-		framework.window.createWindow(
-			c.window.title,
-			c.window.x,
-			c.window.y,
-			c.window.width,
-			c.window.height
-		)
+		local title  = c.window.title
+		local x      = c.window.x
+		local y      = c.window.y
+		local width  = c.window.width
+		local height = c.window.height
+		framework.window.createWindow( title, x, y, width, height )
 	end
 end
 
@@ -58,6 +57,8 @@ function main()
 		local event = SDL.SDL_Event()
 		while ( SDL.SDL_PollEvent( event ) ) do
 		end
+
+		framework.window.swap()
 	end
 end
 

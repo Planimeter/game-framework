@@ -8,5 +8,6 @@ local physfs = require( "lib.physicsfs" )
 
 module( "framework.filesystem" )
 
-function isFile()
+function exists( filename )
+	return physfs.PHYSFS_exists( filename ) ~= 0
 end

@@ -22,3 +22,7 @@ function createWindow( title, x, y, width, height )
 		flags
 	)
 end
+
+function swap()
+	SDL.SDL_GL_SwapWindow( window )
+end
