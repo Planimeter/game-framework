@@ -7,4 +7,4 @@
 local ffi = require( "ffi" )
 io.input( "lib/gl3.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "/System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib" )
+return ffi.load( "OpenGL.framework/OpenGL" )

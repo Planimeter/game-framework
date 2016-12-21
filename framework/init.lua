@@ -5,6 +5,7 @@
 --============================================================================--
 
 require( "framework.filesystem" )
+require( "framework.event" )
 local ffi = require( "ffi" )
 local GL  = require( "lib.opengl" )
 
@@ -84,49 +85,59 @@ end
 
 function load()
 	local vao = ffi.new( "GLuint[1]" )
-	GL.glGenVertexArraysAPPLE( 1, vao )
-	GL.glBindVertexArrayAPPLE( vao[0] )
+	GL.glGenVertexArrays( 1, vao )
+	GL.glBindVertexArray( vao[0] )
 
 	local vbo = ffi.new( "GLuint[1]" )
 	GL.glGenBuffers( 1, vbo )
 
-	local vertices = ffi.new( "float[6]",
-	    400, 150, -- Vertex 1 (X, Y)
-	    600, 450, -- Vertex 2 (X, Y)
-	    200, 450  -- Vertex 3 (X, Y)
-	 )
+	local vertices = ffi.new( "GLfloat[6]", {
+	    0.0,  0.5, -- Vertex 1 (X, Y)
+	    0.5, -0.5, -- Vertex 2 (X, Y)
+	   -0.5, -0.5  -- Vertex 3 (X, Y)
+	} )
 
 	GL.glBindBuffer( 0x8892, vbo[0] )
 	GL.glBufferData( 0x8892, ffi.sizeof( vertices ), vertices, 0x88E4 )
 
-	local vertexSource = [[#version 120
+	local vertexSource = [[#version 150 core
+
+in vec2 position;
 
 void main()
 {
-    gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
+    gl_Position = vec4(position, 0.0, 1.0);
 }
 ]]
 
-	local fragmentSource = [[#version 120
+	local fragmentSource = [[#version 150 core
+
+out vec4 outColor;
 
 void main()
 {
-    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    outColor = vec4(1.0, 1.0, 1.0, 1.0);
 }
 ]]
 
 	local shader = framework.graphics.newShader( fragmentSource, vertexSource )
+	GL.glBindFragDataLocation( shader, 0, "outColor" )
+	GL.glLinkProgram( shader )
 	framework.graphics.setShader( shader )
 
-	GL.glEnableVertexAttribArray( 0 )
-	GL.glVertexAttribPointer( 0, 2, 0x1406, 0, 0, nil )
+	local posAttrib = GL.glGetAttribLocation( shader, "position" )
+	GL.glVertexAttribPointer( posAttrib, 2, 0x1406, 0, 0, nil )
+	GL.glEnableVertexAttribArray( posAttrib )
 end
 
 function update( dt )
 end
 
 function draw()
-	GL.glDrawArrays( 0x0004, 0, 3 );
+	GL.glDrawArrays( 0x0004, 0, 3 )
+end
+
+function quit()
 end
 
 main()

@@ -4,9 +4,12 @@
 --
 --============================================================================--
 
-local GL = require( "lib.opengl" )
+local GL  = require( "lib.opengl" )
+local ffi = require( "ffi" )
 
-local error = error
+local tonumber = tonumber
+local print    = print
+local error    = error
 
 module( "framework.graphics" )
 
@@ -17,44 +20,39 @@ end
 function line()
 end
 
-local function shader( source, type )
-end
-
 function newShader( fragmentSource, vertexSource )
 	local fragmentShader = GL.glCreateShader( 0x8B30 )
-	local src = ffi.new( "char[?]", #fragmentSource, fragmentSource )
-	local srcs = ffi.new( "const char *[1]", src )
-	GL.glShaderSource( fragmentShader, 1, srcs, nil )
+	local source         = ffi.new( "char[?]", #fragmentSource, fragmentSource )
+	local pSource        = ffi.new( "const char *[1]", source )
+	GL.glShaderSource( fragmentShader, 1, pSource, nil )
 	GL.glCompileShader( fragmentShader )
 
 	local status = ffi.new( "GLint[1]" )
-	GL.glGetShaderiv( vertexShader, 0x8B81, status )
-	print( tonumber( status[0] ) )
-
-	local buffer = ffi.new( "char[512]" )
-	GL.glGetShaderInfoLog( vertexShader, 512, nil, buffer )
-	print( ffi.string( buffer, 512 ) )
+	GL.glGetShaderiv( fragmentShader, 0x8B81, status )
+	if ( status[0] == 0 ) then
+		local buffer = ffi.new( "char[512]" )
+		GL.glGetShaderInfoLog( fragmentShader, 512, nil, buffer )
+		print( ffi.string( buffer, 512 ) )
+	end
 
 	local vertexShader = GL.glCreateShader( 0x8B31 )
-	local src = ffi.new( "char[?]", #vertexSource, vertexSource )
-	local srcs = ffi.new( "const char *[1]", src )
-	GL.glShaderSource( vertexShader, 1, srcs, nil )
+	source             = ffi.new( "char[?]", #vertexSource, vertexSource )
+	pSource            = ffi.new( "const char *[1]", source )
+	GL.glShaderSource( vertexShader, 1, pSource, nil )
 	GL.glCompileShader( vertexShader )
 
 	local status = ffi.new( "GLint[1]" )
 	GL.glGetShaderiv( vertexShader, 0x8B81, status )
-	print( tonumber( status[0] ) )
-
-	local buffer = ffi.new( "char[512]" )
-	GL.glGetShaderInfoLog( vertexShader, 512, nil, buffer );
-	print( ffi.string( buffer, 512 ) )
+	if ( status[0] == 0 ) then
+		local buffer = ffi.new( "char[512]" )
+		GL.glGetShaderInfoLog( vertexShader, 512, nil, buffer );
+		print( ffi.string( buffer, 512 ) )
+	end
 
 	local shaderProgram = GL.glCreateProgram()
 	GL.glAttachShader( shaderProgram, vertexShader )
 	GL.glAttachShader( shaderProgram, fragmentShader )
-	GL.glLinkProgram( shaderProgram )
-	GL.glDetachShader( shaderProgram, fragmentShader )
-	GL.glDetachShader( shaderProgram, vertexShader )
+	return shaderProgram
 end
 
 function rectangle()
