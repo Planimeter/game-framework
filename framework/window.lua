@@ -15,7 +15,10 @@ function createWindow( title, x, y, width, height )
 	y = y or SDL.SDL_WINDOWPOS_UNDEFINED
 
 	SDL.SDL_InitSubSystem( SDL.SDL_INIT_VIDEO )
-	SDL.SDL_GL_SetAttribute( ffi.C.SDL_GL_CONTEXT_PROFILE_MASK, ffi.C.SDL_GL_CONTEXT_PROFILE_CORE )
+	SDL.SDL_GL_SetAttribute(
+		ffi.C.SDL_GL_CONTEXT_PROFILE_MASK,
+		ffi.C.SDL_GL_CONTEXT_PROFILE_CORE
+	)
 
 	local flags = ffi.C.SDL_WINDOW_OPENGL
 	window      = SDL.SDL_CreateWindow( title, x, y, width, height, flags )

@@ -7,17 +7,12 @@
 local GL  = require( "lib.opengl" )
 local ffi = require( "ffi" )
 
-local tonumber = tonumber
-local print    = print
-local error    = error
+local error = error
 
 module( "framework.graphics" )
 
 function clear()
 	GL.glClear( 0x00004000 )
-end
-
-function line()
 end
 
 function newShader( fragmentSource, vertexSource )
@@ -32,7 +27,7 @@ function newShader( fragmentSource, vertexSource )
 	if ( status[0] == 0 ) then
 		local buffer = ffi.new( "char[512]" )
 		GL.glGetShaderInfoLog( fragmentShader, 512, nil, buffer )
-		print( ffi.string( buffer, 512 ) )
+		error( 2, ffi.string( buffer, 512 ) )
 	end
 
 	local vertexShader = GL.glCreateShader( 0x8B31 )
@@ -46,19 +41,13 @@ function newShader( fragmentSource, vertexSource )
 	if ( status[0] == 0 ) then
 		local buffer = ffi.new( "char[512]" )
 		GL.glGetShaderInfoLog( vertexShader, 512, nil, buffer );
-		print( ffi.string( buffer, 512 ) )
+		error( 2, ffi.string( buffer, 512 ) )
 	end
 
 	local shaderProgram = GL.glCreateProgram()
 	GL.glAttachShader( shaderProgram, vertexShader )
 	GL.glAttachShader( shaderProgram, fragmentShader )
 	return shaderProgram
-end
-
-function rectangle()
-end
-
-function setFramebuffer()
 end
 
 function setShader( shader )
