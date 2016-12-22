@@ -7,7 +7,6 @@
 require( "framework.filesystem" )
 require( "framework.event" )
 local ffi = require( "ffi" )
-local GL  = require( "lib.opengl" )
 
 local framework = framework
 local require   = require
@@ -65,31 +64,31 @@ function main()
 	load()
 
 	while ( true ) do
-		local event = nil
+		local e = nil
 		repeat
-			event = framework.event.poll()
-			if ( event ) then
-				if ( event.type == ffi.C.SDL_QUIT ) then
-					quit()
-					return
+			e = framework.event.poll()
+			if ( e ) then
+				if ( e.type == ffi.C.SDL_QUIT or
+				     e.type == ffi.C.SDL_APP_TERMINATING ) then
+					if ( quit() ) then return end
 				end
-			end
-		until ( event == nil )
 
-		if ( update ) then
-			update()
-		end
+				event( e )
+			end
+		until ( e == nil )
+
+		update()
 
 		if ( draw ) then
 			framework.graphics.clear()
 			draw()
+			framework.window.swap()
 		end
-
-		framework.window.swap()
 	end
 end
 
 function load()
+	local GL  = require( "lib.opengl" )
 	local vao = ffi.new( "GLuint[1]" )
 	GL.glGenVertexArrays( 1, vao )
 	GL.glBindVertexArray( vao[0] )
@@ -136,10 +135,23 @@ void main()
 	GL.glEnableVertexAttribArray( posAttrib )
 end
 
+function event( e )
+	if ( e.type == ffi.C.SDL_APP_LOWMEMORY ) then
+		lowmemory()
+		collectgarbage()
+	elseif ( e.type == ffi.C.SDL_WINDOWEVENT ) then
+	else
+	end
+end
+
+function lowmemory()
+end
+
 function update( dt )
 end
 
 function draw()
+	local GL = require( "lib.opengl" )
 	GL.glDrawArrays( 0x0004, 0, 3 )
 end
 
