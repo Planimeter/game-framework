@@ -68,6 +68,7 @@ function main()
 		local event = nil
 		repeat
 			event = framework.event.poll()
+			print( event.type )
 		until ( event == nil )
 
 		if ( update ) then
