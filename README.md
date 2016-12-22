@@ -1,6 +1,14 @@
 # lgameframework
 Game development framework for Lua
 
+## Install
+
+### macOS
+
+```bash
+brew install luajit sdl2 physfs
+```
+
 ## Run
 
 ```bash
