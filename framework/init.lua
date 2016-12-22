@@ -12,10 +12,6 @@ local framework = framework
 local require   = require
 local pairs     = pairs
 
-local tonumber  = tonumber
-local tostring  = tostring
-local print     = print
-
 module( "framework" )
 
 function init()
