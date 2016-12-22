@@ -24,6 +24,10 @@ function createWindow( title, x, y, width, height )
 	GL.glViewport( 0, 0, width, height )
 end
 
+function resize( width, height )
+	GL.glViewport( 0, 0, width, height )
+end
+
 function swap()
 	SDL.SDL_GL_SwapWindow( window )
 end

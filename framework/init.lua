@@ -8,11 +8,40 @@ require( "framework.filesystem" )
 require( "framework.event" )
 local ffi = require( "ffi" )
 
-local framework = framework
-local require   = require
-local pairs     = pairs
+local framework      = framework
+local require        = require
+local pairs          = pairs
+local collectgarbage = collectgarbage
 
 module( "framework" )
+
+function main()
+	init()
+	load()
+
+	while ( true ) do
+		local e = nil
+		repeat
+			e = framework.event.poll()
+			if ( e ) then
+				if ( e.type == ffi.C.SDL_QUIT or
+				     e.type == ffi.C.SDL_APP_TERMINATING ) then
+					if ( quit() ) then return end
+				end
+
+				event( e )
+			end
+		until ( e == nil )
+
+		update()
+
+		if ( draw ) then
+			framework.graphics.clear()
+			draw()
+			framework.window.swap()
+		end
+	end
+end
 
 function init()
 	local c = {
@@ -55,80 +84,7 @@ function init()
 	end
 end
 
-function main()
-	init()
-	load()
-
-	while ( true ) do
-		local e = nil
-		repeat
-			e = framework.event.poll()
-			if ( e ) then
-				if ( e.type == ffi.C.SDL_QUIT or
-				     e.type == ffi.C.SDL_APP_TERMINATING ) then
-					if ( quit() ) then return end
-				end
-
-				event( e )
-			end
-		until ( e == nil )
-
-		update()
-
-		if ( draw ) then
-			framework.graphics.clear()
-			draw()
-			framework.window.swap()
-		end
-	end
-end
-
 function load()
-	local GL  = require( "lib.opengl" )
-	local vao = ffi.new( "GLuint[1]" )
-	GL.glGenVertexArrays( 1, vao )
-	GL.glBindVertexArray( vao[0] )
-
-	local vbo = ffi.new( "GLuint[1]" )
-	GL.glGenBuffers( 1, vbo )
-
-	local vertices = ffi.new( "GLfloat[6]", {
-	    0.0,  0.5, -- Vertex 1 (X, Y)
-	    0.5, -0.5, -- Vertex 2 (X, Y)
-	   -0.5, -0.5  -- Vertex 3 (X, Y)
-	} )
-
-	GL.glBindBuffer( 0x8892, vbo[0] )
-	GL.glBufferData( 0x8892, ffi.sizeof( vertices ), vertices, 0x88E4 )
-
-	local vertexSource = [[#version 150 core
-
-in vec2 position;
-
-void main()
-{
-    gl_Position = vec4(position, 0.0, 1.0);
-}
-]]
-
-	local fragmentSource = [[#version 150 core
-
-out vec4 outColor;
-
-void main()
-{
-    outColor = vec4(1.0, 1.0, 1.0, 1.0);
-}
-]]
-
-	local shader = framework.graphics.newShader( fragmentSource, vertexSource )
-	GL.glBindFragDataLocation( shader, 0, "outColor" )
-	GL.glLinkProgram( shader )
-	framework.graphics.setShader( shader )
-
-	local posAttrib = GL.glGetAttribLocation( shader, "position" )
-	GL.glVertexAttribPointer( posAttrib, 2, 0x1406, 0, 0, nil )
-	GL.glEnableVertexAttribArray( posAttrib )
 end
 
 function event( e )
@@ -136,19 +92,69 @@ function event( e )
 		lowmemory()
 		collectgarbage()
 	elseif ( e.type == ffi.C.SDL_WINDOWEVENT ) then
-	else
+		windowevent( e.window )
 	end
 end
 
 function lowmemory()
 end
 
+function windowevent( window )
+	if ( window.event == ffi.C.SDL_WINDOWEVENT_SHOWN ) then
+		visible( true )
+	elseif ( window.event == ffi.C.SDL_WINDOWEVENT_HIDDEN ) then
+		visible( false )
+	elseif ( window.event == ffi.C.SDL_WINDOWEVENT_MOVED ) then
+		move( window.data1, window.data2 )
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_RESIZED ) then
+		resize( window.data1, window.data2 )
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_SIZE_CHANGED ) then
+		framework.window.resize( window.data1, window.data2 )
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_MINIMIZED ) then
+		minimize()
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_MAXIMIZED ) then
+		maximize()
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_RESTORED ) then
+		restore()
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_ENTER ) then
+		mousefocus( true )
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_LEAVE ) then
+		mousefocus( false )
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_FOCUS_GAINED ) then
+		focus( true )
+	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_FOCUS_LOST ) then
+		focus( false )
+	end
+end
+
+function visible( visible )
+end
+
+function move( x, y )
+end
+
+function resize( width, height )
+end
+
+function minimize()
+end
+
+function maximize()
+end
+
+function restore()
+end
+
+function mousefocus( focus )
+end
+
+function focus( focus )
+end
+
 function update( dt )
 end
 
 function draw()
-	local GL = require( "lib.opengl" )
-	GL.glDrawArrays( 0x0004, 0, 3 )
 end
 
 function quit()
