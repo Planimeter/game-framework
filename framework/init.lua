@@ -4,20 +4,20 @@
 --
 --============================================================================--
 
-require( "framework.filesystem" )
-require( "framework.event" )
-local ffi = require( "ffi" )
+local framework = {}
+_G.framework    = framework
 
-local framework      = framework
-local require        = require
-local pairs          = pairs
-local collectgarbage = collectgarbage
+local require = require
+local pairs   = pairs
 
 module( "framework" )
 
 function main()
 	init()
 	load()
+
+	require( "framework.event" )
+	local ffi = require( "ffi" )
 
 	while ( true ) do
 		local e = nil
@@ -29,7 +29,7 @@ function main()
 					if ( quit() ) then return end
 				end
 
-				event( e )
+				framework.event.handle( e )
 			end
 		until ( e == nil )
 
@@ -57,6 +57,8 @@ function init()
 			height = 600
 		}
 	}
+
+	require( "framework.filesystem" )
 
 	if ( framework.filesystem.exists( "conf.lua" ) ) then
 		require( "conf" )
@@ -87,44 +89,7 @@ end
 function load()
 end
 
-function event( e )
-	if ( e.type == ffi.C.SDL_APP_LOWMEMORY ) then
-		lowmemory()
-		collectgarbage()
-	elseif ( e.type == ffi.C.SDL_WINDOWEVENT ) then
-		windowevent( e.window )
-	end
-end
-
 function lowmemory()
-end
-
-function windowevent( window )
-	if ( window.event == ffi.C.SDL_WINDOWEVENT_SHOWN ) then
-		visible( true )
-	elseif ( window.event == ffi.C.SDL_WINDOWEVENT_HIDDEN ) then
-		visible( false )
-	elseif ( window.event == ffi.C.SDL_WINDOWEVENT_MOVED ) then
-		move( window.data1, window.data2 )
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_RESIZED ) then
-		resize( window.data1, window.data2 )
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_SIZE_CHANGED ) then
-		framework.window.resize( window.data1, window.data2 )
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_MINIMIZED ) then
-		minimize()
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_MAXIMIZED ) then
-		maximize()
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_RESTORED ) then
-		restore()
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_ENTER ) then
-		mousefocus( true )
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_LEAVE ) then
-		mousefocus( false )
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_FOCUS_GAINED ) then
-		focus( true )
-	elseif ( e.event == ffi.C.SDL_WINDOWEVENT_FOCUS_LOST ) then
-		focus( false )
-	end
 end
 
 function visible( visible )
@@ -158,6 +123,7 @@ function draw()
 end
 
 function quit()
+	return true
 end
 
 main()
