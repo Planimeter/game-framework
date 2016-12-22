@@ -1,6 +1,12 @@
 # lgameframework
 Game development framework for Lua
 
+## Run
+
+```bash
+luajit framework/init.lua
+```
+
 ## Libraries
 
 * [lsdl](https://github.com/Planimeter/lsdl)  
