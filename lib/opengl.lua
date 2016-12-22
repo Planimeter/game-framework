@@ -4,7 +4,17 @@
 --
 --============================================================================--
 
-local ffi = require( "ffi" )
-io.input( "lib/gl3.h" )
+local ffi  = require( "ffi" )
+local name = nil
+if ( jit.os == "Windows" ) then
+	name = "OpenGL32"
+	io.input( "lib/gl3.h" )
+elseif ( jit.os == "OSX" ) then
+	name = "OpenGL.framework/OpenGL"
+	io.input( "lib/gl3.h" )
+else
+	name = "GL"
+end
+
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "OpenGL.framework/OpenGL" )
+return ffi.load( name )
