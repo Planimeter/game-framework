@@ -68,7 +68,12 @@ function main()
 		local event = nil
 		repeat
 			event = framework.event.poll()
-			print( event.type )
+			if ( event ) then
+				if ( event.type == ffi.C.SDL_QUIT ) then
+					quit()
+					return
+				end
+			end
 		until ( event == nil )
 
 		if ( update ) then
