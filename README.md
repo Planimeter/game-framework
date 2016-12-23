@@ -25,6 +25,8 @@ LuaJIT FFI bindings for SDL 2.0
 LuaJIT FFI bindings for OpenGL
 * [lkazmath](https://github.com/Kazade/kazmath/tree/master/lua)  
 Lua binding for kazmath
+* [luasocket](http://w3.impa.br/~diego/software/luasocket/)  
+Network support for the Lua language
 
 ## License
 
