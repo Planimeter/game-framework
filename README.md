@@ -21,7 +21,7 @@ luajit framework/init.lua
 LuaJIT FFI bindings for SDL 2.0
 * [lopengl](https://github.com/Planimeter/lopengl)  
 LuaJIT FFI bindings for OpenGL
-* [lkazmath](https://github.com/Kazade/kazmath/tree/master/lua)
+* [lkazmath](https://github.com/Kazade/kazmath/tree/master/lua)  
 Lua binding for kazmath
 * [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
 LuaJIT FFI bindings for PhysicsFS
