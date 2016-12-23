@@ -6,7 +6,7 @@ Game development framework for Lua
 ### macOS
 
 ```bash
-brew install luajit sdl2 physfs
+brew install luajit physfs sdl2 enet
 ```
 
 ## Run
@@ -27,6 +27,8 @@ LuaJIT FFI bindings for OpenGL
 Lua binding for kazmath
 * [luasocket](http://w3.impa.br/~diego/software/luasocket/)  
 Network support for the Lua language
+* [lua-enet](http://leafo.net/lua-enet/)  
+Bindings to ENet for Lua
 
 ## License
 
