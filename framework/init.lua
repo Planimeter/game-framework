@@ -60,7 +60,7 @@ function init()
 
 	require( "framework.filesystem" )
 
-	if ( framework.filesystem.exists( "conf.lua" ) ) then
+	if ( framework.filesystem.isFile( "conf.lua" ) ) then
 		require( "conf" )
 	end
 
@@ -81,7 +81,7 @@ function init()
 		framework.window.createWindow( title, x, y, width, height )
 	end
 
-	if ( framework.filesystem.exists( "main.lua" ) ) then
+	if ( framework.filesystem.isFile( "main.lua" ) ) then
 		require( "main" )
 	end
 end
