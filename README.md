@@ -6,7 +6,7 @@ Game development framework for Lua
 ### macOS
 
 ```bash
-brew install luajit physfs sdl2 enet
+brew install luajit physfs sdl2 devil enet
 ```
 
 ## Run
