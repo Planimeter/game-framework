@@ -7,8 +7,5 @@
 function framework.load()
 end
 
-function framework.update( dt )
-end
-
 function framework.draw()
 end

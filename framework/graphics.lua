@@ -42,6 +42,10 @@ function newShader( fragmentSource, vertexSource )
 	return shaderProgram
 end
 
+function linkShader( shader )
+	GL.glLinkProgram( shader )
+end
+
 function setShader( shader )
 	GL.glUseProgram( shader )
 end
