@@ -5,6 +5,7 @@
 --============================================================================--
 
 local physfs = require( "lib.physicsfs" )
+local ffi    = require( "ffi" )
 
 module( "framework.filesystem" )
 
@@ -27,4 +28,13 @@ end
 function mount( newDir, mountPoint, appendToPath )
 	appendToPath = appendToPath and 1 or 0
 	return physfs.PHYSFS_mount( newDir, mountPoint, appendToPath ) ~= 0
+end
+
+function read( filename )
+	local file   = physfs.PHYSFS_openRead( filename )
+	local length = physfs.PHYSFS_fileLength( file )
+	local buffer = ffi.new( "char[?]", length )
+	physfs.PHYSFS_read( file, buffer, 1, length )
+	physfs.PHYSFS_close( file )
+	return ffi.string( buffer, length )
 end
