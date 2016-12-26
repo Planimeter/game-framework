@@ -15,36 +15,28 @@ function clear()
 	GL.glClear( 0x00004000 )
 end
 
+local function createShader( type, source )
+	local shader = GL.glCreateShader( type )
+	source       = ffi.new( "char[?]", #source, source )
+	local string = ffi.new( "const char *[1]", source )
+	GL.glShaderSource( shader, 1, string, nil )
+	GL.glCompileShader( shader )
+
+	local status = ffi.new( "GLint[1]" )
+	GL.glGetShaderiv( shader, 0x8B81, status )
+	if ( status[0] == 0 ) then
+		local length = ffi.new( "GLint[1]" )
+		GL.glGetShaderiv( shader, 0x8B84, length )
+		local buffer = ffi.new( "char[ " .. length .. "]" )
+		GL.glGetShaderInfoLog( shader, length, nil, buffer )
+		error( 3, ffi.string( buffer, length ) )
+	end
+end
+
 function newShader( fragmentSource, vertexSource )
-	local fragmentShader = GL.glCreateShader( 0x8B30 )
-	local source         = ffi.new( "char[?]", #fragmentSource, fragmentSource )
-	local pSource        = ffi.new( "const char *[1]", source )
-	GL.glShaderSource( fragmentShader, 1, pSource, nil )
-	GL.glCompileShader( fragmentShader )
-
-	local status = ffi.new( "GLint[1]" )
-	GL.glGetShaderiv( fragmentShader, 0x8B81, status )
-	if ( status[0] == 0 ) then
-		local buffer = ffi.new( "char[512]" )
-		GL.glGetShaderInfoLog( fragmentShader, 512, nil, buffer )
-		error( 2, ffi.string( buffer, 512 ) )
-	end
-
-	local vertexShader = GL.glCreateShader( 0x8B31 )
-	source             = ffi.new( "char[?]", #vertexSource, vertexSource )
-	pSource            = ffi.new( "const char *[1]", source )
-	GL.glShaderSource( vertexShader, 1, pSource, nil )
-	GL.glCompileShader( vertexShader )
-
-	local status = ffi.new( "GLint[1]" )
-	GL.glGetShaderiv( vertexShader, 0x8B81, status )
-	if ( status[0] == 0 ) then
-		local buffer = ffi.new( "char[512]" )
-		GL.glGetShaderInfoLog( vertexShader, 512, nil, buffer );
-		error( 2, ffi.string( buffer, 512 ) )
-	end
-
-	local shaderProgram = GL.glCreateProgram()
+	local fragmentShader = createShader( 0x8B30, fragmentSource )
+	local vertexShader   = createShader( 0x8B31, vertexSource )
+	local shaderProgram  = GL.glCreateProgram()
 	GL.glAttachShader( shaderProgram, vertexShader )
 	GL.glAttachShader( shaderProgram, fragmentShader )
 	return shaderProgram
