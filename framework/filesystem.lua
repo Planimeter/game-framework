@@ -8,6 +8,10 @@ local physfs = require( "lib.physicsfs" )
 
 module( "framework.filesystem" )
 
+function init( arg )
+	return physfs.PHYSFS_init( arg ) ~= 0
+end
+
 function exists( filename )
 	return physfs.PHYSFS_exists( filename ) ~= 0
 end
@@ -18,4 +22,9 @@ end
 
 function isFile( file )
 	return exists( file ) and not isDirectory( file )
+end
+
+function mount( newDir, mountPoint, appendToPath )
+	appendToPath = appendToPath and 1 or 0
+	return physfs.PHYSFS_mount( newDir, mountPoint, appendToPath ) ~= 0
 end

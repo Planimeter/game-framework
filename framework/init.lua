@@ -44,6 +44,10 @@ function main()
 end
 
 function init()
+	require( "framework.filesystem" )
+	framework.filesystem.init( arg )
+	framework.filesystem.mount( ".", nil, false )
+
 	local c = {
 		modules = {
 			window   = true,
@@ -57,8 +61,6 @@ function init()
 			height = 600
 		}
 	}
-
-	require( "framework.filesystem" )
 
 	if ( framework.filesystem.isFile( "conf.lua" ) ) then
 		require( "conf" )
