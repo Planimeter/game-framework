@@ -11,10 +11,6 @@ local error = error
 
 module( "framework.graphics" )
 
-function clear()
-	GL.glClear( 0x00004000 )
-end
-
 local function getShaderCompileStatus()
 	local status = ffi.new( "GLint[1]" )
 	GL.glGetShaderiv( shader, 0x8B81, status )
