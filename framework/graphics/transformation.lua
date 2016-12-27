@@ -4,12 +4,19 @@
 --
 --============================================================================--
 
-local lkazmath = package.loadlib( "./liblkazmath.dylib", "_luaopen_lkazmath" )
+require( "framework.math" )
+
+local framework = framework
+local table     = table
 
 module( "framework.graphics" )
 
+state = state or {}
+
 function push()
+	table.insert( state, framework.math.newMat4() )
 end
 
 function pop()
+	table.remove( state, #state )
 end
