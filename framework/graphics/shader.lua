@@ -42,8 +42,6 @@ function newShader( fragmentSource, vertexSource )
 	local shaderProgram  = GL.glCreateProgram()
 	GL.glAttachShader( shaderProgram, vertexShader )
 	GL.glAttachShader( shaderProgram, fragmentShader )
-	-- GL.glDeleteShader( vertexShader )
-	-- GL.glDeleteShader( fragmentShader )
 	return shaderProgram
 end
 

@@ -10,5 +10,5 @@ local ffi     = require( "ffi" )
 module( "framework.math" )
 
 function newMat4()
-	return ffi.new( "kmMat4[1]" )
+	return ffi.new( "kmMat4" )
 end

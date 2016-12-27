@@ -5,6 +5,7 @@
 --============================================================================--
 
 require( "framework.math" )
+local kazmath = require( "lib.kazmath" )
 
 local framework = framework
 local table     = table
@@ -26,13 +27,13 @@ function getTransform()
 end
 
 function scale( x, y, z )
-	getTransform():Scaling( x, y, z )
+	kazmath.kmMat4Scaling( getTransform(), x, y, z )
 end
 
 function translate( x, y, z )
-	getTransform():Translation( x, y, z )
+	kazmath.kmMat4Translation( getTransform(), x, y, z )
 end
 
 function origin()
-	getTransform():Identity()
+	kazmath.kmMat4Identity( getTransform() )
 end

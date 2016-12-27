@@ -6,7 +6,7 @@
 
 #version 330
 
-in vec4 vert;
+in vec2 vertex;
 
 uniform mat4 projection;
 uniform mat4 view;
@@ -14,5 +14,5 @@ uniform mat4 model;
 
 void main()
 {
-	gl_Position = projection * view * model * vert;
+	gl_Position = projection * view * model * vec4( vertex, 0.0, 1.0 );
 }
