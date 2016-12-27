@@ -4,7 +4,7 @@
 --
 --============================================================================--
 
-package.path = package.path .. ";?.lua;?/init.lua"
+package.path = string.gsub( package.path, "./?.lua;", "./?.lua;./?/init.lua;" )
 
 local framework = {}
 _G.framework    = framework
@@ -37,10 +37,14 @@ function main()
 
 		update()
 
-		if ( draw ) then
+		if ( framework.graphics ) then
 			framework.graphics.clear()
 			draw()
 			framework.window.swap()
+		end
+
+		if ( framework.timer ) then
+			framework.timer.sleep( 0.001 )
 		end
 	end
 end
@@ -52,6 +56,9 @@ function init()
 
 	local c = {
 		modules = {
+			keyboard = true,
+			mouse    = true,
+			timer    = true,
 			window   = true,
 			graphics = true
 		},
