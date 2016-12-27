@@ -20,3 +20,19 @@ end
 function pop()
 	table.remove( state, #state )
 end
+
+function getTransform()
+	return state[ #state ]
+end
+
+function scale( x, y, z )
+	getTransform():Scaling( x, y, z )
+end
+
+function translate( x, y, z )
+	getTransform():Translation( x, y, z )
+end
+
+function origin()
+	getTransform():Identity()
+end
