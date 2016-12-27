@@ -4,6 +4,8 @@
 --
 --============================================================================--
 
+package.path = package.path .. ";?.lua;?/init.lua"
+
 local framework = {}
 _G.framework    = framework
 

@@ -4,6 +4,8 @@
 --
 --============================================================================--
 
+local lkazmath = package.loadlib( "./liblkazmath.dylib", "_luaopen_lkazmath" )
+
 module( "framework.graphics" )
 
 function push()
