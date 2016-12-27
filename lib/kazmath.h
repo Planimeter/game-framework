@@ -344,8 +344,8 @@ inline __attribute__ ((__always_inline__)) void __sincospi(double __x, double *_
 
 
 
-struct __float2 { float __sinval; float __cosval; };
-struct __double2 { double __sinval; double __cosval; };
+// struct __float2 { float __sinval; float __cosval; };
+// struct __double2 { double __sinval; double __cosval; };
 
 extern struct __float2 __sincosf_stret(float);
 extern struct __double2 __sincos_stret(double);
@@ -399,13 +399,13 @@ extern double gamma(double) __attribute__((availability(macosx,introduced=10.0,d
 extern double significand(double) __attribute__((availability(macosx,introduced=10.0,deprecated=10.9)));
 
 
-struct exception {
-    int type;
-    char *name;
-    double arg1;
-    double arg2;
-    double retval;
-};
+// struct exception {
+//     int type;
+//     char *name;
+//     double arg1;
+//     double arg2;
+//     double retval;
+// };
 
 extern int matherr(struct exception *) __attribute__((availability(macosx,introduced=10.0,deprecated=10.9)));
 extern float kmSQR(float s);
@@ -807,4 +807,3 @@ kmRay3* kmRay3FromPointAndDirection(kmRay3* ray, const kmVec3* point, const kmVe
 unsigned char kmRay3IntersectPlane(kmVec3* pOut, const kmRay3* ray, const struct kmPlane* plane);
 unsigned char kmRay3IntersectTriangle(const kmRay3* ray, const kmVec3* v0, const kmVec3* v1, const kmVec3* v2, kmVec3* intersection, kmVec3* normal, float* distance);
 unsigned char kmRay3IntersectAABB3(const kmRay3* ray, const struct kmAABB3* aabb, kmVec3* intersection, float* distance);
-

@@ -5,9 +5,10 @@
 --============================================================================--
 
 local kazmath = require( "lib.kazmath" )
+local ffi     = require( "ffi" )
 
 module( "framework.math" )
 
 function newMat4()
-	return kazmath.kmMat4New()
+	return ffi.new( "kmMat4[1]" )
 end
