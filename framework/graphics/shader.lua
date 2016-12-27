@@ -11,7 +11,7 @@ local error = error
 
 module( "framework.graphics" )
 
-local function getShaderCompileStatus()
+local function getShaderCompileStatus( shader )
 	local status = ffi.new( "GLint[1]" )
 	GL.glGetShaderiv( shader, 0x8B81, status )
 	if ( status[0] ~= 0 ) then
@@ -20,9 +20,9 @@ local function getShaderCompileStatus()
 
 	local length = ffi.new( "GLint[1]" )
 	GL.glGetShaderiv( shader, 0x8B84, length )
-	local buffer = ffi.new( "char[ " .. length .. "]" )
-	GL.glGetShaderInfoLog( shader, length, nil, buffer )
-	error( 4, ffi.string( buffer, length ) )
+	local buffer = ffi.new( "char[ " .. length[0] .. "]" )
+	GL.glGetShaderInfoLog( shader, length[0], nil, buffer )
+	error( ffi.string( buffer, length[0] ), 4 )
 end
 
 local function createShader( type, source )
@@ -32,7 +32,8 @@ local function createShader( type, source )
 	GL.glShaderSource( shader, 1, string, nil )
 	GL.glCompileShader( shader )
 
-	getShaderCompileStatus()
+	getShaderCompileStatus( shader )
+	return shader
 end
 
 function newShader( fragmentSource, vertexSource )
@@ -41,10 +42,13 @@ function newShader( fragmentSource, vertexSource )
 	local shaderProgram  = GL.glCreateProgram()
 	GL.glAttachShader( shaderProgram, vertexShader )
 	GL.glAttachShader( shaderProgram, fragmentShader )
-	GL.glLinkProgram( shaderProgram )
-	GL.glDeleteShader( vertexShader )
-	GL.glDeleteShader( fragmentShader )
+	-- GL.glDeleteShader( vertexShader )
+	-- GL.glDeleteShader( fragmentShader )
 	return shaderProgram
+end
+
+function linkShader( shader )
+	GL.glLinkProgram( shader )
 end
 
 function setShader( shader )

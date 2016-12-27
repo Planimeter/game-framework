@@ -38,3 +38,7 @@ function read( filename )
 	physfs.PHYSFS_close( file )
 	return ffi.string( buffer, length )
 end
+
+function getRealDirectory( filename )
+	return ffi.string( physfs.PHYSFS_getRealDir( filename ) )
+end

@@ -4,10 +4,7 @@
 --
 --============================================================================--
 
-local kazmath = require( "lib.kazmath" )
-
-module( "framework.math" )
-
-function newMat4()
-	return kazmath.kmMat4New()
-end
+local ffi = require( "ffi" )
+io.input( "lib/kazmath.h" )
+ffi.cdef( io.read( "*all" ) )
+return ffi.load( "kazmath" )
