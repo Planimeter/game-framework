@@ -8,6 +8,9 @@ local SDL = require( "lib.sdl" )
 local ffi = require( "ffi" )
 local GL  = require( "lib.opengl" )
 
+local framework = framework
+local print     = print
+
 module( "framework.window" )
 
 function createWindow( title, x, y, width, height )

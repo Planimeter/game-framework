@@ -15,15 +15,7 @@ function framework.load()
 
 	local vbo = ffi.new( "GLuint[1]" )
 	GL.glGenBuffers( 1, vbo )
-
-	local vertices = ffi.new( "GLfloat[6]", {
-	    0.0,  0.5, -- Vertex 1 (X, Y)
-	    0.5, -0.5, -- Vertex 2 (X, Y)
-	   -0.5, -0.5  -- Vertex 3 (X, Y)
-	} )
-
 	GL.glBindBuffer( 0x8892, vbo[0] )
-	GL.glBufferData( 0x8892, ffi.sizeof( vertices ), vertices, 0x88E4 )
 
 	local fragmentSource = framework.filesystem.read( "shaders/default.frag" )
 	local vertexSource = framework.filesystem.read( "shaders/default.vert" )
@@ -33,8 +25,8 @@ function framework.load()
 	framework.graphics.setShader( shader )
 
 	local posAttrib = GL.glGetAttribLocation( shader, "vertex" )
-	GL.glVertexAttribPointer( posAttrib, 2, 0x1406, 0, 0, nil )
 	GL.glEnableVertexAttribArray( posAttrib )
+	GL.glVertexAttribPointer( posAttrib, 2, 0x1406, 0, 0, nil )
 
 	local projection = GL.glGetUniformLocation( shader, "projection" )
 	local mat4 = framework.math.newMat4()
@@ -53,5 +45,9 @@ function framework.load()
 end
 
 function framework.draw()
-	GL.glDrawArrays( 0x0004, 0, 3 )
+	framework.graphics.polygon( {
+	    0.0,  0.5, -- Vertex 1 (X, Y)
+	    0.5, -0.5, -- Vertex 2 (X, Y)
+	   -0.5, -0.5  -- Vertex 3 (X, Y)
+	} )
 end

@@ -49,6 +49,11 @@ function linkShader( shader )
 	GL.glLinkProgram( shader )
 end
 
+function getShader()
+	return shader
+end
+
 function setShader( shader )
 	GL.glUseProgram( shader )
+	_M.shader = shader
 end
