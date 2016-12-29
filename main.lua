@@ -8,7 +8,6 @@ function framework.load()
 end
 
 function framework.update( dt )
-	framework.graphics.setColor( { ( framework.timer.getTime() / 10 ) % 255, 0, 0, 1 } )
 end
 
 function framework.draw()

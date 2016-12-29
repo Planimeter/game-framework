@@ -24,6 +24,7 @@ local function getShaderCompileStatus( shader )
 	GL.glGetShaderiv( shader, 0x8B84, length )
 	local buffer = ffi.new( "char[ " .. length[0] .. "]" )
 	GL.glGetShaderInfoLog( shader, length[0], nil, buffer )
+	GL.glDeleteShader( shader )
 	error( ffi.string( buffer, length[0] ), 4 )
 end
 
@@ -79,7 +80,7 @@ function set2DVertexAttributes()
 	local projection = GL.glGetUniformLocation( shader, "projection" )
 	local mat4 = framework.math.newMat4()
 	local width, height = framework.graphics.getSize()
-	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, 0, 1.0 )
+	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
 	GL.glUniformMatrix4fv( projection, 1, 0, mat4.mat )
 
 	local model = GL.glGetUniformLocation( shader, "model" )
