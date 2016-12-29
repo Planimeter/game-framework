@@ -67,13 +67,14 @@ function setDefaultShader()
 	GL.glBindFragDataLocation( shader, 0, "fragColor" )
 	linkShader( shader )
 	setShader( shader )
+	framework.graphics.setColor( { 255, 255, 255, 1 } )
 end
 
 function set2DVertexAttributes()
 	local shader = getShader()
-	local posAttrib = GL.glGetAttribLocation( shader, "vertex" )
-	GL.glEnableVertexAttribArray( posAttrib )
-	GL.glVertexAttribPointer( posAttrib, 2, 0x1406, 0, 0, nil )
+	local vertex = GL.glGetAttribLocation( shader, "vertex" )
+	GL.glEnableVertexAttribArray( vertex )
+	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, nil )
 
 	local projection = GL.glGetUniformLocation( shader, "projection" )
 	local mat4 = framework.math.newMat4()

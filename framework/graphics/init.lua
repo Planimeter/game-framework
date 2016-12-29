@@ -20,6 +20,10 @@ function clear()
 	GL.glClear( 0x00004000 )
 end
 
+function getColor()
+	return color
+end
+
 function getOpenGLVersion()
 	local majorVersion = ffi.new( "GLint[1]" )
 	local minorVersion = ffi.new( "GLint[1]" )
@@ -50,9 +54,9 @@ end
 function polygon( vertices )
 	local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
 	local shader    = framework.graphics.getShader()
-	local posAttrib = GL.glGetAttribLocation( shader, "vertex" )
-	GL.glEnableVertexAttribArray( posAttrib )
-	GL.glVertexAttribPointer( posAttrib, 2, 0x1406, 0, 0, pVertices )
+	local vertex    = GL.glGetAttribLocation( shader, "vertex" )
+	GL.glEnableVertexAttribArray( vertex )
+	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, pVertices )
 	GL.glDrawArrays( 0x0004, 0, #vertices / 2 )
 end
 
@@ -66,6 +70,18 @@ function rectangle( x, y, width, height )
 		x,         y
 	}
 	polygon( vertices )
+end
+
+function setColor( color )
+	color[ 1 ] = ( color[ 1 ] or 0 ) / 255
+	color[ 2 ] = ( color[ 2 ] or 0 ) / 255
+	color[ 3 ] = ( color[ 3 ] or 0 ) / 255
+
+	local pColor = ffi.new( "GLfloat[4]", color )
+	local shader = framework.graphics.getShader()
+	local index  = GL.glGetUniformLocation( shader, "color" )
+	GL.glUniform4fv( index, 1, pColor )
+	_M.color = color
 end
 
 function setVertexArray( vao )
