@@ -4,10 +4,12 @@
 --
 --============================================================================--
 
-local GL  = require( "lib.opengl" )
-local ffi = require( "ffi" )
+local ffi     = require( "ffi" )
+local GL      = require( "lib.opengl" )
+local kazmath = require( "lib.kazmath" )
 
-local error = error
+local error     = error
+local framework = framework
 
 module( "framework.graphics" )
 
@@ -56,4 +58,34 @@ end
 function setShader( shader )
 	GL.glUseProgram( shader )
 	_M.shader = shader
+end
+
+function setDefaultShader()
+	local fragmentSource = framework.filesystem.read( "shaders/default.frag" )
+	local vertexSource = framework.filesystem.read( "shaders/default.vert" )
+	local shader = newShader( fragmentSource, vertexSource )
+	GL.glBindFragDataLocation( shader, 0, "fragColor" )
+	linkShader( shader )
+	setShader( shader )
+end
+
+function set2DVertexAttributes()
+	local shader = getShader()
+	local posAttrib = GL.glGetAttribLocation( shader, "vertex" )
+	GL.glEnableVertexAttribArray( posAttrib )
+	GL.glVertexAttribPointer( posAttrib, 2, 0x1406, 0, 0, nil )
+
+	local projection = GL.glGetUniformLocation( shader, "projection" )
+	local mat4 = framework.math.newMat4()
+	local width, height = framework.graphics.getSize()
+	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, 0, 1.0 )
+	GL.glUniformMatrix4fv( projection, 1, 0, mat4.mat )
+
+	local model = GL.glGetUniformLocation( shader, "model" )
+	local mat4 = framework.math.newMat4()
+	kazmath.kmMat4Identity( mat4 )
+	GL.glUniformMatrix4fv( model, 1, 0, mat4.mat )
+
+	local view = GL.glGetUniformLocation( shader, "view" )
+	GL.glUniformMatrix4fv( view, 1, 0, mat4.mat )
 end

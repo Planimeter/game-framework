@@ -9,7 +9,6 @@ local ffi = require( "ffi" )
 local GL  = require( "lib.opengl" )
 
 local framework = framework
-local print     = print
 
 module( "framework.window" )
 
@@ -28,6 +27,15 @@ function createWindow( title, x, y, width, height )
 	context     = SDL.SDL_GL_CreateContext( window )
 
 	GL.glViewport( 0, 0, width, height )
+
+	local vao = framework.graphics.newVertexArray()
+	framework.graphics.setVertexArray( vao )
+
+	local vbo = framework.graphics.newVertexBuffer()
+	framework.graphics.setVertexBuffer( vbo )
+
+	framework.graphics.setDefaultShader()
+	framework.graphics.set2DVertexAttributes()
 end
 
 function resize( width, height )
