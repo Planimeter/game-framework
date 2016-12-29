@@ -44,6 +44,18 @@ function polygon( vertices )
 	GL.glDrawArrays( 0x0004, 0, #vertices / 2 )
 end
 
+function rectangle( x, y, width, height )
+	local vertices = {
+		x,         y,
+		x,         y + height,
+		x + width, y + height,
+		x + width, y + height,
+		x + width, y,
+		x,         y
+	}
+	polygon( vertices )
+end
+
 function newVertexArray()
 	local vao = ffi.new( "GLuint[1]" )
 	GL.glGenVertexArrays( 1, vao )
