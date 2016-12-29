@@ -4,6 +4,7 @@
 --
 --============================================================================--
 
+require( "framework.graphics.primitive" )
 require( "framework.graphics.shader" )
 require( "framework.graphics.transformation" )
 
@@ -13,7 +14,6 @@ local SDL = require( "lib.sdl" )
 
 local framework = framework
 
-local print = print
 module( "framework.graphics" )
 
 function clear()
@@ -39,6 +39,9 @@ function getSize()
 	return width[0], height[0]
 end
 
+function newImage()
+end
+
 function newVertexArray()
 	local vao = ffi.new( "GLuint[1]" )
 	GL.glGenVertexArrays( 1, vao )
@@ -49,27 +52,6 @@ function newVertexBuffer()
 	local vbo = ffi.new( "GLuint[1]" )
 	GL.glGenBuffers( 1, vbo )
 	return vbo
-end
-
-function polygon( vertices )
-	local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
-	local shader    = framework.graphics.getShader()
-	local vertex    = GL.glGetAttribLocation( shader, "vertex" )
-	GL.glEnableVertexAttribArray( vertex )
-	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, pVertices )
-	GL.glDrawArrays( 0x0004, 0, #vertices / 2 )
-end
-
-function rectangle( x, y, width, height )
-	local vertices = {
-		x,         y,
-		x,         y + height,
-		x + width, y + height,
-		x + width, y + height,
-		x + width, y,
-		x,         y
-	}
-	polygon( vertices )
 end
 
 function setColor( color )

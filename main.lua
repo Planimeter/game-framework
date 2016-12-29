@@ -7,9 +7,11 @@
 function framework.load()
 end
 
-function framework.draw()
-	framework.graphics.setColor( { 255, 0, 0, 1 } )
+function framework.update( dt )
+	framework.graphics.setColor( { ( framework.timer.getTime() / 10 ) % 255, 0, 0, 1 } )
+end
 
+function framework.draw()
 	local width, height = framework.graphics.getSize()
 	framework.graphics.polygon( {
 	    width / 2,         height / 4,          -- Vertex 1 (X, Y)

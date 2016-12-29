@@ -13,3 +13,7 @@ function sleep( seconds )
 		SDL.SDL_Delay( seconds * 1000 )
 	end
 end
+
+function getTime()
+	return SDL.SDL_GetTicks()
+end
