@@ -4,6 +4,8 @@
 --
 --============================================================================--
 
+require( "framework.graphics.image" )
+require( "framework.graphics.opengl" )
 require( "framework.graphics.primitive" )
 require( "framework.graphics.shader" )
 require( "framework.graphics.transformation" )
@@ -24,14 +26,6 @@ function getColor()
 	return color
 end
 
-function getOpenGLVersion()
-	local majorVersion = ffi.new( "GLint[1]" )
-	local minorVersion = ffi.new( "GLint[1]" )
-	GL.glGetIntegerv( 0x821B, majorVersion )
-	GL.glGetIntegerv( 0x821C, minorVersion )
-	return majorVersion[0] .. "." .. minorVersion[0]
-end
-
 function getSize()
 	local width  = ffi.new( "int[1]" )
 	local height = ffi.new( "int[1]" )
@@ -39,19 +33,9 @@ function getSize()
 	return width[0], height[0]
 end
 
-function newImage()
-end
-
-function newVertexArray()
-	local vao = ffi.new( "GLuint[1]" )
-	GL.glGenVertexArrays( 1, vao )
-	return vao
-end
-
-function newVertexBuffer()
-	local vbo = ffi.new( "GLuint[1]" )
-	GL.glGenBuffers( 1, vbo )
-	return vbo
+function newImage( filename )
+	local image = framework.graphics.image
+	return image( filename )
 end
 
 function setColor( color )
@@ -64,12 +48,4 @@ function setColor( color )
 	local index  = GL.glGetUniformLocation( shader, "color" )
 	GL.glUniform4fv( index, 1, pColor )
 	_M.color = color
-end
-
-function setVertexArray( vao )
-	GL.glBindVertexArray( vao[0] )
-end
-
-function setVertexBuffer( vbo )
-	GL.glBindBuffer( 0x8892, vbo[0] )
 end
