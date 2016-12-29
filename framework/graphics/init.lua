@@ -35,6 +35,18 @@ function getSize()
 	return width[0], height[0]
 end
 
+function newVertexArray()
+	local vao = ffi.new( "GLuint[1]" )
+	GL.glGenVertexArrays( 1, vao )
+	return vao
+end
+
+function newVertexBuffer()
+	local vbo = ffi.new( "GLuint[1]" )
+	GL.glGenBuffers( 1, vbo )
+	return vbo
+end
+
 function polygon( vertices )
 	local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
 	local shader    = framework.graphics.getShader()
@@ -56,20 +68,8 @@ function rectangle( x, y, width, height )
 	polygon( vertices )
 end
 
-function newVertexArray()
-	local vao = ffi.new( "GLuint[1]" )
-	GL.glGenVertexArrays( 1, vao )
-	return vao
-end
-
 function setVertexArray( vao )
 	GL.glBindVertexArray( vao[0] )
-end
-
-function newVertexBuffer()
-	local vbo = ffi.new( "GLuint[1]" )
-	GL.glGenBuffers( 1, vbo )
-	return vbo
 end
 
 function setVertexBuffer( vbo )

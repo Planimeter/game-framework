@@ -8,6 +8,8 @@ function framework.load()
 end
 
 function framework.draw()
+	framework.graphics.setColor( { 255, 0, 0, 1 } )
+
 	local width, height = framework.graphics.getSize()
 	framework.graphics.polygon( {
 	    width / 2,         height / 4,          -- Vertex 1 (X, Y)
