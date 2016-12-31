@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "lib/il.h" )
+io.input( "lib/ilut.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "IL" )
+return ffi.load( "ILUT" )

@@ -7,12 +7,16 @@
 require( "class" )
 local ffi = require( "ffi" )
 local GL  = require( "lib.opengl" )
+local IL  = require( "lib.devil" )
 
 class( "framework.graphics.image" )
 
 local image = framework.graphics.image
 
 function image:image( filename )
-	local texture = ffi.new( "GLuint[1]" )
-	GL.glGenTextures( 1, texture )
+	IL.ilInit()
+	self.texture = IL.ilLoadImage( filename )
+end
+
+function image:draw()
 end

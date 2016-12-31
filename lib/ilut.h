@@ -90,57 +90,57 @@ typedef unsigned char __darwin_uuid_t[16];
 typedef char __darwin_uuid_string_t[37];
 
 
-struct __darwin_pthread_handler_rec {
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
+// struct __darwin_pthread_handler_rec {
+//  void (*__routine)(void *);
+//  void *__arg;
+//  struct __darwin_pthread_handler_rec *__next;
+// };
 
-struct _opaque_pthread_attr_t {
- long __sig;
- char __opaque[56];
-};
+// struct _opaque_pthread_attr_t {
+//  long __sig;
+//  char __opaque[56];
+// };
 
-struct _opaque_pthread_cond_t {
- long __sig;
- char __opaque[40];
-};
+// struct _opaque_pthread_cond_t {
+//  long __sig;
+//  char __opaque[40];
+// };
 
-struct _opaque_pthread_condattr_t {
- long __sig;
- char __opaque[8];
-};
+// struct _opaque_pthread_condattr_t {
+//  long __sig;
+//  char __opaque[8];
+// };
 
-struct _opaque_pthread_mutex_t {
- long __sig;
- char __opaque[56];
-};
+// struct _opaque_pthread_mutex_t {
+//  long __sig;
+//  char __opaque[56];
+// };
 
-struct _opaque_pthread_mutexattr_t {
- long __sig;
- char __opaque[8];
-};
+// struct _opaque_pthread_mutexattr_t {
+//  long __sig;
+//  char __opaque[8];
+// };
 
-struct _opaque_pthread_once_t {
- long __sig;
- char __opaque[8];
-};
+// struct _opaque_pthread_once_t {
+//  long __sig;
+//  char __opaque[8];
+// };
 
-struct _opaque_pthread_rwlock_t {
- long __sig;
- char __opaque[192];
-};
+// struct _opaque_pthread_rwlock_t {
+//  long __sig;
+//  char __opaque[192];
+// };
 
-struct _opaque_pthread_rwlockattr_t {
- long __sig;
- char __opaque[16];
-};
+// struct _opaque_pthread_rwlockattr_t {
+//  long __sig;
+//  char __opaque[16];
+// };
 
-struct _opaque_pthread_t {
- long __sig;
- struct __darwin_pthread_handler_rec *__cleanup_stack;
- char __opaque[8176];
-};
+// struct _opaque_pthread_t {
+//  long __sig;
+//  struct __darwin_pthread_handler_rec *__cleanup_stack;
+//  char __opaque[8176];
+// };
 
 typedef struct _opaque_pthread_attr_t __darwin_pthread_attr_t;
 typedef struct _opaque_pthread_cond_t __darwin_pthread_cond_t;
@@ -173,45 +173,45 @@ int renamex_np(const char *, const char *, unsigned int) __attribute__((availabi
 int renameatx_np(int, const char *, int, const char *, unsigned int) __attribute__((availability(macosx,introduced=10.12))) __attribute__((availability(ios,introduced=10.0))) __attribute__((availability(tvos,introduced=10.0))) __attribute__((availability(watchos,introduced=3.0)));
 
 typedef __darwin_off_t fpos_t;
-struct __sbuf {
- unsigned char *_base;
- int _size;
-};
+// struct __sbuf {
+//  unsigned char *_base;
+//  int _size;
+// };
 
 
 struct __sFILEX;
-typedef struct __sFILE {
- unsigned char *_p;
- int _r;
- int _w;
- short _flags;
- short _file;
- struct __sbuf _bf;
- int _lbfsize;
-
-
- void *_cookie;
- int (* _Nullable _close)(void *);
- int (* _Nullable _read) (void *, char *, int);
- fpos_t (* _Nullable _seek) (void *, fpos_t, int);
- int (* _Nullable _write)(void *, const char *, int);
-
-
- struct __sbuf _ub;
- struct __sFILEX *_extra;
- int _ur;
-
-
- unsigned char _ubuf[3];
- unsigned char _nbuf[1];
-
-
- struct __sbuf _lb;
-
-
- int _blksize;
- fpos_t _offset;
-} FILE;
+// typedef struct __sFILE {
+//  unsigned char *_p;
+//  int _r;
+//  int _w;
+//  short _flags;
+//  short _file;
+//  struct __sbuf _bf;
+//  int _lbfsize;
+//
+//
+//  void *_cookie;
+//  int (* _Nullable _close)(void *);
+//  int (* _Nullable _read) (void *, char *, int);
+//  fpos_t (* _Nullable _seek) (void *, fpos_t, int);
+//  int (* _Nullable _write)(void *, const char *, int);
+//
+//
+//  struct __sbuf _ub;
+//  struct __sFILEX *_extra;
+//  int _ur;
+//
+//
+//  unsigned char _ubuf[3];
+//  unsigned char _nbuf[1];
+//
+//
+//  struct __sbuf _lb;
+//
+//
+//  int _blksize;
+//  fpos_t _offset;
+// } FILE;
 
 
 extern FILE *__stdinp;
@@ -537,4 +537,97 @@ extern ILboolean ilLoadData(char const * FileName, ILuint Width, ILuint Height, 
 extern ILboolean ilLoadDataF(ILHANDLE File, ILuint Width, ILuint Height, ILuint Depth, ILubyte Bpp);
 extern ILboolean ilLoadDataL(void *Lump, ILuint Size, ILuint Width, ILuint Height, ILuint Depth, ILubyte Bpp);
 extern ILboolean ilSaveData(char const * FileName);
+typedef struct ILinfo
+{
+ ILuint Id;
+ ILubyte *Data;
+ ILuint Width;
+ ILuint Height;
+ ILuint Depth;
+ ILubyte Bpp;
+ ILuint SizeOfData;
+ ILenum Format;
+ ILenum Type;
+ ILenum Origin;
+ ILubyte *Palette;
+ ILenum PalType;
+ ILuint PalSize;
+ ILenum CubeFlags;
+ ILuint NumNext;
+ ILuint NumMips;
+ ILuint NumLayers;
+} ILinfo;
 
+
+typedef struct ILpointf {
+ ILfloat x;
+ ILfloat y;
+} ILpointf;
+
+typedef struct ILpointi {
+ ILint x;
+ ILint y;
+} ILpointi;
+
+extern ILboolean iluAlienify(void);
+extern ILboolean iluBlurAvg(ILuint Iter);
+extern ILboolean iluBlurGaussian(ILuint Iter);
+extern ILboolean iluBuildMipmaps(void);
+extern ILuint iluColoursUsed(void);
+extern ILboolean iluCompareImage(ILuint Comp);
+extern ILboolean iluContrast(ILfloat Contrast);
+extern ILboolean iluCrop(ILuint XOff, ILuint YOff, ILuint ZOff, ILuint Width, ILuint Height, ILuint Depth);
+extern void iluDeleteImage(ILuint Id);
+extern ILboolean iluEdgeDetectE(void);
+extern ILboolean iluEdgeDetectP(void);
+extern ILboolean iluEdgeDetectS(void);
+extern ILboolean iluEmboss(void);
+extern ILboolean iluEnlargeCanvas(ILuint Width, ILuint Height, ILuint Depth);
+extern ILboolean iluEnlargeImage(ILfloat XDim, ILfloat YDim, ILfloat ZDim);
+extern ILboolean iluEqualize(void);
+extern char const * iluErrorString(ILenum Error);
+extern ILboolean iluConvolution(ILint *matrix, ILint scale, ILint bias);
+extern ILboolean iluFlipImage(void);
+extern ILboolean iluGammaCorrect(ILfloat Gamma);
+extern ILuint iluGenImage(void);
+extern void iluGetImageInfo(ILinfo *Info);
+extern ILint iluGetInteger(ILenum Mode);
+extern void iluGetIntegerv(ILenum Mode, ILint *Param);
+extern char* iluGetString(ILenum StringName);
+extern void iluImageParameter(ILenum PName, ILenum Param);
+extern void iluInit(void);
+extern ILboolean iluInvertAlpha(void);
+extern ILuint iluLoadImage(char const * FileName);
+extern ILboolean iluMirror(void);
+extern ILboolean iluNegative(void);
+extern ILboolean iluNoisify(ILclampf Tolerance);
+extern ILboolean iluPixelize(ILuint PixSize);
+extern void iluRegionfv(ILpointf *Points, ILuint n);
+extern void iluRegioniv(ILpointi *Points, ILuint n);
+extern ILboolean iluReplaceColour(ILubyte Red, ILubyte Green, ILubyte Blue, ILfloat Tolerance);
+extern ILboolean iluRotate(ILfloat Angle);
+extern ILboolean iluRotate3D(ILfloat x, ILfloat y, ILfloat z, ILfloat Angle);
+extern ILboolean iluSaturate1f(ILfloat Saturation);
+extern ILboolean iluSaturate4f(ILfloat r, ILfloat g, ILfloat b, ILfloat Saturation);
+extern ILboolean iluScale(ILuint Width, ILuint Height, ILuint Depth);
+extern ILboolean iluScaleAlpha(ILfloat scale);
+extern ILboolean iluScaleColours(ILfloat r, ILfloat g, ILfloat b);
+extern ILboolean iluSetLanguage(ILenum Language);
+extern ILboolean iluSharpen(ILfloat Factor, ILuint Iter);
+extern ILboolean iluSwapColours(void);
+extern ILboolean iluWave(ILfloat Angle);
+extern ILboolean ilutDisable(ILenum Mode);
+extern ILboolean ilutEnable(ILenum Mode);
+extern ILboolean ilutGetBoolean(ILenum Mode);
+extern void ilutGetBooleanv(ILenum Mode, ILboolean *Param);
+extern ILint ilutGetInteger(ILenum Mode);
+extern void ilutGetIntegerv(ILenum Mode, ILint *Param);
+extern char* ilutGetString(ILenum StringName);
+extern void ilutInit(void);
+extern ILboolean ilutIsDisabled(ILenum Mode);
+extern ILboolean ilutIsEnabled(ILenum Mode);
+extern void ilutPopAttrib(void);
+extern void ilutPushAttrib(ILuint Bits);
+extern void ilutSetInteger(ILenum Mode, ILint Param);
+
+extern ILboolean ilutRenderer(ILenum Renderer);
