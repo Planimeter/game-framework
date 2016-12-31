@@ -6,7 +6,7 @@ Game development framework for Lua
 ### macOS
 
 ```bash
-brew install luajit physfs sdl2 devil enet
+brew install luajit physfs sdl2 enet
 ```
 
 ## Run
@@ -23,8 +23,6 @@ LuaJIT FFI bindings for PhysicsFS
 LuaJIT FFI bindings for SDL 2.0
 * [lopengl](https://github.com/Planimeter/lopengl)  
 LuaJIT FFI bindings for OpenGL
-* [ldevil](https://github.com/Planimeter/ldevil)  
-LuaJIT FFI bindings for DevIL
 * [lkazmath](https://github.com/Kazade/kazmath/tree/master/lua)  
 Lua binding for kazmath
 * [luasocket](http://w3.impa.br/~diego/software/luasocket/)  
