@@ -5,17 +5,17 @@
 --============================================================================--
 
 require( "class" )
-local ffi = require( "ffi" )
-local GL  = require( "lib.opengl" )
-local IL  = require( "lib.devil" )
+local ffi   = require( "ffi" )
+local GL    = require( "lib.opengl" )
+local devil = require( "lib.devil" )
 
 class( "framework.graphics.image" )
 
 local image = framework.graphics.image
 
 function image:image( filename )
-	IL.ilInit()
-	self.texture = IL.ilLoadImage( filename )
+	devil.ilInit()
+	self.texture = devil.ilLoadImage( filename )
 end
 
 function image:draw()
