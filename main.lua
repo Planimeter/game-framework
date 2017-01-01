@@ -5,7 +5,6 @@
 --============================================================================--
 
 function framework.load()
-	local image = framework.graphics.newImage( nil )
 end
 
 function framework.update( dt )

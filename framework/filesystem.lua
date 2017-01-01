@@ -36,5 +36,5 @@ function read( filename )
 	local buffer = ffi.new( "char[?]", length )
 	physfs.PHYSFS_read( file, buffer, 1, length )
 	physfs.PHYSFS_close( file )
-	return ffi.string( buffer, length )
+	return ffi.string( buffer, length ), length
 end

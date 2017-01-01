@@ -36,6 +36,8 @@ function createWindow( title, x, y, width, height )
 
 	framework.graphics.setDefaultShader()
 	framework.graphics.set2DVertexAttributes()
+	framework.graphics.setOrthographicProjection( width, height )
+	framework.graphics.createDefaultTexture()
 end
 
 function resize( width, height )

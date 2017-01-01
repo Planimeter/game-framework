@@ -10,6 +10,7 @@ local kazmath = require( "lib.kazmath" )
 
 local error     = error
 local framework = framework
+local print = print
 
 module( "framework.graphics" )
 
@@ -77,9 +78,15 @@ function set2DVertexAttributes()
 	GL.glEnableVertexAttribArray( vertex )
 	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, nil )
 
+	local texCoord = GL.glGetAttribLocation( shader, "texcoord" )
+	GL.glEnableVertexAttribArray( texCoord )
+	local P = ffi.new( "GLfloat[2]", { 1.0, 1.0 } )
+	GL.glVertexAttribPointer( texCoord, 2, 0x1406, 0, 0, P )
+end
+
+function setOrthographicProjection( width, height )
 	local projection = GL.glGetUniformLocation( shader, "projection" )
 	local mat4 = framework.math.newMat4()
-	local width, height = framework.graphics.getSize()
 	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
 	GL.glUniformMatrix4fv( projection, 1, 0, mat4.mat )
 
@@ -90,4 +97,17 @@ function set2DVertexAttributes()
 
 	local view = GL.glGetUniformLocation( shader, "view" )
 	GL.glUniformMatrix4fv( view, 1, 0, mat4.mat )
+end
+
+function createDefaultTexture()
+	defaultTexture = ffi.new( "GLuint[1]" )
+	GL.glGenTextures( 1, defaultTexture )
+	GL.glBindTexture( 0x0DE1, defaultTexture[0] )
+
+	local pixels = ffi.new( "GLfloat[4]", { 1.0, 1.0, 1.0, 1.0 } )
+	GL.glTexImage2D( 0x0DE1, 0, 0x1908, 1, 1, 0, 0x1908, 0x1406, pixels )
+end
+
+function getDefaultTexture()
+	return defaultTexture
 end
