@@ -22,6 +22,10 @@ function clear()
 	GL.glClear( 0x00004000 )
 end
 
+function draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
+	drawable:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+end
+
 function getColor()
 	return color
 end

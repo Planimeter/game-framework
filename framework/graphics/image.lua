@@ -28,9 +28,39 @@ function image:image( filename )
 	self.channels  = channels
 	self.pixels    = pixels
 
-	GL.glTexImage2D( 0x0DE1, 0, 0x1908, width[0], height[0], 0, 0x1908, 0x1406, pixels )
+	GL.glTexParameteri( 0x0DE1, 0x813C, 0 )
+	GL.glTexParameteri( 0x0DE1, 0x813D, 0 )
+
+	GL.glTexImage2D( 0x0DE1, 0, 0x1908, width[0], height[0], 0, 0x1908, 0x1401, pixels )
 	stbi.stbi_image_free( pixels )
 end
 
-function image:draw()
+function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+	local width    = self.width[0]
+	local height   = self.height[0]
+	local vertices = {
+		x,         y,
+		x,         y + height,
+		x + width, y + height,
+		x + width, y + height,
+		x + width, y,
+		x,         y
+	}
+	local texCoords = {
+		0.0, 0.0,
+		0.0, 1.0,
+		1.0, 1.0,
+		1.0, 1.0,
+		1.0, 0.0,
+		0.0, 0.0
+	}
+	local pVertices  = ffi.new( "GLfloat[?]", #vertices, vertices )
+	local pTexCoords = ffi.new( "GLfloat[?]", #texCoords, texCoords )
+	local shader     = framework.graphics.getShader()
+	local vertex     = GL.glGetAttribLocation( shader, "vertex" )
+	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, pVertices )
+	local texcoord   = GL.glGetAttribLocation( shader, "texcoord" )
+	GL.glVertexAttribPointer( texcoord, 2, 0x1406, 0, 0, pTexCoords )
+	GL.glBindTexture( 0x0DE1, self.texture[0] )
+	GL.glDrawArrays( 0x0004, 0, #vertices / 2 )
 end

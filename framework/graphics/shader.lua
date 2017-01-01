@@ -80,7 +80,7 @@ function set2DVertexAttributes()
 
 	local texCoord = GL.glGetAttribLocation( shader, "texcoord" )
 	GL.glEnableVertexAttribArray( texCoord )
-	local P = ffi.new( "GLfloat[2]", { 1.0, 1.0 } )
+	local P = ffi.new( "GLfloat[2]", { 0.0, 0.0 } )
 	GL.glVertexAttribPointer( texCoord, 2, 0x1406, 0, 0, P )
 end
 
