@@ -21,6 +21,7 @@ function handle( e )
 	if ( e.type == ffi.C.SDL_APP_LOWMEMORY ) then
 		framework.lowmemory()
 		collectgarbage()
+		collectgarbage()
 	elseif ( e.type == ffi.C.SDL_WINDOWEVENT ) then
 		windowevent( e.window )
 	end
