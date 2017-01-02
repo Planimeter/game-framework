@@ -17,17 +17,7 @@ function poll()
 	return SDL.SDL_PollEvent( event ) ~= 0 and event or nil
 end
 
-function handle( e )
-	if ( e.type == ffi.C.SDL_APP_LOWMEMORY ) then
-		framework.lowmemory()
-		collectgarbage()
-		collectgarbage()
-	elseif ( e.type == ffi.C.SDL_WINDOWEVENT ) then
-		windowevent( e.window )
-	end
-end
-
-function windowevent( window )
+local function windowevent( window )
 	if ( window.event == ffi.C.SDL_WINDOWEVENT_SHOWN ) then
 		framework.visible( true )
 	elseif ( window.event == ffi.C.SDL_WINDOWEVENT_HIDDEN ) then
@@ -52,5 +42,15 @@ function windowevent( window )
 		framework.focus( true )
 	elseif ( window.event == ffi.C.SDL_WINDOWEVENT_FOCUS_LOST ) then
 		framework.focus( false )
+	end
+end
+
+function handle( e )
+	if ( e.type == ffi.C.SDL_APP_LOWMEMORY ) then
+		framework.lowmemory()
+		collectgarbage()
+		collectgarbage()
+	elseif ( e.type == ffi.C.SDL_WINDOWEVENT ) then
+		windowevent( e.window )
 	end
 end

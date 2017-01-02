@@ -9,6 +9,10 @@ local ffi     = require( "ffi" )
 
 module( "framework.math" )
 
-function newMat4()
-	return ffi.new( "kmMat4" )
+function newMat4( mat )
+	local mat4 = ffi.new( "kmMat4" )
+	if ( mat ) then
+		kazmath.kmMat4Fill( mat4, mat )
+	end
+	return mat4
 end

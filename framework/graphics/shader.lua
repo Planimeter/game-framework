@@ -10,7 +10,6 @@ local kazmath = require( "lib.kazmath" )
 
 local error     = error
 local framework = framework
-local print = print
 
 module( "framework.graphics" )
 

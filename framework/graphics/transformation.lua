@@ -12,13 +12,16 @@ local table     = table
 
 module( "framework.graphics" )
 
-state = state or {}
+state = state or {
+	framework.math.newMat4()
+}
 
 function push()
-	table.insert( state, framework.math.newMat4() )
+	table.insert( state, framework.math.newMat4( getTransform().mat ) )
 end
 
 function pop()
+	if ( #state == 1 ) then return end
 	table.remove( state, #state )
 end
 
