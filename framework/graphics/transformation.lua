@@ -12,9 +12,7 @@ local table     = table
 
 module( "framework.graphics" )
 
-state = state or {
-	framework.math.newMat4()
-}
+state = state or { framework.math.newMat4() }
 
 function push()
 	table.insert( state, framework.math.newMat4( getTransform().mat ) )

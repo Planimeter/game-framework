@@ -57,8 +57,6 @@ function init()
 
 	local c = {
 		modules = {
-			keyboard = true,
-			mouse    = true,
 			timer    = true,
 			window   = true,
 			graphics = true
