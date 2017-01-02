@@ -22,12 +22,12 @@ end
 
 function rectangle( x, y, width, height )
 	local vertices = {
-		x,         y,
-		x,         y + height,
-		x + width, y + height,
-		x + width, y + height,
-		x + width, y,
-		x,         y
+		x,         y + height, -- Bottom-left
+		x + width, y + height, -- Bottom-right
+		x,         y,          -- Top-left
+		x + width, y + height, -- Bottom-right
+		x + width, y,          -- Top-right
+		x,         y           -- Top-left
 	}
 	polygon( vertices )
 end
