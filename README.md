@@ -34,6 +34,8 @@ Lua binding for kazmath
 Network support for the Lua language
 * [lua-enet](http://leafo.net/lua-enet/)  
 Bindings to ENet for Lua
+* [lclass](https://github.com/andrewmcwatters/lclass)  
+Lua with Classes
 
 ## License
 
