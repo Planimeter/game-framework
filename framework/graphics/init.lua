@@ -23,6 +23,9 @@ function clear()
 end
 
 function draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
+	x = x or 0
+	y = y or 0
+
 	drawable:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 end
 

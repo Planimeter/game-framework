@@ -39,12 +39,12 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	local width    = self.width[0]
 	local height   = self.height[0]
 	local vertices = {
-		x,         y + height, -- Bottom-left
-		x + width, y + height, -- Bottom-right
-		x,         y,          -- Top-left
-		x + width, y + height, -- Bottom-right
-		x + width, y,          -- Top-right
-		x,         y           -- Top-left
+		x,         y + height,
+		x + width, y + height,
+		x,         y,
+		x + width, y + height,
+		x + width, y,
+		x,         y
 	}
 	local texCoords = {
 		0.0, 1.0,
