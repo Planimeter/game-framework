@@ -87,7 +87,7 @@ function init()
 		local y      = c.window.y
 		local width  = c.window.width
 		local height = c.window.height
-		framework.window.createWindow( title, x, y, width, height )
+		framework.window.createWindow( title, x, y, width, height, flags )
 	end
 
 	if ( framework.filesystem.isFile( "main.lua" ) ) then

@@ -6,15 +6,17 @@
 
 local SDL = require( "lib.sdl" )
 local ffi = require( "ffi" )
+local bit = require( "bit" )
 local GL  = require( "lib.opengl" )
 
 local framework = framework
 
 module( "framework.window" )
 
-function createWindow( title, x, y, width, height )
-	x = x or SDL.SDL_WINDOWPOS_UNDEFINED
-	y = y or SDL.SDL_WINDOWPOS_UNDEFINED
+function createWindow( title, x, y, width, height, flags )
+	x     = x or SDL.SDL_WINDOWPOS_UNDEFINED
+	y     = y or SDL.SDL_WINDOWPOS_UNDEFINED
+	flags = bit.bor( ffi.C.SDL_WINDOW_OPENGL, flags or 0 )
 
 	SDL.SDL_InitSubSystem( SDL.SDL_INIT_VIDEO )
 	SDL.SDL_GL_SetAttribute(
@@ -22,7 +24,6 @@ function createWindow( title, x, y, width, height )
 		ffi.C.SDL_GL_CONTEXT_PROFILE_CORE
 	)
 
-	local flags = ffi.C.SDL_WINDOW_OPENGL
 	window      = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
 	context     = SDL.SDL_GL_CreateContext( window )
 
