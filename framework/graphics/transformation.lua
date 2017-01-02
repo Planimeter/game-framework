@@ -47,6 +47,6 @@ function origin()
 end
 
 function updateTransform()
-	local projection = GL.glGetUniformLocation( shader, "projection" )
+	local projection = GL.glGetUniformLocation( shader, "model" )
 	GL.glUniformMatrix4fv( projection, 1, 0, getTransform().mat )
 end
