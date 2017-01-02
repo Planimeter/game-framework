@@ -30,7 +30,9 @@ end
 
 function scale( x, y, z )
 	z = z or 1
-	kazmath.kmMat4Scaling( getTransform(), x, y, z )
+	local pM2 = framework.math.newMat4()
+	kazmath.kmMat4Scaling( pM2, x, y, z )
+	kazmath.kmMat4Multiply( getTransform(), getTransform(), pM2 )
 end
 
 function translate( x, y, z )

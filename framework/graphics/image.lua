@@ -61,6 +61,7 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, pVertices )
 	local texcoord   = GL.glGetAttribLocation( shader, "texcoord" )
 	GL.glVertexAttribPointer( texcoord, 2, 0x1406, 0, 0, pTexCoords )
+	framework.graphics.updateTransform()
 	GL.glBindTexture( 0x0DE1, self.texture[0] )
 	GL.glDrawArrays( 0x0004, 0, #vertices / 2 )
 end
