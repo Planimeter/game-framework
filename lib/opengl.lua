@@ -12,7 +12,6 @@ ffi.cdef( io.read( "*all" ) )
 local _M = {
 	__glcorearb_h_ = 1,
 	WIN32_LEAN_AND_MEAN = 1,
-	GLAPI = extern,
 	GL_VERSION_1_0 = 1,
 	GL_VERSION_1_1 = 1,
 	GL_DEPTH_BUFFER_BIT               = 0x00000100,
