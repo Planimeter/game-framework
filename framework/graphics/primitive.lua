@@ -16,6 +16,7 @@ function polygon( vertices )
 	local shader    = framework.graphics.getShader()
 	local vertex    = GL.glGetAttribLocation( shader, "vertex" )
 	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, pVertices )
+	framework.graphics.updateTransform()
 	GL.glBindTexture( 0x0DE1, framework.graphics.getDefaultTexture()[0] )
 	GL.glDrawArrays( 0x0004, 0, #vertices / 2 )
 end

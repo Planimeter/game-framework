@@ -6,13 +6,14 @@
 
 require( "framework.math" )
 local kazmath = require( "lib.kazmath" )
+local GL      = require( "lib.opengl" )
 
 local framework = framework
 local table     = table
 
 module( "framework.graphics" )
 
-state = state or { framework.math.newMat4() }
+state = state or {}
 
 function push()
 	table.insert( state, framework.math.newMat4( getTransform().mat ) )
@@ -28,13 +29,22 @@ function getTransform()
 end
 
 function scale( x, y, z )
+	z = z or 1
 	kazmath.kmMat4Scaling( getTransform(), x, y, z )
 end
 
 function translate( x, y, z )
-	kazmath.kmMat4Translation( getTransform(), x, y, z )
+	z = z or 0
+	local pM2 = framework.math.newMat4()
+	kazmath.kmMat4Translation( pM2, x, y, z )
+	kazmath.kmMat4Multiply( getTransform(), getTransform(), pM2 )
 end
 
 function origin()
 	kazmath.kmMat4Identity( getTransform() )
+end
+
+function updateTransform()
+	local projection = GL.glGetUniformLocation( shader, "projection" )
+	GL.glUniformMatrix4fv( projection, 1, 0, getTransform().mat )
 end

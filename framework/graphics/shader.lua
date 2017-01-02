@@ -88,6 +88,7 @@ function setOrthographicProjection( width, height )
 	local mat4 = framework.math.newMat4()
 	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
 	GL.glUniformMatrix4fv( projection, 1, 0, mat4.mat )
+	framework.graphics.state[ 1 ] = mat4
 
 	local model = GL.glGetUniformLocation( shader, "model" )
 	local mat4 = framework.math.newMat4()
