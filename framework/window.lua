@@ -42,6 +42,7 @@ end
 
 function resize( width, height )
 	GL.glViewport( 0, 0, width, height )
+	framework.graphics.setOrthographicProjection( width, height )
 end
 
 function setTitle( title )
