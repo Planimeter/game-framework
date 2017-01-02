@@ -15,13 +15,13 @@ module( "framework.graphics" )
 
 local function getShaderCompileStatus( shader )
 	local status = ffi.new( "GLint[1]" )
-	GL.glGetShaderiv( shader, 0x8B81, status )
+	GL.glGetShaderiv( shader, GL.GL_COMPILE_STATUS, status )
 	if ( status[0] ~= 0 ) then
 		return
 	end
 
 	local length = ffi.new( "GLint[1]" )
-	GL.glGetShaderiv( shader, 0x8B84, length )
+	GL.glGetShaderiv( shader, GL.GL_INFO_LOG_LENGTH, length )
 	local buffer = ffi.new( "char[ " .. length[0] .. "]" )
 	GL.glGetShaderInfoLog( shader, length[0], nil, buffer )
 	GL.glDeleteShader( shader )
@@ -40,8 +40,8 @@ local function createShader( type, source )
 end
 
 function newShader( fragmentSource, vertexSource )
-	local fragmentShader = createShader( 0x8B30, fragmentSource )
-	local vertexShader   = createShader( 0x8B31, vertexSource )
+	local fragmentShader = createShader( GL.GL_FRAGMENT_SHADER, fragmentSource )
+	local vertexShader   = createShader( GL.GL_VERTEX_SHADER, vertexSource )
 	local shaderProgram  = GL.glCreateProgram()
 	GL.glAttachShader( shaderProgram, vertexShader )
 	GL.glAttachShader( shaderProgram, fragmentShader )
@@ -75,12 +75,12 @@ function set2DVertexAttributes()
 	local shader = getShader()
 	local vertex = GL.glGetAttribLocation( shader, "vertex" )
 	GL.glEnableVertexAttribArray( vertex )
-	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, nil )
+	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, 0, nil )
 
 	local texCoord = GL.glGetAttribLocation( shader, "texcoord" )
 	GL.glEnableVertexAttribArray( texCoord )
 	local P = ffi.new( "GLfloat[2]", { 0.0, 0.0 } )
-	GL.glVertexAttribPointer( texCoord, 2, 0x1406, 0, 0, P )
+	GL.glVertexAttribPointer( texCoord, 2, GL.GL_FLOAT, 0, 0, P )
 end
 
 function setOrthographicProjection( width, height )
@@ -102,10 +102,10 @@ end
 function createDefaultTexture()
 	defaultTexture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, defaultTexture )
-	GL.glBindTexture( 0x0DE1, defaultTexture[0] )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, defaultTexture[0] )
 
 	local pixels = ffi.new( "GLfloat[4]", { 1.0, 1.0, 1.0, 1.0 } )
-	GL.glTexImage2D( 0x0DE1, 0, 0x1908, 1, 1, 0, 0x1908, 0x1406, pixels )
+	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, 1, 1, 0, GL.GL_RGBA, GL.GL_FLOAT, pixels )
 end
 
 function getDefaultTexture()

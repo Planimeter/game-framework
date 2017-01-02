@@ -19,7 +19,7 @@ local framework = framework
 module( "framework.graphics" )
 
 function clear()
-	GL.glClear( 0x00004000 )
+	GL.glClear( GL.GL_COLOR_BUFFER_BIT )
 end
 
 function draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )

@@ -16,7 +16,7 @@ local image = framework.graphics.image
 function image:image( filename )
 	self.texture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, self.texture )
-	GL.glBindTexture( 0x0DE1, self.texture[0] )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
 
 	local buffer, len = framework.filesystem.read( filename )
 	local width    = ffi.new( "int[1]" )
@@ -28,10 +28,10 @@ function image:image( filename )
 	self.channels  = channels
 	self.pixels    = pixels
 
-	GL.glTexParameteri( 0x0DE1, 0x813C, 0 )
-	GL.glTexParameteri( 0x0DE1, 0x813D, 0 )
+	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
+	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
 
-	GL.glTexImage2D( 0x0DE1, 0, 0x1908, width[0], height[0], 0, 0x1908, 0x1401, pixels )
+	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width[0], height[0], 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, pixels )
 	stbi.stbi_image_free( pixels )
 end
 
@@ -58,10 +58,10 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	local pTexCoords = ffi.new( "GLfloat[?]", #texCoords, texCoords )
 	local shader     = framework.graphics.getShader()
 	local vertex     = GL.glGetAttribLocation( shader, "vertex" )
-	GL.glVertexAttribPointer( vertex, 2, 0x1406, 0, 0, pVertices )
+	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, 0, pVertices )
 	local texcoord   = GL.glGetAttribLocation( shader, "texcoord" )
-	GL.glVertexAttribPointer( texcoord, 2, 0x1406, 0, 0, pTexCoords )
+	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, 0, pTexCoords )
 	framework.graphics.updateTransform()
-	GL.glBindTexture( 0x0DE1, self.texture[0] )
-	GL.glDrawArrays( 0x0004, 0, #vertices / 2 )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
+	GL.glDrawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )
 end

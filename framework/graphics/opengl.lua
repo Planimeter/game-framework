@@ -26,5 +26,5 @@ function setVertexArray( vao )
 end
 
 function setVertexBuffer( vbo )
-	GL.glBindBuffer( 0x8892, vbo[0] )
+	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, vbo[0] )
 end
