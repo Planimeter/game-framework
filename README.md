@@ -3,7 +3,7 @@ Game development framework for Lua
 
 ## Create a Project
 
-[Getting Started](https://github.com/Planimeter/lgameframework/wiki/Getting_Started)  
+[Getting Started](https://github.com/Planimeter/lgameframework/wiki/Getting%20Started)  
 [API Documentation](https://github.com/Planimeter/lgameframework/wiki)
 
 ## Install
