@@ -4,8 +4,7 @@
 --
 --============================================================================--
 
-package.path  = string.gsub( package.path, "./?.lua;", "./?.lua;./?/init.lua;" )
-package.cpath = package.cpath .. ";" .. string.gsub( package.cpath, ".so", ".dylib" )
+package.path = string.gsub( package.path, "./?.lua;", "./?.lua;./?/init.lua;" )
 
 local framework = {}
 _G.framework    = framework
