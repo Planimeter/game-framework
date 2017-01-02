@@ -33,6 +33,8 @@ function image:image( filename )
 
 	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width[0], height[0], 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, pixels )
 	stbi.stbi_image_free( pixels )
+
+	setproxy( self )
 end
 
 function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
@@ -64,4 +66,8 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	framework.graphics.updateTransform()
 	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
 	GL.glDrawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )
+end
+
+function image:__gc()
+	glDeleteTextures( 1, self.texture )
 end
