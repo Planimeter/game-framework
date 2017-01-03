@@ -140,6 +140,15 @@ end
 function mousemoved( x, y, dx, dy, istouch )
 end
 
+function mousepressed( x, y, button, istouch )
+end
+
+function mousereleased( x, y, button, istouch )
+end
+
+function wheelmoved( x, y )
+end
+
 function update( dt )
 end
 
