@@ -2877,3 +2877,363 @@ texture_glyph_get_kerning( const texture_glyph_t * self,
 
 texture_glyph_t *
 texture_glyph_new( void );
+typedef struct markup_t
+{
+
+
+
+    char * family;
+
+
+
+
+    float size;
+
+
+
+
+    int bold;
+
+
+
+
+    int italic;
+
+
+
+
+    float spacing;
+
+
+
+
+    float gamma;
+
+
+
+
+    vec4 foreground_color;
+
+
+
+
+    vec4 background_color;
+
+
+
+
+    int outline;
+
+
+
+
+    vec4 outline_color;
+
+
+
+
+    int underline;
+
+
+
+
+    vec4 underline_color;
+
+
+
+
+    int overline;
+
+
+
+
+    vec4 overline_color;
+
+
+
+
+    int strikethrough;
+
+
+
+
+    vec4 strikethrough_color;
+
+
+
+
+    texture_font_t * font;
+
+} markup_t;
+
+
+
+
+extern markup_t default_markup;
+typedef struct font_manager_t {
+
+
+
+    texture_atlas_t * atlas;
+
+
+
+
+    vector_t * fonts;
+
+
+
+
+    char * cache;
+
+} font_manager_t;
+  font_manager_t *
+  font_manager_new( size_t width,
+                    size_t height,
+                    size_t depth );
+
+
+
+
+
+
+
+  void
+  font_manager_delete( font_manager_t *self );
+  void
+  font_manager_delete_font( font_manager_t * self,
+                            texture_font_t * font );
+  texture_font_t *
+  font_manager_get_from_filename( font_manager_t * self,
+                                  const char * filename,
+                                  const float size );
+  texture_font_t *
+  font_manager_get_from_description( font_manager_t * self,
+                                     const char * family,
+                                     const float size,
+                                     const int bold,
+                                     const int italic );
+  texture_font_t *
+  font_manager_get_from_markup( font_manager_t *self,
+                                const markup_t *markup );
+  char *
+  font_manager_match_description( font_manager_t * self,
+                                  const char * family,
+                                  const float size,
+                                  const int bold,
+                                  const int italic );
+typedef struct vertex_attribute_t
+{
+
+
+
+    GLchar * name;
+
+
+
+
+    GLuint index;
+
+
+
+
+
+
+    GLint size;
+    GLenum type;
+
+
+
+
+
+
+    GLboolean normalized;
+
+
+
+
+
+
+
+    GLsizei stride;
+
+
+
+
+
+    GLvoid * pointer;
+
+
+
+
+    void ( * enable )(void *);
+
+} vertex_attribute_t;
+vertex_attribute_t *
+vertex_attribute_new( GLchar * name,
+                      GLint size,
+                      GLenum type,
+                      GLboolean normalized,
+                      GLsizei stride,
+                      GLvoid *pointer );
+void
+vertex_attribute_delete( vertex_attribute_t * self );
+  vertex_attribute_t *
+  vertex_attribute_parse( char *format );
+  void
+  vertex_attribute_enable( vertex_attribute_t *attr );
+typedef struct vertex_buffer_t
+{
+
+    char * format;
+
+
+    vector_t * vertices;
+
+
+
+
+
+
+
+    GLuint vertices_id;
+
+
+    vector_t * indices;
+
+
+    GLuint indices_id;
+
+
+    size_t GPU_vsize;
+
+
+    size_t GPU_isize;
+
+
+    GLenum mode;
+
+
+    char state;
+
+
+    vector_t * items;
+
+
+    vertex_attribute_t *attributes[16];
+} vertex_buffer_t;
+  vertex_buffer_t *
+  vertex_buffer_new( const char *format );
+
+
+
+
+
+
+
+  void
+  vertex_buffer_delete( vertex_buffer_t * self );
+  size_t
+  vertex_buffer_size( const vertex_buffer_t *self );
+  const char *
+  vertex_buffer_format( const vertex_buffer_t *self );
+
+
+
+
+
+
+
+  void
+  vertex_buffer_print( vertex_buffer_t * self );
+  void
+  vertex_buffer_render_setup ( vertex_buffer_t *self,
+                               GLenum mode );
+
+
+
+
+
+
+
+  void
+  vertex_buffer_render_finish ( vertex_buffer_t *self );
+  void
+  vertex_buffer_render ( vertex_buffer_t *self,
+                         GLenum mode );
+  void
+  vertex_buffer_render_item ( vertex_buffer_t *self,
+                              size_t index );
+
+
+
+
+
+
+
+  void
+  vertex_buffer_upload( vertex_buffer_t *self );
+
+
+
+
+
+
+
+  void
+  vertex_buffer_clear( vertex_buffer_t *self );
+  void
+  vertex_buffer_push_back_indices ( vertex_buffer_t *self,
+                                    const GLuint * indices,
+                                    const size_t icount );
+  void
+  vertex_buffer_push_back_vertices ( vertex_buffer_t *self,
+                                     const void * vertices,
+                                     const size_t vcount );
+  void
+  vertex_buffer_insert_indices ( vertex_buffer_t *self,
+                                 const size_t index,
+                                 const GLuint *indices,
+                                 const size_t icount );
+  void
+  vertex_buffer_insert_vertices ( vertex_buffer_t *self,
+                                  const size_t index,
+                                  const void *vertices,
+                                  const size_t vcount );
+  void
+  vertex_buffer_erase_indices ( vertex_buffer_t *self,
+                                const size_t first,
+                                const size_t last );
+  void
+  vertex_buffer_erase_vertices ( vertex_buffer_t *self,
+                                 const size_t first,
+                                 const size_t last );
+  size_t
+  vertex_buffer_push_back( vertex_buffer_t * self,
+                           const void * vertices, const size_t vcount,
+                           const GLuint * indices, const size_t icount );
+  size_t
+  vertex_buffer_insert( vertex_buffer_t * self,
+                        const size_t index,
+                        const void * vertices, const size_t vcount,
+                        const GLuint * indices, const size_t icount );
+
+
+
+
+
+
+
+  void
+  vertex_buffer_erase( vertex_buffer_t * self,
+                       const size_t index );
+void computegradient(double *img, int w, int h, double *gx, double *gy);
+double edgedf(double gx, double gy, double a);
+
+
+double distaa3(double *img, double *gximg, double *gyimg, int w, int c, int xc, int yc, int xi, int yi);
+
+
+
+
+void edtaa3(double *img, double *gx, double *gy, int w, int h, short *distx, short *disty, double *dist);
