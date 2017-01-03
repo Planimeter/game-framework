@@ -4,6 +4,7 @@
 --
 --============================================================================--
 
+require( "class" )
 local freetypegl = require( "lib.freetype-gl" )
 
 class( "framework.graphics.font" )

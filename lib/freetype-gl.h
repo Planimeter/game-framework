@@ -1,46 +1,24 @@
+double *
+make_distance_mapd( double *img,
+                    unsigned int width, unsigned int height );
+
+unsigned char *
+make_distance_mapb( unsigned char *img,
+                    unsigned int width, unsigned int height );
+void computegradient(double *img, int w, int h, double *gx, double *gy);
+double edgedf(double gx, double gy, double a);
+
+
+double distaa3(double *img, double *gximg, double *gyimg, int w, int c, int xc, int yc, int xi, int yi);
 
 
 
 
+void edtaa3(double *img, double *gx, double *gy, int w, int h, short *distx, short *disty, double *dist);
 
 
 
 
-
-
-
-
-
-typedef __signed char int8_t;
-typedef short int16_t;
-typedef int int32_t;
-typedef long long int64_t;
-
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-typedef unsigned long long uint64_t;
-
-
-typedef int8_t int_least8_t;
-typedef int16_t int_least16_t;
-typedef int32_t int_least32_t;
-typedef int64_t int_least64_t;
-typedef uint8_t uint_least8_t;
-typedef uint16_t uint_least16_t;
-typedef uint32_t uint_least32_t;
-typedef uint64_t uint_least64_t;
-
-
-
-typedef int8_t int_fast8_t;
-typedef int16_t int_fast16_t;
-typedef int32_t int_fast32_t;
-typedef int64_t int_fast64_t;
-typedef uint8_t uint_fast8_t;
-typedef uint16_t uint_fast16_t;
-typedef uint32_t uint_fast32_t;
-typedef uint64_t uint_fast64_t;
 
 
 
@@ -199,6 +177,527 @@ typedef struct _opaque_pthread_once_t __darwin_pthread_once_t;
 typedef struct _opaque_pthread_rwlock_t __darwin_pthread_rwlock_t;
 typedef struct _opaque_pthread_rwlockattr_t __darwin_pthread_rwlockattr_t;
 typedef struct _opaque_pthread_t *__darwin_pthread_t;
+typedef int __darwin_nl_item;
+typedef int __darwin_wctrans_t;
+
+typedef __uint32_t __darwin_wctype_t;
+
+// typedef enum {
+//  P_ALL,
+//  P_PID,
+//  P_PGID
+// } idtype_t;
+
+
+
+
+
+
+typedef __darwin_pid_t pid_t;
+typedef __darwin_id_t id_t;
+
+
+
+
+
+
+
+
+typedef int sig_atomic_t;
+// struct __darwin_i386_thread_state
+// {
+//     unsigned int __eax;
+//     unsigned int __ebx;
+//     unsigned int __ecx;
+//     unsigned int __edx;
+//     unsigned int __edi;
+//     unsigned int __esi;
+//     unsigned int __ebp;
+//     unsigned int __esp;
+//     unsigned int __ss;
+//     unsigned int __eflags;
+//     unsigned int __eip;
+//     unsigned int __cs;
+//     unsigned int __ds;
+//     unsigned int __es;
+//     unsigned int __fs;
+//     unsigned int __gs;
+// };
+// struct __darwin_fp_control
+// {
+//     unsigned short __invalid :1,
+//         __denorm :1,
+//     __zdiv :1,
+//     __ovrfl :1,
+//     __undfl :1,
+//     __precis :1,
+//       :2,
+//     __pc :2,
+//
+//
+//
+//
+//
+//     __rc :2,
+//
+//
+//
+//
+//
+//
+//              :1,
+//       :3;
+// };
+typedef struct __darwin_fp_control __darwin_fp_control_t;
+// struct __darwin_fp_status
+// {
+//     unsigned short __invalid :1,
+//         __denorm :1,
+//     __zdiv :1,
+//     __ovrfl :1,
+//     __undfl :1,
+//     __precis :1,
+//     __stkflt :1,
+//     __errsumm :1,
+//     __c0 :1,
+//     __c1 :1,
+//     __c2 :1,
+//     __tos :3,
+//     __c3 :1,
+//     __busy :1;
+// };
+typedef struct __darwin_fp_status __darwin_fp_status_t;
+// struct __darwin_mmst_reg
+// {
+//  char __mmst_reg[10];
+//  char __mmst_rsrv[6];
+// };
+// struct __darwin_xmm_reg
+// {
+//  char __xmm_reg[16];
+// };
+// struct __darwin_i386_float_state
+// {
+//  int __fpu_reserved[2];
+//  struct __darwin_fp_control __fpu_fcw;
+//  struct __darwin_fp_status __fpu_fsw;
+//  __uint8_t __fpu_ftw;
+//  __uint8_t __fpu_rsrv1;
+//  __uint16_t __fpu_fop;
+//  __uint32_t __fpu_ip;
+//  __uint16_t __fpu_cs;
+//  __uint16_t __fpu_rsrv2;
+//  __uint32_t __fpu_dp;
+//  __uint16_t __fpu_ds;
+//  __uint16_t __fpu_rsrv3;
+//  __uint32_t __fpu_mxcsr;
+//  __uint32_t __fpu_mxcsrmask;
+//  struct __darwin_mmst_reg __fpu_stmm0;
+//  struct __darwin_mmst_reg __fpu_stmm1;
+//  struct __darwin_mmst_reg __fpu_stmm2;
+//  struct __darwin_mmst_reg __fpu_stmm3;
+//  struct __darwin_mmst_reg __fpu_stmm4;
+//  struct __darwin_mmst_reg __fpu_stmm5;
+//  struct __darwin_mmst_reg __fpu_stmm6;
+//  struct __darwin_mmst_reg __fpu_stmm7;
+//  struct __darwin_xmm_reg __fpu_xmm0;
+//  struct __darwin_xmm_reg __fpu_xmm1;
+//  struct __darwin_xmm_reg __fpu_xmm2;
+//  struct __darwin_xmm_reg __fpu_xmm3;
+//  struct __darwin_xmm_reg __fpu_xmm4;
+//  struct __darwin_xmm_reg __fpu_xmm5;
+//  struct __darwin_xmm_reg __fpu_xmm6;
+//  struct __darwin_xmm_reg __fpu_xmm7;
+//  char __fpu_rsrv4[14*16];
+//  int __fpu_reserved1;
+// };
+
+
+// struct __darwin_i386_avx_state
+// {
+//  int __fpu_reserved[2];
+//  struct __darwin_fp_control __fpu_fcw;
+//  struct __darwin_fp_status __fpu_fsw;
+//  __uint8_t __fpu_ftw;
+//  __uint8_t __fpu_rsrv1;
+//  __uint16_t __fpu_fop;
+//  __uint32_t __fpu_ip;
+//  __uint16_t __fpu_cs;
+//  __uint16_t __fpu_rsrv2;
+//  __uint32_t __fpu_dp;
+//  __uint16_t __fpu_ds;
+//  __uint16_t __fpu_rsrv3;
+//  __uint32_t __fpu_mxcsr;
+//  __uint32_t __fpu_mxcsrmask;
+//  struct __darwin_mmst_reg __fpu_stmm0;
+//  struct __darwin_mmst_reg __fpu_stmm1;
+//  struct __darwin_mmst_reg __fpu_stmm2;
+//  struct __darwin_mmst_reg __fpu_stmm3;
+//  struct __darwin_mmst_reg __fpu_stmm4;
+//  struct __darwin_mmst_reg __fpu_stmm5;
+//  struct __darwin_mmst_reg __fpu_stmm6;
+//  struct __darwin_mmst_reg __fpu_stmm7;
+//  struct __darwin_xmm_reg __fpu_xmm0;
+//  struct __darwin_xmm_reg __fpu_xmm1;
+//  struct __darwin_xmm_reg __fpu_xmm2;
+//  struct __darwin_xmm_reg __fpu_xmm3;
+//  struct __darwin_xmm_reg __fpu_xmm4;
+//  struct __darwin_xmm_reg __fpu_xmm5;
+//  struct __darwin_xmm_reg __fpu_xmm6;
+//  struct __darwin_xmm_reg __fpu_xmm7;
+//  char __fpu_rsrv4[14*16];
+//  int __fpu_reserved1;
+//  char __avx_reserved1[64];
+//  struct __darwin_xmm_reg __fpu_ymmh0;
+//  struct __darwin_xmm_reg __fpu_ymmh1;
+//  struct __darwin_xmm_reg __fpu_ymmh2;
+//  struct __darwin_xmm_reg __fpu_ymmh3;
+//  struct __darwin_xmm_reg __fpu_ymmh4;
+//  struct __darwin_xmm_reg __fpu_ymmh5;
+//  struct __darwin_xmm_reg __fpu_ymmh6;
+//  struct __darwin_xmm_reg __fpu_ymmh7;
+// };
+// struct __darwin_i386_exception_state
+// {
+//  __uint16_t __trapno;
+//  __uint16_t __cpu;
+//  __uint32_t __err;
+//  __uint32_t __faultvaddr;
+// };
+// struct __darwin_x86_debug_state32
+// {
+//  unsigned int __dr0;
+//  unsigned int __dr1;
+//  unsigned int __dr2;
+//  unsigned int __dr3;
+//  unsigned int __dr4;
+//  unsigned int __dr5;
+//  unsigned int __dr6;
+//  unsigned int __dr7;
+// };
+// struct __darwin_x86_thread_state64
+// {
+//  __uint64_t __rax;
+//  __uint64_t __rbx;
+//  __uint64_t __rcx;
+//  __uint64_t __rdx;
+//  __uint64_t __rdi;
+//  __uint64_t __rsi;
+//  __uint64_t __rbp;
+//  __uint64_t __rsp;
+//  __uint64_t __r8;
+//  __uint64_t __r9;
+//  __uint64_t __r10;
+//  __uint64_t __r11;
+//  __uint64_t __r12;
+//  __uint64_t __r13;
+//  __uint64_t __r14;
+//  __uint64_t __r15;
+//  __uint64_t __rip;
+//  __uint64_t __rflags;
+//  __uint64_t __cs;
+//  __uint64_t __fs;
+//  __uint64_t __gs;
+// };
+// struct __darwin_x86_float_state64
+// {
+//  int __fpu_reserved[2];
+//  struct __darwin_fp_control __fpu_fcw;
+//  struct __darwin_fp_status __fpu_fsw;
+//  __uint8_t __fpu_ftw;
+//  __uint8_t __fpu_rsrv1;
+//  __uint16_t __fpu_fop;
+//
+//
+//  __uint32_t __fpu_ip;
+//  __uint16_t __fpu_cs;
+//
+//  __uint16_t __fpu_rsrv2;
+//
+//
+//  __uint32_t __fpu_dp;
+//  __uint16_t __fpu_ds;
+//
+//  __uint16_t __fpu_rsrv3;
+//  __uint32_t __fpu_mxcsr;
+//  __uint32_t __fpu_mxcsrmask;
+//  struct __darwin_mmst_reg __fpu_stmm0;
+//  struct __darwin_mmst_reg __fpu_stmm1;
+//  struct __darwin_mmst_reg __fpu_stmm2;
+//  struct __darwin_mmst_reg __fpu_stmm3;
+//  struct __darwin_mmst_reg __fpu_stmm4;
+//  struct __darwin_mmst_reg __fpu_stmm5;
+//  struct __darwin_mmst_reg __fpu_stmm6;
+//  struct __darwin_mmst_reg __fpu_stmm7;
+//  struct __darwin_xmm_reg __fpu_xmm0;
+//  struct __darwin_xmm_reg __fpu_xmm1;
+//  struct __darwin_xmm_reg __fpu_xmm2;
+//  struct __darwin_xmm_reg __fpu_xmm3;
+//  struct __darwin_xmm_reg __fpu_xmm4;
+//  struct __darwin_xmm_reg __fpu_xmm5;
+//  struct __darwin_xmm_reg __fpu_xmm6;
+//  struct __darwin_xmm_reg __fpu_xmm7;
+//  struct __darwin_xmm_reg __fpu_xmm8;
+//  struct __darwin_xmm_reg __fpu_xmm9;
+//  struct __darwin_xmm_reg __fpu_xmm10;
+//  struct __darwin_xmm_reg __fpu_xmm11;
+//  struct __darwin_xmm_reg __fpu_xmm12;
+//  struct __darwin_xmm_reg __fpu_xmm13;
+//  struct __darwin_xmm_reg __fpu_xmm14;
+//  struct __darwin_xmm_reg __fpu_xmm15;
+//  char __fpu_rsrv4[6*16];
+//  int __fpu_reserved1;
+// };
+
+
+// struct __darwin_x86_avx_state64
+// {
+//  int __fpu_reserved[2];
+//  struct __darwin_fp_control __fpu_fcw;
+//  struct __darwin_fp_status __fpu_fsw;
+//  __uint8_t __fpu_ftw;
+//  __uint8_t __fpu_rsrv1;
+//  __uint16_t __fpu_fop;
+//
+//
+//  __uint32_t __fpu_ip;
+//  __uint16_t __fpu_cs;
+//
+//  __uint16_t __fpu_rsrv2;
+//
+//
+//  __uint32_t __fpu_dp;
+//  __uint16_t __fpu_ds;
+//
+//  __uint16_t __fpu_rsrv3;
+//  __uint32_t __fpu_mxcsr;
+//  __uint32_t __fpu_mxcsrmask;
+//  struct __darwin_mmst_reg __fpu_stmm0;
+//  struct __darwin_mmst_reg __fpu_stmm1;
+//  struct __darwin_mmst_reg __fpu_stmm2;
+//  struct __darwin_mmst_reg __fpu_stmm3;
+//  struct __darwin_mmst_reg __fpu_stmm4;
+//  struct __darwin_mmst_reg __fpu_stmm5;
+//  struct __darwin_mmst_reg __fpu_stmm6;
+//  struct __darwin_mmst_reg __fpu_stmm7;
+//  struct __darwin_xmm_reg __fpu_xmm0;
+//  struct __darwin_xmm_reg __fpu_xmm1;
+//  struct __darwin_xmm_reg __fpu_xmm2;
+//  struct __darwin_xmm_reg __fpu_xmm3;
+//  struct __darwin_xmm_reg __fpu_xmm4;
+//  struct __darwin_xmm_reg __fpu_xmm5;
+//  struct __darwin_xmm_reg __fpu_xmm6;
+//  struct __darwin_xmm_reg __fpu_xmm7;
+//  struct __darwin_xmm_reg __fpu_xmm8;
+//  struct __darwin_xmm_reg __fpu_xmm9;
+//  struct __darwin_xmm_reg __fpu_xmm10;
+//  struct __darwin_xmm_reg __fpu_xmm11;
+//  struct __darwin_xmm_reg __fpu_xmm12;
+//  struct __darwin_xmm_reg __fpu_xmm13;
+//  struct __darwin_xmm_reg __fpu_xmm14;
+//  struct __darwin_xmm_reg __fpu_xmm15;
+//  char __fpu_rsrv4[6*16];
+//  int __fpu_reserved1;
+//  char __avx_reserved1[64];
+//  struct __darwin_xmm_reg __fpu_ymmh0;
+//  struct __darwin_xmm_reg __fpu_ymmh1;
+//  struct __darwin_xmm_reg __fpu_ymmh2;
+//  struct __darwin_xmm_reg __fpu_ymmh3;
+//  struct __darwin_xmm_reg __fpu_ymmh4;
+//  struct __darwin_xmm_reg __fpu_ymmh5;
+//  struct __darwin_xmm_reg __fpu_ymmh6;
+//  struct __darwin_xmm_reg __fpu_ymmh7;
+//  struct __darwin_xmm_reg __fpu_ymmh8;
+//  struct __darwin_xmm_reg __fpu_ymmh9;
+//  struct __darwin_xmm_reg __fpu_ymmh10;
+//  struct __darwin_xmm_reg __fpu_ymmh11;
+//  struct __darwin_xmm_reg __fpu_ymmh12;
+//  struct __darwin_xmm_reg __fpu_ymmh13;
+//  struct __darwin_xmm_reg __fpu_ymmh14;
+//  struct __darwin_xmm_reg __fpu_ymmh15;
+// };
+// struct __darwin_x86_exception_state64
+// {
+//     __uint16_t __trapno;
+//     __uint16_t __cpu;
+//     __uint32_t __err;
+//     __uint64_t __faultvaddr;
+// };
+// struct __darwin_x86_debug_state64
+// {
+//  __uint64_t __dr0;
+//  __uint64_t __dr1;
+//  __uint64_t __dr2;
+//  __uint64_t __dr3;
+//  __uint64_t __dr4;
+//  __uint64_t __dr5;
+//  __uint64_t __dr6;
+//  __uint64_t __dr7;
+// };
+
+
+
+
+// struct __darwin_mcontext32
+// {
+//  struct __darwin_i386_exception_state __es;
+//  struct __darwin_i386_thread_state __ss;
+//  struct __darwin_i386_float_state __fs;
+// };
+
+
+// struct __darwin_mcontext_avx32
+// {
+//  struct __darwin_i386_exception_state __es;
+//  struct __darwin_i386_thread_state __ss;
+//  struct __darwin_i386_avx_state __fs;
+// };
+// struct __darwin_mcontext64
+// {
+//  struct __darwin_x86_exception_state64 __es;
+//  struct __darwin_x86_thread_state64 __ss;
+//  struct __darwin_x86_float_state64 __fs;
+// };
+
+
+// struct __darwin_mcontext_avx64
+// {
+//  struct __darwin_x86_exception_state64 __es;
+//  struct __darwin_x86_thread_state64 __ss;
+//  struct __darwin_x86_avx_state64 __fs;
+// };
+typedef struct __darwin_mcontext64 *mcontext_t;
+
+typedef __darwin_pthread_attr_t pthread_attr_t;
+
+// struct __darwin_sigaltstack
+// {
+//  void *ss_sp;
+//  __darwin_size_t ss_size;
+//  int ss_flags;
+// };
+typedef struct __darwin_sigaltstack stack_t;
+// struct __darwin_ucontext
+// {
+//  int uc_onstack;
+//  __darwin_sigset_t uc_sigmask;
+//  struct __darwin_sigaltstack uc_stack;
+//  struct __darwin_ucontext *uc_link;
+//  __darwin_size_t uc_mcsize;
+//  struct __darwin_mcontext64 *uc_mcontext;
+//
+//
+//
+// };
+
+
+typedef struct __darwin_ucontext ucontext_t;
+
+
+typedef __darwin_sigset_t sigset_t;
+typedef __darwin_size_t size_t;
+typedef __darwin_uid_t uid_t;
+
+// union sigval {
+//
+//  int sival_int;
+//  void *sival_ptr;
+// };
+
+
+
+
+
+// struct sigevent {
+//  int sigev_notify;
+//  int sigev_signo;
+//  union sigval sigev_value;
+//  void (*sigev_notify_function)(union sigval);
+//  pthread_attr_t *sigev_notify_attributes;
+// };
+
+
+// typedef struct __siginfo {
+//  int si_signo;
+//  int si_errno;
+//  int si_code;
+//  pid_t si_pid;
+//  uid_t si_uid;
+//  int si_status;
+//  void *si_addr;
+//  union sigval si_value;
+//  long si_band;
+//  unsigned long __pad[7];
+// } siginfo_t;
+// union __sigaction_u {
+//  void (*__sa_handler)(int);
+//  void (*__sa_sigaction)(int, struct __siginfo *,
+//          void *);
+// };
+
+
+// struct __sigaction {
+//  union __sigaction_u __sigaction_u;
+//  void (*sa_tramp)(void *, int, int, siginfo_t *, void *);
+//  sigset_t sa_mask;
+//  int sa_flags;
+// };
+
+
+
+
+// struct sigaction {
+//  union __sigaction_u __sigaction_u;
+//  sigset_t sa_mask;
+//  int sa_flags;
+// };
+typedef void (*sig_t)(int);
+// struct sigvec {
+//  void (*sv_handler)(int);
+//  int sv_mask;
+//  int sv_flags;
+// };
+// struct sigstack {
+//  char *ss_sp;
+//  int ss_onstack;
+// };
+void (*signal(int, void (*)(int)))(int);
+typedef signed char int8_t;
+typedef short int16_t;
+typedef int int32_t;
+typedef long long int64_t;
+
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
+
+
+typedef int8_t int_least8_t;
+typedef int16_t int_least16_t;
+typedef int32_t int_least32_t;
+typedef int64_t int_least64_t;
+typedef uint8_t uint_least8_t;
+typedef uint16_t uint_least16_t;
+typedef uint32_t uint_least32_t;
+typedef uint64_t uint_least64_t;
+
+
+
+typedef int8_t int_fast8_t;
+typedef int16_t int_fast16_t;
+typedef int32_t int_fast32_t;
+typedef int64_t int_fast64_t;
+typedef uint8_t uint_fast8_t;
+typedef uint16_t uint_fast16_t;
+typedef uint32_t uint_fast32_t;
+typedef uint64_t uint_fast64_t;
+
+
+
+
+
+
 typedef __darwin_intptr_t intptr_t;
 typedef unsigned long uintptr_t;
 
@@ -206,6 +705,1193 @@ typedef unsigned long uintptr_t;
 
 typedef long int intmax_t;
 typedef long unsigned int uintmax_t;
+
+
+
+
+
+
+
+// struct timeval
+// {
+//  __darwin_time_t tv_sec;
+//  __darwin_suseconds_t tv_usec;
+// };
+
+
+
+
+
+
+
+
+typedef __uint64_t rlim_t;
+// struct rusage {
+//  struct timeval ru_utime;
+//  struct timeval ru_stime;
+//  long ru_maxrss;
+//
+//  long ru_ixrss;
+//  long ru_idrss;
+//  long ru_isrss;
+//  long ru_minflt;
+//  long ru_majflt;
+//  long ru_nswap;
+//  long ru_inblock;
+//  long ru_oublock;
+//  long ru_msgsnd;
+//  long ru_msgrcv;
+//  long ru_nsignals;
+//  long ru_nvcsw;
+//  long ru_nivcsw;
+//
+//
+// };
+typedef void *rusage_info_t;
+
+// struct rusage_info_v0 {
+//  uint8_t ri_uuid[16];
+//  uint64_t ri_user_time;
+//  uint64_t ri_system_time;
+//  uint64_t ri_pkg_idle_wkups;
+//  uint64_t ri_interrupt_wkups;
+//  uint64_t ri_pageins;
+//  uint64_t ri_wired_size;
+//  uint64_t ri_resident_size;
+//  uint64_t ri_phys_footprint;
+//  uint64_t ri_proc_start_abstime;
+//  uint64_t ri_proc_exit_abstime;
+// };
+
+// struct rusage_info_v1 {
+//  uint8_t ri_uuid[16];
+//  uint64_t ri_user_time;
+//  uint64_t ri_system_time;
+//  uint64_t ri_pkg_idle_wkups;
+//  uint64_t ri_interrupt_wkups;
+//  uint64_t ri_pageins;
+//  uint64_t ri_wired_size;
+//  uint64_t ri_resident_size;
+//  uint64_t ri_phys_footprint;
+//  uint64_t ri_proc_start_abstime;
+//  uint64_t ri_proc_exit_abstime;
+//  uint64_t ri_child_user_time;
+//  uint64_t ri_child_system_time;
+//  uint64_t ri_child_pkg_idle_wkups;
+//  uint64_t ri_child_interrupt_wkups;
+//  uint64_t ri_child_pageins;
+//  uint64_t ri_child_elapsed_abstime;
+// };
+
+// struct rusage_info_v2 {
+//  uint8_t ri_uuid[16];
+//  uint64_t ri_user_time;
+//  uint64_t ri_system_time;
+//  uint64_t ri_pkg_idle_wkups;
+//  uint64_t ri_interrupt_wkups;
+//  uint64_t ri_pageins;
+//  uint64_t ri_wired_size;
+//  uint64_t ri_resident_size;
+//  uint64_t ri_phys_footprint;
+//  uint64_t ri_proc_start_abstime;
+//  uint64_t ri_proc_exit_abstime;
+//  uint64_t ri_child_user_time;
+//  uint64_t ri_child_system_time;
+//  uint64_t ri_child_pkg_idle_wkups;
+//  uint64_t ri_child_interrupt_wkups;
+//  uint64_t ri_child_pageins;
+//  uint64_t ri_child_elapsed_abstime;
+//  uint64_t ri_diskio_bytesread;
+//  uint64_t ri_diskio_byteswritten;
+// };
+
+// struct rusage_info_v3 {
+//  uint8_t ri_uuid[16];
+//  uint64_t ri_user_time;
+//  uint64_t ri_system_time;
+//  uint64_t ri_pkg_idle_wkups;
+//  uint64_t ri_interrupt_wkups;
+//  uint64_t ri_pageins;
+//  uint64_t ri_wired_size;
+//  uint64_t ri_resident_size;
+//  uint64_t ri_phys_footprint;
+//  uint64_t ri_proc_start_abstime;
+//  uint64_t ri_proc_exit_abstime;
+//  uint64_t ri_child_user_time;
+//  uint64_t ri_child_system_time;
+//  uint64_t ri_child_pkg_idle_wkups;
+//  uint64_t ri_child_interrupt_wkups;
+//  uint64_t ri_child_pageins;
+//  uint64_t ri_child_elapsed_abstime;
+//  uint64_t ri_diskio_bytesread;
+//  uint64_t ri_diskio_byteswritten;
+//  uint64_t ri_cpu_time_qos_default;
+//  uint64_t ri_cpu_time_qos_maintenance;
+//  uint64_t ri_cpu_time_qos_background;
+//  uint64_t ri_cpu_time_qos_utility;
+//  uint64_t ri_cpu_time_qos_legacy;
+//  uint64_t ri_cpu_time_qos_user_initiated;
+//  uint64_t ri_cpu_time_qos_user_interactive;
+//  uint64_t ri_billed_system_time;
+//  uint64_t ri_serviced_system_time;
+// };
+
+typedef struct rusage_info_v3 rusage_info_current;
+// struct rlimit {
+//  rlim_t rlim_cur;
+//  rlim_t rlim_max;
+// };
+// struct proc_rlimit_control_wakeupmon {
+//  uint32_t wm_flags;
+//  int32_t wm_rate;
+// };
+int getpriority(int, id_t);
+
+int getiopolicy_np(int, int) __attribute__((availability(macosx,introduced=10.5)));
+
+int getrlimit(int, struct rlimit *) __asm("_" "getrlimit" );
+int getrusage(int, struct rusage *);
+int setpriority(int, id_t, int);
+
+int setiopolicy_np(int, int, int) __attribute__((availability(macosx,introduced=10.5)));
+
+int setrlimit(int, const struct rlimit *) __asm("_" "setrlimit" );
+static inline
+__uint16_t
+_OSSwapInt16(
+    __uint16_t _data
+)
+{
+    return ((__uint16_t)((_data << 8) | (_data >> 8)));
+}
+
+static inline
+__uint32_t
+_OSSwapInt32(
+    __uint32_t _data
+)
+{
+
+    return __builtin_bswap32(_data);
+
+
+
+
+}
+
+
+static inline
+__uint64_t
+_OSSwapInt64(
+    __uint64_t _data
+)
+{
+    return __builtin_bswap64(_data);
+}
+
+
+
+
+
+
+
+// union wait {
+//  int w_status;
+//
+//
+//
+//  struct {
+//
+//   unsigned int w_Termsig:7,
+//     w_Coredump:1,
+//     w_Retcode:8,
+//     w_Filler:16;
+//
+//
+//
+//
+//
+//
+//
+//  } w_T;
+//
+//
+//
+//
+//
+//  struct {
+//
+//   unsigned int w_Stopval:8,
+//     w_Stopsig:8,
+//     w_Filler:16;
+//
+//
+//
+//
+//
+//
+//  } w_S;
+// };
+pid_t wait(int *) __asm("_" "wait" );
+pid_t waitpid(pid_t, int *, int) __asm("_" "waitpid" );
+
+int waitid(idtype_t, id_t, siginfo_t *, int) __asm("_" "waitid" );
+
+
+pid_t wait3(int *, int, struct rusage *);
+pid_t wait4(pid_t, int *, int, struct rusage *);
+
+void *alloca(size_t);
+
+
+
+
+
+
+
+
+typedef __darwin_ct_rune_t ct_rune_t;
+typedef __darwin_rune_t rune_t;
+
+
+typedef __darwin_wchar_t wchar_t;
+
+typedef struct {
+ int quot;
+ int rem;
+} div_t;
+
+typedef struct {
+ long quot;
+ long rem;
+} ldiv_t;
+
+
+typedef struct {
+ long long quot;
+ long long rem;
+} lldiv_t;
+
+
+
+extern int __mb_cur_max;
+void abort(void) __attribute__((noreturn));
+int abs(int) __attribute__((const));
+int atexit(void (* _Nonnull)(void));
+double atof(const char *);
+int atoi(const char *);
+long atol(const char *);
+
+long long
+  atoll(const char *);
+
+// void *bsearch(const void *__key, const void *__base, size_t __nel,
+//      size_t __width, int (* _Nonnull __compar)(const void *, const void *));
+void *calloc(size_t __count, size_t __size) __attribute__((__warn_unused_result__));
+div_t div(int, int) __attribute__((const));
+void exit(int) __attribute__((noreturn));
+void free(void *);
+char *getenv(const char *);
+long labs(long) __attribute__((const));
+ldiv_t ldiv(long, long) __attribute__((const));
+
+long long
+  llabs(long long);
+lldiv_t lldiv(long long, long long);
+
+void *malloc(size_t __size) __attribute__((__warn_unused_result__));
+int mblen(const char *__s, size_t __n);
+size_t mbstowcs(wchar_t * restrict , const char * restrict, size_t);
+int mbtowc(wchar_t * restrict, const char * restrict, size_t);
+int posix_memalign(void **__memptr, size_t __alignment, size_t __size) __attribute__((availability(macosx,introduced=10.6)));
+// void qsort(void *__base, size_t __nel, size_t __width,
+//      int (* _Nonnull __compar)(const void *, const void *));
+int rand(void) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
+void *realloc(void *__ptr, size_t __size) __attribute__((__warn_unused_result__));
+void srand(unsigned) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
+double strtod(const char *, char **) __asm("_" "strtod" );
+float strtof(const char *, char **) __asm("_" "strtof" );
+long strtol(const char *__str, char **__endptr, int __base);
+long double
+  strtold(const char *, char **);
+
+long long
+  strtoll(const char *__str, char **__endptr, int __base);
+
+unsigned long
+  strtoul(const char *__str, char **__endptr, int __base);
+
+unsigned long long
+  strtoull(const char *__str, char **__endptr, int __base);
+__attribute__((__availability__(swift, unavailable, message="Use posix_spawn APIs or NSTask instead.")))
+__attribute__((availability(macosx,introduced=10.0)))
+__attribute__((availability(watchos,unavailable))) __attribute__((availability(tvos,unavailable)))
+int system(const char *) __asm("_" "system" );
+
+
+
+size_t wcstombs(char * restrict, const wchar_t * restrict, size_t);
+int wctomb(char *, wchar_t);
+
+
+void _Exit(int) __attribute__((noreturn));
+long a64l(const char *);
+double drand48(void);
+char *ecvt(double, int, int *restrict, int *restrict);
+double erand48(unsigned short[3]);
+char *fcvt(double, int, int *restrict, int *restrict);
+char *gcvt(double, int, char *);
+int getsubopt(char **, char * const *, char **);
+int grantpt(int);
+
+char *initstate(unsigned, char *, size_t);
+
+
+
+long jrand48(unsigned short[3]) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
+char *l64a(long);
+void lcong48(unsigned short[7]);
+long lrand48(void) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
+char *mktemp(char *);
+int mkstemp(char *);
+long mrand48(void) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
+long nrand48(unsigned short[3]) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
+int posix_openpt(int);
+char *ptsname(int);
+int putenv(char *) __asm("_" "putenv" );
+long random(void) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
+int rand_r(unsigned *) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
+
+char *realpath(const char * restrict, char * restrict) __asm("_" "realpath" "$DARWIN_EXTSN");
+
+
+
+unsigned short
+ *seed48(unsigned short[3]);
+int setenv(const char * __name, const char * __value, int __overwrite) __asm("_" "setenv" );
+
+void setkey(const char *) __asm("_" "setkey" );
+
+
+
+char *setstate(const char *);
+void srand48(long);
+
+void srandom(unsigned);
+
+
+
+int unlockpt(int);
+
+int unsetenv(const char *) __asm("_" "unsetenv" );
+
+
+
+
+
+
+
+typedef unsigned char u_int8_t;
+typedef unsigned short u_int16_t;
+typedef unsigned int u_int32_t;
+typedef unsigned long long u_int64_t;
+
+
+typedef int64_t register_t;
+typedef u_int64_t user_addr_t;
+typedef u_int64_t user_size_t;
+typedef int64_t user_ssize_t;
+typedef int64_t user_long_t;
+typedef u_int64_t user_ulong_t;
+typedef int64_t user_time_t;
+typedef int64_t user_off_t;
+
+
+
+
+
+
+
+typedef u_int64_t syscall_arg_t;
+
+typedef __darwin_dev_t dev_t;
+typedef __darwin_mode_t mode_t;
+
+
+uint32_t arc4random(void);
+void arc4random_addrandom(unsigned char * , int )
+    __attribute__((availability(macosx,introduced=10.0))) __attribute__((availability(macosx,deprecated=10.12,message="use arc4random_stir")))
+    __attribute__((availability(ios,introduced=2.0))) __attribute__((availability(ios,deprecated=10.0,message="use arc4random_stir")))
+    __attribute__((availability(tvos,introduced=2.0))) __attribute__((availability(tvos,deprecated=10.0,message="use arc4random_stir")))
+    __attribute__((availability(watchos,introduced=1.0))) __attribute__((availability(watchos,deprecated=3.0,message="use arc4random_stir")));
+void arc4random_buf(void * __buf, size_t __nbytes) __attribute__((availability(macosx,introduced=10.7)));
+void arc4random_stir(void);
+uint32_t
+  arc4random_uniform(uint32_t __upper_bound) __attribute__((availability(macosx,introduced=10.7)));
+
+// int atexit_b(void (^ _Nonnull)(void)) __attribute__((availability(macosx,introduced=10.6)));
+// void *bsearch_b(const void *__key, const void *__base, size_t __nel,
+//      size_t __width, int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
+
+
+
+char *cgetcap(char *, const char *, int);
+int cgetclose(void);
+int cgetent(char **, char **, const char *);
+int cgetfirst(char **, char **);
+int cgetmatch(const char *, const char *);
+int cgetnext(char **, char **);
+int cgetnum(char *, const char *, long *);
+int cgetset(const char *);
+int cgetstr(char *, const char *, char **);
+int cgetustr(char *, const char *, char **);
+
+int daemon(int, int) __asm("_" "daemon" "$1050") __attribute__((availability(macosx,introduced=10.0,deprecated=10.5,message="Use posix_spawn APIs instead."))) __attribute__((availability(watchos,unavailable))) __attribute__((availability(tvos,unavailable)));
+char *devname(dev_t, mode_t);
+char *devname_r(dev_t, mode_t, char *buf, int len);
+char *getbsize(int *, long *);
+int getloadavg(double [], int);
+const char
+ *getprogname(void);
+
+// int heapsort(void *__base, size_t __nel, size_t __width,
+//      int (* _Nonnull __compar)(const void *, const void *));
+
+// int heapsort_b(void *__base, size_t __nel, size_t __width,
+//      int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
+
+// int mergesort(void *__base, size_t __nel, size_t __width,
+//      int (* _Nonnull __compar)(const void *, const void *));
+
+// int mergesort_b(void *__base, size_t __nel, size_t __width,
+//      int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
+
+// void psort(void *__base, size_t __nel, size_t __width,
+//      int (* _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
+
+// void psort_b(void *__base, size_t __nel, size_t __width,
+//      int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
+
+// void psort_r(void *__base, size_t __nel, size_t __width, void *,
+//      int (* _Nonnull __compar)(void *, const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
+
+// void qsort_b(void *__base, size_t __nel, size_t __width,
+//      int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
+
+// void qsort_r(void *__base, size_t __nel, size_t __width, void *,
+//      int (* _Nonnull __compar)(void *, const void *, const void *));
+int radixsort(const unsigned char **__base, int __nel, const unsigned char *__table,
+     unsigned __endbyte);
+void setprogname(const char *);
+int sradixsort(const unsigned char **__base, int __nel, const unsigned char *__table,
+     unsigned __endbyte);
+void sranddev(void);
+void srandomdev(void);
+void *reallocf(void *__ptr, size_t __size);
+
+long long
+  strtoq(const char *__str, char **__endptr, int __base);
+unsigned long long
+  strtouq(const char *__str, char **__endptr, int __base);
+
+extern char *suboptarg;
+void *valloc(size_t);
+
+
+
+
+
+typedef long int ptrdiff_t;
+typedef long unsigned int rsize_t;
+typedef long double max_align_t;
+typedef struct vector_t
+ {
+
+     void * items;
+
+
+     size_t capacity;
+
+
+     size_t size;
+
+
+     size_t item_size;
+} vector_t;
+  vector_t *
+  vector_new( size_t item_size );
+  void
+  vector_delete( vector_t *self );
+  const void *
+  vector_get( const vector_t *self,
+              size_t index );
+  const void *
+  vector_front( const vector_t *self );
+  const void *
+  vector_back( const vector_t *self );
+  int
+  vector_contains( const vector_t *self,
+                   const void *item,
+                   int (*cmp)(const void *, const void *) );
+  int
+  vector_empty( const vector_t *self );
+  size_t
+  vector_size( const vector_t *self );
+  void
+  vector_reserve( vector_t *self,
+                  const size_t size );
+  size_t
+  vector_capacity( const vector_t *self );
+
+
+
+
+
+
+
+  void
+  vector_shrink( vector_t *self );
+
+
+
+
+
+
+
+  void
+  vector_clear( vector_t *self );
+  void
+  vector_set( vector_t *self,
+              const size_t index,
+              const void *item );
+  void
+  vector_erase( vector_t *self,
+                const size_t index );
+  void
+  vector_erase_range( vector_t *self,
+                      const size_t first,
+                      const size_t last );
+  void
+  vector_push_back( vector_t *self,
+                    const void *item );
+
+
+
+
+
+
+
+  void
+  vector_pop_back( vector_t *self );
+  void
+  vector_resize( vector_t *self,
+                 const size_t size );
+  void
+  vector_insert( vector_t *self,
+                 const size_t index,
+                 const void *item );
+  void
+  vector_insert_data( vector_t *self,
+                      const size_t index,
+                      const void * data,
+                      const size_t count );
+  void
+  vector_push_back_data( vector_t *self,
+                         const void * data,
+                         const size_t count );
+  void
+  vector_sort( vector_t *self,
+               int (*cmp)(const void *, const void *) );
+typedef union
+{
+ int data[4];
+ struct {
+        int x;
+        int y;
+        int z;
+        int w;
+    };
+ struct {
+        int x_;
+        int y_;
+        int width;
+        int height;
+    };
+ struct {
+        int r;
+        int g;
+        int b;
+        int a;
+    };
+ struct {
+        int red;
+        int green;
+        int blue;
+        int alpha;
+    };
+ struct {
+        int vstart;
+        int vcount;
+        int istart;
+        int icount;
+    };
+} ivec4;
+typedef union
+{
+ int data[3];
+ struct {
+        int x;
+        int y;
+        int z;
+    };
+ struct {
+        int r;
+        int g;
+        int b;
+    };
+ struct {
+        int red;
+        int green;
+        int blue;
+    };
+} ivec3;
+typedef union
+{
+ int data[2];
+ struct {
+        int x;
+        int y;
+    };
+ struct {
+        int s;
+        int t;
+    };
+ struct {
+        int start;
+        int end;
+    };
+} ivec2;
+typedef union
+{
+ float data[4];
+ struct {
+        float x;
+        float y;
+        float z;
+        float w;
+    };
+ struct {
+        float left;
+        float top;
+        float width;
+        float height;
+    };
+ struct {
+        float r;
+        float g;
+        float b;
+        float a;
+    };
+ struct {
+        float red;
+        float green;
+        float blue;
+        float alpha;
+    };
+} vec4;
+typedef union
+{
+ float data[3];
+ struct {
+        float x;
+        float y;
+        float z;
+    };
+ struct {
+        float r;
+        float g;
+        float b;
+    };
+ struct {
+        float red;
+        float green;
+        float blue;
+    };
+} vec3;
+typedef union
+{
+ float data[2];
+ struct {
+        float x;
+        float y;
+    };
+ struct {
+        float s;
+        float t;
+    };
+} vec2;
+typedef struct texture_atlas_t
+{
+
+
+
+    vector_t * nodes;
+
+
+
+
+    size_t width;
+
+
+
+
+    size_t height;
+
+
+
+
+    size_t depth;
+
+
+
+
+    size_t used;
+
+
+
+
+    unsigned int id;
+
+
+
+
+    unsigned char * data;
+
+} texture_atlas_t;
+  texture_atlas_t *
+  texture_atlas_new( const size_t width,
+                     const size_t height,
+                     const size_t depth );
+  void
+  texture_atlas_delete( texture_atlas_t * self );
+  ivec4
+  texture_atlas_get_region( texture_atlas_t * self,
+                            const size_t width,
+                            const size_t height );
+  void
+  texture_atlas_set_region( texture_atlas_t * self,
+                            const size_t x,
+                            const size_t y,
+                            const size_t width,
+                            const size_t height,
+                            const unsigned char *data,
+                            const size_t stride );
+
+
+
+
+
+
+  void
+  texture_atlas_clear( texture_atlas_t * self );
+typedef enum rendermode_t
+{
+    RENDER_NORMAL,
+    RENDER_OUTLINE_EDGE,
+    RENDER_OUTLINE_POSITIVE,
+    RENDER_OUTLINE_NEGATIVE,
+    RENDER_SIGNED_DISTANCE_FIELD
+} rendermode_t;
+typedef struct kerning_t
+{
+
+
+
+    uint32_t codepoint;
+
+
+
+
+    float kerning;
+
+} kerning_t;
+typedef struct texture_glyph_t
+{
+
+
+
+    uint32_t codepoint;
+
+
+
+
+    size_t width;
+
+
+
+
+    size_t height;
+
+
+
+
+    int offset_x;
+
+
+
+
+
+
+
+    int offset_y;
+
+
+
+
+
+
+    float advance_x;
+
+
+
+
+
+
+    float advance_y;
+
+
+
+
+    float s0;
+
+
+
+
+    float t0;
+
+
+
+
+    float s1;
+
+
+
+
+    float t1;
+
+
+
+
+    vector_t * kerning;
+
+
+
+
+    rendermode_t rendermode;
+
+
+
+
+    float outline_thickness;
+
+} texture_glyph_t;
+
+
+
+
+
+
+typedef struct texture_font_t
+{
+
+
+
+    vector_t * glyphs;
+
+
+
+
+    texture_atlas_t * atlas;
+
+
+
+
+    enum {
+        TEXTURE_FONT_FILE = 0,
+        TEXTURE_FONT_MEMORY,
+    } location;
+
+    union {
+
+
+
+        char *filename;
+
+
+
+
+        struct {
+            const void *base;
+            size_t size;
+        } memory;
+    };
+
+
+
+
+    float size;
+
+
+
+
+    int hinting;
+
+
+
+
+    rendermode_t rendermode;
+
+
+
+
+    float outline_thickness;
+
+
+
+
+    int filtering;
+
+
+
+
+    unsigned char lcd_weights[5];
+
+
+
+
+    int kerning;
+    float height;
+
+
+
+
+
+
+    float linegap;
+    float ascender;
+    float descender;
+
+
+
+
+
+    float underline_position;
+
+
+
+
+
+    float underline_thickness;
+
+} texture_font_t;
+  texture_font_t *
+  texture_font_new_from_file( texture_atlas_t * atlas,
+                              const float pt_size,
+                              const char * filename );
+  texture_font_t *
+  texture_font_new_from_memory( texture_atlas_t *atlas,
+                                float pt_size,
+                                const void *memory_base,
+                                size_t memory_size );
+
+
+
+
+
+
+
+  void
+  texture_font_delete( texture_font_t * self );
+  texture_glyph_t *
+  texture_font_get_glyph( texture_font_t * self,
+                          const char * codepoint );
+  int
+  texture_font_load_glyph( texture_font_t * self,
+                           const char * codepoint );
+  size_t
+  texture_font_load_glyphs( texture_font_t * self,
+                            const char * codepoints );
+float
+texture_glyph_get_kerning( const texture_glyph_t * self,
+                           const char * codepoint );
+
+
+
+
+
+
+
+texture_glyph_t *
+texture_glyph_new( void );
+typedef struct markup_t
+{
+
+
+
+    char * family;
+
+
+
+
+    float size;
+
+
+
+
+    int bold;
+
+
+
+
+    int italic;
+
+
+
+
+    float spacing;
+
+
+
+
+    float gamma;
+
+
+
+
+    vec4 foreground_color;
+
+
+
+
+    vec4 background_color;
+
+
+
+
+    int outline;
+
+
+
+
+    vec4 outline_color;
+
+
+
+
+    int underline;
+
+
+
+
+    vec4 underline_color;
+
+
+
+
+    int overline;
+
+
+
+
+    vec4 overline_color;
+
+
+
+
+    int strikethrough;
+
+
+
+
+    vec4 strikethrough_color;
+
+
+
+
+    texture_font_t * font;
+
+} markup_t;
+
+
+
+
+extern markup_t default_markup;
+typedef struct font_manager_t {
+
+
+
+    texture_atlas_t * atlas;
+
+
+
+
+    vector_t * fonts;
+
+
+
+
+    char * cache;
+
+} font_manager_t;
+  font_manager_t *
+  font_manager_new( size_t width,
+                    size_t height,
+                    size_t depth );
+
+
+
+
+
+
+
+  void
+  font_manager_delete( font_manager_t *self );
+  void
+  font_manager_delete_font( font_manager_t * self,
+                            texture_font_t * font );
+  texture_font_t *
+  font_manager_get_from_filename( font_manager_t * self,
+                                  const char * filename,
+                                  const float size );
+  texture_font_t *
+  font_manager_get_from_description( font_manager_t * self,
+                                     const char * family,
+                                     const float size,
+                                     const int bold,
+                                     const int italic );
+  texture_font_t *
+  font_manager_get_from_markup( font_manager_t *self,
+                                const markup_t *markup );
+  char *
+  font_manager_match_description( font_manager_t * self,
+                                  const char * family,
+                                  const float size,
+                                  const int bold,
+                                  const int italic );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 typedef uint32_t GLbitfield;
 typedef uint8_t GLboolean;
@@ -1362,1666 +3048,7 @@ extern void glUniformMatrix2x4fv (GLint location, GLsizei count, GLboolean trans
 extern void glUniformMatrix4x2fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 extern void glUniformMatrix3x4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
 extern void glUniformMatrix4x3fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef union
-{
- int data[4];
- struct {
-        int x;
-        int y;
-        int z;
-        int w;
-    };
- struct {
-        int x_;
-        int y_;
-        int width;
-        int height;
-    };
- struct {
-        int r;
-        int g;
-        int b;
-        int a;
-    };
- struct {
-        int red;
-        int green;
-        int blue;
-        int alpha;
-    };
- struct {
-        int vstart;
-        int vcount;
-        int istart;
-        int icount;
-    };
-} ivec4;
-typedef union
-{
- int data[3];
- struct {
-        int x;
-        int y;
-        int z;
-    };
- struct {
-        int r;
-        int g;
-        int b;
-    };
- struct {
-        int red;
-        int green;
-        int blue;
-    };
-} ivec3;
-typedef union
-{
- int data[2];
- struct {
-        int x;
-        int y;
-    };
- struct {
-        int s;
-        int t;
-    };
- struct {
-        int start;
-        int end;
-    };
-} ivec2;
-typedef union
-{
- float data[4];
- struct {
-        float x;
-        float y;
-        float z;
-        float w;
-    };
- struct {
-        float left;
-        float top;
-        float width;
-        float height;
-    };
- struct {
-        float r;
-        float g;
-        float b;
-        float a;
-    };
- struct {
-        float red;
-        float green;
-        float blue;
-        float alpha;
-    };
-} vec4;
-typedef union
-{
- float data[3];
- struct {
-        float x;
-        float y;
-        float z;
-    };
- struct {
-        float r;
-        float g;
-        float b;
-    };
- struct {
-        float red;
-        float green;
-        float blue;
-    };
-} vec3;
-typedef union
-{
- float data[2];
- struct {
-        float x;
-        float y;
-    };
- struct {
-        float s;
-        float t;
-    };
-} vec2;
-
-
-
-
-
-
-
-
-
-typedef int __darwin_nl_item;
-typedef int __darwin_wctrans_t;
-
-typedef __uint32_t __darwin_wctype_t;
-
-// typedef enum {
-//  P_ALL,
-//  P_PID,
-//  P_PGID
-// } idtype_t;
-
-
-
-
-
-
-typedef __darwin_pid_t pid_t;
-typedef __darwin_id_t id_t;
-
-
-
-
-
-
-
-
-typedef int sig_atomic_t;
-// struct __darwin_i386_thread_state
-// {
-//     unsigned int __eax;
-//     unsigned int __ebx;
-//     unsigned int __ecx;
-//     unsigned int __edx;
-//     unsigned int __edi;
-//     unsigned int __esi;
-//     unsigned int __ebp;
-//     unsigned int __esp;
-//     unsigned int __ss;
-//     unsigned int __eflags;
-//     unsigned int __eip;
-//     unsigned int __cs;
-//     unsigned int __ds;
-//     unsigned int __es;
-//     unsigned int __fs;
-//     unsigned int __gs;
-// };
-// struct __darwin_fp_control
-// {
-//     unsigned short __invalid :1,
-//         __denorm :1,
-//     __zdiv :1,
-//     __ovrfl :1,
-//     __undfl :1,
-//     __precis :1,
-//       :2,
-//     __pc :2,
-//
-//
-//
-//
-//
-//     __rc :2,
-//
-//
-//
-//
-//
-//
-//              :1,
-//       :3;
-// };
-typedef struct __darwin_fp_control __darwin_fp_control_t;
-// struct __darwin_fp_status
-// {
-//     unsigned short __invalid :1,
-//         __denorm :1,
-//     __zdiv :1,
-//     __ovrfl :1,
-//     __undfl :1,
-//     __precis :1,
-//     __stkflt :1,
-//     __errsumm :1,
-//     __c0 :1,
-//     __c1 :1,
-//     __c2 :1,
-//     __tos :3,
-//     __c3 :1,
-//     __busy :1;
-// };
-typedef struct __darwin_fp_status __darwin_fp_status_t;
-// struct __darwin_mmst_reg
-// {
-//  char __mmst_reg[10];
-//  char __mmst_rsrv[6];
-// };
-// struct __darwin_xmm_reg
-// {
-//  char __xmm_reg[16];
-// };
-// struct __darwin_i386_float_state
-// {
-//  int __fpu_reserved[2];
-//  struct __darwin_fp_control __fpu_fcw;
-//  struct __darwin_fp_status __fpu_fsw;
-//  __uint8_t __fpu_ftw;
-//  __uint8_t __fpu_rsrv1;
-//  __uint16_t __fpu_fop;
-//  __uint32_t __fpu_ip;
-//  __uint16_t __fpu_cs;
-//  __uint16_t __fpu_rsrv2;
-//  __uint32_t __fpu_dp;
-//  __uint16_t __fpu_ds;
-//  __uint16_t __fpu_rsrv3;
-//  __uint32_t __fpu_mxcsr;
-//  __uint32_t __fpu_mxcsrmask;
-//  struct __darwin_mmst_reg __fpu_stmm0;
-//  struct __darwin_mmst_reg __fpu_stmm1;
-//  struct __darwin_mmst_reg __fpu_stmm2;
-//  struct __darwin_mmst_reg __fpu_stmm3;
-//  struct __darwin_mmst_reg __fpu_stmm4;
-//  struct __darwin_mmst_reg __fpu_stmm5;
-//  struct __darwin_mmst_reg __fpu_stmm6;
-//  struct __darwin_mmst_reg __fpu_stmm7;
-//  struct __darwin_xmm_reg __fpu_xmm0;
-//  struct __darwin_xmm_reg __fpu_xmm1;
-//  struct __darwin_xmm_reg __fpu_xmm2;
-//  struct __darwin_xmm_reg __fpu_xmm3;
-//  struct __darwin_xmm_reg __fpu_xmm4;
-//  struct __darwin_xmm_reg __fpu_xmm5;
-//  struct __darwin_xmm_reg __fpu_xmm6;
-//  struct __darwin_xmm_reg __fpu_xmm7;
-//  char __fpu_rsrv4[14*16];
-//  int __fpu_reserved1;
-// };
-
-
-// struct __darwin_i386_avx_state
-// {
-//  int __fpu_reserved[2];
-//  struct __darwin_fp_control __fpu_fcw;
-//  struct __darwin_fp_status __fpu_fsw;
-//  __uint8_t __fpu_ftw;
-//  __uint8_t __fpu_rsrv1;
-//  __uint16_t __fpu_fop;
-//  __uint32_t __fpu_ip;
-//  __uint16_t __fpu_cs;
-//  __uint16_t __fpu_rsrv2;
-//  __uint32_t __fpu_dp;
-//  __uint16_t __fpu_ds;
-//  __uint16_t __fpu_rsrv3;
-//  __uint32_t __fpu_mxcsr;
-//  __uint32_t __fpu_mxcsrmask;
-//  struct __darwin_mmst_reg __fpu_stmm0;
-//  struct __darwin_mmst_reg __fpu_stmm1;
-//  struct __darwin_mmst_reg __fpu_stmm2;
-//  struct __darwin_mmst_reg __fpu_stmm3;
-//  struct __darwin_mmst_reg __fpu_stmm4;
-//  struct __darwin_mmst_reg __fpu_stmm5;
-//  struct __darwin_mmst_reg __fpu_stmm6;
-//  struct __darwin_mmst_reg __fpu_stmm7;
-//  struct __darwin_xmm_reg __fpu_xmm0;
-//  struct __darwin_xmm_reg __fpu_xmm1;
-//  struct __darwin_xmm_reg __fpu_xmm2;
-//  struct __darwin_xmm_reg __fpu_xmm3;
-//  struct __darwin_xmm_reg __fpu_xmm4;
-//  struct __darwin_xmm_reg __fpu_xmm5;
-//  struct __darwin_xmm_reg __fpu_xmm6;
-//  struct __darwin_xmm_reg __fpu_xmm7;
-//  char __fpu_rsrv4[14*16];
-//  int __fpu_reserved1;
-//  char __avx_reserved1[64];
-//  struct __darwin_xmm_reg __fpu_ymmh0;
-//  struct __darwin_xmm_reg __fpu_ymmh1;
-//  struct __darwin_xmm_reg __fpu_ymmh2;
-//  struct __darwin_xmm_reg __fpu_ymmh3;
-//  struct __darwin_xmm_reg __fpu_ymmh4;
-//  struct __darwin_xmm_reg __fpu_ymmh5;
-//  struct __darwin_xmm_reg __fpu_ymmh6;
-//  struct __darwin_xmm_reg __fpu_ymmh7;
-// };
-// struct __darwin_i386_exception_state
-// {
-//  __uint16_t __trapno;
-//  __uint16_t __cpu;
-//  __uint32_t __err;
-//  __uint32_t __faultvaddr;
-// };
-// struct __darwin_x86_debug_state32
-// {
-//  unsigned int __dr0;
-//  unsigned int __dr1;
-//  unsigned int __dr2;
-//  unsigned int __dr3;
-//  unsigned int __dr4;
-//  unsigned int __dr5;
-//  unsigned int __dr6;
-//  unsigned int __dr7;
-// };
-// struct __darwin_x86_thread_state64
-// {
-//  __uint64_t __rax;
-//  __uint64_t __rbx;
-//  __uint64_t __rcx;
-//  __uint64_t __rdx;
-//  __uint64_t __rdi;
-//  __uint64_t __rsi;
-//  __uint64_t __rbp;
-//  __uint64_t __rsp;
-//  __uint64_t __r8;
-//  __uint64_t __r9;
-//  __uint64_t __r10;
-//  __uint64_t __r11;
-//  __uint64_t __r12;
-//  __uint64_t __r13;
-//  __uint64_t __r14;
-//  __uint64_t __r15;
-//  __uint64_t __rip;
-//  __uint64_t __rflags;
-//  __uint64_t __cs;
-//  __uint64_t __fs;
-//  __uint64_t __gs;
-// };
-// struct __darwin_x86_float_state64
-// {
-//  int __fpu_reserved[2];
-//  struct __darwin_fp_control __fpu_fcw;
-//  struct __darwin_fp_status __fpu_fsw;
-//  __uint8_t __fpu_ftw;
-//  __uint8_t __fpu_rsrv1;
-//  __uint16_t __fpu_fop;
-//
-//
-//  __uint32_t __fpu_ip;
-//  __uint16_t __fpu_cs;
-//
-//  __uint16_t __fpu_rsrv2;
-//
-//
-//  __uint32_t __fpu_dp;
-//  __uint16_t __fpu_ds;
-//
-//  __uint16_t __fpu_rsrv3;
-//  __uint32_t __fpu_mxcsr;
-//  __uint32_t __fpu_mxcsrmask;
-//  struct __darwin_mmst_reg __fpu_stmm0;
-//  struct __darwin_mmst_reg __fpu_stmm1;
-//  struct __darwin_mmst_reg __fpu_stmm2;
-//  struct __darwin_mmst_reg __fpu_stmm3;
-//  struct __darwin_mmst_reg __fpu_stmm4;
-//  struct __darwin_mmst_reg __fpu_stmm5;
-//  struct __darwin_mmst_reg __fpu_stmm6;
-//  struct __darwin_mmst_reg __fpu_stmm7;
-//  struct __darwin_xmm_reg __fpu_xmm0;
-//  struct __darwin_xmm_reg __fpu_xmm1;
-//  struct __darwin_xmm_reg __fpu_xmm2;
-//  struct __darwin_xmm_reg __fpu_xmm3;
-//  struct __darwin_xmm_reg __fpu_xmm4;
-//  struct __darwin_xmm_reg __fpu_xmm5;
-//  struct __darwin_xmm_reg __fpu_xmm6;
-//  struct __darwin_xmm_reg __fpu_xmm7;
-//  struct __darwin_xmm_reg __fpu_xmm8;
-//  struct __darwin_xmm_reg __fpu_xmm9;
-//  struct __darwin_xmm_reg __fpu_xmm10;
-//  struct __darwin_xmm_reg __fpu_xmm11;
-//  struct __darwin_xmm_reg __fpu_xmm12;
-//  struct __darwin_xmm_reg __fpu_xmm13;
-//  struct __darwin_xmm_reg __fpu_xmm14;
-//  struct __darwin_xmm_reg __fpu_xmm15;
-//  char __fpu_rsrv4[6*16];
-//  int __fpu_reserved1;
-// };
-
-
-// struct __darwin_x86_avx_state64
-// {
-//  int __fpu_reserved[2];
-//  struct __darwin_fp_control __fpu_fcw;
-//  struct __darwin_fp_status __fpu_fsw;
-//  __uint8_t __fpu_ftw;
-//  __uint8_t __fpu_rsrv1;
-//  __uint16_t __fpu_fop;
-//
-//
-//  __uint32_t __fpu_ip;
-//  __uint16_t __fpu_cs;
-//
-//  __uint16_t __fpu_rsrv2;
-//
-//
-//  __uint32_t __fpu_dp;
-//  __uint16_t __fpu_ds;
-//
-//  __uint16_t __fpu_rsrv3;
-//  __uint32_t __fpu_mxcsr;
-//  __uint32_t __fpu_mxcsrmask;
-//  struct __darwin_mmst_reg __fpu_stmm0;
-//  struct __darwin_mmst_reg __fpu_stmm1;
-//  struct __darwin_mmst_reg __fpu_stmm2;
-//  struct __darwin_mmst_reg __fpu_stmm3;
-//  struct __darwin_mmst_reg __fpu_stmm4;
-//  struct __darwin_mmst_reg __fpu_stmm5;
-//  struct __darwin_mmst_reg __fpu_stmm6;
-//  struct __darwin_mmst_reg __fpu_stmm7;
-//  struct __darwin_xmm_reg __fpu_xmm0;
-//  struct __darwin_xmm_reg __fpu_xmm1;
-//  struct __darwin_xmm_reg __fpu_xmm2;
-//  struct __darwin_xmm_reg __fpu_xmm3;
-//  struct __darwin_xmm_reg __fpu_xmm4;
-//  struct __darwin_xmm_reg __fpu_xmm5;
-//  struct __darwin_xmm_reg __fpu_xmm6;
-//  struct __darwin_xmm_reg __fpu_xmm7;
-//  struct __darwin_xmm_reg __fpu_xmm8;
-//  struct __darwin_xmm_reg __fpu_xmm9;
-//  struct __darwin_xmm_reg __fpu_xmm10;
-//  struct __darwin_xmm_reg __fpu_xmm11;
-//  struct __darwin_xmm_reg __fpu_xmm12;
-//  struct __darwin_xmm_reg __fpu_xmm13;
-//  struct __darwin_xmm_reg __fpu_xmm14;
-//  struct __darwin_xmm_reg __fpu_xmm15;
-//  char __fpu_rsrv4[6*16];
-//  int __fpu_reserved1;
-//  char __avx_reserved1[64];
-//  struct __darwin_xmm_reg __fpu_ymmh0;
-//  struct __darwin_xmm_reg __fpu_ymmh1;
-//  struct __darwin_xmm_reg __fpu_ymmh2;
-//  struct __darwin_xmm_reg __fpu_ymmh3;
-//  struct __darwin_xmm_reg __fpu_ymmh4;
-//  struct __darwin_xmm_reg __fpu_ymmh5;
-//  struct __darwin_xmm_reg __fpu_ymmh6;
-//  struct __darwin_xmm_reg __fpu_ymmh7;
-//  struct __darwin_xmm_reg __fpu_ymmh8;
-//  struct __darwin_xmm_reg __fpu_ymmh9;
-//  struct __darwin_xmm_reg __fpu_ymmh10;
-//  struct __darwin_xmm_reg __fpu_ymmh11;
-//  struct __darwin_xmm_reg __fpu_ymmh12;
-//  struct __darwin_xmm_reg __fpu_ymmh13;
-//  struct __darwin_xmm_reg __fpu_ymmh14;
-//  struct __darwin_xmm_reg __fpu_ymmh15;
-// };
-// struct __darwin_x86_exception_state64
-// {
-//     __uint16_t __trapno;
-//     __uint16_t __cpu;
-//     __uint32_t __err;
-//     __uint64_t __faultvaddr;
-// };
-// struct __darwin_x86_debug_state64
-// {
-//  __uint64_t __dr0;
-//  __uint64_t __dr1;
-//  __uint64_t __dr2;
-//  __uint64_t __dr3;
-//  __uint64_t __dr4;
-//  __uint64_t __dr5;
-//  __uint64_t __dr6;
-//  __uint64_t __dr7;
-// };
-
-
-
-
-// struct __darwin_mcontext32
-// {
-//  struct __darwin_i386_exception_state __es;
-//  struct __darwin_i386_thread_state __ss;
-//  struct __darwin_i386_float_state __fs;
-// };
-
-
-// struct __darwin_mcontext_avx32
-// {
-//  struct __darwin_i386_exception_state __es;
-//  struct __darwin_i386_thread_state __ss;
-//  struct __darwin_i386_avx_state __fs;
-// };
-// struct __darwin_mcontext64
-// {
-//  struct __darwin_x86_exception_state64 __es;
-//  struct __darwin_x86_thread_state64 __ss;
-//  struct __darwin_x86_float_state64 __fs;
-// };
-
-
-// struct __darwin_mcontext_avx64
-// {
-//  struct __darwin_x86_exception_state64 __es;
-//  struct __darwin_x86_thread_state64 __ss;
-//  struct __darwin_x86_avx_state64 __fs;
-// };
-typedef struct __darwin_mcontext64 *mcontext_t;
-
-typedef __darwin_pthread_attr_t pthread_attr_t;
-
-// struct __darwin_sigaltstack
-// {
-//  void *ss_sp;
-//  __darwin_size_t ss_size;
-//  int ss_flags;
-// };
-typedef struct __darwin_sigaltstack stack_t;
-// struct __darwin_ucontext
-// {
-//  int uc_onstack;
-//  __darwin_sigset_t uc_sigmask;
-//  struct __darwin_sigaltstack uc_stack;
-//  struct __darwin_ucontext *uc_link;
-//  __darwin_size_t uc_mcsize;
-//  struct __darwin_mcontext64 *uc_mcontext;
-//
-//
-//
-// };
-
-
-typedef struct __darwin_ucontext ucontext_t;
-
-
-typedef __darwin_sigset_t sigset_t;
-typedef __darwin_size_t size_t;
-typedef __darwin_uid_t uid_t;
-
-// union sigval {
-//
-//  int sival_int;
-//  void *sival_ptr;
-// };
-
-
-
-
-
-// struct sigevent {
-//  int sigev_notify;
-//  int sigev_signo;
-//  union sigval sigev_value;
-//  void (*sigev_notify_function)(union sigval);
-//  pthread_attr_t *sigev_notify_attributes;
-// };
-
-
-// typedef struct __siginfo {
-//  int si_signo;
-//  int si_errno;
-//  int si_code;
-//  pid_t si_pid;
-//  uid_t si_uid;
-//  int si_status;
-//  void *si_addr;
-//  union sigval si_value;
-//  long si_band;
-//  unsigned long __pad[7];
-// } siginfo_t;
-// union __sigaction_u {
-//  void (*__sa_handler)(int);
-//  void (*__sa_sigaction)(int, struct __siginfo *,
-//          void *);
-// };
-
-
-// struct __sigaction {
-//  union __sigaction_u __sigaction_u;
-//  void (*sa_tramp)(void *, int, int, siginfo_t *, void *);
-//  sigset_t sa_mask;
-//  int sa_flags;
-// };
-
-
-
-
-// struct sigaction {
-//  union __sigaction_u __sigaction_u;
-//  sigset_t sa_mask;
-//  int sa_flags;
-// };
-typedef void (*sig_t)(int);
-// struct sigvec {
-//  void (*sv_handler)(int);
-//  int sv_mask;
-//  int sv_flags;
-// };
-// struct sigstack {
-//  char *ss_sp;
-//  int ss_onstack;
-// };
-void (*signal(int, void (*)(int)))(int);
-// struct timeval
-// {
-//  __darwin_time_t tv_sec;
-//  __darwin_suseconds_t tv_usec;
-// };
-
-
-
-
-
-
-
-
-typedef __uint64_t rlim_t;
-// struct rusage {
-//  struct timeval ru_utime;
-//  struct timeval ru_stime;
-//  long ru_maxrss;
-//
-//  long ru_ixrss;
-//  long ru_idrss;
-//  long ru_isrss;
-//  long ru_minflt;
-//  long ru_majflt;
-//  long ru_nswap;
-//  long ru_inblock;
-//  long ru_oublock;
-//  long ru_msgsnd;
-//  long ru_msgrcv;
-//  long ru_nsignals;
-//  long ru_nvcsw;
-//  long ru_nivcsw;
-//
-//
-// };
-typedef void *rusage_info_t;
-
-// struct rusage_info_v0 {
-//  uint8_t ri_uuid[16];
-//  uint64_t ri_user_time;
-//  uint64_t ri_system_time;
-//  uint64_t ri_pkg_idle_wkups;
-//  uint64_t ri_interrupt_wkups;
-//  uint64_t ri_pageins;
-//  uint64_t ri_wired_size;
-//  uint64_t ri_resident_size;
-//  uint64_t ri_phys_footprint;
-//  uint64_t ri_proc_start_abstime;
-//  uint64_t ri_proc_exit_abstime;
-// };
-
-// struct rusage_info_v1 {
-//  uint8_t ri_uuid[16];
-//  uint64_t ri_user_time;
-//  uint64_t ri_system_time;
-//  uint64_t ri_pkg_idle_wkups;
-//  uint64_t ri_interrupt_wkups;
-//  uint64_t ri_pageins;
-//  uint64_t ri_wired_size;
-//  uint64_t ri_resident_size;
-//  uint64_t ri_phys_footprint;
-//  uint64_t ri_proc_start_abstime;
-//  uint64_t ri_proc_exit_abstime;
-//  uint64_t ri_child_user_time;
-//  uint64_t ri_child_system_time;
-//  uint64_t ri_child_pkg_idle_wkups;
-//  uint64_t ri_child_interrupt_wkups;
-//  uint64_t ri_child_pageins;
-//  uint64_t ri_child_elapsed_abstime;
-// };
-
-// struct rusage_info_v2 {
-//  uint8_t ri_uuid[16];
-//  uint64_t ri_user_time;
-//  uint64_t ri_system_time;
-//  uint64_t ri_pkg_idle_wkups;
-//  uint64_t ri_interrupt_wkups;
-//  uint64_t ri_pageins;
-//  uint64_t ri_wired_size;
-//  uint64_t ri_resident_size;
-//  uint64_t ri_phys_footprint;
-//  uint64_t ri_proc_start_abstime;
-//  uint64_t ri_proc_exit_abstime;
-//  uint64_t ri_child_user_time;
-//  uint64_t ri_child_system_time;
-//  uint64_t ri_child_pkg_idle_wkups;
-//  uint64_t ri_child_interrupt_wkups;
-//  uint64_t ri_child_pageins;
-//  uint64_t ri_child_elapsed_abstime;
-//  uint64_t ri_diskio_bytesread;
-//  uint64_t ri_diskio_byteswritten;
-// };
-
-// struct rusage_info_v3 {
-//  uint8_t ri_uuid[16];
-//  uint64_t ri_user_time;
-//  uint64_t ri_system_time;
-//  uint64_t ri_pkg_idle_wkups;
-//  uint64_t ri_interrupt_wkups;
-//  uint64_t ri_pageins;
-//  uint64_t ri_wired_size;
-//  uint64_t ri_resident_size;
-//  uint64_t ri_phys_footprint;
-//  uint64_t ri_proc_start_abstime;
-//  uint64_t ri_proc_exit_abstime;
-//  uint64_t ri_child_user_time;
-//  uint64_t ri_child_system_time;
-//  uint64_t ri_child_pkg_idle_wkups;
-//  uint64_t ri_child_interrupt_wkups;
-//  uint64_t ri_child_pageins;
-//  uint64_t ri_child_elapsed_abstime;
-//  uint64_t ri_diskio_bytesread;
-//  uint64_t ri_diskio_byteswritten;
-//  uint64_t ri_cpu_time_qos_default;
-//  uint64_t ri_cpu_time_qos_maintenance;
-//  uint64_t ri_cpu_time_qos_background;
-//  uint64_t ri_cpu_time_qos_utility;
-//  uint64_t ri_cpu_time_qos_legacy;
-//  uint64_t ri_cpu_time_qos_user_initiated;
-//  uint64_t ri_cpu_time_qos_user_interactive;
-//  uint64_t ri_billed_system_time;
-//  uint64_t ri_serviced_system_time;
-// };
-
-typedef struct rusage_info_v3 rusage_info_current;
-// struct rlimit {
-//  rlim_t rlim_cur;
-//  rlim_t rlim_max;
-// };
-// struct proc_rlimit_control_wakeupmon {
-//  uint32_t wm_flags;
-//  int32_t wm_rate;
-// };
-int getpriority(int, id_t);
-
-int getiopolicy_np(int, int) __attribute__((availability(macosx,introduced=10.5)));
-
-int getrlimit(int, struct rlimit *) __asm("_" "getrlimit" );
-int getrusage(int, struct rusage *);
-int setpriority(int, id_t, int);
-
-int setiopolicy_np(int, int, int) __attribute__((availability(macosx,introduced=10.5)));
-
-int setrlimit(int, const struct rlimit *) __asm("_" "setrlimit" );
-static inline
-__uint16_t
-_OSSwapInt16(
-    __uint16_t _data
-)
-{
-    return ((__uint16_t)((_data << 8) | (_data >> 8)));
-}
-
-static inline
-__uint32_t
-_OSSwapInt32(
-    __uint32_t _data
-)
-{
-
-    return __builtin_bswap32(_data);
-
-
-
-
-}
-
-
-static inline
-__uint64_t
-_OSSwapInt64(
-    __uint64_t _data
-)
-{
-    return __builtin_bswap64(_data);
-}
-
-
-
-
-
-
-
-// union wait {
-//  int w_status;
-//
-//
-//
-//  struct {
-//
-//   unsigned int w_Termsig:7,
-//     w_Coredump:1,
-//     w_Retcode:8,
-//     w_Filler:16;
-//
-//
-//
-//
-//
-//
-//
-//  } w_T;
-//
-//
-//
-//
-//
-//  struct {
-//
-//   unsigned int w_Stopval:8,
-//     w_Stopsig:8,
-//     w_Filler:16;
-//
-//
-//
-//
-//
-//
-//  } w_S;
-// };
-pid_t wait(int *) __asm("_" "wait" );
-pid_t waitpid(pid_t, int *, int) __asm("_" "waitpid" );
-
-int waitid(idtype_t, id_t, siginfo_t *, int) __asm("_" "waitid" );
-
-
-pid_t wait3(int *, int, struct rusage *);
-pid_t wait4(pid_t, int *, int, struct rusage *);
-
-void *alloca(size_t);
-
-
-
-
-
-
-
-
-typedef __darwin_ct_rune_t ct_rune_t;
-typedef __darwin_rune_t rune_t;
-
-
-typedef __darwin_wchar_t wchar_t;
-
-typedef struct {
- int quot;
- int rem;
-} div_t;
-
-typedef struct {
- long quot;
- long rem;
-} ldiv_t;
-
-
-typedef struct {
- long long quot;
- long long rem;
-} lldiv_t;
-
-
-
-extern int __mb_cur_max;
-void abort(void) __attribute__((noreturn));
-int abs(int) __attribute__((const));
-int atexit(void (* _Nonnull)(void));
-double atof(const char *);
-int atoi(const char *);
-long atol(const char *);
-
-long long
-  atoll(const char *);
-
-// void *bsearch(const void *__key, const void *__base, size_t __nel,
-//      size_t __width, int (* _Nonnull __compar)(const void *, const void *));
-void *calloc(size_t __count, size_t __size) __attribute__((__warn_unused_result__));
-div_t div(int, int) __attribute__((const));
-void exit(int) __attribute__((noreturn));
-void free(void *);
-char *getenv(const char *);
-long labs(long) __attribute__((const));
-ldiv_t ldiv(long, long) __attribute__((const));
-
-long long
-  llabs(long long);
-lldiv_t lldiv(long long, long long);
-
-void *malloc(size_t __size) __attribute__((__warn_unused_result__));
-int mblen(const char *__s, size_t __n);
-size_t mbstowcs(wchar_t * restrict , const char * restrict, size_t);
-int mbtowc(wchar_t * restrict, const char * restrict, size_t);
-int posix_memalign(void **__memptr, size_t __alignment, size_t __size) __attribute__((availability(macosx,introduced=10.6)));
-// void qsort(void *__base, size_t __nel, size_t __width,
-//      int (* _Nonnull __compar)(const void *, const void *));
-int rand(void) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
-void *realloc(void *__ptr, size_t __size) __attribute__((__warn_unused_result__));
-void srand(unsigned) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
-double strtod(const char *, char **) __asm("_" "strtod" );
-float strtof(const char *, char **) __asm("_" "strtof" );
-long strtol(const char *__str, char **__endptr, int __base);
-long double
-  strtold(const char *, char **);
-
-long long
-  strtoll(const char *__str, char **__endptr, int __base);
-
-unsigned long
-  strtoul(const char *__str, char **__endptr, int __base);
-
-unsigned long long
-  strtoull(const char *__str, char **__endptr, int __base);
-__attribute__((__availability__(swift, unavailable, message="Use posix_spawn APIs or NSTask instead.")))
-__attribute__((availability(macosx,introduced=10.0)))
-__attribute__((availability(watchos,unavailable))) __attribute__((availability(tvos,unavailable)))
-int system(const char *) __asm("_" "system" );
-
-
-
-size_t wcstombs(char * restrict, const wchar_t * restrict, size_t);
-int wctomb(char *, wchar_t);
-
-
-void _Exit(int) __attribute__((noreturn));
-long a64l(const char *);
-double drand48(void);
-char *ecvt(double, int, int *restrict, int *restrict);
-double erand48(unsigned short[3]);
-char *fcvt(double, int, int *restrict, int *restrict);
-char *gcvt(double, int, char *);
-int getsubopt(char **, char * const *, char **);
-int grantpt(int);
-
-char *initstate(unsigned, char *, size_t);
-
-
-
-long jrand48(unsigned short[3]) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
-char *l64a(long);
-void lcong48(unsigned short[7]);
-long lrand48(void) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
-char *mktemp(char *);
-int mkstemp(char *);
-long mrand48(void) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
-long nrand48(unsigned short[3]) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
-int posix_openpt(int);
-char *ptsname(int);
-int putenv(char *) __asm("_" "putenv" );
-long random(void) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
-int rand_r(unsigned *) __attribute__((__availability__(swift, unavailable, message="Use arc4random instead.")));
-
-char *realpath(const char * restrict, char * restrict) __asm("_" "realpath" "$DARWIN_EXTSN");
-
-
-
-unsigned short
- *seed48(unsigned short[3]);
-int setenv(const char * __name, const char * __value, int __overwrite) __asm("_" "setenv" );
-
-void setkey(const char *) __asm("_" "setkey" );
-
-
-
-char *setstate(const char *);
-void srand48(long);
-
-void srandom(unsigned);
-
-
-
-int unlockpt(int);
-
-int unsetenv(const char *) __asm("_" "unsetenv" );
-
-
-
-
-
-
-
-typedef unsigned char u_int8_t;
-typedef unsigned short u_int16_t;
-typedef unsigned int u_int32_t;
-typedef unsigned long long u_int64_t;
-
-
-typedef int64_t register_t;
-typedef u_int64_t user_addr_t;
-typedef u_int64_t user_size_t;
-typedef int64_t user_ssize_t;
-typedef int64_t user_long_t;
-typedef u_int64_t user_ulong_t;
-typedef int64_t user_time_t;
-typedef int64_t user_off_t;
-
-
-
-
-
-
-
-typedef u_int64_t syscall_arg_t;
-
-typedef __darwin_dev_t dev_t;
-typedef __darwin_mode_t mode_t;
-
-
-uint32_t arc4random(void);
-void arc4random_addrandom(unsigned char * , int )
-    __attribute__((availability(macosx,introduced=10.0))) __attribute__((availability(macosx,deprecated=10.12,message="use arc4random_stir")))
-    __attribute__((availability(ios,introduced=2.0))) __attribute__((availability(ios,deprecated=10.0,message="use arc4random_stir")))
-    __attribute__((availability(tvos,introduced=2.0))) __attribute__((availability(tvos,deprecated=10.0,message="use arc4random_stir")))
-    __attribute__((availability(watchos,introduced=1.0))) __attribute__((availability(watchos,deprecated=3.0,message="use arc4random_stir")));
-void arc4random_buf(void * __buf, size_t __nbytes) __attribute__((availability(macosx,introduced=10.7)));
-void arc4random_stir(void);
-uint32_t
-  arc4random_uniform(uint32_t __upper_bound) __attribute__((availability(macosx,introduced=10.7)));
-
-// int atexit_b(void (^ _Nonnull)(void)) __attribute__((availability(macosx,introduced=10.6)));
-// void *bsearch_b(const void *__key, const void *__base, size_t __nel,
-//      size_t __width, int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
-
-
-
-char *cgetcap(char *, const char *, int);
-int cgetclose(void);
-int cgetent(char **, char **, const char *);
-int cgetfirst(char **, char **);
-int cgetmatch(const char *, const char *);
-int cgetnext(char **, char **);
-int cgetnum(char *, const char *, long *);
-int cgetset(const char *);
-int cgetstr(char *, const char *, char **);
-int cgetustr(char *, const char *, char **);
-
-int daemon(int, int) __asm("_" "daemon" "$1050") __attribute__((availability(macosx,introduced=10.0,deprecated=10.5,message="Use posix_spawn APIs instead."))) __attribute__((availability(watchos,unavailable))) __attribute__((availability(tvos,unavailable)));
-char *devname(dev_t, mode_t);
-char *devname_r(dev_t, mode_t, char *buf, int len);
-char *getbsize(int *, long *);
-int getloadavg(double [], int);
-const char
- *getprogname(void);
-
-// int heapsort(void *__base, size_t __nel, size_t __width,
-//      int (* _Nonnull __compar)(const void *, const void *));
-
-// int heapsort_b(void *__base, size_t __nel, size_t __width,
-//      int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
-
-// int mergesort(void *__base, size_t __nel, size_t __width,
-//      int (* _Nonnull __compar)(const void *, const void *));
-
-// int mergesort_b(void *__base, size_t __nel, size_t __width,
-//      int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
-
-// void psort(void *__base, size_t __nel, size_t __width,
-//      int (* _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
-
-// void psort_b(void *__base, size_t __nel, size_t __width,
-//      int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
-
-// void psort_r(void *__base, size_t __nel, size_t __width, void *,
-//      int (* _Nonnull __compar)(void *, const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
-
-// void qsort_b(void *__base, size_t __nel, size_t __width,
-//      int (^ _Nonnull __compar)(const void *, const void *)) __attribute__((availability(macosx,introduced=10.6)));
-
-// void qsort_r(void *__base, size_t __nel, size_t __width, void *,
-//      int (* _Nonnull __compar)(void *, const void *, const void *));
-int radixsort(const unsigned char **__base, int __nel, const unsigned char *__table,
-     unsigned __endbyte);
-void setprogname(const char *);
-int sradixsort(const unsigned char **__base, int __nel, const unsigned char *__table,
-     unsigned __endbyte);
-void sranddev(void);
-void srandomdev(void);
-void *reallocf(void *__ptr, size_t __size);
-
-long long
-  strtoq(const char *__str, char **__endptr, int __base);
-unsigned long long
-  strtouq(const char *__str, char **__endptr, int __base);
-
-extern char *suboptarg;
-void *valloc(size_t);
-
-
-
-
-
-typedef long int ptrdiff_t;
-typedef long unsigned int rsize_t;
-typedef long double max_align_t;
-typedef struct vector_t
- {
-
-     void * items;
-
-
-     size_t capacity;
-
-
-     size_t size;
-
-
-     size_t item_size;
-} vector_t;
-  vector_t *
-  vector_new( size_t item_size );
-  void
-  vector_delete( vector_t *self );
-  const void *
-  vector_get( const vector_t *self,
-              size_t index );
-  const void *
-  vector_front( const vector_t *self );
-  const void *
-  vector_back( const vector_t *self );
-  int
-  vector_contains( const vector_t *self,
-                   const void *item,
-                   int (*cmp)(const void *, const void *) );
-  int
-  vector_empty( const vector_t *self );
-  size_t
-  vector_size( const vector_t *self );
-  void
-  vector_reserve( vector_t *self,
-                  const size_t size );
-  size_t
-  vector_capacity( const vector_t *self );
-
-
-
-
-
-
-
-  void
-  vector_shrink( vector_t *self );
-
-
-
-
-
-
-
-  void
-  vector_clear( vector_t *self );
-  void
-  vector_set( vector_t *self,
-              const size_t index,
-              const void *item );
-  void
-  vector_erase( vector_t *self,
-                const size_t index );
-  void
-  vector_erase_range( vector_t *self,
-                      const size_t first,
-                      const size_t last );
-  void
-  vector_push_back( vector_t *self,
-                    const void *item );
-
-
-
-
-
-
-
-  void
-  vector_pop_back( vector_t *self );
-  void
-  vector_resize( vector_t *self,
-                 const size_t size );
-  void
-  vector_insert( vector_t *self,
-                 const size_t index,
-                 const void *item );
-  void
-  vector_insert_data( vector_t *self,
-                      const size_t index,
-                      const void * data,
-                      const size_t count );
-  void
-  vector_push_back_data( vector_t *self,
-                         const void * data,
-                         const size_t count );
-  void
-  vector_sort( vector_t *self,
-               int (*cmp)(const void *, const void *) );
-typedef struct texture_atlas_t
-{
-
-
-
-    vector_t * nodes;
-
-
-
-
-    size_t width;
-
-
-
-
-    size_t height;
-
-
-
-
-    size_t depth;
-
-
-
-
-    size_t used;
-
-
-
-
-    unsigned int id;
-
-
-
-
-    unsigned char * data;
-
-} texture_atlas_t;
-  texture_atlas_t *
-  texture_atlas_new( const size_t width,
-                     const size_t height,
-                     const size_t depth );
-  void
-  texture_atlas_delete( texture_atlas_t * self );
-  ivec4
-  texture_atlas_get_region( texture_atlas_t * self,
-                            const size_t width,
-                            const size_t height );
-  void
-  texture_atlas_set_region( texture_atlas_t * self,
-                            const size_t x,
-                            const size_t y,
-                            const size_t width,
-                            const size_t height,
-                            const unsigned char *data,
-                            const size_t stride );
-
-
-
-
-
-
-  void
-  texture_atlas_clear( texture_atlas_t * self );
-typedef enum rendermode_t
-{
-    RENDER_NORMAL,
-    RENDER_OUTLINE_EDGE,
-    RENDER_OUTLINE_POSITIVE,
-    RENDER_OUTLINE_NEGATIVE,
-    RENDER_SIGNED_DISTANCE_FIELD
-} rendermode_t;
-typedef struct kerning_t
-{
-
-
-
-    uint32_t codepoint;
-
-
-
-
-    float kerning;
-
-} kerning_t;
-typedef struct texture_glyph_t
-{
-
-
-
-    uint32_t codepoint;
-
-
-
-
-    size_t width;
-
-
-
-
-    size_t height;
-
-
-
-
-    int offset_x;
-
-
-
-
-
-
-
-    int offset_y;
-
-
-
-
-
-
-    float advance_x;
-
-
-
-
-
-
-    float advance_y;
-
-
-
-
-    float s0;
-
-
-
-
-    float t0;
-
-
-
-
-    float s1;
-
-
-
-
-    float t1;
-
-
-
-
-    vector_t * kerning;
-
-
-
-
-    rendermode_t rendermode;
-
-
-
-
-    float outline_thickness;
-
-} texture_glyph_t;
-
-
-
-
-
-
-typedef struct texture_font_t
-{
-
-
-
-    vector_t * glyphs;
-
-
-
-
-    texture_atlas_t * atlas;
-
-
-
-
-    enum {
-        TEXTURE_FONT_FILE = 0,
-        TEXTURE_FONT_MEMORY,
-    } location;
-
-    union {
-
-
-
-        char *filename;
-
-
-
-
-        struct {
-            const void *base;
-            size_t size;
-        } memory;
-    };
-
-
-
-
-    float size;
-
-
-
-
-    int hinting;
-
-
-
-
-    rendermode_t rendermode;
-
-
-
-
-    float outline_thickness;
-
-
-
-
-    int filtering;
-
-
-
-
-    unsigned char lcd_weights[5];
-
-
-
-
-    int kerning;
-    float height;
-
-
-
-
-
-
-    float linegap;
-    float ascender;
-    float descender;
-
-
-
-
-
-    float underline_position;
-
-
-
-
-
-    float underline_thickness;
-
-} texture_font_t;
-  texture_font_t *
-  texture_font_new_from_file( texture_atlas_t * atlas,
-                              const float pt_size,
-                              const char * filename );
-  texture_font_t *
-  texture_font_new_from_memory( texture_atlas_t *atlas,
-                                float pt_size,
-                                const void *memory_base,
-                                size_t memory_size );
-
-
-
-
-
-
-
-  void
-  texture_font_delete( texture_font_t * self );
-  texture_glyph_t *
-  texture_font_get_glyph( texture_font_t * self,
-                          const char * codepoint );
-  int
-  texture_font_load_glyph( texture_font_t * self,
-                           const char * codepoint );
-  size_t
-  texture_font_load_glyphs( texture_font_t * self,
-                            const char * codepoints );
-float
-texture_glyph_get_kerning( const texture_glyph_t * self,
-                           const char * codepoint );
-
-
-
-
-
-
-
-texture_glyph_t *
-texture_glyph_new( void );
-typedef struct markup_t
-{
-
-
-
-    char * family;
-
-
-
-
-    float size;
-
-
-
-
-    int bold;
-
-
-
-
-    int italic;
-
-
-
-
-    float spacing;
-
-
-
-
-    float gamma;
-
-
-
-
-    vec4 foreground_color;
-
-
-
-
-    vec4 background_color;
-
-
-
-
-    int outline;
-
-
-
-
-    vec4 outline_color;
-
-
-
-
-    int underline;
-
-
-
-
-    vec4 underline_color;
-
-
-
-
-    int overline;
-
-
-
-
-    vec4 overline_color;
-
-
-
-
-    int strikethrough;
-
-
-
-
-    vec4 strikethrough_color;
-
-
-
-
-    texture_font_t * font;
-
-} markup_t;
-
-
-
-
-extern markup_t default_markup;
-typedef struct font_manager_t {
-
-
-
-    texture_atlas_t * atlas;
-
-
-
-
-    vector_t * fonts;
-
-
-
-
-    char * cache;
-
-} font_manager_t;
-  font_manager_t *
-  font_manager_new( size_t width,
-                    size_t height,
-                    size_t depth );
-
-
-
-
-
-
-
-  void
-  font_manager_delete( font_manager_t *self );
-  void
-  font_manager_delete_font( font_manager_t * self,
-                            texture_font_t * font );
-  texture_font_t *
-  font_manager_get_from_filename( font_manager_t * self,
-                                  const char * filename,
-                                  const float size );
-  texture_font_t *
-  font_manager_get_from_description( font_manager_t * self,
-                                     const char * family,
-                                     const float size,
-                                     const int bold,
-                                     const int italic );
-  texture_font_t *
-  font_manager_get_from_markup( font_manager_t *self,
-                                const markup_t *markup );
-  char *
-  font_manager_match_description( font_manager_t * self,
-                                  const char * family,
-                                  const float size,
-                                  const int bold,
-                                  const int italic );
+    char * strndup( const char *s1, size_t n);
 typedef struct vertex_attribute_t
 {
 
@@ -3421,14 +3448,9 @@ typedef enum Align
 
   void
   text_buffer_clear( text_buffer_t * self );
-
-void computegradient(double *img, int w, int h, double *gx, double *gy);
-double edgedf(double gx, double gy, double a);
-
-
-double distaa3(double *img, double *gximg, double *gyimg, int w, int c, int xc, int yc, int xi, int yi);
-
-
-
-
-void edtaa3(double *img, double *gx, double *gy, int w, int h, short *distx, short *disty, double *dist);
+  size_t
+  utf8_surrogate_len( const char* character );
+  size_t
+  utf8_strlen( const char* string );
+  uint32_t
+  utf8_to_utf32( const char * character );
