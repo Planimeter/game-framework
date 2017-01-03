@@ -34,8 +34,6 @@ LuaJIT FFI bindings for kazmath
 LuaJIT FFI bindings for stb_image
 * [lclass](https://github.com/andrewmcwatters/lclass)  
 Lua with Classes
-* [luasocket](http://w3.impa.br/~diego/software/luasocket/)  
-Network support for the Lua language
 * [lua-enet](http://leafo.net/lua-enet/)  
 Bindings to ENet for Lua
 
