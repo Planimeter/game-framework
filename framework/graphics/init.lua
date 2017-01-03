@@ -40,6 +40,11 @@ function getSize()
 	return width[0], height[0]
 end
 
+function newFont( filename, size )
+	local font = framework.graphics.font
+	return font( filename, size )
+end
+
 function newImage( filename )
 	local image = framework.graphics.image
 	return image( filename )

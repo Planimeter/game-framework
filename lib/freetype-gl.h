@@ -3227,6 +3227,201 @@ typedef struct vertex_buffer_t
   void
   vertex_buffer_erase( vertex_buffer_t * self,
                        const size_t index );
+typedef struct text_buffer_t {
+
+
+
+    vertex_buffer_t *buffer;
+
+
+
+
+    vec4 base_color;
+
+
+
+
+
+    vec2 origin;
+
+
+
+
+    float last_pen_y;
+
+
+
+
+    vec4 bounds;
+
+
+
+
+    size_t line_start;
+
+
+
+
+    float line_left;
+
+
+
+
+    vector_t * lines;
+
+
+
+
+    float line_ascender;
+
+
+
+
+    float line_descender;
+} text_buffer_t;
+
+
+
+
+
+
+typedef struct glyph_vertex_t {
+
+
+
+    float x;
+
+
+
+
+    float y;
+
+
+
+
+    float z;
+
+
+
+
+    float u;
+
+
+
+
+    float v;
+
+
+
+
+    float r;
+
+
+
+
+    float g;
+
+
+
+
+    float b;
+
+
+
+
+    float a;
+
+
+
+
+    float shift;
+
+
+
+
+    float gamma;
+
+} glyph_vertex_t;
+
+
+
+
+
+typedef struct line_info_t {
+
+
+
+    size_t line_start;
+
+
+
+
+    vec4 bounds;
+
+} line_info_t;
+
+
+
+
+typedef enum Align
+{
+
+
+
+    ALIGN_LEFT,
+
+
+
+
+    ALIGN_CENTER,
+
+
+
+
+    ALIGN_RIGHT
+} Align;
+  text_buffer_t *
+  text_buffer_new( );
+
+
+
+
+
+
+
+  void
+  text_buffer_delete( text_buffer_t * self );
+  void
+  text_buffer_printf( text_buffer_t * self, vec2 * pen, ... );
+  void
+  text_buffer_add_text( text_buffer_t * self,
+                        vec2 * pen, markup_t * markup,
+                        const char * text, size_t length );
+  void
+  text_buffer_add_char( text_buffer_t * self,
+                        vec2 * pen, markup_t * markup,
+                        const char * current, const char * previous );
+  void
+  text_buffer_align( text_buffer_t * self, vec2 * pen,
+                     enum Align alignment );
+
+
+
+
+
+
+
+  vec4
+  text_buffer_get_bounds( text_buffer_t * self, vec2 * pen );
+
+
+
+
+
+
+  void
+  text_buffer_clear( text_buffer_t * self );
+
 void computegradient(double *img, int w, int h, double *gx, double *gy);
 double edgedf(double gx, double gy, double a);
 
