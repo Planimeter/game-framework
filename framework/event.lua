@@ -79,7 +79,7 @@ function handle( e )
 		local y       = e.motion.y
 		local dx      = e.motion.xrel
 		local dy      = e.motion.yrel
-		local istouch = e.motion.which == -1
+		local istouch = e.motion.which == SDL.SDL_TOUCH_MOUSEID
 		framework.mousemoved( x, y, dx, dy, istouch )
 	elseif ( e.type == ffi.C.SDL_MOUSEBUTTONDOWN ) then
 		local x       = e.button.x
@@ -90,7 +90,7 @@ function handle( e )
 		elseif ( button == 3 ) then
 			button = 2
 		end
-		local istouch = e.button.which == -1
+		local istouch = e.button.which == SDL.SDL_TOUCH_MOUSEID
 		framework.mousepressed( x, y, button, istouch )
 	elseif ( e.type == ffi.C.SDL_MOUSEBUTTONUP ) then
 		local x       = e.button.x
@@ -101,7 +101,7 @@ function handle( e )
 		elseif ( button == 3 ) then
 			button = 2
 		end
-		local istouch = e.button.which == -1
+		local istouch = e.button.which == SDL.SDL_TOUCH_MOUSEID
 		framework.mousereleased( x, y, button, istouch )
 	elseif ( e.type == ffi.C.SDL_MOUSEWHEEL ) then
 		framework.wheelmoved( e.wheel.x, e.wheel.y )
