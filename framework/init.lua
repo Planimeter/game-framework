@@ -21,6 +21,7 @@ function main()
 	require( "framework.event" )
 	local ffi = require( "ffi" )
 
+	local lastTime = 0
 	while ( true ) do
 		local e = nil
 		repeat
@@ -35,7 +36,14 @@ function main()
 			end
 		until ( e == nil )
 
-		update()
+		local dt = 0
+		if ( framework.timer ) then
+			local time = framework.timer.getTime()
+			dt = time - lastTime
+			lastTime = time
+		end
+
+		update( dt )
 
 		if ( framework.graphics ) then
 			framework.graphics.clear()
