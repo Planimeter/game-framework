@@ -125,6 +125,12 @@ end
 function focus( focus )
 end
 
+function keypressed( key, scancode, isrepeat )
+end
+
+function keyreleased( key, scancode )
+end
+
 function update( dt )
 end
 

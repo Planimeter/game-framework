@@ -9,6 +9,7 @@ local ffi = require( "ffi" )
 
 local framework      = framework
 local collectgarbage = collectgarbage
+local string         = string
 
 module( "framework.event" )
 
@@ -52,5 +53,22 @@ function handle( e )
 		collectgarbage()
 	elseif ( e.type == ffi.C.SDL_WINDOWEVENT ) then
 		windowevent( e.window )
+	elseif ( e.type == ffi.C.SDL_KEYDOWN ) then
+		local key      = SDL.SDL_GetKeyName( e.key.keysym.sym )
+		key            = ffi.string( key )
+		key            = string.lower( key )
+		local scancode = SDL.SDL_GetScancodeName( e.key.keysym.scancode )
+		scancode       = ffi.string( scancode )
+		scancode       = string.lower( scancode )
+		local isrepeat = e.key[ "repeat" ] == 1 and true or false
+		framework.keypressed( key, scancode, isrepeat )
+	elseif ( e.type == ffi.C.SDL_KEYUP ) then
+		local key      = SDL.SDL_GetKeyName( e.key.keysym.sym )
+		key            = ffi.string( key )
+		key            = string.lower( key )
+		local scancode = SDL.SDL_GetScancodeName( e.key.keysym.scancode )
+		scancode       = ffi.string( scancode )
+		scancode       = string.lower( scancode )
+		framework.keyreleased( key, scancode )
 	end
 end

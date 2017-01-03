@@ -18,3 +18,11 @@ function framework.draw()
 	    width / 4,         height - height / 4  -- Vertex 3 (X, Y)
 	} )
 end
+
+function framework.keypressed( key, scancode, isrepeat )
+	print( key, scancode, isrepeat )
+end
+
+function framework.keyreleased( key, scancode )
+	print( key, scancode )
+end
