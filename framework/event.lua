@@ -71,7 +71,9 @@ function handle( e )
 		scancode       = string.lower( scancode )
 		framework.keyreleased( key, scancode )
 	elseif ( e.type == ffi.C.SDL_TEXTEDITING ) then
+		framework.textedited( e.edit.text, e.edit.start, e.edit.length )
 	elseif ( e.type == ffi.C.SDL_TEXTINPUT ) then
+		framework.textinput( e.text.text )
 	elseif ( e.type == ffi.C.SDL_MOUSEMOTION ) then
 	elseif ( e.type == ffi.C.SDL_MOUSEBUTTONDOWN ) then
 	elseif ( e.type == ffi.C.SDL_MOUSEBUTTONUP ) then
@@ -102,7 +104,5 @@ function handle( e )
 	elseif ( e.type == ffi.C.SDL_DROPCOMPLETE ) then
 	elseif ( e.type == ffi.C.SDL_AUDIODEVICEADDED ) then
 	elseif ( e.type == ffi.C.SDL_AUDIODEVICEREMOVED ) then
-	elseif ( e.type == ffi.C.SDL_RENDER_TARGETS_RESET ) then
-	elseif ( e.type == ffi.C.SDL_RENDER_DEVICE_RESET ) then
 	end
 end

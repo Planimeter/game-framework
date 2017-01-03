@@ -131,6 +131,12 @@ end
 function keyreleased( key, scancode )
 end
 
+function textedited( text, start, length )
+end
+
+function textinput( text )
+end
+
 function update( dt )
 end
 
