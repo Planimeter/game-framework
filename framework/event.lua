@@ -70,5 +70,39 @@ function handle( e )
 		scancode       = ffi.string( scancode )
 		scancode       = string.lower( scancode )
 		framework.keyreleased( key, scancode )
+	elseif ( e.type == ffi.C.SDL_TEXTEDITING ) then
+	elseif ( e.type == ffi.C.SDL_TEXTINPUT ) then
+	elseif ( e.type == ffi.C.SDL_MOUSEMOTION ) then
+	elseif ( e.type == ffi.C.SDL_MOUSEBUTTONDOWN ) then
+	elseif ( e.type == ffi.C.SDL_MOUSEBUTTONUP ) then
+	elseif ( e.type == ffi.C.SDL_MOUSEWHEEL ) then
+	elseif ( e.type == ffi.C.SDL_JOYAXISMOTION ) then
+	elseif ( e.type == ffi.C.SDL_JOYBALLMOTION ) then
+	elseif ( e.type == ffi.C.SDL_JOYHATMOTION ) then
+	elseif ( e.type == ffi.C.SDL_JOYBUTTONDOWN ) then
+	elseif ( e.type == ffi.C.SDL_JOYBUTTONUP ) then
+	elseif ( e.type == ffi.C.SDL_JOYDEVICEADDED ) then
+	elseif ( e.type == ffi.C.SDL_JOYDEVICEREMOVED ) then
+	elseif ( e.type == ffi.C.SDL_CONTROLLERAXISMOTION ) then
+	elseif ( e.type == ffi.C.SDL_CONTROLLERBUTTONDOWN ) then
+	elseif ( e.type == ffi.C.SDL_CONTROLLERBUTTONUP ) then
+	elseif ( e.type == ffi.C.SDL_CONTROLLERDEVICEADDED ) then
+	elseif ( e.type == ffi.C.SDL_CONTROLLERDEVICEREMOVED ) then
+	elseif ( e.type == ffi.C.SDL_CONTROLLERDEVICEREMAPPED ) then
+	elseif ( e.type == ffi.C.SDL_FINGERDOWN ) then
+	elseif ( e.type == ffi.C.SDL_FINGERUP ) then
+	elseif ( e.type == ffi.C.SDL_FINGERMOTION ) then
+	elseif ( e.type == ffi.C.SDL_DOLLARGESTURE ) then
+	elseif ( e.type == ffi.C.SDL_DOLLARRECORD ) then
+	elseif ( e.type == ffi.C.SDL_MULTIGESTURE ) then
+	elseif ( e.type == ffi.C.SDL_CLIPBOARDUPDATE ) then
+	elseif ( e.type == ffi.C.SDL_DROPFILE ) then
+	elseif ( e.type == ffi.C.SDL_DROPTEXT ) then
+	elseif ( e.type == ffi.C.SDL_DROPBEGIN ) then
+	elseif ( e.type == ffi.C.SDL_DROPCOMPLETE ) then
+	elseif ( e.type == ffi.C.SDL_AUDIODEVICEADDED ) then
+	elseif ( e.type == ffi.C.SDL_AUDIODEVICEREMOVED ) then
+	elseif ( e.type == ffi.C.SDL_RENDER_TARGETS_RESET ) then
+	elseif ( e.type == ffi.C.SDL_RENDER_DEVICE_RESET ) then
 	end
 end
