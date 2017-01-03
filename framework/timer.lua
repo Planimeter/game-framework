@@ -9,9 +9,7 @@ local SDL = require( "lib.sdl" )
 module( "framework.timer" )
 
 function sleep( seconds )
-	if ( seconds > 0 ) then
-		SDL.SDL_Delay( seconds * 1000 )
-	end
+	SDL.SDL_Delay( seconds * 1000 )
 end
 
 function getTime()
