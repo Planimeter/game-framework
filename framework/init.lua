@@ -137,6 +137,9 @@ end
 function textinput( text )
 end
 
+function mousemoved( x, y, dx, dy, istouch )
+end
+
 function update( dt )
 end
 

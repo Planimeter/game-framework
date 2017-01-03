@@ -75,6 +75,12 @@ function handle( e )
 	elseif ( e.type == ffi.C.SDL_TEXTINPUT ) then
 		framework.textinput( e.text.text )
 	elseif ( e.type == ffi.C.SDL_MOUSEMOTION ) then
+		local x       = e.motion.x
+		local y       = e.motion.y
+		local dx      = e.motion.xrel
+		local dy      = e.motion.yrel
+		local istouch = e.motion.which == -1
+		framework.mousemoved( x, y, dx, dy, istouch )
 	elseif ( e.type == ffi.C.SDL_MOUSEBUTTONDOWN ) then
 	elseif ( e.type == ffi.C.SDL_MOUSEBUTTONUP ) then
 	elseif ( e.type == ffi.C.SDL_MOUSEWHEEL ) then
