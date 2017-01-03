@@ -18,5 +18,5 @@ function framework.draw()
 		width / 4,         height - height / 4  -- Vertex 3 (X, Y)
 	} )
 
-	framework.graphics.print( "Hello, world!", 0, 0 )
+	framework.graphics.print( "Hello, world!" )
 end
