@@ -28,8 +28,10 @@ LuaJIT FFI bindings for PhysicsFS
 LuaJIT FFI bindings for SDL 2.0
 * [lopengl](https://github.com/Planimeter/lopengl)  
 LuaJIT FFI bindings for OpenGL
-* [lkazmath](https://github.com/Kazade/kazmath/tree/master/lua)  
-Lua binding for kazmath
+* [lkazmath](https://github.com/Planimeter/lkazmath)  
+LuaJIT FFI bindings for kazmath
+* [lstb_image](https://github.com/Planimeter/lstb_image)  
+LuaJIT FFI bindings for stb_image
 * [lclass](https://github.com/andrewmcwatters/lclass)  
 Lua with Classes
 * [luasocket](http://w3.impa.br/~diego/software/luasocket/)  
