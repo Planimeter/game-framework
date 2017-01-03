@@ -39,6 +39,9 @@ function createWindow( title, x, y, width, height, flags )
 	framework.graphics.set2DVertexAttributes()
 	framework.graphics.setOrthographicProjection( width, height )
 	framework.graphics.createDefaultTexture()
+
+	local font = framework.graphics.newFont( "fonts/Vera.ttf" )
+	framework.graphics.setFont( font )
 end
 
 function resize( width, height )

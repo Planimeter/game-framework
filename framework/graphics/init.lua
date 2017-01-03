@@ -33,6 +33,10 @@ function getColor()
 	return color
 end
 
+function getFont()
+	return _font
+end
+
 function getSize()
 	local width  = ffi.new( "int[1]" )
 	local height = ffi.new( "int[1]" )
@@ -50,6 +54,10 @@ function newImage( filename )
 	return image( filename )
 end
 
+function print( text, x, y, r, sx, sy, ox, oy, kx, ky )
+	getFont():print( text, x, y, r, sx, sy, ox, oy, kx, ky )
+end
+
 function setColor( color )
 	color[ 1 ] = ( color[ 1 ] or 0 ) / 255
 	color[ 2 ] = ( color[ 2 ] or 0 ) / 255
@@ -60,4 +68,8 @@ function setColor( color )
 	local index  = GL.glGetUniformLocation( shader, "color" )
 	GL.glUniform4fv( index, 1, pColor )
 	_M.color = color
+end
+
+function setFont( font )
+	_font = font
 end
