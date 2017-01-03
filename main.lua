@@ -4,7 +4,7 @@
 --
 --============================================================================--
 
-function framework.load()
+function framework.load( arg )
 end
 
 function framework.update( dt )

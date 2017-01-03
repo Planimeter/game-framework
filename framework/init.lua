@@ -9,6 +9,7 @@ package.path = string.gsub( package.path, "./?.lua;", "./?.lua;./?/init.lua;" )
 local framework = {}
 _G.framework    = framework
 
+local arg     = arg
 local require = require
 local pairs   = pairs
 
@@ -16,7 +17,7 @@ module( "framework" )
 
 function main()
 	init()
-	load()
+	load( arg )
 
 	require( "framework.event" )
 	local ffi = require( "ffi" )
