@@ -4,6 +4,7 @@
 --
 --============================================================================--
 
+require( "framework.graphics.font" )
 require( "framework.graphics.image" )
 require( "framework.graphics.opengl" )
 require( "framework.graphics.primitive" )
