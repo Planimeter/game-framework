@@ -37,8 +37,6 @@ LuaJIT FFI bindings for OpenGL
 LuaJIT FFI bindings for kazmath
 * [lstb_image](https://github.com/Planimeter/lstb_image)  
 LuaJIT FFI bindings for stb_image
-* [lfreetype-gl](https://github.com/Planimeter/lfreetype-gl)  
-LuaJIT FFI bindings for freetype-gl
 * [lclass](https://github.com/andrewmcwatters/lclass)  
 Lua with Classes
 * [lua-enet](http://leafo.net/lua-enet/)  
