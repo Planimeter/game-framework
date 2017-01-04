@@ -31,7 +31,6 @@ function createWindow( title, x, y, width, height, flags )
 
 	framework.graphics.createDefaultVAO()
 	framework.graphics.createDefaultVBO()
-
 	framework.graphics.setDefaultShader()
 	framework.graphics.set2DVertexAttributes()
 	framework.graphics.setOrthographicProjection( width, height )
