@@ -16,7 +16,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=13523
 ### macOS
 
 ```bash
-brew install luajit physfs sdl2 enet
+brew install luajit physfs sdl2
 ```
 
 ## Run
@@ -39,8 +39,6 @@ LuaJIT FFI bindings for kazmath
 LuaJIT FFI bindings for stb_image
 * [lclass](https://github.com/andrewmcwatters/lclass)  
 Lua with Classes
-* [lua-enet](http://leafo.net/lua-enet/)  
-Bindings to ENet for Lua
 
 ## License
 
