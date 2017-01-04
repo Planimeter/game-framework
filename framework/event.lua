@@ -14,7 +14,7 @@ local string         = string
 module( "framework.event" )
 
 function poll()
-	event = event or SDL.SDL_Event()
+	event = event or ffi.new( "SDL_Event" )
 	return SDL.SDL_PollEvent( event ) ~= 0 and event or nil
 end
 

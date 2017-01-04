@@ -24,8 +24,6 @@ local function SDL_WINDOWPOS_ISUNDEFINED(X)
 end
 
 local _M = {
-	SDL_Event = ffi.metatype( "SDL_Event", {} ),
-
 	--[[ Used as the device ID for mouse events simulated with touch input ]]
 	SDL_TOUCH_MOUSEID = (-1),
 
