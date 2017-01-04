@@ -47,9 +47,9 @@ function main()
 		update( dt )
 
 		if ( framework.graphics ) then
-			-- framework.graphics.clear()
-			-- draw()
-			-- framework.window.swap()
+			framework.graphics.clear()
+			draw()
+			framework.window.swap()
 		end
 
 		if ( framework.timer ) then
