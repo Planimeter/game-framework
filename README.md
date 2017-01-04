@@ -8,6 +8,11 @@ Game development framework for Lua
 
 ## Install
 
+### Windows
+
+**Microsoft Visual C++ 2010 SP1 Redistributable Package (x64)**  
+https://www.microsoft.com/en-us/download/details.aspx?id=13523
+
 ### macOS
 
 ```bash
