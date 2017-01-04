@@ -5,7 +5,6 @@
 --============================================================================--
 
 require( "class" )
-local freetypegl = require( "lib.freetype-gl" )
 local ffi        = require( "ffi" )
 local GL         = require( "lib.opengl" )
 

@@ -46,7 +46,7 @@ end
 
 function newFont( filename, size )
 	local font = framework.graphics.font
-	return font( filename, size )
+	-- return font( filename, size )
 end
 
 function newImage( filename )
