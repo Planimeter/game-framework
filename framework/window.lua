@@ -29,11 +29,11 @@ function createWindow( title, x, y, width, height, flags )
 
 	GL.glViewport( 0, 0, width, height )
 
-	-- local vao = framework.graphics.newVertexArray()
-	-- framework.graphics.setVertexArray( vao )
+	local vao = framework.graphics.newVertexArray()
+	framework.graphics.setVertexArray( vao )
 
-	-- local vbo = framework.graphics.newVertexBuffer()
-	-- framework.graphics.setVertexBuffer( vbo )
+	local vbo = framework.graphics.newVertexBuffer()
+	framework.graphics.setVertexBuffer( vbo )
 
 	framework.graphics.setDefaultShader()
 	framework.graphics.set2DVertexAttributes()
