@@ -24,16 +24,13 @@ function createWindow( title, x, y, width, height, flags )
 		ffi.C.SDL_GL_CONTEXT_PROFILE_CORE
 	)
 
-	window      = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
-	context     = SDL.SDL_GL_CreateContext( window )
+	window  = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
+	context = SDL.SDL_GL_CreateContext( window )
 
 	GL.glViewport( 0, 0, width, height )
 
-	local vao = framework.graphics.newVertexArray()
-	framework.graphics.setVertexArray( vao )
-
-	local vbo = framework.graphics.newVertexBuffer()
-	framework.graphics.setVertexBuffer( vbo )
+	framework.graphics.createDefaultVAO()
+	framework.graphics.createDefaultVBO()
 
 	framework.graphics.setDefaultShader()
 	framework.graphics.set2DVertexAttributes()

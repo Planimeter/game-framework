@@ -9,22 +9,14 @@ local GL  = require( "lib.opengl" )
 
 module( "framework.graphics" )
 
-function newVertexArray()
-	local vao = ffi.new( "GLuint[1]" )
-	GL.glGenVertexArrays( 1, vao )
-	return vao
+function createDefaultVAO()
+	defaultVAO = ffi.new( "GLuint[1]" )
+	GL.glGenVertexArrays( 1, defaultVAO )
+	GL.glBindVertexArray( defaultVAO[0] )
 end
 
-function newVertexBuffer()
-	local vbo = ffi.new( "GLuint[1]" )
-	GL.glGenBuffers( 1, vbo )
-	return vbo
-end
-
-function setVertexArray( vao )
-	GL.glBindVertexArray( vao[0] )
-end
-
-function setVertexBuffer( vbo )
-	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, vbo[0] )
+function createDefaultVBO()
+	defaultVBO = ffi.new( "GLuint[1]" )
+	GL.glGenBuffers( 1, defaultVBO )
+	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
 end
