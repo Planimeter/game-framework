@@ -41,28 +41,26 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	local width    = self.width[0]
 	local height   = self.height[0]
 	local vertices = {
-		x,         y + height,
-		x + width, y + height,
-		x,         y,
-		x + width, y + height,
-		x + width, y,
-		x,         y
+		-- vertex              -- texcoord
+		x,         y + height, 0.0, 1.0,
+		x + width, y + height, 1.0, 1.0,
+		x,         y,          0.0, 0.0,
+		x + width, y + height, 1.0, 1.0,
+		x + width, y,          1.0, 0.0,
+		x,         y,          0.0, 0.0
 	}
-	local texCoords = {
-		0.0, 1.0,
-		1.0, 1.0,
-		0.0, 0.0,
-		1.0, 1.0,
-		1.0, 0.0,
-		0.0, 0.0
-	}
-	local pVertices  = ffi.new( "GLfloat[?]", #vertices, vertices )
-	local pTexCoords = ffi.new( "GLfloat[?]", #texCoords, texCoords )
-	local shader     = framework.graphics.getShader()
-	local vertex     = GL.glGetAttribLocation( shader, "vertex" )
-	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, 0, pVertices )
-	local texcoord   = GL.glGetAttribLocation( shader, "texcoord" )
-	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, 0, pTexCoords )
+	local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
+	local size      = ffi.sizeof( pVertices )
+	local stride    = 4 * ffi.sizeof( "GLfloat" )
+	local shader    = framework.graphics.getShader()
+	local vertex    = GL.glGetAttribLocation( shader, "vertex" )
+	local texcoord  = GL.glGetAttribLocation( shader, "texcoord" )
+	local pointer   = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
+	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, framework.graphics.defaultVBO[0] )
+	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
+	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, stride, nil )
+	GL.glEnableVertexAttribArray( texcoord )
+	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 	framework.graphics.updateTransform()
 	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
 	GL.glDrawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )

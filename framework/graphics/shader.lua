@@ -74,13 +74,14 @@ end
 function set2DVertexAttributes()
 	local shader = getShader()
 	local vertex = GL.glGetAttribLocation( shader, "vertex" )
+	local stride = 4 * ffi.sizeof( "GLfloat" )
 	GL.glEnableVertexAttribArray( vertex )
-	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, 0, nil )
+	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, stride, nil )
 
-	local texCoord = GL.glGetAttribLocation( shader, "texcoord" )
-	GL.glEnableVertexAttribArray( texCoord )
-	local P = ffi.new( "GLfloat[2]", { 0.0, 0.0 } )
-	GL.glVertexAttribPointer( texCoord, 2, GL.GL_FLOAT, 0, 0, P )
+	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
+	GL.glEnableVertexAttribArray( texcoord )
+	local pointer = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
+	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 end
 
 function setOrthographicProjection( width, height )
