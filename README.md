@@ -16,7 +16,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=13523
 ### macOS
 
 ```bash
-brew install luajit physfs sdl2
+brew install luajit physfs sdl2 freetype
 ```
 
 ## Run
