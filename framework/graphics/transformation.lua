@@ -15,8 +15,13 @@ module( "framework.graphics" )
 
 state = state or {}
 
+function getTransform()
+	return state[ #state ]
+end
+
 function push()
-	table.insert( state, framework.math.newMat4( getTransform().mat ) )
+	local top = framework.math.newMat4( getTransform() )
+	table.insert( state, top )
 end
 
 function pop()
@@ -24,26 +29,22 @@ function pop()
 	table.remove( state, #state )
 end
 
-function getTransform()
-	return state[ #state ]
+function origin()
+	kazmath.kmMat4Identity( getTransform() )
 end
 
 function scale( x, y, z )
 	z = z or 1
-	local pM2 = framework.math.newMat4()
-	kazmath.kmMat4Scaling( pM2, x, y, z )
-	kazmath.kmMat4Multiply( getTransform(), getTransform(), pM2 )
+	local scaling = framework.math.newMat4()
+	kazmath.kmMat4Scaling( scaling, x, y, z )
+	kazmath.kmMat4Multiply( getTransform(), getTransform(), scaling )
 end
 
 function translate( x, y, z )
 	z = z or 0
-	local pM2 = framework.math.newMat4()
-	kazmath.kmMat4Translation( pM2, x, y, z )
-	kazmath.kmMat4Multiply( getTransform(), getTransform(), pM2 )
-end
-
-function origin()
-	kazmath.kmMat4Identity( getTransform() )
+	local translation = framework.math.newMat4()
+	kazmath.kmMat4Translation( translation, x, y, z )
+	kazmath.kmMat4Multiply( getTransform(), getTransform(), translation )
 end
 
 function updateTransform()
