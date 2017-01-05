@@ -39,6 +39,8 @@ LuaJIT FFI bindings for kazmath
 LuaJIT FFI bindings for stb_image
 * [lclass](https://github.com/andrewmcwatters/lclass)  
 Lua with Classes
+* [lfreetype](https://github.com/andrewmcwatters/lfreetype)  
+LuaJIT FFI bindings for FreeType
 
 ## License
 
