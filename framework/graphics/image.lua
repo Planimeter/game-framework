@@ -5,41 +5,46 @@
 --============================================================================--
 
 require( "class" )
-local ffi  = require( "ffi" )
-local GL   = require( "lib.opengl" )
-local stbi = require( "lib.stb_image" )
+local ffi = require( "ffi" )
+local GL  = require( "lib.opengl" )
+local IL  = require( "lib.devil" )
+
+IL.ilInit()
 
 class( "framework.graphics.image" )
 
 local image = framework.graphics.image
 
 function image:image( filename )
+	self.image = ffi.new( "ILuint[1]" )
+	IL.ilGenImages( 1, self.image )
+	IL.ilBindImage( self.image[0] )
+
 	self.texture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, self.texture )
 	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
 
 	local buffer, len = framework.filesystem.read( filename )
-	local width    = ffi.new( "int[1]" )
-	local height   = ffi.new( "int[1]" )
-	local channels = ffi.new( "int[1]" )
-	local pixels   = stbi.stbi_load_from_memory( buffer, len, width, height, channels, 4 )
-	self.width     = width
-	self.height    = height
-	self.channels  = channels
-	self.pixels    = pixels
+	IL.ilLoadL( IL.IL_TYPE_UNKNOWN, buffer, len )
+	IL.ilConvertImage( IL.IL_RGBA, IL.IL_UNSIGNED_BYTE )
+	local width  = IL.ilGetInteger( IL.IL_IMAGE_WIDTH )
+	local height = IL.ilGetInteger( IL.IL_IMAGE_HEIGHT )
+	local pixels = IL.ilGetData()
+	self.width   = width
+	self.height  = height
+	self.pixels  = pixels
 
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
 
-	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width[0], height[0], 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, pixels )
-	stbi.stbi_image_free( pixels )
+	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, pixels )
 
 	setproxy( self )
 end
 
 function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
-	local width    = self.width[0]
-	local height   = self.height[0]
+	local width    = self.width
+	local height   = self.height
 	local vertices = {
 		-- vertex              -- texcoord
 		x,         y + height, 0.0, 1.0,
@@ -67,5 +72,6 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
 function image:__gc()
-	glDeleteTextures( 1, self.texture )
+	GL.glDeleteTextures( 1, self.texture )
+	IL.ilDeleteImages( 1, self.image )
 end
