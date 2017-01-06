@@ -82,7 +82,7 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 			GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
 			framework.graphics.updateTransform()
 			GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
-			GL.glDrawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )
+			framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )
 
 			x = x + ( g.advance.x / 64 )
 			y = y + ( g.advance.y / 64 )

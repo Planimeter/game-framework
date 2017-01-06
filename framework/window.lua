@@ -51,4 +51,5 @@ end
 
 function swap()
 	SDL.SDL_GL_SwapWindow( window )
+	framework.graphics.drawCalls = 0
 end

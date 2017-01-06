@@ -28,7 +28,7 @@ function polygon( mode, vertices )
 	GL.glDisableVertexAttribArray( texCoord )
 	framework.graphics.updateTransform()
 	GL.glBindTexture( GL.GL_TEXTURE_2D, framework.graphics.getDefaultTexture()[0] )
-	GL.glDrawArrays( mode, 0, #vertices / 2 )
+	framework.graphics.drawArrays( mode, 0, #vertices / 2 )
 end
 
 function rectangle( mode, x, y, width, height )
