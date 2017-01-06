@@ -55,6 +55,8 @@ function newImage( filename )
 end
 
 function print( text, x, y, r, sx, sy, ox, oy, kx, ky )
+	x = x or 0
+	y = y or 0
 	getFont():print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 

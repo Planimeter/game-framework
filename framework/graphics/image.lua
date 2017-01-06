@@ -4,10 +4,10 @@
 --
 --============================================================================--
 
+local IL  = require( "lib.devil" )
 require( "class" )
 local ffi = require( "ffi" )
 local GL  = require( "lib.opengl" )
-local IL  = require( "lib.devil" )
 
 IL.ilInit()
 
@@ -36,7 +36,6 @@ function image:image( filename )
 
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
-
 	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, pixels )
 
 	setproxy( self )
@@ -56,9 +55,9 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	}
 	local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
 	local size      = ffi.sizeof( pVertices )
-	local stride    = 4 * ffi.sizeof( "GLfloat" )
 	local shader    = framework.graphics.getShader()
 	local vertex    = GL.glGetAttribLocation( shader, "vertex" )
+	local stride    = 4 * ffi.sizeof( "GLfloat" )
 	local texcoord  = GL.glGetAttribLocation( shader, "texcoord" )
 	local pointer   = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, framework.graphics.defaultVBO[0] )
