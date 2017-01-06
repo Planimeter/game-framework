@@ -17,4 +17,6 @@ function framework.draw()
 		width - width / 4, height - height / 4, -- Vertex 2 (X, Y)
 		width / 4,         height - height / 4  -- Vertex 3 (X, Y)
 	} )
+
+	framework.graphics.print( tostring( framework.timer.getFPS() ) )
 end

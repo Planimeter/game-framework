@@ -19,7 +19,8 @@ local font = framework.graphics.font
 function font:font( filename, size )
 	self.face = ffi.new( "FT_Face[1]" )
 	FT.FT_New_Face( ft[0], filename, 0, self.face )
-	FT.FT_Set_Pixel_Sizes( self.face[0], 0, size or 48 )
+	self.size = size or 12
+	FT.FT_Set_Pixel_Sizes( self.face[0], 0, self.size )
 
 	self.texture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, self.texture )
@@ -28,10 +29,6 @@ function font:font( filename, size )
 end
 
 function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
-	local width, height = framework.graphics.getSize()
-	sx = sx or 1 / width
-	sy = sy or 1 / height
-
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, framework.graphics.defaultVBO[0] )
 	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
 	local shader   = framework.graphics.getShader()
@@ -43,42 +40,52 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	GL.glEnableVertexAttribArray( texcoord )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 
-	local g = self.face[0].glyph
+	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
+	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
+	GL.glPixelStorei( GL.GL_UNPACK_ALIGNMENT, 1 )
+
+	local face = self.face[0]
 	for i = 1, #text do
 		local char = string.sub( text, i, i )
-		if ( FT.FT_Load_Char( self.face[0], string.byte( char ), 4 ) ~= 0 ) then
+		if ( FT.FT_Load_Char( face, string.byte( char ), 4 ) == 0 ) then
+			local g = face.glyph
 			GL.glTexImage2D(
 				GL.GL_TEXTURE_2D,
 				0,
-				GL.GL_RGBA,
+				GL.GL_RED,
 				g.bitmap.width,
 				g.bitmap.rows,
 				0,
-				GL.GL_RGBA,
+				GL.GL_RED,
 				GL.GL_UNSIGNED_BYTE,
-				ffi.new( "GLubyte[4]", { 255, 255, 255, g.bitmap.buffer[0] } )
+				g.bitmap.buffer
 			)
 
-			local x2 =  x + g.bitmap_left  * sx
-			local y2 =  y + g.bitmap_top   * sy
-			local w  =      g.bitmap.width * sx
-			local h  =      g.bitmap.rows  * sy
+			local x2     = x + g.bitmap_left
+			local y2     = y + g.bitmap_top
+			local width  = g.bitmap.width
+			local height = g.bitmap.rows
+			local size   = self.size
 
-			local box = {
-				x2,     y2,     0.0, 0.0,
-				x2 + w, y2,     1.0, 0.0,
-				x2,     y2 - h, 0.0, 1.0,
-				x2 + w, y2 - h, 1.0, 1.0,
+			local vertices = {
+				-- vertex              -- texcoord
+				x,         y + size - height, 0.0, 0.0,
+				x + width, y + size - height, 1.0, 0.0,
+				x,         y + size,          0.0, 1.0,
+				x + width, y + size - height, 1.0, 0.0,
+				x + width, y + size,          1.0, 1.0,
+				x,         y + size,          0.0, 1.0
 			}
 
-			local pBox = ffi.new( "GLfloat[?]", #box, box )
-			local size = ffi.sizeof( pBox )
-			GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pBox, GL.GL_DYNAMIC_DRAW )
+			local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
+			local size = ffi.sizeof( pVertices )
+			GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
 			framework.graphics.updateTransform()
-			GL.glDrawArrays( GL.GL_TRIANGLE_STRIP, 0, 4 )
+			GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
+			GL.glDrawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )
 
-			x = x + ( g.advance.x / 64 ) * sx
-			y = y + ( g.advance.y / 64 ) * sy
+			x = x + ( g.advance.x / 64 )
+			y = y + ( g.advance.y / 64 )
 		else
 			error( "Could not load character '" .. char .. "'", 3 )
 		end

@@ -16,6 +16,7 @@ local GL  = require( "lib.opengl" )
 local SDL = require( "lib.sdl" )
 
 local framework = framework
+local tostring  = tostring
 
 module( "framework.graphics" )
 
@@ -55,6 +56,7 @@ function newImage( filename )
 end
 
 function print( text, x, y, r, sx, sy, ox, oy, kx, ky )
+	text = tostring( text )
 	x = x or 0
 	y = y or 0
 	getFont():print( text, x, y, r, sx, sy, ox, oy, kx, ky )
@@ -74,4 +76,8 @@ end
 
 function setFont( font )
 	_font = font
+end
+
+function setVSync( vsync )
+	SDL.SDL_GL_SetSwapInterval( vsync and 1 or 0 )
 end
