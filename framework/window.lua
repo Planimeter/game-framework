@@ -36,6 +36,9 @@ function createWindow( title, x, y, width, height, flags )
 	framework.graphics.setOrthographicProjection( width, height )
 	framework.graphics.createDefaultTexture()
 
+	GL.glEnable( GL.GL_BLEND )
+	GL.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA )
+
 	local font = framework.graphics.newFont( "fonts/Vera.ttf" )
 	framework.graphics.setFont( font )
 end

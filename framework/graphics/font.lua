@@ -45,6 +45,8 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
 	GL.glPixelStorei( GL.GL_UNPACK_ALIGNMENT, 1 )
+	local swizzleMask = ffi.new( "GLint[4]", { GL.GL_RED, GL.GL_RED, GL.GL_RED, GL.GL_RED } )
+	GL.glTexParameteriv( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_SWIZZLE_RGBA, swizzleMask )
 
 	local face = self.face[0]
 	for i = 1, #text do
