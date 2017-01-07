@@ -8,7 +8,7 @@ local ffi = require( "ffi" )
 io.input( "lib/ilut.h" )
 ffi.cdef( io.read( "*all" ) )
 
-local ILUT = ffi.load( "ILUT" )
+local IL = ffi.load( ffi.os == "Windows" and "DevIL" or "ILUT" )
 local _M = {
 	CLAMP_HALF		= 1,
 	CLAMP_FLOATS	= 1,
@@ -344,6 +344,6 @@ local _M = {
 }
 return setmetatable( _M, {
 	__index = function( table, key )
-		return ILUT[ key ]
+		return IL[ key ]
 	end
 } )
