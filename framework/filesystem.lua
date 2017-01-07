@@ -38,3 +38,7 @@ function read( filename )
 	physfs.PHYSFS_close( file )
 	return ffi.string( buffer, length ), length
 end
+
+function getLastModified( filename )
+	return physfs.PHYSFS_getLastModTime( filename )
+end
