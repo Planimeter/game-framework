@@ -14,9 +14,14 @@ local framework = framework
 module( "framework.window" )
 
 function createWindow( title, x, y, width, height, flags )
-	x     = x or SDL.SDL_WINDOWPOS_UNDEFINED
-	y     = y or SDL.SDL_WINDOWPOS_UNDEFINED
-	flags = bit.bor( ffi.C.SDL_WINDOW_OPENGL, flags or 0 )
+	x = x or SDL.SDL_WINDOWPOS_UNDEFINED
+	y = y or SDL.SDL_WINDOWPOS_UNDEFINED
+
+	local defaultFlags = bit.bor(
+		ffi.C.SDL_WINDOW_OPENGL,
+		ffi.C.SDL_WINDOW_ALLOW_HIGHDPI
+	)
+	flags = bit.bor( defaultFlags, flags or 0 )
 
 	SDL.SDL_InitSubSystem( SDL.SDL_INIT_VIDEO )
 	SDL.SDL_GL_SetAttribute(
