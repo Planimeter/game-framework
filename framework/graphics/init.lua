@@ -55,6 +55,11 @@ function newImage( filename )
 	return image( filename )
 end
 
+function newModel( filename )
+	local model = framework.graphics.model
+	return model( filename )
+end
+
 function print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	text = tostring( text )
 	x = x or 0
