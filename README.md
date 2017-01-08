@@ -39,11 +39,11 @@ LuaJIT FFI bindings for kazmath
 Lua with Classes
 * [ldevil](https://github.com/Planimeter/ldevil)  
 LuaJIT FFI bindings for DevIL
-* [lfreetype](https://github.com/andrewmcwatters/lfreetype)  
+* [lfreetype](https://github.com/Planimeter/lfreetype)  
 LuaJIT FFI bindings for FreeType
-* [lchipmunk](https://github.com/andrewmcwatters/lchipmunk)  
+* [lchipmunk](https://github.com/Planimeter/lchipmunk)  
 LuaJIT FFI bindings for Chipmunk
-* [lassimp](https://github.com/andrewmcwatters/lassimp)  
+* [lassimp](https://github.com/Planimeter/lassimp)  
 LuaJIT FFI bindings for Assimp
 
 ## License
