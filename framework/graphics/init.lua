@@ -11,8 +11,8 @@ require( "framework.graphics.primitive" )
 require( "framework.graphics.shader" )
 require( "framework.graphics.transformation" )
 
-local ffi = require( "ffi" )
 local GL  = require( "lib.opengl" )
+local ffi = require( "ffi" )
 local SDL = require( "lib.sdl" )
 
 local framework = framework
