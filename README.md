@@ -16,7 +16,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=13523
 ### macOS
 
 ```bash
-brew install luajit physfs sdl2 devil freetype chipmunk
+brew install luajit physfs sdl2 devil freetype chipmunk assimp
 ```
 
 ## Run
@@ -43,6 +43,8 @@ LuaJIT FFI bindings for DevIL
 LuaJIT FFI bindings for FreeType
 * [lchipmunk](https://github.com/andrewmcwatters/lchipmunk)  
 LuaJIT FFI bindings for Chipmunk
+* [lassimp](https://github.com/andrewmcwatters/lassimp)  
+LuaJIT FFI bindings for Assimp
 
 ## License
 
