@@ -35,10 +35,10 @@ LuaJIT FFI bindings for SDL 2.0
 LuaJIT FFI bindings for OpenGL
 * [lkazmath](https://github.com/Planimeter/lkazmath)  
 LuaJIT FFI bindings for kazmath
-* [ldevil](https://github.com/Planimeter/ldevil)  
-LuaJIT FFI bindings for DevIL
 * [lclass](https://github.com/andrewmcwatters/lclass)  
 Lua with Classes
+* [ldevil](https://github.com/Planimeter/ldevil)  
+LuaJIT FFI bindings for DevIL
 * [lfreetype](https://github.com/andrewmcwatters/lfreetype)  
 LuaJIT FFI bindings for FreeType
 

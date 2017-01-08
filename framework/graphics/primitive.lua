@@ -4,8 +4,8 @@
 --
 --============================================================================--
 
-local ffi = require( "ffi" )
 local GL  = require( "lib.opengl" )
+local ffi = require( "ffi" )
 
 local framework = framework
 
