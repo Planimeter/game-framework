@@ -2,31 +2,25 @@
 Game development framework for Lua
 
 ## Create a Project
-
 [Getting Started](https://github.com/Planimeter/lgameframework/wiki/Getting%20Started)  
 [API Documentation](https://github.com/Planimeter/lgameframework/wiki)
 
 ## Install
-
 ### Windows
-
 **Microsoft Visual C++ 2010 SP1 Redistributable Package (x64)**  
 https://www.microsoft.com/en-us/download/details.aspx?id=13523
 
 ### macOS
-
 ```bash
 brew install luajit physfs sdl2 devil freetype chipmunk assimp
 ```
 
 ## Run
-
 ```bash
 luajit framework/init.lua
 ```
 
 ## Libraries
-
 * [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
 LuaJIT FFI bindings for PhysicsFS
 * [lsdl](https://github.com/Planimeter/lsdl)  
@@ -47,7 +41,6 @@ LuaJIT FFI bindings for Chipmunk
 LuaJIT FFI bindings for Assimp
 
 ## License
-
 The MIT License
 
 Copyright (c) 2017 Planimeter. http://planimeter.org
