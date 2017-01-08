@@ -38,7 +38,7 @@ function main()
 
 		local dt = 0
 		if ( framework.timer ) then
-			dt = framework.timer.update()
+			dt = framework.timer.step()
 		end
 
 		update( dt )

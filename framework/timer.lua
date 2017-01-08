@@ -26,7 +26,7 @@ function getTime()
 	return SDL.SDL_GetTicks()
 end
 
-function update()
+function step()
 	frames = frames + 1
 
 	local time = getTime()
