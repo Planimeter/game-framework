@@ -56,15 +56,19 @@ function handle( e )
 	elseif ( e.type == ffi.C.SDL_KEYDOWN ) then
 		local key      = SDL.SDL_GetKeyName( e.key.keysym.sym )
 		key            = ffi.string( key )
+		key            = string.lower( key )
 		local scancode = SDL.SDL_GetScancodeName( e.key.keysym.scancode )
 		scancode       = ffi.string( scancode )
+		scancode       = string.lower( scancode )
 		local isrepeat = e.key[ "repeat" ] == 1 and true or false
 		framework.keypressed( key, scancode, isrepeat )
 	elseif ( e.type == ffi.C.SDL_KEYUP ) then
 		local key      = SDL.SDL_GetKeyName( e.key.keysym.sym )
 		key            = ffi.string( key )
+		key            = string.lower( key )
 		local scancode = SDL.SDL_GetScancodeName( e.key.keysym.scancode )
 		scancode       = ffi.string( scancode )
+		scancode       = string.lower( scancode )
 		framework.keyreleased( key, scancode )
 	elseif ( e.type == ffi.C.SDL_TEXTEDITING ) then
 		framework.textedited( e.edit.text, e.edit.start, e.edit.length )
