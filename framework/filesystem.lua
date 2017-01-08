@@ -9,12 +9,16 @@ local ffi    = require( "ffi" )
 
 module( "framework.filesystem" )
 
-function init( arg )
-	return physfs.PHYSFS_init( arg ) ~= 0
-end
-
 function exists( filename )
 	return physfs.PHYSFS_exists( filename ) ~= 0
+end
+
+function getLastModified( filename )
+	return physfs.PHYSFS_getLastModTime( filename )
+end
+
+function init( arg )
+	return physfs.PHYSFS_init( arg ) ~= 0
 end
 
 function isDirectory( filename )
@@ -37,8 +41,4 @@ function read( filename )
 	physfs.PHYSFS_read( file, buffer, 1, length )
 	physfs.PHYSFS_close( file )
 	return ffi.string( buffer, length ), length
-end
-
-function getLastModified( filename )
-	return physfs.PHYSFS_getLastModTime( filename )
 end
