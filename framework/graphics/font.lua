@@ -7,7 +7,7 @@
 local FT  = require( "lib.freetype" )
 local ffi = require( "ffi" )
 require( "class" )
-local GL  = require( "lib.opengl" )
+local GL = require( "lib.opengl" )
 
 local ft = ffi.new( "FT_Library[1]" )
 FT.FT_Init_FreeType( ft )
@@ -55,8 +55,8 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 			local g        = face.glyph
 			local gx       = x + g.bitmap_left
 			local gy       = y + face.size.metrics.ascender / 64 - g.bitmap_top
-			local width    =     g.bitmap.width
-			local height   =     g.bitmap.rows
+			local width    = g.bitmap.width
+			local height   = g.bitmap.rows
 			local vertices = {
 				-- vertex              -- texcoord
 				gx,         gy + height, 0.0, 1.0,

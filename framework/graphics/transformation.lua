@@ -4,7 +4,6 @@
 --
 --============================================================================--
 
-require( "framework.math" )
 local kazmath = require( "lib.kazmath" )
 local GL      = require( "lib.opengl" )
 
@@ -20,7 +19,8 @@ function getTransform()
 end
 
 function push()
-	local top = framework.math.newMat4( getTransform() )
+	local top = ffi.new( "kmMat4" )
+	kazmath.kmMat4Assign( top, getTransform() )
 	table.insert( state, top )
 end
 
@@ -35,14 +35,14 @@ end
 
 function scale( x, y, z )
 	z = z or 1
-	local scaling = framework.math.newMat4()
+	local scaling = ffi.new( "kmMat4" )
 	kazmath.kmMat4Scaling( scaling, x, y, z )
 	kazmath.kmMat4Multiply( getTransform(), getTransform(), scaling )
 end
 
 function translate( x, y, z )
 	z = z or 0
-	local translation = framework.math.newMat4()
+	local translation = ffi.new( "kmMat4" )
 	kazmath.kmMat4Translation( translation, x, y, z )
 	kazmath.kmMat4Multiply( getTransform(), getTransform(), translation )
 end
