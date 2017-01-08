@@ -13,7 +13,7 @@ function exists( filename )
 	return physfs.PHYSFS_exists( filename ) ~= 0
 end
 
-function getLastModTime( filename )
+function getLastModified( filename )
 	return physfs.PHYSFS_getLastModTime( filename )
 end
 
