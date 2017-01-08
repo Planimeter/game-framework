@@ -53,10 +53,6 @@ function resize( width, height )
 	framework.graphics.setOrthographicProjection( width, height )
 end
 
-function setTitle( title )
-	SDL.SDL_SetWindowTitle( window, title )
-end
-
 function swap()
 	SDL.SDL_GL_SwapWindow( window )
 	framework.graphics.drawCalls = 0
