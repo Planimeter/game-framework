@@ -41,6 +41,8 @@ Lua with Classes
 LuaJIT FFI bindings for DevIL
 * [lfreetype](https://github.com/andrewmcwatters/lfreetype)  
 LuaJIT FFI bindings for FreeType
+* [lchipmunk](https://github.com/andrewmcwatters/lchipmunk)  
+LuaJIT FFI bindings for Chipmunk
 
 ## License
 
