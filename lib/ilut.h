@@ -214,58 +214,58 @@ struct __sFILEX;
 // } FILE;
 
 
-extern FILE *__stdinp;
-extern FILE *__stdoutp;
-extern FILE *__stderrp;
-void clearerr(FILE *);
-int fclose(FILE *);
-int feof(FILE *);
-int ferror(FILE *);
-int fflush(FILE *);
-int fgetc(FILE *);
-int fgetpos(FILE * restrict, fpos_t *);
-char *fgets(char * restrict, int, FILE *);
+// extern FILE *__stdinp;
+// extern FILE *__stdoutp;
+// extern FILE *__stderrp;
+// void clearerr(FILE *);
+// int fclose(FILE *);
+// int feof(FILE *);
+// int ferror(FILE *);
+// int fflush(FILE *);
+// int fgetc(FILE *);
+// int fgetpos(FILE * restrict, fpos_t *);
+// char *fgets(char * restrict, int, FILE *);
 
 
 
-FILE *fopen(const char * restrict __filename, const char * restrict __mode) __asm("_" "fopen" );
+// FILE *fopen(const char * restrict __filename, const char * restrict __mode) __asm("_" "fopen" );
 
-int fprintf(FILE * restrict, const char * restrict, ...) __attribute__((__format__ (__printf__, 2, 3)));
-int fputc(int, FILE *);
-int fputs(const char * restrict, FILE * restrict) __asm("_" "fputs" );
-size_t fread(void * restrict __ptr, size_t __size, size_t __nitems, FILE * restrict __stream);
-FILE *freopen(const char * restrict, const char * restrict,
-                 FILE * restrict) __asm("_" "freopen" );
-int fscanf(FILE * restrict, const char * restrict, ...) __attribute__((__format__ (__scanf__, 2, 3)));
-int fseek(FILE *, long, int);
-int fsetpos(FILE *, const fpos_t *);
-long ftell(FILE *);
-size_t fwrite(const void * restrict __ptr, size_t __size, size_t __nitems, FILE * restrict __stream) __asm("_" "fwrite" );
-int getc(FILE *);
+// int fprintf(FILE * restrict, const char * restrict, ...) __attribute__((__format__ (__printf__, 2, 3)));
+// int fputc(int, FILE *);
+// int fputs(const char * restrict, FILE * restrict) __asm("_" "fputs" );
+// size_t fread(void * restrict __ptr, size_t __size, size_t __nitems, FILE * restrict __stream);
+// FILE *freopen(const char * restrict, const char * restrict,
+                 // FILE * restrict) __asm("_" "freopen" );
+// int fscanf(FILE * restrict, const char * restrict, ...) __attribute__((__format__ (__scanf__, 2, 3)));
+// int fseek(FILE *, long, int);
+// int fsetpos(FILE *, const fpos_t *);
+// long ftell(FILE *);
+// size_t fwrite(const void * restrict __ptr, size_t __size, size_t __nitems, FILE * restrict __stream) __asm("_" "fwrite" );
+// int getc(FILE *);
 int getchar(void);
 char *gets(char *);
 void perror(const char *);
 int printf(const char * restrict, ...) __attribute__((__format__ (__printf__, 1, 2)));
-int putc(int, FILE *);
+// int putc(int, FILE *);
 int putchar(int);
 int puts(const char *);
 int remove(const char *);
 int rename (const char *__old, const char *__new);
-void rewind(FILE *);
+// void rewind(FILE *);
 int scanf(const char * restrict, ...) __attribute__((__format__ (__scanf__, 1, 2)));
-void setbuf(FILE * restrict, char * restrict);
-int setvbuf(FILE * restrict, char * restrict, int, size_t);
+// void setbuf(FILE * restrict, char * restrict);
+// int setvbuf(FILE * restrict, char * restrict, int, size_t);
 int sprintf(char * restrict, const char * restrict, ...) __attribute__((__format__ (__printf__, 2, 3))) __attribute__((__availability__(swift, unavailable, message="Use snprintf instead.")));
 int sscanf(const char * restrict, const char * restrict, ...) __attribute__((__format__ (__scanf__, 2, 3)));
-FILE *tmpfile(void);
+// FILE *tmpfile(void);
 
 __attribute__((__availability__(swift, unavailable, message="Use mkstemp(3) instead.")))
 
 __attribute__((deprecated("This function is provided for compatibility reasons only.  Due to security concerns inherent in the design of tmpnam(3), it is highly recommended that you use mkstemp(3) instead.")))
 
 char *tmpnam(char *);
-int ungetc(int, FILE *);
-int vfprintf(FILE * restrict, const char * restrict, va_list) __attribute__((__format__ (__printf__, 2, 0)));
+// int ungetc(int, FILE *);
+// int vfprintf(FILE * restrict, const char * restrict, va_list) __attribute__((__format__ (__printf__, 2, 0)));
 int vprintf(const char * restrict, va_list) __attribute__((__format__ (__printf__, 1, 0)));
 int vsprintf(char * restrict, const char * restrict, va_list) __attribute__((__format__ (__printf__, 2, 0))) __attribute__((__availability__(swift, unavailable, message="Use vsnprintf instead.")));
 char *ctermid(char *);
@@ -274,35 +274,35 @@ char *ctermid(char *);
 
 
 
-FILE *fdopen(int, const char *) __asm("_" "fdopen" );
+// FILE *fdopen(int, const char *) __asm("_" "fdopen" );
 
-int fileno(FILE *);
-int pclose(FILE *) __attribute__((__availability__(swift, unavailable, message="Use posix_spawn APIs or NSTask instead.")));
+// int fileno(FILE *);
+// int pclose(FILE *) __attribute__((__availability__(swift, unavailable, message="Use posix_spawn APIs or NSTask instead.")));
 
 
 
-FILE *popen(const char *, const char *) __asm("_" "popen" ) __attribute__((__availability__(swift, unavailable, message="Use posix_spawn APIs or NSTask instead.")));
-int __srget(FILE *);
-int __svfscanf(FILE *, const char *, va_list) __attribute__((__format__ (__scanf__, 2, 0)));
-int __swbuf(int, FILE *);
-inline __attribute__ ((__always_inline__)) int __sputc(int _c, FILE *_p) {
- if (--_p->_w >= 0 || (_p->_w >= _p->_lbfsize && (char)_c != '\n'))
-  return (*_p->_p++ = _c);
- else
-  return (__swbuf(_c, _p));
-}
-void flockfile(FILE *);
-int ftrylockfile(FILE *);
-void funlockfile(FILE *);
-int getc_unlocked(FILE *);
+// FILE *popen(const char *, const char *) __asm("_" "popen" ) __attribute__((__availability__(swift, unavailable, message="Use posix_spawn APIs or NSTask instead.")));
+// int __srget(FILE *);
+// int __svfscanf(FILE *, const char *, va_list) __attribute__((__format__ (__scanf__, 2, 0)));
+// int __swbuf(int, FILE *);
+// inline __attribute__ ((__always_inline__)) int __sputc(int _c, FILE *_p) {
+//  if (--_p->_w >= 0 || (_p->_w >= _p->_lbfsize && (char)_c != '\n'))
+//   return (*_p->_p++ = _c);
+//  else
+//   return (__swbuf(_c, _p));
+// }
+// void flockfile(FILE *);
+// int ftrylockfile(FILE *);
+// void funlockfile(FILE *);
+// int getc_unlocked(FILE *);
 int getchar_unlocked(void);
-int putc_unlocked(int, FILE *);
+// int putc_unlocked(int, FILE *);
 int putchar_unlocked(int);
 
 
 
-int getw(FILE *);
-int putw(int, FILE *);
+// int getw(FILE *);
+// int putw(int, FILE *);
 
 
 __attribute__((__availability__(swift, unavailable, message="Use mkstemp(3) instead.")))
@@ -313,15 +313,15 @@ char *tempnam(const char *__dir, const char *__prefix) __asm("_" "tempnam" );
 typedef __darwin_off_t off_t;
 
 
-int fseeko(FILE * __stream, off_t __offset, int __whence);
-off_t ftello(FILE * __stream);
+// int fseeko(FILE * __stream, off_t __offset, int __whence);
+// off_t ftello(FILE * __stream);
 
 
 
 
 
 int snprintf(char * restrict __str, size_t __size, const char * restrict __format, ...) __attribute__((__format__ (__printf__, 3, 4)));
-int vfscanf(FILE * restrict __stream, const char * restrict __format, va_list) __attribute__((__format__ (__scanf__, 2, 0)));
+// int vfscanf(FILE * restrict __stream, const char * restrict __format, va_list) __attribute__((__format__ (__scanf__, 2, 0)));
 int vscanf(const char * restrict __format, va_list) __attribute__((__format__ (__scanf__, 1, 0)));
 int vsnprintf(char * restrict __str, size_t __size, const char * restrict __format, va_list) __attribute__((__format__ (__printf__, 3, 0)));
 int vsscanf(const char * restrict __str, const char * restrict __format, va_list) __attribute__((__format__ (__scanf__, 2, 0)));
@@ -330,30 +330,30 @@ typedef __darwin_ssize_t ssize_t;
 
 int dprintf(int, const char * restrict, ...) __attribute__((__format__ (__printf__, 2, 3))) __attribute__((availability(macosx,introduced=10.7)));
 int vdprintf(int, const char * restrict, va_list) __attribute__((__format__ (__printf__, 2, 0))) __attribute__((availability(macosx,introduced=10.7)));
-ssize_t getdelim(char ** restrict __linep, size_t * restrict __linecapp, int __delimiter, FILE * restrict __stream) __attribute__((availability(macosx,introduced=10.7)));
-ssize_t getline(char ** restrict __linep, size_t * restrict __linecapp, FILE * restrict __stream) __attribute__((availability(macosx,introduced=10.7)));
+// ssize_t getdelim(char ** restrict __linep, size_t * restrict __linecapp, int __delimiter, FILE * restrict __stream) __attribute__((availability(macosx,introduced=10.7)));
+// ssize_t getline(char ** restrict __linep, size_t * restrict __linecapp, FILE * restrict __stream) __attribute__((availability(macosx,introduced=10.7)));
 extern const int sys_nerr;
 extern const char *const sys_errlist[];
 
 int asprintf(char ** restrict, const char * restrict, ...) __attribute__((__format__ (__printf__, 2, 3)));
 char *ctermid_r(char *);
-char *fgetln(FILE *, size_t *);
+// char *fgetln(FILE *, size_t *);
 const char *fmtcheck(const char *, const char *);
-int fpurge(FILE *);
-void setbuffer(FILE *, char *, int);
-int setlinebuf(FILE *);
+// int fpurge(FILE *);
+// void setbuffer(FILE *, char *, int);
+// int setlinebuf(FILE *);
 int vasprintf(char ** restrict, const char * restrict, va_list) __attribute__((__format__ (__printf__, 2, 0)));
-FILE *zopen(const char *, const char *, int);
+// FILE *zopen(const char *, const char *, int);
 
 
 
 
 
-FILE *funopen(const void *,
-                 int (* _Nullable)(void *, char *, int),
-                 int (* _Nullable)(void *, const char *, int),
-                 fpos_t (* _Nullable)(void *, fpos_t, int),
-                 int (* _Nullable)(void *));
+// FILE *funopen(const void *,
+//                  int (* _Nullable)(void *, char *, int),
+//                  int (* _Nullable)(void *, const char *, int),
+//                  fpos_t (* _Nullable)(void *, fpos_t, int),
+//                  int (* _Nullable)(void *));
 extern int __sprintf_chk (char * restrict, int, size_t,
      const char * restrict, ...);
 extern int __snprintf_chk (char * restrict, size_t, int, size_t,
