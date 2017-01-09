@@ -62,8 +62,8 @@ function init()
 
 	local c = {
 		modules = {
-			timer    = true,
 			window   = true,
+			timer    = true,
 			graphics = true
 		},
 		window = {
