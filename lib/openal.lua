@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "lib/al.h" )
+io.input( "include/al.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( "OpenAL.framework/OpenAL" )

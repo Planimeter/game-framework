@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "lib/cimport.h" )
+io.input( "include/cimport.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( "assimp" )

@@ -5,7 +5,7 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "lib/ilut.h" )
+io.input( "include/ilut.h" )
 ffi.cdef( io.read( "*all" ) )
 
 local IL = ffi.load( ffi.os == "Windows" and "DevIL" or "ILUT" )
