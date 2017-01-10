@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "chipmunk.h" )
+io.input( "lib/chipmunk.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( "chipmunk" )
