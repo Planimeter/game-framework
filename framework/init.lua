@@ -83,8 +83,8 @@ function init()
 		framework.conf( c )
 	end
 
-	for k in pairs( c.modules ) do
-		require( "framework." .. k )
+	for k, v in pairs( c.modules ) do
+		if ( v ) then require( "framework." .. k ) end
 	end
 
 	if ( c.modules.window ) then
