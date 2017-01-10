@@ -4,7 +4,9 @@
 --
 --============================================================================--
 
-package.path = string.gsub( package.path, "./?.lua;", "./?.lua;./?/init.lua;" )
+package.path  = string.gsub( package.path, "./?.lua;", "./?.lua;./?/init.lua;" )
+package.path  = "lib/?.lua;" .. package.path
+package.cpath = "lib/?.so;"  .. package.cpath
 
 local framework = {}
 _G.framework    = framework
