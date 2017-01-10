@@ -11,9 +11,9 @@ require( "framework.graphics.primitive" )
 require( "framework.graphics.shader" )
 require( "framework.graphics.transformation" )
 
-local GL  = require( "lib.opengl" )
+local GL  = require( "opengl" )
 local ffi = require( "ffi" )
-local SDL = require( "lib.sdl" )
+local SDL = require( "sdl" )
 
 local framework = framework
 local tostring  = tostring

@@ -5,9 +5,9 @@
 --============================================================================--
 
 require( "class" )
-local assimp = require( "lib.assimp" )
+local assimp = require( "assimp" )
 local ffi    = require( "ffi" )
-local GL     = require( "lib.opengl" )
+local GL     = require( "opengl" )
 
 class( "framework.graphics.model" )
 

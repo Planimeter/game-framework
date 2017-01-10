@@ -4,6 +4,6 @@
 --
 --============================================================================--
 
-local chipmunk = require( "lib.chipmunk" )
+local chipmunk = require( "chipmunk" )
 
 module( "framework.physics" )

@@ -4,10 +4,10 @@
 --
 --============================================================================--
 
-local IL  = require( "lib.devil" )
+local IL  = require( "devil" )
 require( "class" )
 local ffi = require( "ffi" )
-local GL  = require( "lib.opengl" )
+local GL  = require( "opengl" )
 
 IL.ilInit()
 

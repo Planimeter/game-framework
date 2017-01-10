@@ -4,10 +4,10 @@
 --
 --============================================================================--
 
-local SDL = require( "lib.sdl" )
+local SDL = require( "sdl" )
 local ffi = require( "ffi" )
 local bit = require( "bit" )
-local GL  = require( "lib.opengl" )
+local GL  = require( "opengl" )
 
 local framework = framework
 

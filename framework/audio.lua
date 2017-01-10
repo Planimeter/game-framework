@@ -4,7 +4,7 @@
 --
 --============================================================================--
 
-local AL = require( "lib.openal" )
+local AL = require( "openal" )
 
 module( "framework.audio" )
 

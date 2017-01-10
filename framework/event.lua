@@ -4,7 +4,7 @@
 --
 --============================================================================--
 
-local SDL = require( "lib.sdl" )
+local SDL = require( "sdl" )
 local ffi = require( "ffi" )
 
 local framework      = framework

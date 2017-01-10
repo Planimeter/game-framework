@@ -4,8 +4,8 @@
 --
 --============================================================================--
 
-local kazmath = require( "lib.kazmath" )
-local GL      = require( "lib.opengl" )
+local kazmath = require( "kazmath" )
+local GL      = require( "opengl" )
 
 local framework = framework
 local table     = table

@@ -5,7 +5,7 @@
 --============================================================================--
 
 require( "class" )
-local sndfile = require( "lib.sndfile" )
+local sndfile = require( "sndfile" )
 local ffi     = require( "ffi" )
 
 class( "framework.graphics.sound" )

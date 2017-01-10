@@ -5,7 +5,7 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-local SDL = require( "lib.sdl" )
+local SDL = require( "sdl" )
 io.input( "lib/glcorearb.h" )
 ffi.cdef( io.read( "*all" ) )
 

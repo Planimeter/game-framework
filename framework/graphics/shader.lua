@@ -5,8 +5,8 @@
 --============================================================================--
 
 local ffi     = require( "ffi" )
-local GL      = require( "lib.opengl" )
-local kazmath = require( "lib.kazmath" )
+local GL      = require( "opengl" )
+local kazmath = require( "kazmath" )
 
 local error     = error
 local framework = framework

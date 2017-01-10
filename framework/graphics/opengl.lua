@@ -5,7 +5,7 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-local GL  = require( "lib.opengl" )
+local GL  = require( "opengl" )
 
 module( "framework.graphics" )
 

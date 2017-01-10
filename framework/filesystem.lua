@@ -4,7 +4,7 @@
 --
 --============================================================================--
 
-local physfs = require( "lib.physicsfs" )
+local physfs = require( "physicsfs" )
 local ffi    = require( "ffi" )
 
 module( "framework.filesystem" )

@@ -4,6 +4,6 @@
 --
 --============================================================================--
 
-local SDL = require( "lib.sdl" )
+local SDL = require( "sdl" )
 
 module( "framework.keyboard" )
