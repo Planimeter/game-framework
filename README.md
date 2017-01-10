@@ -37,6 +37,8 @@ LuaJIT FFI bindings for DevIL
 LuaJIT FFI bindings for FreeType
 * [lsndfile](https://github.com/Planimeter/lsndfile)  
 LuaJIT FFI bindings for libsndfile
+* [lopenal](https://github.com/Planimeter/lopenal)  
+LuaJIT FFI bindings for OpenAL
 * [lchipmunk](https://github.com/Planimeter/lchipmunk)  
 LuaJIT FFI bindings for Chipmunk
 * [lassimp](https://github.com/Planimeter/lassimp)  
