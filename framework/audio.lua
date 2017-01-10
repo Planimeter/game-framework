@@ -4,6 +4,8 @@
 --
 --============================================================================--
 
+local AL = require( "lib.openal" )
+
 module( "framework.audio" )
 
 function newSource( filename )
