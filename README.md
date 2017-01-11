@@ -1,4 +1,6 @@
 # lgameframework
+
+[![Join the chat at https://gitter.im/Planimeter/lgameframework](https://badges.gitter.im/Planimeter/lgameframework.svg)](https://gitter.im/Planimeter/lgameframework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Game development framework for Lua
 
 ## Create a Project
