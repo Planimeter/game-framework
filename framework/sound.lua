@@ -14,7 +14,7 @@ local sound = framework.graphics.sound
 
 function sound:sound( filename )
 	self.info = ffi.new( "SF_INFO[1]" )
-	self.file = sndfile.sf_open( filename, ffi.C.SFM_READ self.info )
+	self.file = sndfile.sf_open( filename, ffi.C.SFM_READ, self.info )
 	setproxy( self )
 end
 
