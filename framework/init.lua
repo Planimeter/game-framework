@@ -4,9 +4,14 @@
 --
 --============================================================================--
 
-package.path  = string.gsub( package.path, "./?.lua;", "./?.lua;./?/init.lua;" )
-package.path  = "lib/?.lua;" .. package.path
-package.cpath = "lib/?.so;"  .. package.cpath
+package.path = string.gsub( package.path, "./?.lua;", "./?.lua;./?/init.lua;" )
+package.path = "lib/?.lua;" .. package.path
+
+if ( jit.os == "Windows" ) then
+	package.cpath = "lib/?.dll;"  .. package.cpath
+else
+	package.cpath = "lib/?.so;"  .. package.cpath
+end
 
 local framework = {}
 _G.framework    = framework
