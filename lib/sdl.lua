@@ -24,6 +24,20 @@ local function SDL_WINDOWPOS_ISUNDEFINED(X)
 end
 
 local _M = {
+	--[[
+	 *  \name Audio format flags
+	 *
+	 *  Defaults to LSB byte order.
+	 ]]
+	AUDIO_U8        = 0x0008,  --[[< Unsigned 8-bit samples ]]
+	AUDIO_S8        = 0x8008,  --[[< Signed 8-bit samples ]]
+	AUDIO_U16LSB    = 0x0010,  --[[< Unsigned 16-bit samples ]]
+	AUDIO_S16LSB    = 0x8010,  --[[< Signed 16-bit samples ]]
+	AUDIO_U16MSB    = 0x1010,  --[[< As above, but big-endian byte order ]]
+	AUDIO_S16MSB    = 0x9010,  --[[< As above, but big-endian byte order ]]
+	AUDIO_U16       = 0x0010,
+	AUDIO_S16       = 0x8010,
+
 	--[[ Used as the device ID for mouse events simulated with touch input ]]
 	SDL_TOUCH_MOUSEID = (-1),
 
