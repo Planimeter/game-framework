@@ -32,6 +32,7 @@ While LÖVE advertises itself as a game engine/framework, lgf is strictly a fram
 ## Features
 * SDL2 for window creation, OpenGL function loading, and event handling
 * Modern OpenGL (OpenGL 3.3/4.0+ Core Profile)
+* DevIL for loading a wide variety of image formats
 * SDL_sound for decoding several popular sound file formats
 * OpenAL for rendering 3D sound
 * PhysicsFS for abstracting access to various archives
