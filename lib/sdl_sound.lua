@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/sndfile.h" )
+io.input( "include/SDL_sound.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "sndfile" )
+return ffi.load( "SDL_sound" )
