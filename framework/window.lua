@@ -48,6 +48,19 @@ function createWindow( title, x, y, width, height, flags )
 	framework.graphics.setFont( font )
 end
 
+function getPixelScale()
+	local gw = framework.graphics.getSize()
+	local ww = getSize()
+	return gw / ww
+end
+
+function getSize()
+	local width  = ffi.new( "int[1]" )
+	local height = ffi.new( "int[1]" )
+	SDL.SDL_GetWindowSize( framework.window.window, width, height )
+	return width[0], height[0]
+end
+
 function resize( width, height )
 	GL.glViewport( 0, 0, width, height )
 	framework.graphics.setOrthographicProjection( width, height )
