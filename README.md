@@ -3,22 +3,6 @@ Game development framework for Lua
 
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/Planimeter/lgameframework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## About
-### Overview
-lgf is a replacement for LÖVE built on LuaJIT and the FFI library. It implements a subset of LÖVE's API, while omitting LÖVE-specific features.
-
-### Framework versus game engine
-While LÖVE advertises itself as a game engine/framework, lgf is strictly a framework. It only simplifies the collective libraries below in to an easy-to-read set of modules for graphics, audio, event, filesystem, keyboard, mouse, physics, sound, timer, and window usage. It does not provider higher-level constructs such as UI, keyboard and mouse bindings, entities, or level loading.
-
-## Features
-* SDL2 for window creation, OpenGL function loading, and event handling
-* Modern OpenGL (OpenGL 3.3/4.0+ Core Profile)
-* SDL_sound for decoding several popular sound file formats
-* OpenAL for rendering 3D sound
-* PhysicsFS for abstracting access to various archives
-* Chipmunk for 2-dimensional real-time rigid body physics
-* Assimp for loading various 3D file formats
-
 ## Create a Project
 [Getting Started](https://github.com/Planimeter/lgameframework/wiki/Getting%20Started)  
 [API Documentation](https://github.com/Planimeter/lgameframework/wiki)
@@ -37,6 +21,22 @@ brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp
 ```bash
 luajit framework/init.lua
 ```
+
+## About
+### Overview
+lgf is a replacement for LÖVE built on LuaJIT and the FFI library. It implements a subset of LÖVE's API, while omitting LÖVE-specific features.
+
+### Framework versus game engine
+While LÖVE advertises itself as a game engine/framework, lgf is strictly a framework. It only simplifies the collective libraries below in to an easy-to-read set of modules for graphics, audio, event, filesystem, keyboard, mouse, physics, sound, timer, and window usage. It does not provider higher-level constructs such as UI, keyboard and mouse bindings, entities, or level loading.
+
+## Features
+* SDL2 for window creation, OpenGL function loading, and event handling
+* Modern OpenGL (OpenGL 3.3/4.0+ Core Profile)
+* SDL_sound for decoding several popular sound file formats
+* OpenAL for rendering 3D sound
+* PhysicsFS for abstracting access to various archives
+* Chipmunk for 2-dimensional real-time rigid body physics
+* Assimp for loading various 3D file formats
 
 ## Libraries
 * [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
