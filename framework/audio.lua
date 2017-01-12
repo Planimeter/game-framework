@@ -21,5 +21,5 @@ function newSource( filename )
 end
 
 function play( source )
-	AL.alSourcePlay( source.source )
+	source:play()
 end

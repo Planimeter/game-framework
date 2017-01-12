@@ -27,6 +27,10 @@ function sound:sound( filename )
 	setproxy( self )
 end
 
+function sound:play()
+	AL.alSourcePlay( self.source )
+end
+
 function sound:__gc()
 	SDL_sound.Sound_FreeSample( self.sample )
 	AL.alDeleteBuffers( 1, self.buffer )
