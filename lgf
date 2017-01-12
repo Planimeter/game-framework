@@ -1,0 +1,2 @@
+#!/bin/sh
+luajit framework/init.lua "$@"
