@@ -3,6 +3,13 @@ Game development framework for Lua
 
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/Planimeter/lgameframework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+## About
+### Overview
+lgf is a replacement for LÖVE built on LuaJIT and the FFI library. It implements a subset of LÖVE's API, while omitting LÖVE-specific features.
+
+### Framework versus game engine
+While LÖVE advertises itself as a game engine/framework, lgf is strictly a framework. It only simplifies the collective libraries below in to an easy-to-read set of modules for graphics, audio, event, filesystem, keyboard, mouse, physics, sound, timer, and window usage. It does not provider higher-level constructs such as UI, keyboard and mouse bindings, entities, or level loading.
+
 ## Create a Project
 [Getting Started](https://github.com/Planimeter/lgameframework/wiki/Getting%20Started)  
 [API Documentation](https://github.com/Planimeter/lgameframework/wiki)
