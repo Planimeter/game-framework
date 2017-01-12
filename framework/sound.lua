@@ -43,7 +43,7 @@ function sound:sound( filename )
 	self.buffer = ffi.new( "ALuint[1]" )
 	AL.alGenBuffers( 1, self.buffer )
 
-	local sample = SDL_sound.Sound_NewSampleFromFile( filename, nil, 0 )
+	local sample = SDL_sound.Sound_NewSampleFromFile( filename, nil, 10240 )
 	if ( sample == nil ) then
 		error( "Could not load sound '" .. filename .. "'", 3 )
 	end
@@ -54,13 +54,20 @@ function sound:sound( filename )
 	local size   = SDL_sound.Sound_DecodeAll( sample )
 	local data   = sample.buffer
 	local freq   = info.rate
+	print( info, format, size, data, freq )
 	AL.alBufferData( self.buffer[0], format, data, size, freq )
 
 	setproxy( self )
 end
 
 function sound:play()
+	AL.alSourcei( self.source[0], AL.AL_BUFFER, self.buffer[0] )
 	AL.alSourcePlay( self.source[0] )
+end
+
+function sound:stop()
+	AL.alSourcei( self.source[0], AL.AL_BUFFER, self.buffer[0] )
+	AL.alSourceStop( self.source[0] )
 end
 
 function sound:__gc()
