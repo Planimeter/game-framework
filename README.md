@@ -1,6 +1,8 @@
 # lgameframework
 Game development framework for Lua
 
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/Planimeter/lgameframework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Create a Project
 [Getting Started](https://github.com/Planimeter/lgameframework/wiki/Getting%20Started)  
 [API Documentation](https://github.com/Planimeter/lgameframework/wiki)
