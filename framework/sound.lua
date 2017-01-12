@@ -5,8 +5,8 @@
 --============================================================================--
 
 local AL = require( "openal" )
-local SDL = require( "SDL" )
-local SDL_sound = require( "SDL_sound" )
+local SDL = require( "sdl" )
+local SDL_sound = require( "sdl_sound" )
 require( "class" )
 local ffi = require( "ffi" )
 
@@ -43,21 +43,24 @@ function sound:sound( filename )
 	self.buffer = ffi.new( "ALuint[1]" )
 	AL.alGenBuffers( 1, self.buffer )
 
-	local sample = SDL_sound.Sound_NewSampleFromFile( filename, nil, 10240 )
+	local sample = SDL_sound.Sound_NewSampleFromFile( filename, nil, 0 )
+	if ( sample == nil ) then
+		error( "Could not load sound '" .. filename .. "'", 3 )
+	end
 	self.sample = sample
 
 	local info   = sample.actual
-	local format = sound.format( info.channels, info.format )
+	local format = framework.sound.getFormat( info.channels, info.format )
 	local size   = SDL_sound.Sound_DecodeAll( sample )
 	local data   = sample.buffer
 	local freq   = info.rate
-	AL.alBufferData( self.buffer, format, data, size, freq )
+	AL.alBufferData( self.buffer[0], format, data, size, freq )
 
 	setproxy( self )
 end
 
 function sound:play()
-	AL.alSourcePlay( self.source )
+	AL.alSourcePlay( self.source[0] )
 end
 
 function sound:__gc()
