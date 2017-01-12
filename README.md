@@ -14,7 +14,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=13523
 
 ### macOS
 ```bash
-brew install luajit physfs sdl2 devil freetype libsndfile chipmunk assimp
+brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp
 ```
 
 ## Run
@@ -37,8 +37,8 @@ Lua with Classes
 LuaJIT FFI bindings for DevIL
 * [lfreetype](https://github.com/Planimeter/lfreetype)  
 LuaJIT FFI bindings for FreeType
-* [lsndfile](https://github.com/Planimeter/lsndfile)  
-LuaJIT FFI bindings for libsndfile
+* [lsdl_sound](https://github.com/Planimeter/lsdl_sound)  
+LuaJIT FFI bindings for SDL_sound
 * [lopenal](https://github.com/Planimeter/lopenal)  
 LuaJIT FFI bindings for OpenAL
 * [lchipmunk](https://github.com/Planimeter/lchipmunk)  
