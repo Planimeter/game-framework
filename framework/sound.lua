@@ -16,7 +16,7 @@ class( "framework.sound" )
 
 local sound = framework.sound
 
-function sound.getFormat( channels, type )
+local function getFormat( channels, type )
 	local format = AL.AL_NONE
 
 	if ( type == SDL.AUDIO_U8 ) then
@@ -50,7 +50,7 @@ function sound:sound( filename )
 	self.sample = sample
 
 	local info   = sample.actual
-	local format = framework.sound.getFormat( info.channels, info.format )
+	local format = getFormat( info.channels, info.format )
 	local size   = SDL_sound.Sound_DecodeAll( sample )
 	local data   = sample.buffer
 	local freq   = info.rate
