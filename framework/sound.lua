@@ -29,4 +29,6 @@ end
 
 function sound:__gc()
 	SDL_sound.Sound_FreeSample( self.sample )
+	AL.alDeleteBuffers( 1, self.buffer )
+	AL.alDeleteSources( 1, self.source )
 end
