@@ -4,20 +4,22 @@
 --
 --============================================================================--
 
+local SDL_sound = require( "SDL_sound" )
 require( "class" )
-local sndfile = require( "sndfile" )
-local ffi     = require( "ffi" )
+local ffi = require( "ffi" )
+
+SDL_sound.Sound_Init()
 
 class( "framework.graphics.sound" )
 
 local sound = framework.graphics.sound
 
 function sound:sound( filename )
-	self.info = ffi.new( "SF_INFO[1]" )
-	self.file = sndfile.sf_open( filename, ffi.C.SFM_READ, self.info )
+	self.info   = ffi.new( "Sound_AudioInfo[1]" )
+	self.sample = SDL_sound.Sound_NewSampleFromFile( filename, self.info, 10240 )
 	setproxy( self )
 end
 
 function sound:__gc()
-	sndfile.sf_close( self.file )
+	SDL_sound.Sound_FreeSample( self.sample )
 end
