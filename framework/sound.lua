@@ -4,6 +4,7 @@
 --
 --============================================================================--
 
+local AL = require( "openal" )
 local SDL_sound = require( "SDL_sound" )
 require( "class" )
 local ffi = require( "ffi" )
@@ -15,8 +16,14 @@ class( "framework.sound" )
 local sound = framework.sound
 
 function sound:sound( filename )
-	self.info   = ffi.new( "Sound_AudioInfo[1]" )
-	self.sample = SDL_sound.Sound_NewSampleFromFile( filename, self.info, 10240 )
+	self.source = ffi.new( "ALuint[1]" )
+	AL.alGenSources( 1, self.source )
+
+	self.buffer = ffi.new( "ALuint[1]" )
+	AL.alGenBuffers( 1, self.buffer )
+
+	self.sample = SDL_sound.Sound_NewSampleFromFile( filename, nil, 10240 )
+
 	setproxy( self )
 end
 
