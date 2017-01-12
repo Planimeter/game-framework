@@ -65,7 +65,6 @@ function sound:play()
 end
 
 function sound:stop()
-	AL.alSourcei( self.source[0], AL.AL_BUFFER, self.buffer[0] )
 	AL.alSourceStop( self.source[0] )
 end
 
