@@ -4,10 +4,10 @@
 --
 --============================================================================--
 
-local AL = require( "openal" )
-local SDL = require( "sdl" )
 local SDL_sound = require( "sdl_sound" )
 require( "class" )
+local AL  = require( "openal" )
+local SDL = require( "sdl" )
 local ffi = require( "ffi" )
 
 SDL_sound.Sound_Init()
@@ -54,7 +54,6 @@ function sound:sound( filename )
 	local size   = SDL_sound.Sound_DecodeAll( sample )
 	local data   = sample.buffer
 	local freq   = info.rate
-	print( info, format, size, data, freq )
 	AL.alBufferData( self.buffer[0], format, data, size, freq )
 
 	setproxy( self )
