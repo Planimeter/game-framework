@@ -4,7 +4,10 @@
 --
 --============================================================================--
 
+require( "framework.sound" )
 local AL = require( "openal" )
+
+local framework = framework
 
 module( "framework.audio" )
 

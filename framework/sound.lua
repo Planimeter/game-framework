@@ -10,9 +10,9 @@ local ffi = require( "ffi" )
 
 SDL_sound.Sound_Init()
 
-class( "framework.graphics.sound" )
+class( "framework.sound" )
 
-local sound = framework.graphics.sound
+local sound = framework.sound
 
 function sound:sound( filename )
 	self.info   = ffi.new( "Sound_AudioInfo[1]" )
