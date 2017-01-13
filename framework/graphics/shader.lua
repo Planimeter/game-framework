@@ -94,7 +94,6 @@ function setOrthographicProjection( width, height )
 	local mat4 = ffi.new( "kmMat4" )
 	kazmath.kmMat4Identity( mat4 )
 	GL.glUniformMatrix4fv( model, 1, GL.GL_FALSE, mat4.mat )
-	framework.graphics.state[ 1 ] = mat4
 
 	local view = GL.glGetUniformLocation( shader, "view" )
 	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )

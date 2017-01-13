@@ -13,7 +13,9 @@ local table     = table
 
 module( "framework.graphics" )
 
-state = state or {}
+local mat4 = ffi.new( "kmMat4" )
+kazmath.kmMat4Identity( mat4 )
+state = state or { mat4 }
 
 function getTransform()
 	return state[ #state ]
@@ -55,6 +57,6 @@ function translate( x, y, z )
 end
 
 function updateTransform()
-	local projection = GL.glGetUniformLocation( shader, "model" )
-	GL.glUniformMatrix4fv( projection, 1, GL.GL_FALSE, getTransform().mat )
+	local model = GL.glGetUniformLocation( shader, "model" )
+	GL.glUniformMatrix4fv( model, 1, GL.GL_FALSE, getTransform().mat )
 end
