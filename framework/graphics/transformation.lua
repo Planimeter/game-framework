@@ -34,6 +34,12 @@ function origin()
 	kazmath.kmMat4Identity( getTransform() )
 end
 
+function rotate( angle )
+	local rotation = ffi.new( "kmMat4" )
+	kazmath.kmMat4RotationZ( rotation, angle )
+	kazmath.kmMat4Multiply( getTransform(), getTransform(), rotation )
+end
+
 function scale( x, y, z )
 	z = z or 1
 	local scaling = ffi.new( "kmMat4" )
