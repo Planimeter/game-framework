@@ -5,6 +5,7 @@
 --============================================================================--
 
 local kazmath = require( "kazmath" )
+local ffi     = require( "ffi" )
 local GL      = require( "opengl" )
 
 local framework = framework
