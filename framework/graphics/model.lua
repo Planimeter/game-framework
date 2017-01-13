@@ -24,4 +24,5 @@ function model:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
 function model:__gc()
+	assimp.aiReleaseImport( self.scene )
 end
