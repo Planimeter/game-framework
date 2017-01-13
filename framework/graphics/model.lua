@@ -14,6 +14,9 @@ class( "framework.graphics.model" )
 local model = framework.graphics.model
 
 function model:model( filename )
+	local buffer, length = framework.filesystem.read( filename )
+	self.scene = assimp.aiImportFileFromMemory( buffer, length )
+
 	setproxy( self )
 end
 

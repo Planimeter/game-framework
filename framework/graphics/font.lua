@@ -18,7 +18,8 @@ local font = framework.graphics.font
 
 function font:font( filename, size )
 	self.face = ffi.new( "FT_Face[1]" )
-	FT.FT_New_Face( ft[0], filename, 0, self.face )
+	local buffer, length = framework.filesystem.read( filename )
+	FT.FT_New_Memory_Face( ft[0], buffer, length, 0, self.face )
 
 	self.size = size or 16
 	FT.FT_Set_Pixel_Sizes( self.face[0], 0, self.size )

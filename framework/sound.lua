@@ -58,7 +58,9 @@ function sound:sound( filename )
 	self.buffer = ffi.new( "ALuint[1]" )
 	AL.alGenBuffers( 1, self.buffer )
 
-	local sample = SDL_sound.Sound_NewSampleFromFile( filename, nil, 10240 )
+	local buffer, length = framework.filesystem.read( filename )
+	local rw = SDL.SDL_RWFromMem( buffer, length )
+	local sample = SDL_sound.Sound_NewSample( rw, nil, nil, 10240 )
 	if ( sample == nil ) then
 		error( "Could not load sound '" .. filename .. "'", 3 )
 	end
