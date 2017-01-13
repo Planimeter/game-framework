@@ -88,16 +88,16 @@ function setOrthographicProjection( width, height )
 	local projection = GL.glGetUniformLocation( shader, "projection" )
 	local mat4 = ffi.new( "kmMat4" )
 	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
-	GL.glUniformMatrix4fv( projection, 1, 0, mat4.mat )
+	GL.glUniformMatrix4fv( projection, 1, GL.GL_FALSE, mat4.mat )
 
 	local model = GL.glGetUniformLocation( shader, "model" )
 	local mat4 = ffi.new( "kmMat4" )
 	kazmath.kmMat4Identity( mat4 )
-	GL.glUniformMatrix4fv( model, 1, 0, mat4.mat )
+	GL.glUniformMatrix4fv( model, 1, GL.GL_FALSE, mat4.mat )
 	framework.graphics.state[ 1 ] = mat4
 
 	local view = GL.glGetUniformLocation( shader, "view" )
-	GL.glUniformMatrix4fv( view, 1, 0, mat4.mat )
+	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
 end
 
 function createDefaultTexture()
