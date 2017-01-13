@@ -16,6 +16,21 @@ class( "framework.sound" )
 
 local sound = framework.sound
 
+function sound.getAvailableDecoders()
+	local i = 0
+	local v = nil
+	local decoders = SDL_sound.Sound_AvailableDecoders()
+	local t = {}
+	repeat
+		v = decoders[ i ]
+		if ( v ~= nil ) then
+			table.insert( t, v )
+		end
+		i = i + 1
+	until ( v == nil )
+	return t
+end
+
 local function getFormat( channels, type )
 	local format = AL.AL_NONE
 
