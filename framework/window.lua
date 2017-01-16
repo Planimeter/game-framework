@@ -32,14 +32,14 @@ function createWindow( title, x, y, width, height, flags )
 	window  = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
 	context = SDL.SDL_GL_CreateContext( window )
 
+	width, height = framework.graphics.getSize()
 	GL.glViewport( 0, 0, width, height )
+	GL.glEnable( GL.GL_BLEND )
+	GL.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA )
 
 	framework.graphics.createDefaultVAO()
 	framework.graphics.createDefaultVBO()
 	framework.graphics.setDefaultShader()
-
-	GL.glEnable( GL.GL_BLEND )
-	GL.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA )
 
 	local font = framework.graphics.newFont( "fonts/Vera.ttf" )
 	framework.graphics.setFont( font )
