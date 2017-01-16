@@ -23,7 +23,7 @@ function createDefaultVBO()
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
 end
 
-function drawArrays( mode, first, count)
+function drawArrays( mode, first, count )
 	GL.glDrawArrays( mode, first, count )
 	drawCalls = drawCalls + 1
 end
