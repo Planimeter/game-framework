@@ -19,7 +19,7 @@ brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp
 
 ## Run
 ```bash
-lgf
+./lgf
 ```
 
 ## About
