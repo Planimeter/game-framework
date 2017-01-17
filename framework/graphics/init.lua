@@ -77,11 +77,7 @@ end
 function setFramebuffer( framebuffer )
 	if ( framebuffer and framebuffer.framebuffer ) then
 		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, framebuffer.framebuffer[0] )
-		local width, height = framebuffer.width, framebuffer.height
-		GL.glViewport( 0, 0, width, height )
-		framework.graphics.push()
 	else
-		framework.graphics.pop()
 		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, 0 )
 	end
 

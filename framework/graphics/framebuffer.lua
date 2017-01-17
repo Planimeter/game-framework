@@ -6,8 +6,9 @@
 
 require( "class" )
 require( "framework.graphics.image" )
-local GL  = require( "opengl" )
-local ffi = require( "ffi" )
+local GL      = require( "opengl" )
+local ffi     = require( "ffi" )
+local kazmath = require( "kazmath" )
 
 local image = framework.graphics.image
 
@@ -39,11 +40,19 @@ function framebuffer:framebuffer( width, height )
 
 	framework.graphics.clear()
 
+	framework.graphics.setFramebuffer()
+
 	setproxy( self )
 end
 
 function framebuffer:draw( x, y, r, sx, sy, ox, oy, kx, ky )
-	image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
+	local mode = "projection"
+	framework.graphics.push( mode )
+		local mat4          = framework.graphics.getTransformation( mode )
+		local width, height = framework.graphics.getSize()
+		kazmath.kmMat4OrthographicProjection( mat4, 0, width, 0, height, -1.0, 1.0 )
+		image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
+	framework.graphics.pop( mode )
 end
 
 function framebuffer:__gc()
