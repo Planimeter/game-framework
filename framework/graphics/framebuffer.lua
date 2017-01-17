@@ -1,0 +1,40 @@
+--=========== Copyright © 2017, Planimeter, All rights reserved. =============--
+--
+-- Purpose:
+--
+--============================================================================--
+
+require( "class" )
+local GL  = require( "opengl" )
+local ffi = require( "ffi" )
+
+class( "framework.graphics.framebuffer" )
+
+local framebuffer = framework.graphics.framebuffer
+
+function framebuffer:framebuffer( width, height )
+	self.width, self.height = width, height or framework.graphics.getSize()
+
+	self.framebuffer = ffi.new( "GLuint[1]" )
+	GL.glGenFramebuffers( 1, self.framebuffer )
+
+	self.texture = ffi.new( "GLuint[1]" )
+	GL.glGenTextures( 1, self.texture )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
+
+	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
+	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
+	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, nil )
+
+	GL.glFramebufferTexture2D( GL.GL_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D, self.texture, 0 )
+
+	setproxy( self )
+end
+
+function framebuffer:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+end
+
+function framebuffer:__gc()
+	GL.glDeleteTextures( 1, self.texture )
+	GL.glDeleteFramebuffers( 1, self.framebuffer )
+end

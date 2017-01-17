@@ -75,10 +75,10 @@ function setDefaultShader( space )
 	-- default.frag
 	-- uniforms
 	-- tex
-	framework.graphics.setDefaultTexture()
+	setDefaultTexture()
 
 	-- color
-	framework.graphics.setColor( { 255, 255, 255, 1 } )
+	setColor( { 255, 255, 255, 1 } )
 
 	-- default2d.vert
 	-- attribs
@@ -113,6 +113,35 @@ function setDefaultShader( space )
 	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
 end
 
+function getDefaultTexture()
+	return defaultTexture
+end
+
+function setDefaultTexture()
+	defaultTexture = ffi.new( "GLuint[1]" )
+	GL.glGenTextures( 1, defaultTexture )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, defaultTexture[0] )
+
+	local pixels = ffi.new( "GLfloat[4]", { 1.0, 1.0, 1.0, 1.0 } )
+	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, 1, 1, 0, GL.GL_RGBA, GL.GL_FLOAT, pixels )
+end
+
+function getColor()
+	return color
+end
+
+function setColor( color )
+	color[ 1 ] = ( color[ 1 ] or 0 ) / 255
+	color[ 2 ] = ( color[ 2 ] or 0 ) / 255
+	color[ 3 ] = ( color[ 3 ] or 0 ) / 255
+
+	local pColor = ffi.new( "GLfloat[4]", color )
+	local shader = framework.graphics.getShader()
+	local index  = GL.glGetUniformLocation( shader, "color" )
+	GL.glUniform4fv( index, 1, pColor )
+	_M.color = color
+end
+
 function setPerspectiveProjection( fov, near, far )
 	local projection = GL.glGetUniformLocation( shader, "projection" )
 	local mat4 = ffi.new( "kmMat4" )
@@ -128,17 +157,4 @@ function setOrthographicProjection( width, height )
 	local mat4 = ffi.new( "kmMat4" )
 	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
 	GL.glUniformMatrix4fv( projection, 1, GL.GL_FALSE, mat4.mat )
-end
-
-function getDefaultTexture()
-	return defaultTexture
-end
-
-function setDefaultTexture()
-	defaultTexture = ffi.new( "GLuint[1]" )
-	GL.glGenTextures( 1, defaultTexture )
-	GL.glBindTexture( GL.GL_TEXTURE_2D, defaultTexture[0] )
-
-	local pixels = ffi.new( "GLfloat[4]", { 1.0, 1.0, 1.0, 1.0 } )
-	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, 1, 1, 0, GL.GL_RGBA, GL.GL_FLOAT, pixels )
 end
