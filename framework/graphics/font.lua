@@ -40,7 +40,7 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, stride, nil )
 	GL.glEnableVertexAttribArray( texcoord )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
-	framework.graphics.updateTransform()
+	framework.graphics.updateTransformations()
 
 	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )

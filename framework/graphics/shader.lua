@@ -61,13 +61,11 @@ function setShader( shader )
 	_M.shader = shader
 end
 
-function setDefaultShader( space )
+function setDefaultShader()
 	-- shader
 	local fragmentSource = framework.filesystem.read( "shaders/default.frag" )
-	local vertexShader = space == "3d" and "shaders/default3d.vert"
-	                                    or "shaders/default2d.vert"
-	local vertexSource = framework.filesystem.read( vertexShader )
-	local shader = newShader( fragmentSource, vertexSource )
+	local vertexSource   = framework.filesystem.read( "shaders/default2d.vert" )
+	local shader         = newShader( fragmentSource, vertexSource )
 	GL.glBindFragDataLocation( shader, 0, "fragColor" )
 	linkShader( shader )
 	setShader( shader )
@@ -106,11 +104,8 @@ function setDefaultShader( space )
 	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
 
 	-- projection
-	local projection = GL.glGetUniformLocation( shader, "projection" )
-	local mat4 = ffi.new( "kmMat4" )
 	local width, height = framework.graphics.getSize()
-	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
-	GL.glUniformMatrix4fv( projection, 1, GL.GL_FALSE, mat4.mat )
+	framework.graphics.setOrthographicProjection( width, height )
 end
 
 function getDefaultTexture()
@@ -140,21 +135,4 @@ function setColor( color )
 	local index  = GL.glGetUniformLocation( shader, "color" )
 	GL.glUniform4fv( index, 1, pColor )
 	_M.color = color
-end
-
-function setPerspectiveProjection( fov, near, far )
-	local projection = GL.glGetUniformLocation( shader, "projection" )
-	local mat4 = ffi.new( "kmMat4" )
-	local width, height = framework.graphics.getSize()
-	local aspect = width / height
-	kazmath.kmMat4PerspectiveProjection( mat4, fov, aspect, near, far )
-	GL.glUniformMatrix4fv( projection, 1, GL.GL_FALSE, mat4.mat )
-end
-
-function setOrthographicProjection( width, height )
-	width, height = width, height or framework.graphics.getSize()
-	local projection = GL.glGetUniformLocation( shader, "projection" )
-	local mat4 = ffi.new( "kmMat4" )
-	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
-	GL.glUniformMatrix4fv( projection, 1, GL.GL_FALSE, mat4.mat )
 end

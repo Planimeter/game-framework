@@ -61,7 +61,7 @@ end
 function resize( width, height )
 	GL.glViewport( 0, 0, width, height )
 	framework.graphics.setOrthographicProjection( width, height )
-	framework.graphics.updateTransforms()
+	framework.graphics.updateTransformations()
 end
 
 function swap()

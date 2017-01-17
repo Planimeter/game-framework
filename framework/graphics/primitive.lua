@@ -26,7 +26,7 @@ function polygon( mode, vertices )
 	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
 	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, 0, nil )
 	GL.glDisableVertexAttribArray( texCoord )
-	framework.graphics.updateTransform()
+	framework.graphics.updateTransformations()
 	GL.glBindTexture( GL.GL_TEXTURE_2D, framework.graphics.getDefaultTexture()[0] )
 	framework.graphics.drawArrays( mode, 0, #vertices / 2 )
 end
