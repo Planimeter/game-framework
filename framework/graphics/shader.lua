@@ -95,13 +95,6 @@ function setDefaultShader( space )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 
 	-- uniforms
-	-- projection
-	local projection = GL.glGetUniformLocation( shader, "projection" )
-	local mat4 = ffi.new( "kmMat4" )
-	local width, height = framework.graphics.getSize()
-	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
-	GL.glUniformMatrix4fv( projection, 1, GL.GL_FALSE, mat4.mat )
-
 	-- model
 	local model = GL.glGetUniformLocation( shader, "model" )
 	local mat4 = ffi.new( "kmMat4" )
@@ -111,6 +104,13 @@ function setDefaultShader( space )
 	-- view
 	local view = GL.glGetUniformLocation( shader, "view" )
 	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
+
+	-- projection
+	local projection = GL.glGetUniformLocation( shader, "projection" )
+	local mat4 = ffi.new( "kmMat4" )
+	local width, height = framework.graphics.getSize()
+	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
+	GL.glUniformMatrix4fv( projection, 1, GL.GL_FALSE, mat4.mat )
 end
 
 function getDefaultTexture()
