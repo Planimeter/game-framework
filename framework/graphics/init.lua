@@ -8,7 +8,6 @@ require( "framework.graphics.opengl" )
 require( "framework.graphics.primitive" )
 require( "framework.graphics.shader" )
 require( "framework.graphics.transformation" )
-
 local GL  = require( "opengl" )
 local ffi = require( "ffi" )
 local SDL = require( "sdl" )

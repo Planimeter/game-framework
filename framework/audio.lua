@@ -4,8 +4,8 @@
 --
 --============================================================================--
 
-local AL = require( "openal" )
 require( "framework.sound" )
+local AL = require( "openal" )
 
 local framework = framework
 

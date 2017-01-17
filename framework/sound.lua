@@ -4,9 +4,9 @@
 --
 --============================================================================--
 
-local SDL_sound = require( "sdl_sound" )
 require( "class" )
-local AL  = require( "openal" )
+local SDL_sound = require( "sdl_sound" )
+local AL = require( "openal" )
 local SDL = require( "sdl" )
 local ffi = require( "ffi" )
 

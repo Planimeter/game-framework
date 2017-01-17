@@ -4,10 +4,10 @@
 --
 --============================================================================--
 
+require( "class" )
 local FT  = require( "freetype" )
 local ffi = require( "ffi" )
-require( "class" )
-local GL = require( "opengl" )
+local GL  = require( "opengl" )
 
 local ft = ffi.new( "FT_Library[1]" )
 FT.FT_Init_FreeType( ft )
