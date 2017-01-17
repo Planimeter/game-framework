@@ -21,7 +21,7 @@ function font:font( filename, size )
 	local buffer, length = framework.filesystem.read( filename )
 	FT.FT_New_Memory_Face( ft[0], buffer, length, 0, self.face )
 
-	self.size = size or 16
+	self.size = ( size or 16 ) * framework.window.getPixelScale()
 	FT.FT_Set_Pixel_Sizes( self.face[0], 0, self.size )
 
 	self.texture = ffi.new( "GLuint[1]" )
