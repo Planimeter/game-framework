@@ -14,6 +14,7 @@ local ffi = require( "ffi" )
 local SDL = require( "sdl" )
 
 local framework = framework
+local require   = require
 local tostring  = tostring
 
 module( "framework.graphics" )
