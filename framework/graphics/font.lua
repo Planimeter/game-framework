@@ -17,12 +17,15 @@ class( "framework.graphics.font" )
 local font = framework.graphics.font
 
 function font:font( filename, size )
+	size = size or 16
+
 	self.face = ffi.new( "FT_Face[1]" )
 	self.buffer, self.length = framework.filesystem.read( filename )
 	FT.FT_New_Memory_Face( ft[0], self.buffer, self.length, 0, self.face )
 
-	self.size = ( size or 16 ) * framework.window.getPixelScale()
-	FT.FT_Set_Pixel_Sizes( self.face[0], 0, self.size )
+	self.size = size
+	size = size * framework.window.getPixelScale()
+	FT.FT_Set_Pixel_Sizes( self.face[0], 0, size )
 
 	self.texture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, self.texture )
