@@ -76,8 +76,16 @@ function setFont( font )
 end
 
 function setFramebuffer( framebuffer )
-	framebuffer = framebuffer or 0
-	GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, framebuffer )
+	if ( framebuffer and framebuffer.framebuffer ) then
+		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, framebuffer.framebuffer[0] )
+		local width, height = framebuffer.width, framebuffer.height
+		GL.glViewport( 0, 0, width, height )
+		framework.graphics.push()
+	else
+		framework.graphics.pop()
+		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, 0 )
+	end
+
 	_framebuffer = framebuffer
 end
 

@@ -5,18 +5,27 @@
 --============================================================================--
 
 require( "class" )
+require( "framework.graphics.image" )
 local GL  = require( "opengl" )
 local ffi = require( "ffi" )
+
+local image = framework.graphics.image
 
 class( "framework.graphics.framebuffer" )
 
 local framebuffer = framework.graphics.framebuffer
 
 function framebuffer:framebuffer( width, height )
-	self.width, self.height = width, height or framework.graphics.getSize()
+	if ( not width and not height ) then
+		width, height = framework.graphics.getSize()
+	end
+
+	self.width  = width
+	self.height = height
 
 	self.framebuffer = ffi.new( "GLuint[1]" )
 	GL.glGenFramebuffers( 1, self.framebuffer )
+	framework.graphics.setFramebuffer( self )
 
 	self.texture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, self.texture )
@@ -26,12 +35,15 @@ function framebuffer:framebuffer( width, height )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
 	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, nil )
 
-	GL.glFramebufferTexture2D( GL.GL_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D, self.texture, 0 )
+	GL.glFramebufferTexture2D( GL.GL_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D, self.texture[0], 0 )
+
+	framework.graphics.clear()
 
 	setproxy( self )
 end
 
 function framebuffer:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+	image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
 function framebuffer:__gc()

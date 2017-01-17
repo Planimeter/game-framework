@@ -4,8 +4,8 @@
 --
 --============================================================================--
 
-local IL  = require( "devil" )
 require( "class" )
+local IL  = require( "devil" )
 local ffi = require( "ffi" )
 local GL  = require( "opengl" )
 
