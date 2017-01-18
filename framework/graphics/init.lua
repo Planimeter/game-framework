@@ -67,7 +67,8 @@ function print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	text = tostring( text )
 	x = x or 0
 	y = y or 0
-	getFont():print( text, x, y, r, sx, sy, ox, oy, kx, ky )
+	local font = getFont()
+	font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
 function setFont( font )
