@@ -39,7 +39,6 @@ function framebuffer:framebuffer( width, height )
 	GL.glFramebufferTexture2D( GL.GL_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D, self.texture[0], 0 )
 
 	framework.graphics.clear()
-
 	framework.graphics.setFramebuffer()
 
 	setproxy( self )
