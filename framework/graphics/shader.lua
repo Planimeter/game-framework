@@ -4,8 +4,8 @@
 --
 --============================================================================--
 
-local ffi     = require( "ffi" )
 local GL      = require( "opengl" )
+local ffi     = require( "ffi" )
 local kazmath = require( "kazmath" )
 
 local error     = error

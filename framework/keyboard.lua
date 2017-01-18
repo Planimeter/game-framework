@@ -7,7 +7,6 @@
 local SDL = require( "sdl" )
 
 local ipairs = ipairs
-local string = string
 
 module( "framework.keyboard" )
 

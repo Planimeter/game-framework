@@ -14,16 +14,16 @@ fps           = fps           or 0
 nextFPSUpdate = nextFPSUpdate or 0
 lastFPSUpdate = lastFPSUpdate or 0
 
-function sleep( seconds )
-	SDL.SDL_Delay( seconds * 1000 )
-end
-
 function getFPS()
 	return fps
 end
 
 function getTime()
 	return SDL.SDL_GetTicks()
+end
+
+function sleep( seconds )
+	SDL.SDL_Delay( seconds * 1000 )
 end
 
 function step()

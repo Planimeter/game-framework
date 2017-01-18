@@ -76,7 +76,7 @@ function setFont( font )
 end
 
 function setFramebuffer( framebuffer )
-	if ( framebuffer and framebuffer.framebuffer ) then
+	if ( framebuffer ) then
 		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, framebuffer.framebuffer[0] )
 	else
 		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, 0 )

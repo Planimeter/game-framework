@@ -9,7 +9,6 @@ local ffi = require( "ffi" )
 
 local framework      = framework
 local collectgarbage = collectgarbage
-local string         = string
 
 module( "framework.event" )
 
