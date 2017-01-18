@@ -29,6 +29,8 @@ function font:font( filename, size )
 
 	self.texture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, self.texture )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
+
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
 	local swizzleMask = ffi.new( "GLint[4]", { GL.GL_RED, GL.GL_RED, GL.GL_RED, GL.GL_RED } )
