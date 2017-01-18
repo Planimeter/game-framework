@@ -6,12 +6,12 @@
 
 #version 330
 
-in vec2 vertex;
-in vec2 texcoord;
-
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+
+in vec2 vertex;
+in vec2 texcoord;
 
 out vec2 texCoord;
 
