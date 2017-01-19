@@ -33,19 +33,21 @@ function font:font( filename, size )
 
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
-	local swizzleMask = ffi.new( "GLint[4]", { GL.GL_RED, GL.GL_RED, GL.GL_RED, GL.GL_RED } )
-	GL.glTexParameteriv( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_SWIZZLE_RGBA, swizzleMask )
+	local r    = GL.GL_RED
+	local mask = ffi.new( "GLint[4]", { r, r, r, r } )
+	GL.glTexParameteriv( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_SWIZZLE_RGBA, mask )
 
 	setproxy( self )
 end
 
 function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
-	local shader   = framework.graphics.getShader()
-	local vertex   = GL.glGetAttribLocation( shader, "vertex" )
-	local stride   = 4 * ffi.sizeof( "GLfloat" )
-	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
-	local pointer  = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
-	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, framework.graphics.defaultVBO[0] )
+	local shader     = framework.graphics.getShader()
+	local vertex     = GL.glGetAttribLocation( shader, "vertex" )
+	local stride     = 4 * ffi.sizeof( "GLfloat" )
+	local texcoord   = GL.glGetAttribLocation( shader, "texcoord" )
+	local pointer    = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
+	local defaultVBO = framework.graphics.defaultVBO
+	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
 	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, stride, nil )
 	GL.glEnableVertexAttribArray( texcoord )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
@@ -74,7 +76,12 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 			}
 			local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
 			local size = ffi.sizeof( pVertices )
-			GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
+			GL.glBufferData(
+				GL.GL_ARRAY_BUFFER,
+				size,
+				pVertices,
+				GL.GL_STREAM_DRAW
+			)
 			GL.glTexImage2D(
 				GL.GL_TEXTURE_2D,
 				0,

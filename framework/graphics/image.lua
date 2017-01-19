@@ -36,15 +36,26 @@ function image:image( filename )
 
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
-	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, pixels )
+	GL.glTexImage2D(
+		GL.GL_TEXTURE_2D,
+		0,
+		GL.GL_RGBA,
+		width,
+		height,
+		0,
+		GL.GL_RGBA,
+		GL.GL_UNSIGNED_BYTE,
+		pixels
+	)
 
 	setproxy( self )
 end
 
 function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
-	local width    = self.width
-	local height   = self.height
-	local vertices = {
+	local defaultVBO = framework.graphics.defaultVBO
+	local width      = self.width
+	local height     = self.height
+	local vertices   = {
 		-- vertex              -- texcoord
 		x,         y + height, 0.0, 1.0,
 		x + width, y + height, 1.0, 1.0,
@@ -60,7 +71,7 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	local stride    = 4 * ffi.sizeof( "GLfloat" )
 	local texcoord  = GL.glGetAttribLocation( shader, "texcoord" )
 	local pointer   = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
-	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, framework.graphics.defaultVBO[0] )
+	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
 	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
 	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, stride, nil )
 	GL.glEnableVertexAttribArray( texcoord )

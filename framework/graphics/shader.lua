@@ -118,7 +118,17 @@ function setDefaultTexture()
 	GL.glBindTexture( GL.GL_TEXTURE_2D, _defaultTexture[0] )
 
 	local pixels = ffi.new( "GLfloat[4]", { 1.0, 1.0, 1.0, 1.0 } )
-	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, 1, 1, 0, GL.GL_RGBA, GL.GL_FLOAT, pixels )
+	GL.glTexImage2D(
+		GL.GL_TEXTURE_2D,
+		0,
+		GL.GL_RGBA,
+		1,
+		1,
+		0,
+		GL.GL_RGBA,
+		GL.GL_FLOAT,
+		pixels
+	)
 end
 
 function getColor()

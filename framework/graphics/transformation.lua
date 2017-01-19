@@ -73,7 +73,9 @@ function setOrthographicProjection( width, height )
 	local mode = getMatrixMode()
 	setMatrixMode( "projection" )
 		local mat4 = getTransformation()
-		kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
+		kazmath.kmMat4OrthographicProjection(
+			mat4, 0, width, height, 0, -1.0, 1.0
+		)
 	setMatrixMode( mode )
 end
 

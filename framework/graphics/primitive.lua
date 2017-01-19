@@ -17,17 +17,19 @@ function polygon( mode, vertices )
 	elseif ( mode == "fill" ) then
 		mode = GL.GL_TRIANGLES
 	end
-	local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
-	local size      = ffi.sizeof( pVertices )
-	local shader    = framework.graphics.getShader()
-	local vertex    = GL.glGetAttribLocation( shader, "vertex" )
-	local texCoord  = GL.glGetAttribLocation( shader, "texcoord" )
+	local defaultVBO = framework.graphics.defaultVBO
+	local pVertices  = ffi.new( "GLfloat[?]", #vertices, vertices )
+	local size       = ffi.sizeof( pVertices )
+	local shader     = framework.graphics.getShader()
+	local vertex     = GL.glGetAttribLocation( shader, "vertex" )
+	local texCoord   = GL.glGetAttribLocation( shader, "texcoord" )
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
 	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
 	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, 0, nil )
 	GL.glDisableVertexAttribArray( texCoord )
 	framework.graphics.updateTransformations()
-	GL.glBindTexture( GL.GL_TEXTURE_2D, framework.graphics.getDefaultTexture()[0] )
+	local defaultTexture = framework.graphics.getDefaultTexture()
+	GL.glBindTexture( GL.GL_TEXTURE_2D, defaultTexture[0] )
 	framework.graphics.drawArrays( mode, 0, #vertices / 2 )
 end
 

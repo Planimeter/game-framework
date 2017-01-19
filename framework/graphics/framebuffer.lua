@@ -34,9 +34,25 @@ function framebuffer:framebuffer( width, height )
 
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
-	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0, GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, nil )
+	GL.glTexImage2D(
+		GL.GL_TEXTURE_2D,
+		0,
+		GL.GL_RGBA,
+		width,
+		height,
+		0,
+		GL.GL_RGBA,
+		GL.GL_UNSIGNED_BYTE,
+		nil
+	)
 
-	GL.glFramebufferTexture2D( GL.GL_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D, self.texture[0], 0 )
+	GL.glFramebufferTexture2D(
+		GL.GL_FRAMEBUFFER,
+		GL.GL_COLOR_ATTACHMENT0,
+		GL.GL_TEXTURE_2D,
+		self.texture[0],
+		0
+	)
 
 	framework.graphics.clear()
 	framework.graphics.setFramebuffer()
@@ -49,7 +65,9 @@ function framebuffer:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	framework.graphics.push()
 		local mat4          = framework.graphics.getTransformation()
 		local width, height = framework.graphics.getSize()
-		kazmath.kmMat4OrthographicProjection( mat4, 0, width, 0, height, -1.0, 1.0 )
+		kazmath.kmMat4OrthographicProjection(
+			mat4, 0, width, 0, height, -1.0, 1.0
+		)
 		image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
 	framework.graphics.pop()
 	framework.graphics.setMatrixMode( "model" )
