@@ -21,12 +21,12 @@ local transformations = {
 }
 
 _mode  = _mode  or "model"
-_state = _state or {}
+_stack = _stack or {}
 
 for _, transformation in ipairs( transformations ) do
 	local mat4 = ffi.new( "kmMat4" )
 	kazmath.kmMat4Identity( mat4 )
-	_state[ transformation ] = _state[ transformation ] or { mat4 }
+	_stack[ transformation ] = _stack[ transformation ] or { mat4 }
 end
 
 function getMatrixMode()
@@ -39,22 +39,22 @@ end
 
 function getTransformation()
 	local mode  = getMatrixMode()
-	local state = _state[ mode ]
-	return state[ #state ]
+	local stack = _stack[ mode ]
+	return stack[ #stack ]
 end
 
 function push()
 	local mode = getMatrixMode()
 	local top  = ffi.new( "kmMat4" )
 	kazmath.kmMat4Assign( top, getTransformation() )
-	table.insert( _state[ mode ], top )
+	table.insert( _stack[ mode ], top )
 end
 
 function pop()
 	local mode  = getMatrixMode()
-	local state = _state[ mode ]
-	if ( #state == 1 ) then return end
-	table.remove( state, #state )
+	local stack = _stack[ mode ]
+	if ( #stack == 1 ) then return end
+	table.remove( stack, #stack )
 end
 
 function setPerspectiveProjection( fov, aspect, near, far )
