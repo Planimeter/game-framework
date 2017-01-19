@@ -17,7 +17,7 @@ function polygon( mode, vertices )
 	elseif ( mode == "fill" ) then
 		mode = GL.GL_TRIANGLES
 	end
-	local defaultVBO = framework.graphics.defaultVBO
+	local defaultVBO = framework.graphics._defaultVBO
 	local pVertices  = ffi.new( "GLfloat[?]", #vertices, vertices )
 	local size       = ffi.sizeof( pVertices )
 	local shader     = framework.graphics.getShader()

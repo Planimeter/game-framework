@@ -46,7 +46,7 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	local stride     = 4 * ffi.sizeof( "GLfloat" )
 	local texcoord   = GL.glGetAttribLocation( shader, "texcoord" )
 	local pointer    = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
-	local defaultVBO = framework.graphics.defaultVBO
+	local defaultVBO = framework.graphics._defaultVBO
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
 	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, stride, nil )
 	GL.glEnableVertexAttribArray( texcoord )

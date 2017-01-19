@@ -12,15 +12,15 @@ module( "framework.graphics" )
 _drawCalls = _drawCalls or 0
 
 function createDefaultVAO()
-	defaultVAO = ffi.new( "GLuint[1]" )
-	GL.glGenVertexArrays( 1, defaultVAO )
-	GL.glBindVertexArray( defaultVAO[0] )
+	_defaultVAO = ffi.new( "GLuint[1]" )
+	GL.glGenVertexArrays( 1, _defaultVAO )
+	GL.glBindVertexArray( _defaultVAO[0] )
 end
 
 function createDefaultVBO()
-	defaultVBO = ffi.new( "GLuint[1]" )
-	GL.glGenBuffers( 1, defaultVBO )
-	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
+	_defaultVBO = ffi.new( "GLuint[1]" )
+	GL.glGenBuffers( 1, _defaultVBO )
+	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, _defaultVBO[0] )
 end
 
 function drawArrays( mode, first, count )

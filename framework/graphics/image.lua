@@ -52,7 +52,7 @@ function image:image( filename )
 end
 
 function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
-	local defaultVBO = framework.graphics.defaultVBO
+	local defaultVBO = framework.graphics._defaultVBO
 	local width      = self.width
 	local height     = self.height
 	local vertices   = {
