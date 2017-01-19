@@ -20,37 +20,49 @@ local transformations = {
 	"projection"
 }
 
-state = state or {}
+_mode  = _mode  or "model"
+_state = _state or {}
 
 for _, transformation in ipairs( transformations ) do
 	local mat4 = ffi.new( "kmMat4" )
 	kazmath.kmMat4Identity( mat4 )
-	state[ transformation ] = state[ transformation ] or { mat4 }
+	_state[ transformation ] = _state[ transformation ] or { mat4 }
 end
 
-function getTransformation( mode )
-	mode = mode or "model"
-	return state[ mode ][ #state[ mode ] ]
+function getMatrixMode()
+	return _mode
 end
 
-function push( mode )
-	mode = mode or "model"
-	local top = ffi.new( "kmMat4" )
-	kazmath.kmMat4Assign( top, getTransformation( mode ) )
-	table.insert( state[ mode ], top )
+function setMatrixMode( mode )
+	_mode = mode
 end
 
-function pop( mode )
-	mode = mode or "model"
-	if ( #state[ mode ] == 1 ) then return end
-	table.remove( state[ mode ], #state[ mode ] )
+function getTransformation()
+	local mode  = getMatrixMode()
+	local state = _state[ mode ]
+	return state[ #state ]
+end
+
+function push()
+	local mode = getMatrixMode()
+	local top  = ffi.new( "kmMat4" )
+	kazmath.kmMat4Assign( top, getTransformation() )
+	table.insert( _state[ mode ], top )
+end
+
+function pop()
+	local mode  = getMatrixMode()
+	local state = _state[ mode ]
+	if ( #state == 1 ) then return end
+	table.remove( state, #state )
 end
 
 function setPerspectiveProjection( fov, aspect, near, far )
-	local mat4 = getTransformation( "projection" )
-	local width, height = framework.graphics.getSize()
-	aspect = aspect or width / height
-	kazmath.kmMat4PerspectiveProjection( mat4, fov, aspect, near, far )
+	local mode = getMatrixMode()
+	setMatrixMode( "projection" )
+		local mat4 = getTransformation()
+		kazmath.kmMat4PerspectiveProjection( mat4, fov, aspect, near, far )
+	setMatrixMode( mode )
 end
 
 function setOrthographicProjection( width, height )
@@ -58,8 +70,11 @@ function setOrthographicProjection( width, height )
 		width, height = framework.graphics.getSize()
 	end
 
-	local mat4 = getTransformation( "projection" )
-	kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
+	local mode = getMatrixMode()
+	setMatrixMode( "projection" )
+		local mat4 = getTransformation()
+		kazmath.kmMat4OrthographicProjection( mat4, 0, width, height, 0, -1.0, 1.0 )
+	setMatrixMode( mode )
 end
 
 function origin()
@@ -90,9 +105,13 @@ function translate( x, y, z )
 end
 
 function updateTransformations()
+	local mode   = getMatrixMode()
+	local shader = framework.graphics.getShader()
 	for _, transformation in ipairs( transformations ) do
 		local uniform = GL.glGetUniformLocation( shader, transformation )
-		local mat4    = getTransformation( transformation )
+		setMatrixMode( transformation )
+		local mat4 = getTransformation()
 		GL.glUniformMatrix4fv( uniform, 1, GL.GL_FALSE, mat4.mat )
 	end
+	setMatrixMode( mode )
 end

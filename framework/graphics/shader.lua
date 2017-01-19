@@ -53,12 +53,12 @@ function linkShader( shader )
 end
 
 function getShader()
-	return shader
+	return _shader
 end
 
 function setShader( shader )
 	GL.glUseProgram( shader )
-	_M.shader = shader
+	_shader = shader
 end
 
 function setDefaultShader()
@@ -109,30 +109,30 @@ function setDefaultShader()
 end
 
 function getDefaultTexture()
-	return defaultTexture
+	return _defaultTexture
 end
 
 function setDefaultTexture()
-	defaultTexture = ffi.new( "GLuint[1]" )
-	GL.glGenTextures( 1, defaultTexture )
-	GL.glBindTexture( GL.GL_TEXTURE_2D, defaultTexture[0] )
+	_defaultTexture = ffi.new( "GLuint[1]" )
+	GL.glGenTextures( 1, _defaultTexture )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, _defaultTexture[0] )
 
 	local pixels = ffi.new( "GLfloat[4]", { 1.0, 1.0, 1.0, 1.0 } )
 	GL.glTexImage2D( GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, 1, 1, 0, GL.GL_RGBA, GL.GL_FLOAT, pixels )
 end
 
 function getColor()
-	return color
+	return _color
 end
 
 function setColor( color )
-	color[ 1 ] = ( color[ 1 ] or 0 ) / 255
-	color[ 2 ] = ( color[ 2 ] or 0 ) / 255
-	color[ 3 ] = ( color[ 3 ] or 0 ) / 255
-
-	local pColor = ffi.new( "GLfloat[4]", color )
-	local shader = framework.graphics.getShader()
-	local index  = GL.glGetUniformLocation( shader, "color" )
+	local pColor = ffi.new( "GLfloat[4]",
+		( color[ 1 ] or 0 ) / 255,
+		( color[ 2 ] or 0 ) / 255,
+		( color[ 3 ] or 0 ) / 255,
+		( color[ 4 ] or 0 )
+	)
+	local index  = GL.glGetUniformLocation( getShader(), "color" )
 	GL.glUniform4fv( index, 1, pColor )
-	_M.color = color
+	_color = color
 end

@@ -9,7 +9,7 @@ local GL  = require( "opengl" )
 
 module( "framework.graphics" )
 
-drawCalls = drawCalls or 0
+_drawCalls = _drawCalls or 0
 
 function createDefaultVAO()
 	defaultVAO = ffi.new( "GLuint[1]" )
@@ -25,9 +25,9 @@ end
 
 function drawArrays( mode, first, count )
 	GL.glDrawArrays( mode, first, count )
-	drawCalls = drawCalls + 1
+	_drawCalls = _drawCalls + 1
 end
 
 function getDrawCalls()
-	return drawCalls
+	return _drawCalls
 end

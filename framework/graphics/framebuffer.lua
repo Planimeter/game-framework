@@ -45,13 +45,14 @@ function framebuffer:framebuffer( width, height )
 end
 
 function framebuffer:draw( x, y, r, sx, sy, ox, oy, kx, ky )
-	local mode = "projection"
-	framework.graphics.push( mode )
-		local mat4          = framework.graphics.getTransformation( mode )
+	framework.graphics.setMatrixMode( "projection" )
+	framework.graphics.push()
+		local mat4          = framework.graphics.getTransformation()
 		local width, height = framework.graphics.getSize()
 		kazmath.kmMat4OrthographicProjection( mat4, 0, width, 0, height, -1.0, 1.0 )
 		image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
-	framework.graphics.pop( mode )
+	framework.graphics.pop()
+	framework.graphics.setMatrixMode( "model" )
 end
 
 function framebuffer:__gc()
