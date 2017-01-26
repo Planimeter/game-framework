@@ -36,6 +36,8 @@ function createWindow( title, x, y, width, height, flags )
 	GL.glViewport( 0, 0, width, height )
 	GL.glEnable( GL.GL_BLEND )
 	GL.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA )
+	GL.glEnable( GL.GL_DEPTH_TEST )
+	GL.glDepthFunc( GL.GL_LEQUAL )
 
 	framework.graphics.createDefaultVAO()
 	framework.graphics.createDefaultVBO()
