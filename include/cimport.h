@@ -545,7 +545,7 @@ enum aiPrimitiveType
 
 
 
-    _aiPrimitiveType_Force32Bit = INT_MAX
+    _aiPrimitiveType_Force32Bit = 2147483647
 
 };
 struct aiAnimMesh
@@ -690,7 +690,7 @@ enum aiLightSourceType
 
 
 
-    _aiLightSource_Force32Bit = INT_MAX
+    _aiLightSource_Force32Bit = 2147483647
 
 };
 struct aiLight
@@ -815,7 +815,7 @@ enum aiTextureOp
 
 
 
-    _aiTextureOp_Force32Bit = INT_MAX
+    _aiTextureOp_Force32Bit = 2147483647
 
 };
 
@@ -846,7 +846,7 @@ enum aiTextureMapMode
     aiTextureMapMode_Mirror = 0x2,
 
 
-    _aiTextureMapMode_Force32Bit = INT_MAX
+    _aiTextureMapMode_Force32Bit = 2147483647
 
 };
 enum aiTextureMapping
@@ -876,7 +876,7 @@ enum aiTextureMapping
 
 
 
-    _aiTextureMapping_Force32Bit = INT_MAX
+    _aiTextureMapping_Force32Bit = 2147483647
 
 };
 enum aiTextureType
@@ -959,7 +959,7 @@ enum aiTextureType
 
 
 
-    _aiTextureType_Force32Bit = INT_MAX
+    _aiTextureType_Force32Bit = 2147483647
 
 };
 enum aiShadingMode
@@ -1017,7 +1017,7 @@ enum aiShadingMode
 
 
 
-    _aiShadingMode_Force32Bit = INT_MAX
+    _aiShadingMode_Force32Bit = 2147483647
 
 };
 enum aiTextureFlags
@@ -1035,7 +1035,7 @@ enum aiTextureFlags
     aiTextureFlags_IgnoreAlpha = 0x4,
 
 
-      _aiTextureFlags_Force32Bit = INT_MAX
+      _aiTextureFlags_Force32Bit = 2147483647
 
 };
 enum aiBlendMode
@@ -1053,7 +1053,7 @@ enum aiBlendMode
 
 
 
-    _aiBlendMode_Force32Bit = INT_MAX
+    _aiBlendMode_Force32Bit = 2147483647
 
 };
 
@@ -1124,7 +1124,7 @@ enum aiPropertyTypeInfo
 
 
 
-     _aiPTI_Force32Bit = INT_MAX
+     _aiPTI_Force32Bit = 2147483647
 
 };
 struct aiMaterialProperty
@@ -1289,7 +1289,7 @@ enum aiAnimBehaviour
 
 
 
-    _aiAnimBehaviour_Force32Bit = INT_MAX
+    _aiAnimBehaviour_Force32Bit = 2147483647
 
 };
 struct aiNodeAnim
@@ -1417,7 +1417,7 @@ typedef enum aiMetadataType
     AI_AIVECTOR3D = 5,
 
 
-    FORCE_32BIT = INT_MAX
+    FORCE_32BIT = 2147483647
 
 } aiMetadataType;
 struct aiMetadataEntry
