@@ -11,6 +11,7 @@ require( "framework.graphics.transformation" )
 local GL  = require( "opengl" )
 local ffi = require( "ffi" )
 local SDL = require( "sdl" )
+local bit = require( "bit" )
 
 local framework = framework
 local require   = require
@@ -90,5 +91,5 @@ function setVSync( vsync )
 end
 
 function clear()
-	GL.glClear( GL.GL_COLOR_BUFFER_BIT )
+	GL.glClear( bit.bor( GL.GL_COLOR_BUFFER_BIT, GL.GL_DEPTH_BUFFER_BIT ) )
 end
