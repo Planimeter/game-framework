@@ -14,53 +14,44 @@ class( "framework.graphics.model" )
 
 local model = framework.graphics.model
 
+local function processMesh( self, mesh )
+	local vertices = ffi.new( "GLfloat[?]", 3 * mesh.mNumVertices )
+	for i = 0, mesh.mNumVertices - 1 do
+		vertices[3 * i + 0] = mesh.mVertices[i].x
+		vertices[3 * i + 1] = mesh.mVertices[i].y
+		vertices[3 * i + 2] = mesh.mVertices[i].z
+	end
+	require( "framework.graphics.mesh" )
+	return framework.graphics.mesh( vertices, mesh.mNumVertices )
+end
+
+local function processNode( self, node )
+	for i = 0, node.mNumMeshes - 1 do
+		local mesh = self.scene.mMeshes[node.mMeshes[i]]
+		table.insert( self.meshes, processMesh( self, mesh ) )
+	end
+
+	for i = 0, node.mNumChildren - 1 do
+		processNode( self, node.mChildren[i] )
+	end
+end
+
 function model:model( filename )
 	local buffer, length = framework.filesystem.read( filename )
 	self.scene = assimp.aiImportFileFromMemory( buffer, length, bit.bor(
-		ffi.C.aiProcess_CalcTangentSpace,
-		ffi.C.aiProcess_GenSmoothNormals,
-		ffi.C.aiProcess_JoinIdenticalVertices,
-		ffi.C.aiProcess_ImproveCacheLocality,
-		ffi.C.aiProcess_LimitBoneWeights,
-		ffi.C.aiProcess_RemoveRedundantMaterials,
-		ffi.C.aiProcess_SplitLargeMeshes,
-		ffi.C.aiProcess_Triangulate,
-		ffi.C.aiProcess_GenUVCoords,
-		ffi.C.aiProcess_SortByPType,
-		ffi.C.aiProcess_FindDegenerates,
-		ffi.C.aiProcess_FindInvalidData,
-		ffi.C.aiProcess_FindInstances,
-		ffi.C.aiProcess_ValidateDataStructure,
-		ffi.C.aiProcess_OptimizeMeshes,
-		ffi.C.aiProcess_Debone
+		ffi.C.aiProcess_Triangulate
 	), nil )
 
-	for i = 0, self.scene.mNumMaterials do
-	end
+	self.meshes = {}
+	processNode( self, self.scene.mRootNode )
 
 	setproxy( self )
 end
 
 function model:draw( x, y, r, sx, sy, ox, oy, kx, ky )
-	if ( mode == "line" ) then
-		mode = GL.GL_LINE_LOOP
-	elseif ( mode == "fill" ) then
-		mode = GL.GL_TRIANGLES
+	for _, mesh in ipairs( self.meshes ) do
+		framework.graphics.draw( mesh, x, y, r, sx, sy, ox, oy, kx, ky )
 	end
-	local defaultVBO = framework.graphics._defaultVBO
-	local pVertices  = ffi.new( "GLfloat[?]", #vertices, vertices )
-	local size       = ffi.sizeof( pVertices )
-	local shader     = framework.graphics.getShader()
-	local vertex     = GL.glGetAttribLocation( shader, "vertex" )
-	local texCoord   = GL.glGetAttribLocation( shader, "texcoord" )
-	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
-	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
-	GL.glVertexAttribPointer( vertex, 3, GL.GL_FLOAT, 0, 0, nil )
-	GL.glDisableVertexAttribArray( texCoord )
-	framework.graphics.updateTransformations()
-	local defaultTexture = framework.graphics.getDefaultTexture()
-	GL.glBindTexture( GL.GL_TEXTURE_2D, defaultTexture[0] )
-	framework.graphics.drawArrays( mode, 0, #vertices / 3 )
 end
 
 function model:__gc()
