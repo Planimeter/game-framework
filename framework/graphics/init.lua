@@ -33,6 +33,16 @@ function getFramebuffer()
 	return _framebuffer
 end
 
+function getPolygonMode()
+	local mode = ffi.new( "GLint[1]" )
+	GL.glGetIntegerv( GL.GL_POLYGON_MODE, mode )
+	if ( mode[0] == GL.GL_LINE ) then
+		return "line"
+	elseif( mode[0] == GL.GL_FILL ) then
+		return "fill"
+	end
+end
+
 function getSize()
 	local width  = ffi.new( "int[1]" )
 	local height = ffi.new( "int[1]" )
@@ -84,6 +94,15 @@ function setFramebuffer( framebuffer )
 	end
 
 	_framebuffer = framebuffer
+end
+
+function setPolygonMode( mode )
+	if ( mode == "line" ) then
+		mode = GL.GL_LINE
+	elseif ( mode == "fill" ) then
+		mode = GL.GL_FILL
+	end
+	GL.glPolygonMode( GL.GL_FRONT_AND_BACK, mode )
 end
 
 function setVSync( vsync )
