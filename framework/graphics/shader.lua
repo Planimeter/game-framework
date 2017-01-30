@@ -16,13 +16,13 @@ module( "framework.graphics" )
 local function getShaderCompileStatus( shader )
 	local status = ffi.new( "GLint[1]" )
 	GL.glGetShaderiv( shader, GL.GL_COMPILE_STATUS, status )
-	if ( status[0] ~= 0 ) then
+	if ( status[0] ~= GL.GL_FALSE ) then
 		return
 	end
 
 	local length = ffi.new( "GLint[1]" )
 	GL.glGetShaderiv( shader, GL.GL_INFO_LOG_LENGTH, length )
-	local buffer = ffi.new( "char[ " .. length[0] .. "]" )
+	local buffer = ffi.new( "char[?]", length[0] )
 	GL.glGetShaderInfoLog( shader, length[0], nil, buffer )
 	GL.glDeleteShader( shader )
 	error( ffi.string( buffer, length[0] ), 4 )
