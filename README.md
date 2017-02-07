@@ -13,6 +13,9 @@ Game development framework for Lua
 **Microsoft Visual C++ 2010 SP1 Redistributable Package (x64)**  
 https://www.microsoft.com/en-us/download/details.aspx?id=13523
 
+**Visual C++ Redistributable for Visual Studio 2015**  
+https://www.microsoft.com/en-us/download/details.aspx?id=48145
+
 ### macOS
 ```bash
 brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp
