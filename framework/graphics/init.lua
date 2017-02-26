@@ -46,7 +46,7 @@ end
 function getSize()
 	local width  = ffi.new( "int[1]" )
 	local height = ffi.new( "int[1]" )
-	SDL.SDL_GL_GetDrawableSize( framework.window.window, width, height )
+	SDL.SDL_GL_GetDrawableSize( framework.window._window, width, height )
 	return width[0], height[0]
 end
 

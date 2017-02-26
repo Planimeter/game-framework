@@ -11,9 +11,9 @@ local framework = framework
 
 module( "framework.audio" )
 
-device = device or AL.alcOpenDevice( nil )
-context = context or AL.alcCreateContext( device, nil )
-AL.alcMakeContextCurrent( context )
+_device = _device or AL.alcOpenDevice( nil )
+_context = _context or AL.alcCreateContext( _device, nil )
+AL.alcMakeContextCurrent( _context )
 
 function newSource( filename )
 	local sound = framework.sound

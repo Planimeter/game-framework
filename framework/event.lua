@@ -13,8 +13,8 @@ local collectgarbage = collectgarbage
 module( "framework.event" )
 
 function poll()
-	event = event or ffi.new( "SDL_Event" )
-	return SDL.SDL_PollEvent( event ) ~= 0 and event or nil
+	_event = _event or ffi.new( "SDL_Event" )
+	return SDL.SDL_PollEvent( _event ) ~= 0 and _event or nil
 end
 
 local function windowevent( window )

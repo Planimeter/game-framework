@@ -29,8 +29,8 @@ function createWindow( title, x, y, width, height, flags )
 		ffi.C.SDL_GL_CONTEXT_PROFILE_CORE
 	)
 
-	window  = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
-	context = SDL.SDL_GL_CreateContext( window )
+	_window  = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
+	_context = SDL.SDL_GL_CreateContext( _window )
 
 	width, height = framework.graphics.getSize()
 	GL.glViewport( 0, 0, width, height )
@@ -56,7 +56,7 @@ end
 function getSize()
 	local width  = ffi.new( "int[1]" )
 	local height = ffi.new( "int[1]" )
-	SDL.SDL_GetWindowSize( framework.window.window, width, height )
+	SDL.SDL_GetWindowSize( framework.window._window, width, height )
 	return width[0], height[0]
 end
 
@@ -67,6 +67,6 @@ function resize( width, height )
 end
 
 function swap()
-	SDL.SDL_GL_SwapWindow( window )
-	framework.graphics.drawCalls = 0
+	SDL.SDL_GL_SwapWindow( _window )
+	framework.graphics._drawCalls = 0
 end

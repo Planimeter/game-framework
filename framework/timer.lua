@@ -8,14 +8,14 @@ local SDL = require( "sdl" )
 
 module( "framework.timer" )
 
-frames        = frames        or 0
-lastTime      = lastTime      or 0
-fps           = fps           or 0
-nextFPSUpdate = nextFPSUpdate or 0
-lastFPSUpdate = lastFPSUpdate or 0
+_frames        = _frames        or 0
+_lastTime      = _lastTime      or 0
+_fps           = _fps           or 0
+_nextFPSUpdate = _nextFPSUpdate or 0
+_lastFPSUpdate = _lastFPSUpdate or 0
 
 function getFPS()
-	return fps
+	return _fps
 end
 
 function getTime()
@@ -27,17 +27,17 @@ function sleep( seconds )
 end
 
 function step()
-	frames = frames + 1
+	_frames = _frames + 1
 
 	local time = getTime()
-	local dt = time - lastTime
-	lastTime = time
+	local dt = time - _lastTime
+	_lastTime = time
 
-	if ( nextFPSUpdate <= time ) then
-		fps = frames
-		nextFPSUpdate = time + ( 1 * 1000 )
-		lastFPSUpdate = time
-		frames = 0
+	if ( _nextFPSUpdate <= time ) then
+		_fps = _frames
+		_nextFPSUpdate = time + ( 1 * 1000 )
+		_lastFPSUpdate = time
+		_frames = 0
 	end
 
 	return dt
