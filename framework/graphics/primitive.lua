@@ -52,13 +52,3 @@ end
 function getLineWidth()
 	return _lineWidth
 end
-
-function line( ... )
-	local points   = { ... }
-	local vertices = {}
-	for i = 1, #points, 2 do
-		local x1, y1 = points[ i ],     points[ i + 1 ]
-		local x2, y2 = points[ i + 2 ], points[ i + 3 ]
-	end
-	polygon( "fill", vertices )
-end
