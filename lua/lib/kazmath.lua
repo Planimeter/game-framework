@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/physfs.h" )
+io.input( package.cwd .. "/include/kazmath.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "physfs" )
+return ffi.load( "kazmath" )

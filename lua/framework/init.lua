@@ -65,7 +65,7 @@ end
 function init()
 	require( "framework.filesystem" )
 	framework.filesystem.init( arg[ 1 ] )
-	framework.filesystem.mount( package.cwd, nil, false )
+	framework.filesystem.mount( ".", nil, false )
 
 	local c = {
 		modules = {

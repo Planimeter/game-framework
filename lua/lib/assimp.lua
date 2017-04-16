@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/chipmunk.h" )
+io.input( package.cwd .. "/include/cimport.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "chipmunk" )
+return ffi.load( "assimp" )

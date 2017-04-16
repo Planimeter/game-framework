@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/kazmath.h" )
+io.input( package.cwd .. "/include/SDL_sound.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "kazmath" )
+return ffi.load( "SDL_sound" )

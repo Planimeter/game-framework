@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/freetype.h" )
+io.input( package.cwd .. "/include/physfs.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "freetype" )
+return ffi.load( "physfs" )

@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/SDL_sound.h" )
+io.input( package.cwd .. "/include/chipmunk.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "SDL_sound" )
+return ffi.load( "chipmunk" )

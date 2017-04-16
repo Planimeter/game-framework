@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/cimport.h" )
+io.input( package.cwd .. "/include/freetype.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "assimp" )
+return ffi.load( "freetype" )
