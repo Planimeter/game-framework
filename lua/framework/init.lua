@@ -10,13 +10,15 @@ _G.framework    = framework
 if ( jit.os == "Windows" ) then
 	framework.path = string.gsub( arg[ 0 ], "\\framework\\init.lua", "\\" )
 	framework.bin  = string.sub( framework.path, 1, -5 )
-	package.path   = framework.path .. "lib\\?.lua;" .. package.path
-	package.cpath  = framework.path .. "lib\\?.dll;" .. package.cpath
+	package.path   = package.path  .. framework.path .. "lib\\?.lua;"
+	package.cpath  = package.cpath .. framework.path .. "lib\\?.dll;"
+	package.cpath  = package.cpath .. framework.path .. "loadall.dll"
 else
 	framework.path = string.gsub( arg[ 0 ], "/framework/init.lua", "/" )
 	framework.bin  = string.sub( framework.path, 1, -5 )
-	package.path   = framework.path .. "lib/?.lua;" .. package.path
-	package.cpath  = framework.path .. "lib/?.so;"  .. package.cpath
+	package.path   = package.path  .. framework.path .. "lib/?.lua;"
+	package.cpath  = package.cpath .. framework.path .. "lib/?.so;"
+	package.cpath  = package.cpath .. framework.path .. "loadall.dll"
 end
 
 local arg     = arg
@@ -70,7 +72,6 @@ function init()
 	require( "framework.filesystem" )
 	framework.filesystem.init( arg[ 1 ] )
 	framework.filesystem.mount( framework.bin, nil, false )
-	framework.filesystem.mount( framework.path, nil, false )
 
 	local c = {
 		modules = {
