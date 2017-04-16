@@ -23,8 +23,6 @@ else
 	package.cpath  = package.cpath .. framework.path .. "loadall.so"
 end
 
-print( package.path )
-
 local arg     = arg
 local require = require
 local print   = print
