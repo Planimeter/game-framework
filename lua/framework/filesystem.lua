@@ -17,8 +17,8 @@ function getLastModified( filename )
 	return physfs.PHYSFS_getLastModTime( filename )
 end
 
-function init( arg )
-	return physfs.PHYSFS_init( arg ) ~= 0
+function init( argv0 )
+	return physfs.PHYSFS_init( argv0 ) ~= 0
 end
 
 function isDirectory( filename )
