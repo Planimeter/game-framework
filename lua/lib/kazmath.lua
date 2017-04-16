@@ -7,4 +7,4 @@
 local ffi = require( "ffi" )
 io.input( framework.path .. "include/kazmath.h" )
 ffi.cdef( io.read( "*all" ) )
-return ffi.load( "kazmath" )
+return ffi.load( ffi.os == "Windows" and "kazmath" or framework.bin .. "libkazmath.dylib" )
