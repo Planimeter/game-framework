@@ -9,13 +9,13 @@ _G.framework    = framework
 
 if ( jit.os == "Windows" ) then
 	framework.path  = string.gsub( arg[ 0 ], "\\framework\\init.lua$", "\\" )
-	framework.cpath = string.sub( framework.path, 1, -5 )
+	framework.cpath = string.gsub( framework.path, "\\lua$", "\\" )
 	package.path    = package.path  .. framework.path .. "lib\\?.lua;"
 	package.cpath   = package.cpath .. ";".. framework.path .. "lib\\?.dll;"
 	package.cpath   = package.cpath .. framework.path .. "loadall.dll"
 else
 	framework.path  = string.gsub( arg[ 0 ], "/framework/init.lua$", "/" )
-	framework.cpath = string.sub( framework.path, 1, -5 )
+	framework.cpath = string.gsub( framework.path, "/lua$", "/" )
 	package.path    = package.path  .. ";" .. framework.path .. "?.lua;"
 	package.path    = package.path  .. framework.path .. "?/init.lua;"
 	package.path    = package.path  .. framework.path .. "lib/?.lua"
