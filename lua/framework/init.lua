@@ -5,25 +5,24 @@
 --============================================================================--
 
 local framework = {}
-framework.path  = string.gsub( arg[ 0 ], "\\framework\\init.lua", "" )
-framework.bin   = string.sub( framework.path, 1, -5 )
 _G.framework    = framework
 
 if ( jit.os == "Windows" ) then
-	framework.path = string.gsub( arg[ 0 ], "\\framework\\init.lua", "" )
-	package.path   = framework.path .. "\\lib\\?.lua;" .. package.path
-	package.cpath  = framework.path .. "\\lib\\?.dll;" .. package.cpath
+	framework.path = string.gsub( arg[ 0 ], "\\framework\\init.lua", "\\" )
+	framework.bin  = string.sub( framework.path, 1, -5 )
+	package.path   = framework.path .. "lib\\?.lua;" .. package.path
+	package.cpath  = framework.path .. "lib\\?.dll;" .. package.cpath
 else
-	framework.path = string.gsub( arg[ 0 ], "/framework/init.lua", "" )
-	package.path   = framework.path .. "/lib/?.lua;" .. package.path
-	package.cpath  = framework.path .. "/lib/?.so;"  .. package.cpath
+	framework.path = string.gsub( arg[ 0 ], "/framework/init.lua", "/" )
+	framework.bin  = string.sub( framework.path, 1, -5 )
+	package.path   = framework.path .. "lib/?.lua;" .. package.path
+	package.cpath  = framework.path .. "lib/?.so;"  .. package.cpath
 end
 
 local arg     = arg
 local require = require
-local pairs   = pairs
 local print   = print
-local string  = string
+local pairs   = pairs
 
 module( "framework" )
 

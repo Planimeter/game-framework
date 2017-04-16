@@ -10,7 +10,7 @@ local bit = require( "bit" )
 local bor  = bit.bor
 local band = bit.band
 
-io.input( framework.path .. "/include/SDL.h" )
+io.input( framework.path .. "include/SDL.h" )
 ffi.cdef( io.read( "*all" ) )
 
 local SDL = ffi.load( "SDL2" )
