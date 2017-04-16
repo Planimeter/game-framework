@@ -1,2 +1,2 @@
 #!/bin/sh
-luajit framework/init.lua "$@"
+luajit $(pwd)/lua/framework/init.lua $(pwd) "$@"
