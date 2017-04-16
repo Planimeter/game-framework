@@ -25,7 +25,6 @@ end
 
 local arg     = arg
 local require = require
-local print   = print
 local pairs   = pairs
 
 module( "framework" )
