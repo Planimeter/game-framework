@@ -1,2 +1,3 @@
 #!/bin/sh
-luajit $(pwd)/lua/framework/init.lua $(pwd) "$@"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+luajit $DIR/lua/framework/init.lua $(pwd) "$@"
