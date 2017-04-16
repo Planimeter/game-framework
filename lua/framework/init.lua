@@ -4,23 +4,26 @@
 --
 --============================================================================--
 
-if ( jit.os == "Windows" ) then
-	package.cwd   = string.gsub( arg[ 0 ], "\\framework\\init.lua", "" )
-	package.path  = package.cwd .. "\\lib\\?.lua;" .. package.path
-	package.cpath = "lib/?.dll;"  .. package.cpath
-else
-	package.cwd   = string.gsub( arg[ 0 ], "/framework/init.lua", "" )
-	package.path  = package.cwd .. "/lib/?.lua;" .. package.path
-	package.cpath = "lib/?.so;"  .. package.cpath
-end
-
 local framework = {}
+framework.path  = string.gsub( arg[ 0 ], "\\framework\\init.lua", "" )
+framework.bin   = string.sub( framework.path, 1, -5 )
 _G.framework    = framework
+
+if ( jit.os == "Windows" ) then
+	framework.path = string.gsub( arg[ 0 ], "\\framework\\init.lua", "" )
+	package.path   = framework.path .. "\\lib\\?.lua;" .. package.path
+	package.cpath  = framework.path .. "\\lib\\?.dll;" .. package.cpath
+else
+	framework.path = string.gsub( arg[ 0 ], "/framework/init.lua", "" )
+	package.path   = framework.path .. "/lib/?.lua;" .. package.path
+	package.cpath  = framework.path .. "/lib/?.so;"  .. package.cpath
+end
 
 local arg     = arg
 local require = require
-local package = package
 local pairs   = pairs
+local print   = print
+local string  = string
 
 module( "framework" )
 
@@ -67,7 +70,8 @@ end
 function init()
 	require( "framework.filesystem" )
 	framework.filesystem.init( arg[ 1 ] )
-	framework.filesystem.mount( package.cwd, nil, false )
+	framework.filesystem.mount( framework.bin, nil, false )
+	framework.filesystem.mount( framework.path, nil, false )
 
 	local c = {
 		modules = {

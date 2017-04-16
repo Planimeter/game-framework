@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( package.cwd .. "/include/cimport.h" )
+io.input( framework.path .. "/include/cimport.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( "assimp" )
