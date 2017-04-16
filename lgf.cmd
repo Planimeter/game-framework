@@ -1,2 +1,2 @@
 @echo off
-"%~dp0luajit.exe" framework\init.lua %*
+"%~dp0luajit.exe" %~dp0framework\init.lua %*
