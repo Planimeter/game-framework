@@ -19,6 +19,7 @@ _G.framework    = framework
 
 local arg     = arg
 local require = require
+local package = package
 local pairs   = pairs
 
 module( "framework" )
