@@ -4,12 +4,13 @@
 --
 --============================================================================--
 
-package.cwd  = string.gsub( arg[ 0 ], "\\framework\\init.lua", "" )
-package.path = package.cwd .. "\\lib\\?.lua;" .. package.path
-
 if ( jit.os == "Windows" ) then
+	package.cwd   = string.gsub( arg[ 0 ], "\\framework\\init.lua", "" )
+	package.path  = package.cwd .. "\\lib\\?.lua;" .. package.path
 	package.cpath = "lib/?.dll;"  .. package.cpath
 else
+	package.cwd   = string.gsub( arg[ 0 ], "/framework/init.lua", "" )
+	package.path  = package.cwd .. "/lib/?.lua;" .. package.path
 	package.cpath = "lib/?.so;"  .. package.cpath
 end
 
