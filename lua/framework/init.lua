@@ -73,8 +73,8 @@ end
 function init()
 	require( "framework.filesystem" )
 	framework.filesystem.init( arg[ 1 ] )
-	framework.filesystem.mount( framework.bin, nil, false )
 	framework.filesystem.mount( arg[ 1 ], nil, false )
+	framework.filesystem.mount( framework.bin, nil, false )
 
 	local c = {
 		modules = {
