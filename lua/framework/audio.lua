@@ -11,7 +11,7 @@ local framework = framework
 
 module( "framework.audio" )
 
-_device = _device or AL.alcOpenDevice( nil )
+_device  = _device  or AL.alcOpenDevice( nil )
 _context = _context or AL.alcCreateContext( _device, nil )
 AL.alcMakeContextCurrent( _context )
 
