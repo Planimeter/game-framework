@@ -26,7 +26,7 @@ if ( jit.os == "Windows" ) then
 		package.path = gsub(
 			package.path,
 			"^%.\\%?%.lua;",
-			".\\" .. gamedir .. "\\?.lua;.\\" .. gamedir .. "\\?\\init.lua;"
+			gamedir .. "\\?.lua;" .. gamedir .. "\\?\\init.lua;"
 		)
 	else
 		package.path = gsub(
@@ -55,7 +55,7 @@ else
 		package.path = gsub(
 			package.path,
 			"^%./%?%.lua;",
-			"./" .. gamedir .. "/?.lua;./" .. gamedir .. "/?/init.lua;"
+			gamedir .. "/?.lua;" .. gamedir .. "/?/init.lua;"
 		)
 	else
 		package.path = gsub(
