@@ -4,10 +4,10 @@
 --
 --============================================================================--
 
--- Add `./?/init.lua'
-package.path = string.gsub( package.path, "^./?.lua;", "./?.lua;./?/init.lua;" )
-
 if ( jit.os == "Windows" ) then
+	-- Add `./?/init.lua'
+	package.path    = string.gsub( package.path, "^.\\?.lua;", ".\\?.lua;.\\?\\init.lua;" )
+
 	-- Add `framework.path' and `framework.cpath'
 	framework.path  = string.gsub( arg[ 0 ], "\\framework\\init.lua$", "\\" )
 	framework.cpath = string.gsub( framework.path, "\\lua$", "\\" )
@@ -17,6 +17,9 @@ if ( jit.os == "Windows" ) then
 	package.cpath   = package.cpath .. ";".. framework.path .. "lib\\?.dll;"
 	package.cpath   = package.cpath .. framework.path .. "loadall.dll"
 else
+	-- Add `./?/init.lua'
+	package.path    = string.gsub( package.path, "^./?.lua;", "./?.lua;./?/init.lua;" )
+
 	-- Add `framework.path' and `framework.cpath'
 	framework.path  = string.gsub( arg[ 0 ], "/framework/init.lua$", "/" )
 	framework.cpath = string.gsub( framework.path, "/lua$", "/" )
