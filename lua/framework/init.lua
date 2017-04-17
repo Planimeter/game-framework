@@ -4,10 +4,51 @@
 --
 --============================================================================--
 
+local gamedir   = arg[ 2 ]
+local gsub      = string.gsub
+
 local framework = {}
 _G.framework    = framework
 
-require( "framework.loadlib" )
+if ( jit.os == "Windows" ) then
+	-- Add `framework.path' and `framework.cpath'
+	local path      = gsub( arg[ 0 ], "\\framework\\init%.lua$", "\\" )
+	framework.path  = path
+	framework.cpath = gsub( path, "\\lua\\$", "\\" )
+
+	-- Add `lib'
+	package.path    = package.path  .. path .. "lib\\?.lua;"
+	package.cpath   = package.cpath .. ";".. path .. "lib\\?.dll;"
+	package.cpath   = package.cpath .. path .. "loadall.dll"
+
+	-- Add `./?/init.lua'
+	if ( gamedir ) then
+		package.path = gsub( package.path, "^%.\\%?%.lua;", ".\\?.lua;.\\?\\init.lua;" )
+	else
+		package.path = gsub( package.path, "^%.\\%?%.lua;", framework.cpath .. "?.lua;" )
+	end
+else
+	-- Add `framework.path' and `framework.cpath'
+	local path      = gsub( arg[ 0 ], "/framework/init%.lua$", "/" )
+	framework.path  = path
+	framework.cpath = gsub( path, "/lua/$", "/" )
+
+	-- Add working directory
+	package.path    = package.path  .. ";" .. path .. "?.lua;"
+	package.path    = package.path  .. path .. "?/init.lua;"
+
+	-- Add `lib'
+	package.path    = package.path  .. path .. "lib/?.lua"
+	package.cpath   = package.cpath .. ";" .. path .. "lib/?.so;"
+	package.cpath   = package.cpath .. path .. "loadall.so"
+
+	-- Add `./?/init.lua'
+	if ( gamedir ) then
+		package.path = gsub( package.path, "^%./%?%.lua;", "./?.lua;./?/init.lua;" )
+	else
+		package.path = gsub( package.path, "^%./%?%.lua;", framework.cpath .. "?.lua;" )
+	end
+end
 
 local arg     = arg
 local require = require
