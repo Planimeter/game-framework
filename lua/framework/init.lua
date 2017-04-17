@@ -4,11 +4,11 @@
 --
 --============================================================================--
 
-local framework = {}
-_G.framework    = framework
-
 local gsub      = string.gsub
 local gamedir   = arg[ 2 ]
+
+local framework = {}
+_G.framework    = framework
 
 if ( jit.os == "Windows" ) then
 	-- Add `framework.path' and `framework.cpath'
