@@ -4,11 +4,11 @@
 --
 --============================================================================--
 
-local gamedir   = arg[ 2 ]
-local gsub      = string.gsub
-
 local framework = {}
 _G.framework    = framework
+
+local gsub      = string.gsub
+local gamedir   = arg[ 2 ]
 
 if ( jit.os == "Windows" ) then
 	-- Add `framework.path' and `framework.cpath'
@@ -23,9 +23,17 @@ if ( jit.os == "Windows" ) then
 
 	-- Add `./?/init.lua'
 	if ( gamedir ) then
-		package.path = gsub( package.path, "^%.\\%?%.lua;", ".\\?.lua;.\\?\\init.lua;" )
+		package.path = gsub(
+			package.path,
+			"^%.\\%?%.lua;",
+			".\\" .. gamedir .. "\\?.lua;.\\" .. gamedir .. "\\?\\init.lua;"
+		)
 	else
-		package.path = gsub( package.path, "^%.\\%?%.lua;", framework.cpath .. "?.lua;" )
+		package.path = gsub(
+			package.path,
+			"^%.\\%?%.lua;",
+			framework.cpath .. "?.lua;"
+		)
 	end
 else
 	-- Add `framework.path' and `framework.cpath'
@@ -44,9 +52,17 @@ else
 
 	-- Add `./?/init.lua'
 	if ( gamedir ) then
-		package.path = gsub( package.path, "^%./%?%.lua;", "./?.lua;./?/init.lua;" )
+		package.path = gsub(
+			package.path,
+			"^%./%?%.lua;",
+			"./" .. gamedir .. "/?.lua;./" .. gamedir .. "/?/init.lua;"
+		)
 	else
-		package.path = gsub( package.path, "^%./%?%.lua;", framework.cpath .. "?.lua;" )
+		package.path = gsub(
+			package.path,
+			"^%./%?%.lua;",
+			framework.cpath .. "?.lua;"
+		)
 	end
 end
 
