@@ -162,6 +162,10 @@ end
 function load()
 end
 
+function quit()
+	return true
+end
+
 function lowmemory()
 end
 
@@ -217,10 +221,6 @@ function update( dt )
 end
 
 function draw()
-end
-
-function quit()
-	return true
 end
 
 main()
