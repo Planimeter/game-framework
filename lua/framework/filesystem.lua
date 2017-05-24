@@ -6,6 +6,7 @@
 
 local physfs = require( "physicsfs" )
 local ffi    = require( "ffi" )
+local string = string
 local table  = table
 
 module( "framework.filesystem" )
@@ -48,6 +49,10 @@ end
 
 function getLastModified( filename )
 	return physfs.PHYSFS_getLastModTime( filename )
+end
+
+function getUserDirectory()
+	return ffi.string( physfs.PHYSFS_getUserDir() )
 end
 
 function init( argv0 )
