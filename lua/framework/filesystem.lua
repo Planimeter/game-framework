@@ -13,6 +13,16 @@ function exists( filename )
 	return physfs.PHYSFS_exists( filename ) ~= 0
 end
 
+function getDirectoryItems( dir )
+	local files = {}
+	local function cb_func( data, origdir, fname )
+		table.insert( files, ffi.string(fname) )
+	end
+	local enum_files_cb = ffi.cast('PHYSFS_EnumFilesCallback',cb_func)
+	physfs.PHYSFS_enumerateFilesCallback( dir, enum_files_cb, nil )
+	return files
+end
+
 function getLastModified( filename )
 	return physfs.PHYSFS_getLastModTime( filename )
 end
