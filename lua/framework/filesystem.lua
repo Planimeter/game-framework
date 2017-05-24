@@ -55,6 +55,10 @@ function getUserDirectory()
 	return ffi.string( physfs.PHYSFS_getUserDir() )
 end
 
+function getWriteDirectory()
+	return ffi.string( physfs.PHYSFS_getWriteDir() )
+end
+
 function init( argv0 )
 	return physfs.PHYSFS_init( argv0 ) ~= 0
 end
