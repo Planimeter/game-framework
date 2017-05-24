@@ -6,6 +6,7 @@
 
 local physfs = require( "physicsfs" )
 local ffi    = require( "ffi" )
+local table  = table
 
 module( "framework.filesystem" )
 
@@ -14,13 +15,19 @@ function exists( filename )
 end
 
 function getDirectoryItems( dir )
-	local files = {}
-	local function cb_func( data, origdir, fname )
-		table.insert( files, ffi.string(fname) )
-	end
-	local enum_files_cb = ffi.cast('PHYSFS_EnumFilesCallback',cb_func)
-	physfs.PHYSFS_enumerateFilesCallback( dir, enum_files_cb, nil )
-	return files
+	local rc = physfs.PHYSFS_enumerateFiles( dir )
+	local i = 0
+	local v = nil
+	local t = {}
+	repeat
+		v = rc[ i ]
+		if ( v ~= nil ) then
+			table.insert( t, ffi.string( v ) )
+		end
+		i = i + 1
+	until ( v == nil )
+	physfs.PHYSFS_freeList( rc )
+	return t
 end
 
 function getLastModified( filename )
