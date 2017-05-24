@@ -12,6 +12,10 @@ local table  = table
 
 module( "framework.filesystem" )
 
+function createDirectory( dir )
+	return physfs.PHYSFS_mkdir( filename ) ~= 0
+end
+
 function exists( filename )
 	return physfs.PHYSFS_exists( filename ) ~= 0
 end
@@ -54,10 +58,6 @@ end
 
 function getUserDirectory()
 	return ffi.string( physfs.PHYSFS_getUserDir() )
-end
-
-function getWriteDirectory()
-	return ffi.string( physfs.PHYSFS_getWriteDir() )
 end
 
 function init( argv0 )
