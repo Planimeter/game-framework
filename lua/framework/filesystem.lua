@@ -6,6 +6,7 @@
 
 local physfs = require( "physicsfs" )
 local ffi    = require( "ffi" )
+local os     = os
 local string = string
 local table  = table
 
