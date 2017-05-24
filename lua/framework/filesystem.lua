@@ -14,6 +14,22 @@ function exists( filename )
 	return physfs.PHYSFS_exists( filename ) ~= 0
 end
 
+function getAppdataDirectory()
+	if ( ffi.os == "Windows" ) then
+		return string.gsub( os.getenv( "APPDATA" ), "\\", "/" )
+	elseif ( ffi.os == "OSX" ) then
+		return getUserDirectory() .. "/Library/Application Support"
+	elseif ( ffi.os == "Linux" ) then
+		local xdgdatahome = os.getenv( "XDG_DATA_HOME" )
+		if ( not xdgdatahome ) then
+			return getUserDirectory() .. "/.local/share/"
+		else
+			return xdgdatahome
+		end
+	end
+	return getUserDirectory()
+end
+
 function getDirectoryItems( dir )
 	local rc = physfs.PHYSFS_enumerateFiles( dir )
 	local i = 0
