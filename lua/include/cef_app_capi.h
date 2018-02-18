@@ -4,6 +4,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 typedef long long int64;
 typedef unsigned long long uint64;
 
@@ -30,7 +47,13 @@ typedef short int16;
 
 
 typedef unsigned short uint16;
-typedef unsigned short char16;
+
+
+
+
+
+
+typedef wchar_t char16;
 typedef struct _cef_string_wide_t {
   wchar_t* str;
   size_t length;
@@ -157,6 +180,7 @@ __attribute__((visibility("default"))) int cef_string_utf16_to_upper(const char1
 typedef char16 cef_char_t;
 typedef cef_string_userfree_utf16_t cef_string_userfree_t;
 typedef cef_string_utf16_t cef_string_t;
+
 typedef void* cef_string_list_t;
 
 
@@ -197,6 +221,7 @@ __attribute__((visibility("default"))) void cef_string_list_free(cef_string_list
 
 
 __attribute__((visibility("default"))) cef_string_list_t cef_string_list_copy(cef_string_list_t list);
+
 typedef void* cef_string_map_t;
 
 
@@ -246,6 +271,7 @@ __attribute__((visibility("default"))) void cef_string_map_clear(cef_string_map_
 
 
 __attribute__((visibility("default"))) void cef_string_map_free(cef_string_map_t map);
+
 typedef void* cef_string_multimap_t;
 
 
@@ -308,6 +334,17 @@ __attribute__((visibility("default"))) void cef_string_multimap_free(cef_string_
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 typedef struct _cef_time_t {
   int year;
 
@@ -353,11 +390,12 @@ __attribute__((visibility("default"))) int cef_time_delta(const cef_time_t* cef_
 
 
 
+
+
+
+
 struct HINSTANCE__{int unused;}; typedef struct HINSTANCE__ *HINSTANCE;
 typedef HINSTANCE HMODULE;
-///
-// Structure representing CefExecuteProcess arguments.
-///
 typedef struct _cef_main_args_t { HINSTANCE instance; } cef_main_args_t;
 
 
@@ -366,11 +404,8 @@ typedef struct _cef_main_args_t { HINSTANCE instance; } cef_main_args_t;
 typedef unsigned long       DWORD;
 struct HWND__{int unused;}; typedef struct HWND__ *HWND;
 struct HMENU__{int unused;}; typedef struct HMENU__ *HMENU;
-///
-// Structure representing window information.
-///
 typedef struct _cef_window_info_t {
-  // Standard parameters required by CreateWindowEx()
+
   DWORD ex_style;
   cef_string_t window_name;
   DWORD style;
@@ -380,32 +415,13 @@ typedef struct _cef_window_info_t {
   int height;
   HWND parent_window;
   HMENU menu;
-
-  ///
-  // Set to true (1) to create the browser using windowless (off-screen)
-  // rendering. No window will be created for the browser and all rendering will
-  // occur via the CefRenderHandler interface. The |parent_window| value will be
-  // used to identify monitor info and to act as the parent window for dialogs,
-  // context menus, etc. If |parent_window| is not provided then the main screen
-  // monitor will be used and some functionality that requires a parent window
-  // may not function correctly. In order to create windowless browsers the
-  // CefSettings.windowless_rendering_enabled value must be set to true.
-  // Transparent painting is enabled by default but can be disabled by setting
-  // CefBrowserSettings.background_color to an opaque value.
-  ///
   int windowless_rendering_enabled;
 
-  ///
-  // Handle for the new browser window. Only used with windowed rendering.
-  ///
+
+
+
   HWND window;
 } cef_window_info_t;
-
-
-
-
-
-
 typedef uint32 cef_color_t;
 typedef enum {
 
@@ -1080,7 +1096,7 @@ typedef enum {
   DRAG_OPERATION_PRIVATE = 8,
   DRAG_OPERATION_MOVE = 16,
   DRAG_OPERATION_DELETE = 32,
-  DRAG_OPERATION_EVERY = 0xFFFFU/0xFFFFFFFF
+  DRAG_OPERATION_EVERY = 0xffffffff
 } cef_drag_operations_mask_t;
 
 
@@ -2818,14 +2834,6 @@ typedef struct _cef_composition_underline_t {
 
   int thick;
 } cef_composition_underline_t;
-
-
-
-
-
-
-
-
 typedef struct _cef_base_ref_counted_t {
 
 
@@ -2836,19 +2844,19 @@ typedef struct _cef_base_ref_counted_t {
 
 
 
-  void(* add_ref)(struct _cef_base_ref_counted_t* self);
+  void(__attribute__((__stdcall__))* add_ref)(struct _cef_base_ref_counted_t* self);
 
 
 
 
 
 
-  int(* release)(struct _cef_base_ref_counted_t* self);
+  int(__attribute__((__stdcall__))* release)(struct _cef_base_ref_counted_t* self);
 
 
 
 
-  int(* has_one_ref)(struct _cef_base_ref_counted_t* self);
+  int(__attribute__((__stdcall__))* has_one_ref)(struct _cef_base_ref_counted_t* self);
 } cef_base_ref_counted_t;
 
 
@@ -2863,7 +2871,7 @@ typedef struct _cef_base_scoped_t {
 
 
 
-  void(* del)(struct _cef_base_scoped_t* self);
+  void(__attribute__((__stdcall__))* del)(struct _cef_base_scoped_t* self);
 
 } cef_base_scoped_t;
 
@@ -2885,99 +2893,99 @@ typedef struct _cef_value_t {
 
 
   cef_base_ref_counted_t base;
-  int(* is_valid)(struct _cef_value_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_value_t* self);
 
 
 
 
-  int(* is_owned)(struct _cef_value_t* self);
-
-
-
-
-
-  int(* is_read_only)(struct _cef_value_t* self);
+  int(__attribute__((__stdcall__))* is_owned)(struct _cef_value_t* self);
 
 
 
 
 
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_value_t* self);
 
-  int(* is_same)(struct _cef_value_t* self,
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_value_t* self,
                              struct _cef_value_t* that);
 
 
 
 
 
-  int(* is_equal)(struct _cef_value_t* self,
+  int(__attribute__((__stdcall__))* is_equal)(struct _cef_value_t* self,
                               struct _cef_value_t* that);
 
 
 
 
-  struct _cef_value_t*(* copy)(struct _cef_value_t* self);
+  struct _cef_value_t*(__attribute__((__stdcall__))* copy)(struct _cef_value_t* self);
 
 
 
 
-  cef_value_type_t(* get_type)(struct _cef_value_t* self);
+  cef_value_type_t(__attribute__((__stdcall__))* get_type)(struct _cef_value_t* self);
 
 
 
 
-  int(* get_bool)(struct _cef_value_t* self);
+  int(__attribute__((__stdcall__))* get_bool)(struct _cef_value_t* self);
 
 
 
 
-  int(* get_int)(struct _cef_value_t* self);
+  int(__attribute__((__stdcall__))* get_int)(struct _cef_value_t* self);
 
 
 
 
-  double(* get_double)(struct _cef_value_t* self);
+  double(__attribute__((__stdcall__))* get_double)(struct _cef_value_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_string)(struct _cef_value_t* self);
-  struct _cef_binary_value_t*(* get_binary)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_string)(struct _cef_value_t* self);
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* get_binary)(
       struct _cef_value_t* self);
-  struct _cef_dictionary_value_t*(* get_dictionary)(
+  struct _cef_dictionary_value_t*(__attribute__((__stdcall__))* get_dictionary)(
       struct _cef_value_t* self);
-  struct _cef_list_value_t*(* get_list)(struct _cef_value_t* self);
+  struct _cef_list_value_t*(__attribute__((__stdcall__))* get_list)(struct _cef_value_t* self);
 
 
 
 
 
-  int(* set_null)(struct _cef_value_t* self);
+  int(__attribute__((__stdcall__))* set_null)(struct _cef_value_t* self);
 
 
 
 
 
-  int(* set_bool)(struct _cef_value_t* self, int value);
+  int(__attribute__((__stdcall__))* set_bool)(struct _cef_value_t* self, int value);
 
 
 
 
 
-  int(* set_int)(struct _cef_value_t* self, int value);
+  int(__attribute__((__stdcall__))* set_int)(struct _cef_value_t* self, int value);
 
 
 
 
 
-  int(* set_double)(struct _cef_value_t* self, double value);
+  int(__attribute__((__stdcall__))* set_double)(struct _cef_value_t* self, double value);
 
 
 
 
 
-  int(* set_string)(struct _cef_value_t* self,
+  int(__attribute__((__stdcall__))* set_string)(struct _cef_value_t* self,
                                 const cef_string_t* value);
 
 
@@ -2985,7 +2993,7 @@ typedef struct _cef_value_t {
 
 
 
-  int(* set_binary)(struct _cef_value_t* self,
+  int(__attribute__((__stdcall__))* set_binary)(struct _cef_value_t* self,
                                 struct _cef_binary_value_t* value);
 
 
@@ -2993,7 +3001,7 @@ typedef struct _cef_value_t {
 
 
 
-  int(* set_dictionary)(struct _cef_value_t* self,
+  int(__attribute__((__stdcall__))* set_dictionary)(struct _cef_value_t* self,
                                     struct _cef_dictionary_value_t* value);
 
 
@@ -3001,7 +3009,7 @@ typedef struct _cef_value_t {
 
 
 
-  int(* set_list)(struct _cef_value_t* self,
+  int(__attribute__((__stdcall__))* set_list)(struct _cef_value_t* self,
                               struct _cef_list_value_t* value);
 } cef_value_t;
 
@@ -3025,43 +3033,43 @@ typedef struct _cef_binary_value_t {
 
 
 
-  int(* is_valid)(struct _cef_binary_value_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_binary_value_t* self);
 
 
 
 
-  int(* is_owned)(struct _cef_binary_value_t* self);
+  int(__attribute__((__stdcall__))* is_owned)(struct _cef_binary_value_t* self);
 
 
 
 
 
-  int(* is_same)(struct _cef_binary_value_t* self,
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_binary_value_t* self,
                              struct _cef_binary_value_t* that);
 
 
 
 
 
-  int(* is_equal)(struct _cef_binary_value_t* self,
+  int(__attribute__((__stdcall__))* is_equal)(struct _cef_binary_value_t* self,
                               struct _cef_binary_value_t* that);
 
 
 
 
-  struct _cef_binary_value_t*(* copy)(
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* copy)(
       struct _cef_binary_value_t* self);
 
 
 
 
-  size_t(* get_size)(struct _cef_binary_value_t* self);
+  size_t(__attribute__((__stdcall__))* get_size)(struct _cef_binary_value_t* self);
 
 
 
 
 
-  size_t(* get_data)(struct _cef_binary_value_t* self,
+  size_t(__attribute__((__stdcall__))* get_data)(struct _cef_binary_value_t* self,
                                  void* buffer,
                                  size_t buffer_size,
                                  size_t data_offset);
@@ -3090,103 +3098,103 @@ typedef struct _cef_dictionary_value_t {
 
 
 
-  int(* is_valid)(struct _cef_dictionary_value_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_dictionary_value_t* self);
 
 
 
 
-  int(* is_owned)(struct _cef_dictionary_value_t* self);
-
-
-
-
-
-  int(* is_read_only)(struct _cef_dictionary_value_t* self);
+  int(__attribute__((__stdcall__))* is_owned)(struct _cef_dictionary_value_t* self);
 
 
 
 
 
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_dictionary_value_t* self);
 
-  int(* is_same)(struct _cef_dictionary_value_t* self,
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_dictionary_value_t* self,
                              struct _cef_dictionary_value_t* that);
 
 
 
 
 
-  int(* is_equal)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* is_equal)(struct _cef_dictionary_value_t* self,
                               struct _cef_dictionary_value_t* that);
 
 
 
 
 
-  struct _cef_dictionary_value_t*(* copy)(
+  struct _cef_dictionary_value_t*(__attribute__((__stdcall__))* copy)(
       struct _cef_dictionary_value_t* self,
       int exclude_empty_children);
 
 
 
 
-  size_t(* get_size)(struct _cef_dictionary_value_t* self);
+  size_t(__attribute__((__stdcall__))* get_size)(struct _cef_dictionary_value_t* self);
 
 
 
 
-  int(* clear)(struct _cef_dictionary_value_t* self);
+  int(__attribute__((__stdcall__))* clear)(struct _cef_dictionary_value_t* self);
 
 
 
 
-  int(* has_key)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* has_key)(struct _cef_dictionary_value_t* self,
                              const cef_string_t* key);
 
 
 
 
-  int(* get_keys)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* get_keys)(struct _cef_dictionary_value_t* self,
                               cef_string_list_t keys);
 
 
 
 
 
-  int(* remove)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* remove)(struct _cef_dictionary_value_t* self,
                             const cef_string_t* key);
 
 
 
 
-  cef_value_type_t(* get_type)(struct _cef_dictionary_value_t* self,
+  cef_value_type_t(__attribute__((__stdcall__))* get_type)(struct _cef_dictionary_value_t* self,
                                            const cef_string_t* key);
-  struct _cef_value_t*(* get_value)(
+  struct _cef_value_t*(__attribute__((__stdcall__))* get_value)(
       struct _cef_dictionary_value_t* self,
       const cef_string_t* key);
 
 
 
 
-  int(* get_bool)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* get_bool)(struct _cef_dictionary_value_t* self,
                               const cef_string_t* key);
 
 
 
 
-  int(* get_int)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* get_int)(struct _cef_dictionary_value_t* self,
                              const cef_string_t* key);
 
 
 
 
-  double(* get_double)(struct _cef_dictionary_value_t* self,
+  double(__attribute__((__stdcall__))* get_double)(struct _cef_dictionary_value_t* self,
                                    const cef_string_t* key);
 
 
 
 
 
-  cef_string_userfree_t(* get_string)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_string)(
       struct _cef_dictionary_value_t* self,
       const cef_string_t* key);
 
@@ -3194,16 +3202,7 @@ typedef struct _cef_dictionary_value_t {
 
 
 
-  struct _cef_binary_value_t*(* get_binary)(
-      struct _cef_dictionary_value_t* self,
-      const cef_string_t* key);
-
-
-
-
-
-
-  struct _cef_dictionary_value_t*(* get_dictionary)(
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* get_binary)(
       struct _cef_dictionary_value_t* self,
       const cef_string_t* key);
 
@@ -3212,10 +3211,19 @@ typedef struct _cef_dictionary_value_t {
 
 
 
-  struct _cef_list_value_t*(* get_list)(
+  struct _cef_dictionary_value_t*(__attribute__((__stdcall__))* get_dictionary)(
       struct _cef_dictionary_value_t* self,
       const cef_string_t* key);
-  int(* set_value)(struct _cef_dictionary_value_t* self,
+
+
+
+
+
+
+  struct _cef_list_value_t*(__attribute__((__stdcall__))* get_list)(
+      struct _cef_dictionary_value_t* self,
+      const cef_string_t* key);
+  int(__attribute__((__stdcall__))* set_value)(struct _cef_dictionary_value_t* self,
                                const cef_string_t* key,
                                struct _cef_value_t* value);
 
@@ -3223,14 +3231,14 @@ typedef struct _cef_dictionary_value_t {
 
 
 
-  int(* set_null)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* set_null)(struct _cef_dictionary_value_t* self,
                               const cef_string_t* key);
 
 
 
 
 
-  int(* set_bool)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* set_bool)(struct _cef_dictionary_value_t* self,
                               const cef_string_t* key,
                               int value);
 
@@ -3238,7 +3246,7 @@ typedef struct _cef_dictionary_value_t {
 
 
 
-  int(* set_int)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* set_int)(struct _cef_dictionary_value_t* self,
                              const cef_string_t* key,
                              int value);
 
@@ -3246,7 +3254,7 @@ typedef struct _cef_dictionary_value_t {
 
 
 
-  int(* set_double)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* set_double)(struct _cef_dictionary_value_t* self,
                                 const cef_string_t* key,
                                 double value);
 
@@ -3254,16 +3262,16 @@ typedef struct _cef_dictionary_value_t {
 
 
 
-  int(* set_string)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* set_string)(struct _cef_dictionary_value_t* self,
                                 const cef_string_t* key,
                                 const cef_string_t* value);
-  int(* set_binary)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* set_binary)(struct _cef_dictionary_value_t* self,
                                 const cef_string_t* key,
                                 struct _cef_binary_value_t* value);
-  int(* set_dictionary)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* set_dictionary)(struct _cef_dictionary_value_t* self,
                                     const cef_string_t* key,
                                     struct _cef_dictionary_value_t* value);
-  int(* set_list)(struct _cef_dictionary_value_t* self,
+  int(__attribute__((__stdcall__))* set_list)(struct _cef_dictionary_value_t* self,
                               const cef_string_t* key,
                               struct _cef_list_value_t* value);
 } cef_dictionary_value_t;
@@ -3288,82 +3296,82 @@ typedef struct _cef_list_value_t {
 
 
 
-  int(* is_valid)(struct _cef_list_value_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_list_value_t* self);
 
 
 
 
-  int(* is_owned)(struct _cef_list_value_t* self);
-
-
-
-
-
-  int(* is_read_only)(struct _cef_list_value_t* self);
+  int(__attribute__((__stdcall__))* is_owned)(struct _cef_list_value_t* self);
 
 
 
 
 
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_list_value_t* self);
 
-  int(* is_same)(struct _cef_list_value_t* self,
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_list_value_t* self,
                              struct _cef_list_value_t* that);
 
 
 
 
 
-  int(* is_equal)(struct _cef_list_value_t* self,
+  int(__attribute__((__stdcall__))* is_equal)(struct _cef_list_value_t* self,
                               struct _cef_list_value_t* that);
 
 
 
 
-  struct _cef_list_value_t*(* copy)(struct _cef_list_value_t* self);
+  struct _cef_list_value_t*(__attribute__((__stdcall__))* copy)(struct _cef_list_value_t* self);
 
 
 
 
 
-  int(* set_size)(struct _cef_list_value_t* self, size_t size);
+  int(__attribute__((__stdcall__))* set_size)(struct _cef_list_value_t* self, size_t size);
 
 
 
 
-  size_t(* get_size)(struct _cef_list_value_t* self);
+  size_t(__attribute__((__stdcall__))* get_size)(struct _cef_list_value_t* self);
 
 
 
 
-  int(* clear)(struct _cef_list_value_t* self);
+  int(__attribute__((__stdcall__))* clear)(struct _cef_list_value_t* self);
 
 
 
 
-  int(* remove)(struct _cef_list_value_t* self, size_t index);
+  int(__attribute__((__stdcall__))* remove)(struct _cef_list_value_t* self, size_t index);
 
 
 
 
-  cef_value_type_t(* get_type)(struct _cef_list_value_t* self,
+  cef_value_type_t(__attribute__((__stdcall__))* get_type)(struct _cef_list_value_t* self,
                                            size_t index);
-  struct _cef_value_t*(* get_value)(struct _cef_list_value_t* self,
+  struct _cef_value_t*(__attribute__((__stdcall__))* get_value)(struct _cef_list_value_t* self,
                                                 size_t index);
 
 
 
 
-  int(* get_bool)(struct _cef_list_value_t* self, size_t index);
+  int(__attribute__((__stdcall__))* get_bool)(struct _cef_list_value_t* self, size_t index);
 
 
 
 
-  int(* get_int)(struct _cef_list_value_t* self, size_t index);
+  int(__attribute__((__stdcall__))* get_int)(struct _cef_list_value_t* self, size_t index);
 
 
 
 
-  double(* get_double)(struct _cef_list_value_t* self,
+  double(__attribute__((__stdcall__))* get_double)(struct _cef_list_value_t* self,
                                    size_t index);
 
 
@@ -3371,21 +3379,21 @@ typedef struct _cef_list_value_t {
 
 
   cef_string_userfree_t(
-                  * get_string)(struct _cef_list_value_t* self, size_t index);
+      __attribute__((__stdcall__))* get_string)(struct _cef_list_value_t* self, size_t index);
 
 
 
 
 
   struct _cef_binary_value_t*(
-                  * get_binary)(struct _cef_list_value_t* self, size_t index);
+      __attribute__((__stdcall__))* get_binary)(struct _cef_list_value_t* self, size_t index);
 
 
 
 
 
 
-  struct _cef_dictionary_value_t*(* get_dictionary)(
+  struct _cef_dictionary_value_t*(__attribute__((__stdcall__))* get_dictionary)(
       struct _cef_list_value_t* self,
       size_t index);
 
@@ -3395,8 +3403,8 @@ typedef struct _cef_list_value_t {
 
 
   struct _cef_list_value_t*(
-                  * get_list)(struct _cef_list_value_t* self, size_t index);
-  int(* set_value)(struct _cef_list_value_t* self,
+      __attribute__((__stdcall__))* get_list)(struct _cef_list_value_t* self, size_t index);
+  int(__attribute__((__stdcall__))* set_value)(struct _cef_list_value_t* self,
                                size_t index,
                                struct _cef_value_t* value);
 
@@ -3404,13 +3412,13 @@ typedef struct _cef_list_value_t {
 
 
 
-  int(* set_null)(struct _cef_list_value_t* self, size_t index);
+  int(__attribute__((__stdcall__))* set_null)(struct _cef_list_value_t* self, size_t index);
 
 
 
 
 
-  int(* set_bool)(struct _cef_list_value_t* self,
+  int(__attribute__((__stdcall__))* set_bool)(struct _cef_list_value_t* self,
                               size_t index,
                               int value);
 
@@ -3418,7 +3426,7 @@ typedef struct _cef_list_value_t {
 
 
 
-  int(* set_int)(struct _cef_list_value_t* self,
+  int(__attribute__((__stdcall__))* set_int)(struct _cef_list_value_t* self,
                              size_t index,
                              int value);
 
@@ -3426,7 +3434,7 @@ typedef struct _cef_list_value_t {
 
 
 
-  int(* set_double)(struct _cef_list_value_t* self,
+  int(__attribute__((__stdcall__))* set_double)(struct _cef_list_value_t* self,
                                 size_t index,
                                 double value);
 
@@ -3434,16 +3442,16 @@ typedef struct _cef_list_value_t {
 
 
 
-  int(* set_string)(struct _cef_list_value_t* self,
+  int(__attribute__((__stdcall__))* set_string)(struct _cef_list_value_t* self,
                                 size_t index,
                                 const cef_string_t* value);
-  int(* set_binary)(struct _cef_list_value_t* self,
+  int(__attribute__((__stdcall__))* set_binary)(struct _cef_list_value_t* self,
                                 size_t index,
                                 struct _cef_binary_value_t* value);
-  int(* set_dictionary)(struct _cef_list_value_t* self,
+  int(__attribute__((__stdcall__))* set_dictionary)(struct _cef_list_value_t* self,
                                     size_t index,
                                     struct _cef_dictionary_value_t* value);
-  int(* set_list)(struct _cef_list_value_t* self,
+  int(__attribute__((__stdcall__))* set_list)(struct _cef_list_value_t* self,
                               size_t index,
                               struct _cef_list_value_t* value);
 } cef_list_value_t;
@@ -3462,7 +3470,7 @@ typedef struct _cef_accessibility_handler_t {
 
 
 
-  void(* on_accessibility_tree_change)(
+  void(__attribute__((__stdcall__))* on_accessibility_tree_change)(
       struct _cef_accessibility_handler_t* self,
       struct _cef_value_t* value);
 
@@ -3470,10 +3478,17 @@ typedef struct _cef_accessibility_handler_t {
 
 
 
-  void(* on_accessibility_location_change)(
+  void(__attribute__((__stdcall__))* on_accessibility_location_change)(
       struct _cef_accessibility_handler_t* self,
       struct _cef_value_t* value);
 } cef_accessibility_handler_t;
+
+
+
+
+
+
+
 typedef struct _cef_command_line_t {
 
 
@@ -3484,18 +3499,18 @@ typedef struct _cef_command_line_t {
 
 
 
-  int(* is_valid)(struct _cef_command_line_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_command_line_t* self);
 
 
 
 
 
-  int(* is_read_only)(struct _cef_command_line_t* self);
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_command_line_t* self);
 
 
 
 
-  struct _cef_command_line_t*(* copy)(
+  struct _cef_command_line_t*(__attribute__((__stdcall__))* copy)(
       struct _cef_command_line_t* self);
 
 
@@ -3503,7 +3518,7 @@ typedef struct _cef_command_line_t {
 
 
 
-  void(* init_from_argv)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* init_from_argv)(struct _cef_command_line_t* self,
                                      int argc,
                                      const char* const* argv);
 
@@ -3511,20 +3526,20 @@ typedef struct _cef_command_line_t {
 
 
 
-  void(* init_from_string)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* init_from_string)(struct _cef_command_line_t* self,
                                        const cef_string_t* command_line);
 
 
 
 
 
-  void(* reset)(struct _cef_command_line_t* self);
+  void(__attribute__((__stdcall__))* reset)(struct _cef_command_line_t* self);
 
 
 
 
 
-  void(* get_argv)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* get_argv)(struct _cef_command_line_t* self,
                                cef_string_list_t argv);
 
 
@@ -3532,31 +3547,31 @@ typedef struct _cef_command_line_t {
 
 
 
-  cef_string_userfree_t(* get_command_line_string)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_command_line_string)(
       struct _cef_command_line_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_program)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_program)(
       struct _cef_command_line_t* self);
 
 
 
 
-  void(* set_program)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* set_program)(struct _cef_command_line_t* self,
                                   const cef_string_t* program);
 
 
 
 
-  int(* has_switches)(struct _cef_command_line_t* self);
+  int(__attribute__((__stdcall__))* has_switches)(struct _cef_command_line_t* self);
 
 
 
 
-  int(* has_switch)(struct _cef_command_line_t* self,
+  int(__attribute__((__stdcall__))* has_switch)(struct _cef_command_line_t* self,
                                 const cef_string_t* name);
 
 
@@ -3564,7 +3579,7 @@ typedef struct _cef_command_line_t {
 
 
 
-  cef_string_userfree_t(* get_switch_value)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_switch_value)(
       struct _cef_command_line_t* self,
       const cef_string_t* name);
 
@@ -3572,45 +3587,45 @@ typedef struct _cef_command_line_t {
 
 
 
-  void(* get_switches)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* get_switches)(struct _cef_command_line_t* self,
                                    cef_string_map_t switches);
 
 
 
 
 
-  void(* append_switch)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* append_switch)(struct _cef_command_line_t* self,
                                     const cef_string_t* name);
 
 
 
 
-  void(* append_switch_with_value)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* append_switch_with_value)(struct _cef_command_line_t* self,
                                                const cef_string_t* name,
                                                const cef_string_t* value);
 
 
 
 
-  int(* has_arguments)(struct _cef_command_line_t* self);
+  int(__attribute__((__stdcall__))* has_arguments)(struct _cef_command_line_t* self);
 
 
 
 
-  void(* get_arguments)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* get_arguments)(struct _cef_command_line_t* self,
                                     cef_string_list_t arguments);
 
 
 
 
-  void(* append_argument)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* append_argument)(struct _cef_command_line_t* self,
                                       const cef_string_t* argument);
 
 
 
 
 
-  void(* prepend_wrapper)(struct _cef_command_line_t* self,
+  void(__attribute__((__stdcall__))* prepend_wrapper)(struct _cef_command_line_t* self,
                                       const cef_string_t* wrapper);
 } cef_command_line_t;
 
@@ -3624,6 +3639,16 @@ __attribute__((visibility("default"))) cef_command_line_t* cef_command_line_crea
 
 
 __attribute__((visibility("default"))) cef_command_line_t* cef_command_line_get_global();
+
+
+
+
+
+
+
+
+
+
 typedef struct _cef_image_t {
 
 
@@ -3633,15 +3658,15 @@ typedef struct _cef_image_t {
 
 
 
-  int(* is_empty)(struct _cef_image_t* self);
+  int(__attribute__((__stdcall__))* is_empty)(struct _cef_image_t* self);
 
 
 
 
 
-  int(* is_same)(struct _cef_image_t* self,
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_image_t* self,
                              struct _cef_image_t* that);
-  int(* add_bitmap)(struct _cef_image_t* self,
+  int(__attribute__((__stdcall__))* add_bitmap)(struct _cef_image_t* self,
                                 float scale_factor,
                                 int pixel_width,
                                 int pixel_height,
@@ -3655,7 +3680,7 @@ typedef struct _cef_image_t {
 
 
 
-  int(* add_png)(struct _cef_image_t* self,
+  int(__attribute__((__stdcall__))* add_png)(struct _cef_image_t* self,
                              float scale_factor,
                              const void* png_data,
                              size_t png_data_size);
@@ -3665,7 +3690,7 @@ typedef struct _cef_image_t {
 
 
 
-  int(* add_jpeg)(struct _cef_image_t* self,
+  int(__attribute__((__stdcall__))* add_jpeg)(struct _cef_image_t* self,
                               float scale_factor,
                               const void* jpeg_data,
                               size_t jpeg_data_size);
@@ -3673,24 +3698,24 @@ typedef struct _cef_image_t {
 
 
 
-  size_t(* get_width)(struct _cef_image_t* self);
+  size_t(__attribute__((__stdcall__))* get_width)(struct _cef_image_t* self);
 
 
 
 
-  size_t(* get_height)(struct _cef_image_t* self);
+  size_t(__attribute__((__stdcall__))* get_height)(struct _cef_image_t* self);
 
 
 
 
 
-  int(* has_representation)(struct _cef_image_t* self,
+  int(__attribute__((__stdcall__))* has_representation)(struct _cef_image_t* self,
                                         float scale_factor);
 
 
 
 
-  int(* remove_representation)(struct _cef_image_t* self,
+  int(__attribute__((__stdcall__))* remove_representation)(struct _cef_image_t* self,
                                            float scale_factor);
 
 
@@ -3699,25 +3724,25 @@ typedef struct _cef_image_t {
 
 
 
-  int(* get_representation_info)(struct _cef_image_t* self,
+  int(__attribute__((__stdcall__))* get_representation_info)(struct _cef_image_t* self,
                                              float scale_factor,
                                              float* actual_scale_factor,
                                              int* pixel_width,
                                              int* pixel_height);
-  struct _cef_binary_value_t*(* get_as_bitmap)(
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* get_as_bitmap)(
       struct _cef_image_t* self,
       float scale_factor,
       cef_color_type_t color_type,
       cef_alpha_type_t alpha_type,
       int* pixel_width,
       int* pixel_height);
-  struct _cef_binary_value_t*(* get_as_png)(
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* get_as_png)(
       struct _cef_image_t* self,
       float scale_factor,
       int with_transparency,
       int* pixel_width,
       int* pixel_height);
-  struct _cef_binary_value_t*(* get_as_jpeg)(
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* get_as_jpeg)(
       struct _cef_image_t* self,
       float scale_factor,
       int quality,
@@ -3730,6 +3755,7 @@ typedef struct _cef_image_t {
 
 
 __attribute__((visibility("default"))) cef_image_t* cef_image_create();
+
 typedef struct _cef_read_handler_t {
 
 
@@ -3739,7 +3765,7 @@ typedef struct _cef_read_handler_t {
 
 
 
-  size_t(* read)(struct _cef_read_handler_t* self,
+  size_t(__attribute__((__stdcall__))* read)(struct _cef_read_handler_t* self,
                              void* ptr,
                              size_t size,
                              size_t n);
@@ -3748,26 +3774,26 @@ typedef struct _cef_read_handler_t {
 
 
 
-  int(* seek)(struct _cef_read_handler_t* self,
+  int(__attribute__((__stdcall__))* seek)(struct _cef_read_handler_t* self,
                           int64 offset,
                           int whence);
 
 
 
 
-  int64(* tell)(struct _cef_read_handler_t* self);
+  int64(__attribute__((__stdcall__))* tell)(struct _cef_read_handler_t* self);
 
 
 
 
-  int(* eof)(struct _cef_read_handler_t* self);
+  int(__attribute__((__stdcall__))* eof)(struct _cef_read_handler_t* self);
 
 
 
 
 
 
-  int(* may_block)(struct _cef_read_handler_t* self);
+  int(__attribute__((__stdcall__))* may_block)(struct _cef_read_handler_t* self);
 } cef_read_handler_t;
 
 
@@ -3783,7 +3809,7 @@ typedef struct _cef_stream_reader_t {
 
 
 
-  size_t(* read)(struct _cef_stream_reader_t* self,
+  size_t(__attribute__((__stdcall__))* read)(struct _cef_stream_reader_t* self,
                              void* ptr,
                              size_t size,
                              size_t n);
@@ -3792,26 +3818,26 @@ typedef struct _cef_stream_reader_t {
 
 
 
-  int(* seek)(struct _cef_stream_reader_t* self,
+  int(__attribute__((__stdcall__))* seek)(struct _cef_stream_reader_t* self,
                           int64 offset,
                           int whence);
 
 
 
 
-  int64(* tell)(struct _cef_stream_reader_t* self);
+  int64(__attribute__((__stdcall__))* tell)(struct _cef_stream_reader_t* self);
 
 
 
 
-  int(* eof)(struct _cef_stream_reader_t* self);
+  int(__attribute__((__stdcall__))* eof)(struct _cef_stream_reader_t* self);
 
 
 
 
 
 
-  int(* may_block)(struct _cef_stream_reader_t* self);
+  int(__attribute__((__stdcall__))* may_block)(struct _cef_stream_reader_t* self);
 } cef_stream_reader_t;
 
 
@@ -3845,7 +3871,7 @@ typedef struct _cef_write_handler_t {
 
 
 
-  size_t(* write)(struct _cef_write_handler_t* self,
+  size_t(__attribute__((__stdcall__))* write)(struct _cef_write_handler_t* self,
                               const void* ptr,
                               size_t size,
                               size_t n);
@@ -3854,26 +3880,26 @@ typedef struct _cef_write_handler_t {
 
 
 
-  int(* seek)(struct _cef_write_handler_t* self,
+  int(__attribute__((__stdcall__))* seek)(struct _cef_write_handler_t* self,
                           int64 offset,
                           int whence);
 
 
 
 
-  int64(* tell)(struct _cef_write_handler_t* self);
+  int64(__attribute__((__stdcall__))* tell)(struct _cef_write_handler_t* self);
 
 
 
 
-  int(* flush)(struct _cef_write_handler_t* self);
+  int(__attribute__((__stdcall__))* flush)(struct _cef_write_handler_t* self);
 
 
 
 
 
 
-  int(* may_block)(struct _cef_write_handler_t* self);
+  int(__attribute__((__stdcall__))* may_block)(struct _cef_write_handler_t* self);
 } cef_write_handler_t;
 
 
@@ -3889,7 +3915,7 @@ typedef struct _cef_stream_writer_t {
 
 
 
-  size_t(* write)(struct _cef_stream_writer_t* self,
+  size_t(__attribute__((__stdcall__))* write)(struct _cef_stream_writer_t* self,
                               const void* ptr,
                               size_t size,
                               size_t n);
@@ -3898,26 +3924,26 @@ typedef struct _cef_stream_writer_t {
 
 
 
-  int(* seek)(struct _cef_stream_writer_t* self,
+  int(__attribute__((__stdcall__))* seek)(struct _cef_stream_writer_t* self,
                           int64 offset,
                           int whence);
 
 
 
 
-  int64(* tell)(struct _cef_stream_writer_t* self);
+  int64(__attribute__((__stdcall__))* tell)(struct _cef_stream_writer_t* self);
 
 
 
 
-  int(* flush)(struct _cef_stream_writer_t* self);
+  int(__attribute__((__stdcall__))* flush)(struct _cef_stream_writer_t* self);
 
 
 
 
 
 
-  int(* may_block)(struct _cef_stream_writer_t* self);
+  int(__attribute__((__stdcall__))* may_block)(struct _cef_stream_writer_t* self);
 } cef_stream_writer_t;
 
 
@@ -3940,76 +3966,61 @@ typedef struct _cef_drag_data_t {
 
 
 
-  struct _cef_drag_data_t*(* clone)(struct _cef_drag_data_t* self);
+  struct _cef_drag_data_t*(__attribute__((__stdcall__))* clone)(struct _cef_drag_data_t* self);
 
 
 
 
-  int(* is_read_only)(struct _cef_drag_data_t* self);
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_drag_data_t* self);
 
 
 
 
-  int(* is_link)(struct _cef_drag_data_t* self);
+  int(__attribute__((__stdcall__))* is_link)(struct _cef_drag_data_t* self);
 
 
 
 
-  int(* is_fragment)(struct _cef_drag_data_t* self);
+  int(__attribute__((__stdcall__))* is_fragment)(struct _cef_drag_data_t* self);
 
 
 
 
-  int(* is_file)(struct _cef_drag_data_t* self);
+  int(__attribute__((__stdcall__))* is_file)(struct _cef_drag_data_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_link_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_link_url)(
       struct _cef_drag_data_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_link_title)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_link_title)(
       struct _cef_drag_data_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_link_metadata)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_link_metadata)(
       struct _cef_drag_data_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_fragment_text)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_fragment_text)(
       struct _cef_drag_data_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_fragment_html)(
-      struct _cef_drag_data_t* self);
-
-
-
-
-
-
-  cef_string_userfree_t(* get_fragment_base_url)(
-      struct _cef_drag_data_t* self);
-
-
-
-
-
-  cef_string_userfree_t(* get_file_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_fragment_html)(
       struct _cef_drag_data_t* self);
 
 
@@ -4017,51 +4028,66 @@ typedef struct _cef_drag_data_t {
 
 
 
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_fragment_base_url)(
+      struct _cef_drag_data_t* self);
 
-  size_t(* get_file_contents)(struct _cef_drag_data_t* self,
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_file_name)(
+      struct _cef_drag_data_t* self);
+
+
+
+
+
+
+
+  size_t(__attribute__((__stdcall__))* get_file_contents)(struct _cef_drag_data_t* self,
                                           struct _cef_stream_writer_t* writer);
 
 
 
 
 
-  int(* get_file_names)(struct _cef_drag_data_t* self,
+  int(__attribute__((__stdcall__))* get_file_names)(struct _cef_drag_data_t* self,
                                     cef_string_list_t names);
 
 
 
 
-  void(* set_link_url)(struct _cef_drag_data_t* self,
+  void(__attribute__((__stdcall__))* set_link_url)(struct _cef_drag_data_t* self,
                                    const cef_string_t* url);
 
 
 
 
-  void(* set_link_title)(struct _cef_drag_data_t* self,
+  void(__attribute__((__stdcall__))* set_link_title)(struct _cef_drag_data_t* self,
                                      const cef_string_t* title);
 
 
 
 
-  void(* set_link_metadata)(struct _cef_drag_data_t* self,
+  void(__attribute__((__stdcall__))* set_link_metadata)(struct _cef_drag_data_t* self,
                                         const cef_string_t* data);
 
 
 
 
-  void(* set_fragment_text)(struct _cef_drag_data_t* self,
+  void(__attribute__((__stdcall__))* set_fragment_text)(struct _cef_drag_data_t* self,
                                         const cef_string_t* text);
 
 
 
 
-  void(* set_fragment_html)(struct _cef_drag_data_t* self,
+  void(__attribute__((__stdcall__))* set_fragment_html)(struct _cef_drag_data_t* self,
                                         const cef_string_t* html);
 
 
 
 
-  void(* set_fragment_base_url)(struct _cef_drag_data_t* self,
+  void(__attribute__((__stdcall__))* set_fragment_base_url)(struct _cef_drag_data_t* self,
                                             const cef_string_t* base_url);
 
 
@@ -4069,12 +4095,12 @@ typedef struct _cef_drag_data_t {
 
 
 
-  void(* reset_file_contents)(struct _cef_drag_data_t* self);
+  void(__attribute__((__stdcall__))* reset_file_contents)(struct _cef_drag_data_t* self);
 
 
 
 
-  void(* add_file)(struct _cef_drag_data_t* self,
+  void(__attribute__((__stdcall__))* add_file)(struct _cef_drag_data_t* self,
                                const cef_string_t* path,
                                const cef_string_t* display_name);
 
@@ -4082,23 +4108,34 @@ typedef struct _cef_drag_data_t {
 
 
 
-  struct _cef_image_t*(* get_image)(struct _cef_drag_data_t* self);
+  struct _cef_image_t*(__attribute__((__stdcall__))* get_image)(struct _cef_drag_data_t* self);
 
 
 
 
-  cef_point_t(* get_image_hotspot)(struct _cef_drag_data_t* self);
+  cef_point_t(__attribute__((__stdcall__))* get_image_hotspot)(struct _cef_drag_data_t* self);
 
 
 
 
-  int(* has_image)(struct _cef_drag_data_t* self);
+  int(__attribute__((__stdcall__))* has_image)(struct _cef_drag_data_t* self);
 } cef_drag_data_t;
 
 
 
 
 __attribute__((visibility("default"))) cef_drag_data_t* cef_drag_data_create();
+
+
+
+
+
+
+
+
+
+
+
 struct _cef_domdocument_t;
 struct _cef_domnode_t;
 
@@ -4111,7 +4148,7 @@ typedef struct _cef_domvisitor_t {
 
 
   cef_base_ref_counted_t base;
-  void(* visit)(struct _cef_domvisitor_t* self,
+  void(__attribute__((__stdcall__))* visit)(struct _cef_domvisitor_t* self,
                             struct _cef_domdocument_t* document);
 } cef_domvisitor_t;
 
@@ -4128,82 +4165,82 @@ typedef struct _cef_domdocument_t {
 
 
 
-  cef_dom_document_type_t(* get_type)(
+  cef_dom_document_type_t(__attribute__((__stdcall__))* get_type)(
       struct _cef_domdocument_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_document)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_document)(
       struct _cef_domdocument_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_body)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_body)(
       struct _cef_domdocument_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_head)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_head)(
       struct _cef_domdocument_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_title)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_title)(
       struct _cef_domdocument_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_element_by_id)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_element_by_id)(
       struct _cef_domdocument_t* self,
       const cef_string_t* id);
 
 
 
 
-  struct _cef_domnode_t*(* get_focused_node)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_focused_node)(
       struct _cef_domdocument_t* self);
 
 
 
 
-  int(* has_selection)(struct _cef_domdocument_t* self);
+  int(__attribute__((__stdcall__))* has_selection)(struct _cef_domdocument_t* self);
 
 
 
 
-  int(* get_selection_start_offset)(
+  int(__attribute__((__stdcall__))* get_selection_start_offset)(
       struct _cef_domdocument_t* self);
 
 
 
 
-  int(* get_selection_end_offset)(struct _cef_domdocument_t* self);
+  int(__attribute__((__stdcall__))* get_selection_end_offset)(struct _cef_domdocument_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_selection_as_markup)(
-      struct _cef_domdocument_t* self);
-
-
-
-
-
-  cef_string_userfree_t(* get_selection_as_text)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_selection_as_markup)(
       struct _cef_domdocument_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_base_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_selection_as_text)(
+      struct _cef_domdocument_t* self);
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_base_url)(
       struct _cef_domdocument_t* self);
 
 
@@ -4211,7 +4248,7 @@ typedef struct _cef_domdocument_t {
 
 
 
-  cef_string_userfree_t(* get_complete_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_complete_url)(
       struct _cef_domdocument_t* self,
       const cef_string_t* partialURL);
 } cef_domdocument_t;
@@ -4229,105 +4266,105 @@ typedef struct _cef_domnode_t {
 
 
 
-  cef_dom_node_type_t(* get_type)(struct _cef_domnode_t* self);
+  cef_dom_node_type_t(__attribute__((__stdcall__))* get_type)(struct _cef_domnode_t* self);
 
 
 
 
-  int(* is_text)(struct _cef_domnode_t* self);
+  int(__attribute__((__stdcall__))* is_text)(struct _cef_domnode_t* self);
 
 
 
 
-  int(* is_element)(struct _cef_domnode_t* self);
+  int(__attribute__((__stdcall__))* is_element)(struct _cef_domnode_t* self);
 
 
 
 
-  int(* is_editable)(struct _cef_domnode_t* self);
+  int(__attribute__((__stdcall__))* is_editable)(struct _cef_domnode_t* self);
 
 
 
 
-  int(* is_form_control_element)(struct _cef_domnode_t* self);
+  int(__attribute__((__stdcall__))* is_form_control_element)(struct _cef_domnode_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_form_control_element_type)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_form_control_element_type)(
       struct _cef_domnode_t* self);
 
 
 
 
 
-  int(* is_same)(struct _cef_domnode_t* self,
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_domnode_t* self,
                              struct _cef_domnode_t* that);
 
 
 
 
 
-  cef_string_userfree_t(* get_name)(struct _cef_domnode_t* self);
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_name)(struct _cef_domnode_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_value)(struct _cef_domnode_t* self);
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_value)(struct _cef_domnode_t* self);
 
 
 
 
-  int(* set_value)(struct _cef_domnode_t* self,
+  int(__attribute__((__stdcall__))* set_value)(struct _cef_domnode_t* self,
                                const cef_string_t* value);
 
 
 
 
 
-  cef_string_userfree_t(* get_as_markup)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_as_markup)(
       struct _cef_domnode_t* self);
 
 
 
 
-  struct _cef_domdocument_t*(* get_document)(
+  struct _cef_domdocument_t*(__attribute__((__stdcall__))* get_document)(
       struct _cef_domnode_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_parent)(struct _cef_domnode_t* self);
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_parent)(struct _cef_domnode_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_previous_sibling)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_previous_sibling)(
       struct _cef_domnode_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_next_sibling)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_next_sibling)(
       struct _cef_domnode_t* self);
 
 
 
 
-  int(* has_children)(struct _cef_domnode_t* self);
+  int(__attribute__((__stdcall__))* has_children)(struct _cef_domnode_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_first_child)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_first_child)(
       struct _cef_domnode_t* self);
 
 
 
 
-  struct _cef_domnode_t*(* get_last_child)(
+  struct _cef_domnode_t*(__attribute__((__stdcall__))* get_last_child)(
       struct _cef_domnode_t* self);
 
 
@@ -4336,39 +4373,39 @@ typedef struct _cef_domnode_t {
 
 
 
-  cef_string_userfree_t(* get_element_tag_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_element_tag_name)(
       struct _cef_domnode_t* self);
 
 
 
 
-  int(* has_element_attributes)(struct _cef_domnode_t* self);
+  int(__attribute__((__stdcall__))* has_element_attributes)(struct _cef_domnode_t* self);
 
 
 
 
-  int(* has_element_attribute)(struct _cef_domnode_t* self,
+  int(__attribute__((__stdcall__))* has_element_attribute)(struct _cef_domnode_t* self,
                                            const cef_string_t* attrName);
 
 
 
 
 
-  cef_string_userfree_t(* get_element_attribute)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_element_attribute)(
       struct _cef_domnode_t* self,
       const cef_string_t* attrName);
 
 
 
 
-  void(* get_element_attributes)(struct _cef_domnode_t* self,
+  void(__attribute__((__stdcall__))* get_element_attributes)(struct _cef_domnode_t* self,
                                              cef_string_map_t attrMap);
 
 
 
 
 
-  int(* set_element_attribute)(struct _cef_domnode_t* self,
+  int(__attribute__((__stdcall__))* set_element_attribute)(struct _cef_domnode_t* self,
                                            const cef_string_t* attrName,
                                            const cef_string_t* value);
 
@@ -4376,14 +4413,22 @@ typedef struct _cef_domnode_t {
 
 
 
-  cef_string_userfree_t(* get_element_inner_text)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_element_inner_text)(
       struct _cef_domnode_t* self);
 
 
 
 
-  cef_rect_t(* get_element_bounds)(struct _cef_domnode_t* self);
+  cef_rect_t(__attribute__((__stdcall__))* get_element_bounds)(struct _cef_domnode_t* self);
 } cef_domnode_t;
+
+
+
+
+
+
+
+
 struct _cef_post_data_element_t;
 struct _cef_post_data_t;
 
@@ -4400,18 +4445,18 @@ typedef struct _cef_request_t {
 
 
 
-  int(* is_read_only)(struct _cef_request_t* self);
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_request_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_url)(struct _cef_request_t* self);
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_url)(struct _cef_request_t* self);
 
 
 
 
-  void(* set_url)(struct _cef_request_t* self,
+  void(__attribute__((__stdcall__))* set_url)(struct _cef_request_t* self,
                               const cef_string_t* url);
 
 
@@ -4419,12 +4464,12 @@ typedef struct _cef_request_t {
 
 
 
-  cef_string_userfree_t(* get_method)(struct _cef_request_t* self);
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_method)(struct _cef_request_t* self);
 
 
 
 
-  void(* set_method)(struct _cef_request_t* self,
+  void(__attribute__((__stdcall__))* set_method)(struct _cef_request_t* self,
                                  const cef_string_t* method);
 
 
@@ -4432,7 +4477,7 @@ typedef struct _cef_request_t {
 
 
 
-  void(* set_referrer)(struct _cef_request_t* self,
+  void(__attribute__((__stdcall__))* set_referrer)(struct _cef_request_t* self,
                                    const cef_string_t* referrer_url,
                                    cef_referrer_policy_t policy);
 
@@ -4440,44 +4485,44 @@ typedef struct _cef_request_t {
 
 
 
-  cef_string_userfree_t(* get_referrer_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_referrer_url)(
       struct _cef_request_t* self);
 
 
 
 
-  cef_referrer_policy_t(* get_referrer_policy)(
+  cef_referrer_policy_t(__attribute__((__stdcall__))* get_referrer_policy)(
       struct _cef_request_t* self);
 
 
 
 
-  struct _cef_post_data_t*(* get_post_data)(
+  struct _cef_post_data_t*(__attribute__((__stdcall__))* get_post_data)(
       struct _cef_request_t* self);
 
 
 
 
-  void(* set_post_data)(struct _cef_request_t* self,
+  void(__attribute__((__stdcall__))* set_post_data)(struct _cef_request_t* self,
                                     struct _cef_post_data_t* postData);
 
 
 
 
-  void(* get_header_map)(struct _cef_request_t* self,
+  void(__attribute__((__stdcall__))* get_header_map)(struct _cef_request_t* self,
                                      cef_string_multimap_t headerMap);
 
 
 
 
 
-  void(* set_header_map)(struct _cef_request_t* self,
+  void(__attribute__((__stdcall__))* set_header_map)(struct _cef_request_t* self,
                                      cef_string_multimap_t headerMap);
 
 
 
 
-  void(* set)(struct _cef_request_t* self,
+  void(__attribute__((__stdcall__))* set)(struct _cef_request_t* self,
                           const cef_string_t* url,
                           const cef_string_t* method,
                           struct _cef_post_data_t* postData,
@@ -4487,34 +4532,34 @@ typedef struct _cef_request_t {
 
 
 
-  int(* get_flags)(struct _cef_request_t* self);
+  int(__attribute__((__stdcall__))* get_flags)(struct _cef_request_t* self);
 
 
 
 
 
-  void(* set_flags)(struct _cef_request_t* self, int flags);
+  void(__attribute__((__stdcall__))* set_flags)(struct _cef_request_t* self, int flags);
 
 
 
 
 
 
-  cef_string_userfree_t(* get_first_party_for_cookies)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_first_party_for_cookies)(
       struct _cef_request_t* self);
 
 
 
 
 
-  void(* set_first_party_for_cookies)(struct _cef_request_t* self,
+  void(__attribute__((__stdcall__))* set_first_party_for_cookies)(struct _cef_request_t* self,
                                                   const cef_string_t* url);
 
 
 
 
 
-  cef_resource_type_t(* get_resource_type)(
+  cef_resource_type_t(__attribute__((__stdcall__))* get_resource_type)(
       struct _cef_request_t* self);
 
 
@@ -4522,7 +4567,7 @@ typedef struct _cef_request_t {
 
 
 
-  cef_transition_type_t(* get_transition_type)(
+  cef_transition_type_t(__attribute__((__stdcall__))* get_transition_type)(
       struct _cef_request_t* self);
 
 
@@ -4530,7 +4575,7 @@ typedef struct _cef_request_t {
 
 
 
-  uint64(* get_identifier)(struct _cef_request_t* self);
+  uint64(__attribute__((__stdcall__))* get_identifier)(struct _cef_request_t* self);
 } cef_request_t;
 
 
@@ -4551,7 +4596,7 @@ typedef struct _cef_post_data_t {
 
 
 
-  int(* is_read_only)(struct _cef_post_data_t* self);
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_post_data_t* self);
 
 
 
@@ -4559,17 +4604,17 @@ typedef struct _cef_post_data_t {
 
 
 
-  int(* has_excluded_elements)(struct _cef_post_data_t* self);
+  int(__attribute__((__stdcall__))* has_excluded_elements)(struct _cef_post_data_t* self);
 
 
 
 
-  size_t(* get_element_count)(struct _cef_post_data_t* self);
+  size_t(__attribute__((__stdcall__))* get_element_count)(struct _cef_post_data_t* self);
 
 
 
 
-  void(* get_elements)(struct _cef_post_data_t* self,
+  void(__attribute__((__stdcall__))* get_elements)(struct _cef_post_data_t* self,
                                    size_t* elementsCount,
                                    struct _cef_post_data_element_t** elements);
 
@@ -4577,19 +4622,19 @@ typedef struct _cef_post_data_t {
 
 
 
-  int(* remove_element)(struct _cef_post_data_t* self,
+  int(__attribute__((__stdcall__))* remove_element)(struct _cef_post_data_t* self,
                                     struct _cef_post_data_element_t* element);
 
 
 
 
-  int(* add_element)(struct _cef_post_data_t* self,
+  int(__attribute__((__stdcall__))* add_element)(struct _cef_post_data_t* self,
                                  struct _cef_post_data_element_t* element);
 
 
 
 
-  void(* remove_elements)(struct _cef_post_data_t* self);
+  void(__attribute__((__stdcall__))* remove_elements)(struct _cef_post_data_t* self);
 } cef_post_data_t;
 
 
@@ -4610,50 +4655,50 @@ typedef struct _cef_post_data_element_t {
 
 
 
-  int(* is_read_only)(struct _cef_post_data_element_t* self);
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_post_data_element_t* self);
 
 
 
 
-  void(* set_to_empty)(struct _cef_post_data_element_t* self);
+  void(__attribute__((__stdcall__))* set_to_empty)(struct _cef_post_data_element_t* self);
 
 
 
 
-  void(* set_to_file)(struct _cef_post_data_element_t* self,
+  void(__attribute__((__stdcall__))* set_to_file)(struct _cef_post_data_element_t* self,
                                   const cef_string_t* fileName);
 
 
 
 
 
-  void(* set_to_bytes)(struct _cef_post_data_element_t* self,
+  void(__attribute__((__stdcall__))* set_to_bytes)(struct _cef_post_data_element_t* self,
                                    size_t size,
                                    const void* bytes);
 
 
 
 
-  cef_postdataelement_type_t(* get_type)(
+  cef_postdataelement_type_t(__attribute__((__stdcall__))* get_type)(
       struct _cef_post_data_element_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_file)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_file)(
       struct _cef_post_data_element_t* self);
 
 
 
 
-  size_t(* get_bytes_count)(struct _cef_post_data_element_t* self);
+  size_t(__attribute__((__stdcall__))* get_bytes_count)(struct _cef_post_data_element_t* self);
 
 
 
 
 
-  size_t(* get_bytes)(struct _cef_post_data_element_t* self,
+  size_t(__attribute__((__stdcall__))* get_bytes)(struct _cef_post_data_element_t* self,
                                   size_t size,
                                   void* bytes);
 } cef_post_data_element_t;
@@ -4662,6 +4707,7 @@ typedef struct _cef_post_data_element_t {
 
 
 __attribute__((visibility("default"))) cef_post_data_element_t* cef_post_data_element_create();
+
 
 typedef struct _cef_string_visitor_t {
 
@@ -4672,7 +4718,7 @@ typedef struct _cef_string_visitor_t {
 
 
 
-  void(* visit)(struct _cef_string_visitor_t* self,
+  void(__attribute__((__stdcall__))* visit)(struct _cef_string_visitor_t* self,
                             const cef_string_t* string);
 } cef_string_visitor_t;
 
@@ -4698,74 +4744,74 @@ typedef struct _cef_frame_t {
 
 
 
-  int(* is_valid)(struct _cef_frame_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_frame_t* self);
 
 
 
 
-  void(* undo)(struct _cef_frame_t* self);
+  void(__attribute__((__stdcall__))* undo)(struct _cef_frame_t* self);
 
 
 
 
-  void(* redo)(struct _cef_frame_t* self);
+  void(__attribute__((__stdcall__))* redo)(struct _cef_frame_t* self);
 
 
 
 
-  void(* cut)(struct _cef_frame_t* self);
+  void(__attribute__((__stdcall__))* cut)(struct _cef_frame_t* self);
 
 
 
 
-  void(* copy)(struct _cef_frame_t* self);
+  void(__attribute__((__stdcall__))* copy)(struct _cef_frame_t* self);
 
 
 
 
-  void(* paste)(struct _cef_frame_t* self);
+  void(__attribute__((__stdcall__))* paste)(struct _cef_frame_t* self);
 
 
 
 
-  void(* del)(struct _cef_frame_t* self);
+  void(__attribute__((__stdcall__))* del)(struct _cef_frame_t* self);
 
 
 
 
-  void(* select_all)(struct _cef_frame_t* self);
-
-
-
-
-
-
-  void(* view_source)(struct _cef_frame_t* self);
+  void(__attribute__((__stdcall__))* select_all)(struct _cef_frame_t* self);
 
 
 
 
 
-  void(* get_source)(struct _cef_frame_t* self,
+
+  void(__attribute__((__stdcall__))* view_source)(struct _cef_frame_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* get_source)(struct _cef_frame_t* self,
                                  struct _cef_string_visitor_t* visitor);
 
 
 
 
 
-  void(* get_text)(struct _cef_frame_t* self,
+  void(__attribute__((__stdcall__))* get_text)(struct _cef_frame_t* self,
                                struct _cef_string_visitor_t* visitor);
 
 
 
 
-  void(* load_request)(struct _cef_frame_t* self,
+  void(__attribute__((__stdcall__))* load_request)(struct _cef_frame_t* self,
                                    struct _cef_request_t* request);
 
 
 
 
-  void(* load_url)(struct _cef_frame_t* self,
+  void(__attribute__((__stdcall__))* load_url)(struct _cef_frame_t* self,
                                const cef_string_t* url);
 
 
@@ -4773,10 +4819,10 @@ typedef struct _cef_frame_t {
 
 
 
-  void(* load_string)(struct _cef_frame_t* self,
+  void(__attribute__((__stdcall__))* load_string)(struct _cef_frame_t* self,
                                   const cef_string_t* string_val,
                                   const cef_string_t* url);
-  void(* execute_java_script)(struct _cef_frame_t* self,
+  void(__attribute__((__stdcall__))* execute_java_script)(struct _cef_frame_t* self,
                                           const cef_string_t* code,
                                           const cef_string_t* script_url,
                                           int start_line);
@@ -4784,51 +4830,59 @@ typedef struct _cef_frame_t {
 
 
 
-  int(* is_main)(struct _cef_frame_t* self);
+  int(__attribute__((__stdcall__))* is_main)(struct _cef_frame_t* self);
 
 
 
 
-  int(* is_focused)(struct _cef_frame_t* self);
-  cef_string_userfree_t(* get_name)(struct _cef_frame_t* self);
-
-
-
-
-
-  int64(* get_identifier)(struct _cef_frame_t* self);
+  int(__attribute__((__stdcall__))* is_focused)(struct _cef_frame_t* self);
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_name)(struct _cef_frame_t* self);
 
 
 
 
 
-  struct _cef_frame_t*(* get_parent)(struct _cef_frame_t* self);
+  int64(__attribute__((__stdcall__))* get_identifier)(struct _cef_frame_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_url)(struct _cef_frame_t* self);
-
-
-
-
-  struct _cef_browser_t*(* get_browser)(struct _cef_frame_t* self);
+  struct _cef_frame_t*(__attribute__((__stdcall__))* get_parent)(struct _cef_frame_t* self);
 
 
 
 
 
-  struct _cef_v8context_t*(* get_v8context)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_url)(struct _cef_frame_t* self);
+
+
+
+
+  struct _cef_browser_t*(__attribute__((__stdcall__))* get_browser)(struct _cef_frame_t* self);
+
+
+
+
+
+  struct _cef_v8context_t*(__attribute__((__stdcall__))* get_v8context)(
       struct _cef_frame_t* self);
 
 
 
 
 
-  void(* visit_dom)(struct _cef_frame_t* self,
+  void(__attribute__((__stdcall__))* visit_dom)(struct _cef_frame_t* self,
                                 struct _cef_domvisitor_t* visitor);
 } cef_frame_t;
+
+
+
+
+
+
+
+
 
 typedef struct _cef_x509cert_principal_t {
 
@@ -4842,62 +4896,62 @@ typedef struct _cef_x509cert_principal_t {
 
 
 
-  cef_string_userfree_t(* get_display_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_display_name)(
       struct _cef_x509cert_principal_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_common_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_common_name)(
       struct _cef_x509cert_principal_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_locality_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_locality_name)(
       struct _cef_x509cert_principal_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_state_or_province_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_state_or_province_name)(
       struct _cef_x509cert_principal_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_country_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_country_name)(
       struct _cef_x509cert_principal_t* self);
 
 
 
 
-  void(* get_street_addresses)(
+  void(__attribute__((__stdcall__))* get_street_addresses)(
       struct _cef_x509cert_principal_t* self,
       cef_string_list_t addresses);
 
 
 
 
-  void(* get_organization_names)(
+  void(__attribute__((__stdcall__))* get_organization_names)(
       struct _cef_x509cert_principal_t* self,
       cef_string_list_t names);
 
 
 
 
-  void(* get_organization_unit_names)(
+  void(__attribute__((__stdcall__))* get_organization_unit_names)(
       struct _cef_x509cert_principal_t* self,
       cef_string_list_t names);
 
 
 
 
-  void(* get_domain_components)(
+  void(__attribute__((__stdcall__))* get_domain_components)(
       struct _cef_x509cert_principal_t* self,
       cef_string_list_t components);
 } cef_x509cert_principal_t;
@@ -4916,53 +4970,53 @@ typedef struct _cef_x509certificate_t {
 
 
 
-  struct _cef_x509cert_principal_t*(* get_subject)(
+  struct _cef_x509cert_principal_t*(__attribute__((__stdcall__))* get_subject)(
       struct _cef_x509certificate_t* self);
 
 
 
 
-  struct _cef_x509cert_principal_t*(* get_issuer)(
-      struct _cef_x509certificate_t* self);
-
-
-
-
-
-  struct _cef_binary_value_t*(* get_serial_number)(
+  struct _cef_x509cert_principal_t*(__attribute__((__stdcall__))* get_issuer)(
       struct _cef_x509certificate_t* self);
 
 
 
 
 
-  cef_time_t(* get_valid_start)(
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* get_serial_number)(
       struct _cef_x509certificate_t* self);
 
 
 
 
 
-  cef_time_t(* get_valid_expiry)(
-      struct _cef_x509certificate_t* self);
-
-
-
-
-  struct _cef_binary_value_t*(* get_derencoded)(
-      struct _cef_x509certificate_t* self);
-
-
-
-
-  struct _cef_binary_value_t*(* get_pemencoded)(
+  cef_time_t(__attribute__((__stdcall__))* get_valid_start)(
       struct _cef_x509certificate_t* self);
 
 
 
 
 
-  size_t(* get_issuer_chain_size)(
+  cef_time_t(__attribute__((__stdcall__))* get_valid_expiry)(
+      struct _cef_x509certificate_t* self);
+
+
+
+
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* get_derencoded)(
+      struct _cef_x509certificate_t* self);
+
+
+
+
+  struct _cef_binary_value_t*(__attribute__((__stdcall__))* get_pemencoded)(
+      struct _cef_x509certificate_t* self);
+
+
+
+
+
+  size_t(__attribute__((__stdcall__))* get_issuer_chain_size)(
       struct _cef_x509certificate_t* self);
 
 
@@ -4970,7 +5024,7 @@ typedef struct _cef_x509certificate_t {
 
 
 
-  void(* get_derencoded_issuer_chain)(
+  void(__attribute__((__stdcall__))* get_derencoded_issuer_chain)(
       struct _cef_x509certificate_t* self,
       size_t* chainCount,
       struct _cef_binary_value_t** chain);
@@ -4980,19 +5034,11 @@ typedef struct _cef_x509certificate_t {
 
 
 
-  void(* get_pemencoded_issuer_chain)(
+  void(__attribute__((__stdcall__))* get_pemencoded_issuer_chain)(
       struct _cef_x509certificate_t* self,
       size_t* chainCount,
       struct _cef_binary_value_t** chain);
 } cef_x509certificate_t;
-
-
-
-
-
-
-
-
 typedef struct _cef_sslstatus_t {
 
 
@@ -5002,41 +5048,33 @@ typedef struct _cef_sslstatus_t {
 
 
 
-  int(* is_secure_connection)(struct _cef_sslstatus_t* self);
+  int(__attribute__((__stdcall__))* is_secure_connection)(struct _cef_sslstatus_t* self);
 
 
 
 
 
-  cef_cert_status_t(* get_cert_status)(
+  cef_cert_status_t(__attribute__((__stdcall__))* get_cert_status)(
       struct _cef_sslstatus_t* self);
 
 
 
 
-  cef_ssl_version_t(* get_sslversion)(
+  cef_ssl_version_t(__attribute__((__stdcall__))* get_sslversion)(
       struct _cef_sslstatus_t* self);
 
 
 
 
-  cef_ssl_content_status_t(* get_content_status)(
+  cef_ssl_content_status_t(__attribute__((__stdcall__))* get_content_status)(
       struct _cef_sslstatus_t* self);
 
 
 
 
-  struct _cef_x509certificate_t*(* get_x509certificate)(
+  struct _cef_x509certificate_t*(__attribute__((__stdcall__))* get_x509certificate)(
       struct _cef_sslstatus_t* self);
 } cef_sslstatus_t;
-
-
-
-
-
-
-
-
 typedef struct _cef_navigation_entry_t {
 
 
@@ -5047,55 +5085,55 @@ typedef struct _cef_navigation_entry_t {
 
 
 
-  int(* is_valid)(struct _cef_navigation_entry_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_navigation_entry_t* self);
 
 
 
 
 
 
-  cef_string_userfree_t(* get_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_url)(
       struct _cef_navigation_entry_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_display_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_display_url)(
       struct _cef_navigation_entry_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_original_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_original_url)(
       struct _cef_navigation_entry_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_title)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_title)(
       struct _cef_navigation_entry_t* self);
 
 
 
 
 
-  cef_transition_type_t(* get_transition_type)(
+  cef_transition_type_t(__attribute__((__stdcall__))* get_transition_type)(
       struct _cef_navigation_entry_t* self);
 
 
 
 
-  int(* has_post_data)(struct _cef_navigation_entry_t* self);
+  int(__attribute__((__stdcall__))* has_post_data)(struct _cef_navigation_entry_t* self);
 
 
 
 
 
 
-  cef_time_t(* get_completion_time)(
+  cef_time_t(__attribute__((__stdcall__))* get_completion_time)(
       struct _cef_navigation_entry_t* self);
 
 
@@ -5103,14 +5141,15 @@ typedef struct _cef_navigation_entry_t {
 
 
 
-  int(* get_http_status_code)(struct _cef_navigation_entry_t* self);
+  int(__attribute__((__stdcall__))* get_http_status_code)(struct _cef_navigation_entry_t* self);
 
 
 
 
-  struct _cef_sslstatus_t*(* get_sslstatus)(
+  struct _cef_sslstatus_t*(__attribute__((__stdcall__))* get_sslstatus)(
       struct _cef_navigation_entry_t* self);
 } cef_navigation_entry_t;
+
 typedef struct _cef_process_message_t {
 
 
@@ -5121,31 +5160,31 @@ typedef struct _cef_process_message_t {
 
 
 
-  int(* is_valid)(struct _cef_process_message_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_process_message_t* self);
 
 
 
 
 
-  int(* is_read_only)(struct _cef_process_message_t* self);
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_process_message_t* self);
 
 
 
 
-  struct _cef_process_message_t*(* copy)(
+  struct _cef_process_message_t*(__attribute__((__stdcall__))* copy)(
       struct _cef_process_message_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_name)(
       struct _cef_process_message_t* self);
 
 
 
 
-  struct _cef_list_value_t*(* get_argument_list)(
+  struct _cef_list_value_t*(__attribute__((__stdcall__))* get_argument_list)(
       struct _cef_process_message_t* self);
 } cef_process_message_t;
 
@@ -5154,6 +5193,9 @@ typedef struct _cef_process_message_t {
 
 __attribute__((visibility("default"))) cef_process_message_t* cef_process_message_create(
     const cef_string_t* name);
+
+
+
 typedef struct _cef_callback_t {
 
 
@@ -5163,12 +5205,12 @@ typedef struct _cef_callback_t {
 
 
 
-  void(* cont)(struct _cef_callback_t* self);
+  void(__attribute__((__stdcall__))* cont)(struct _cef_callback_t* self);
 
 
 
 
-  void(* cancel)(struct _cef_callback_t* self);
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_callback_t* self);
 } cef_callback_t;
 
 
@@ -5183,8 +5225,9 @@ typedef struct _cef_completion_callback_t {
 
 
 
-  void(* on_complete)(struct _cef_completion_callback_t* self);
+  void(__attribute__((__stdcall__))* on_complete)(struct _cef_completion_callback_t* self);
 } cef_completion_callback_t;
+
 struct _cef_cookie_visitor_t;
 struct _cef_delete_cookies_callback_t;
 struct _cef_set_cookie_callback_t;
@@ -5205,7 +5248,7 @@ typedef struct _cef_cookie_manager_t {
 
 
 
-  void(* set_supported_schemes)(
+  void(__attribute__((__stdcall__))* set_supported_schemes)(
       struct _cef_cookie_manager_t* self,
       cef_string_list_t schemes,
       struct _cef_completion_callback_t* callback);
@@ -5215,22 +5258,22 @@ typedef struct _cef_cookie_manager_t {
 
 
 
-  int(* visit_all_cookies)(struct _cef_cookie_manager_t* self,
+  int(__attribute__((__stdcall__))* visit_all_cookies)(struct _cef_cookie_manager_t* self,
                                        struct _cef_cookie_visitor_t* visitor);
-  int(* visit_url_cookies)(struct _cef_cookie_manager_t* self,
+  int(__attribute__((__stdcall__))* visit_url_cookies)(struct _cef_cookie_manager_t* self,
                                        const cef_string_t* url,
                                        int includeHttpOnly,
                                        struct _cef_cookie_visitor_t* visitor);
-  int(* set_cookie)(struct _cef_cookie_manager_t* self,
+  int(__attribute__((__stdcall__))* set_cookie)(struct _cef_cookie_manager_t* self,
                                 const cef_string_t* url,
                                 const struct _cef_cookie_t* cookie,
                                 struct _cef_set_cookie_callback_t* callback);
-  int(* delete_cookies)(
+  int(__attribute__((__stdcall__))* delete_cookies)(
       struct _cef_cookie_manager_t* self,
       const cef_string_t* url,
       const cef_string_t* cookie_name,
       struct _cef_delete_cookies_callback_t* callback);
-  int(* set_storage_path)(
+  int(__attribute__((__stdcall__))* set_storage_path)(
       struct _cef_cookie_manager_t* self,
       const cef_string_t* path,
       int persist_session_cookies,
@@ -5241,7 +5284,7 @@ typedef struct _cef_cookie_manager_t {
 
 
 
-  int(* flush_store)(struct _cef_cookie_manager_t* self,
+  int(__attribute__((__stdcall__))* flush_store)(struct _cef_cookie_manager_t* self,
                                  struct _cef_completion_callback_t* callback);
 } cef_cookie_manager_t;
 __attribute__((visibility("default"))) cef_cookie_manager_t* cef_cookie_manager_get_global_manager(
@@ -5260,7 +5303,7 @@ typedef struct _cef_cookie_visitor_t {
 
 
   cef_base_ref_counted_t base;
-  int(* visit)(struct _cef_cookie_visitor_t* self,
+  int(__attribute__((__stdcall__))* visit)(struct _cef_cookie_visitor_t* self,
                            const struct _cef_cookie_t* cookie,
                            int count,
                            int total,
@@ -5281,7 +5324,7 @@ typedef struct _cef_set_cookie_callback_t {
 
 
 
-  void(* on_complete)(struct _cef_set_cookie_callback_t* self,
+  void(__attribute__((__stdcall__))* on_complete)(struct _cef_set_cookie_callback_t* self,
                                   int success);
 } cef_set_cookie_callback_t;
 
@@ -5299,9 +5342,10 @@ typedef struct _cef_delete_cookies_callback_t {
 
 
 
-  void(* on_complete)(struct _cef_delete_cookies_callback_t* self,
+  void(__attribute__((__stdcall__))* on_complete)(struct _cef_delete_cookies_callback_t* self,
                                   int num_deleted);
 } cef_delete_cookies_callback_t;
+
 struct _cef_extension_handler_t;
 struct _cef_request_context_t;
 
@@ -5321,7 +5365,7 @@ typedef struct _cef_extension_t {
 
 
 
-  cef_string_userfree_t(* get_identifier)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_identifier)(
       struct _cef_extension_t* self);
 
 
@@ -5330,13 +5374,13 @@ typedef struct _cef_extension_t {
 
 
 
-  cef_string_userfree_t(* get_path)(struct _cef_extension_t* self);
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_path)(struct _cef_extension_t* self);
 
 
 
 
 
-  struct _cef_dictionary_value_t*(* get_manifest)(
+  struct _cef_dictionary_value_t*(__attribute__((__stdcall__))* get_manifest)(
       struct _cef_extension_t* self);
 
 
@@ -5344,7 +5388,7 @@ typedef struct _cef_extension_t {
 
 
 
-  int(* is_same)(struct _cef_extension_t* self,
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_extension_t* self,
                              struct _cef_extension_t* that);
 
 
@@ -5352,7 +5396,7 @@ typedef struct _cef_extension_t {
 
 
 
-  struct _cef_extension_handler_t*(* get_handler)(
+  struct _cef_extension_handler_t*(__attribute__((__stdcall__))* get_handler)(
       struct _cef_extension_t* self);
 
 
@@ -5361,22 +5405,23 @@ typedef struct _cef_extension_t {
 
 
 
-  struct _cef_request_context_t*(* get_loader_context)(
+  struct _cef_request_context_t*(__attribute__((__stdcall__))* get_loader_context)(
       struct _cef_extension_t* self);
 
 
 
 
 
-  int(* is_loaded)(struct _cef_extension_t* self);
+  int(__attribute__((__stdcall__))* is_loaded)(struct _cef_extension_t* self);
 
 
 
 
 
 
-  void(* unload)(struct _cef_extension_t* self);
+  void(__attribute__((__stdcall__))* unload)(struct _cef_extension_t* self);
 } cef_extension_t;
+
 struct _cef_client_t;
 
 
@@ -5392,13 +5437,13 @@ typedef struct _cef_get_extension_resource_callback_t {
 
 
 
-  void(* cont)(struct _cef_get_extension_resource_callback_t* self,
+  void(__attribute__((__stdcall__))* cont)(struct _cef_get_extension_resource_callback_t* self,
                            struct _cef_stream_reader_t* stream);
 
 
 
 
-  void(* cancel)(
+  void(__attribute__((__stdcall__))* cancel)(
       struct _cef_get_extension_resource_callback_t* self);
 } cef_get_extension_resource_callback_t;
 
@@ -5417,7 +5462,7 @@ typedef struct _cef_extension_handler_t {
 
 
 
-  void(* on_extension_load_failed)(
+  void(__attribute__((__stdcall__))* on_extension_load_failed)(
       struct _cef_extension_handler_t* self,
       cef_errorcode_t result);
 
@@ -5425,22 +5470,22 @@ typedef struct _cef_extension_handler_t {
 
 
 
-  void(* on_extension_loaded)(struct _cef_extension_handler_t* self,
+  void(__attribute__((__stdcall__))* on_extension_loaded)(struct _cef_extension_handler_t* self,
                                           struct _cef_extension_t* extension);
 
 
 
 
-  void(* on_extension_unloaded)(
+  void(__attribute__((__stdcall__))* on_extension_unloaded)(
       struct _cef_extension_handler_t* self,
       struct _cef_extension_t* extension);
-  int(* on_before_background_browser)(
+  int(__attribute__((__stdcall__))* on_before_background_browser)(
       struct _cef_extension_handler_t* self,
       struct _cef_extension_t* extension,
       const cef_string_t* url,
       struct _cef_client_t** client,
       struct _cef_browser_settings_t* settings);
-  int(* on_before_browser)(
+  int(__attribute__((__stdcall__))* on_before_browser)(
       struct _cef_extension_handler_t* self,
       struct _cef_extension_t* extension,
       struct _cef_browser_t* browser,
@@ -5451,23 +5496,35 @@ typedef struct _cef_extension_handler_t {
       struct _cef_window_info_t* windowInfo,
       struct _cef_client_t** client,
       struct _cef_browser_settings_t* settings);
-  struct _cef_browser_t*(* get_active_browser)(
+  struct _cef_browser_t*(__attribute__((__stdcall__))* get_active_browser)(
       struct _cef_extension_handler_t* self,
       struct _cef_extension_t* extension,
       struct _cef_browser_t* browser,
       int include_incognito);
-  int(* can_access_browser)(struct _cef_extension_handler_t* self,
+  int(__attribute__((__stdcall__))* can_access_browser)(struct _cef_extension_handler_t* self,
                                         struct _cef_extension_t* extension,
                                         struct _cef_browser_t* browser,
                                         int include_incognito,
                                         struct _cef_browser_t* target_browser);
-  int(* get_extension_resource)(
+  int(__attribute__((__stdcall__))* get_extension_resource)(
       struct _cef_extension_handler_t* self,
       struct _cef_extension_t* extension,
       struct _cef_browser_t* browser,
       const cef_string_t* file,
       struct _cef_get_extension_resource_callback_t* callback);
 } cef_extension_handler_t;
+
+
+
+
+
+
+
+
+
+
+
+
 struct _cef_browser_t;
 
 
@@ -5483,28 +5540,28 @@ typedef struct _cef_web_plugin_info_t {
 
 
 
-  cef_string_userfree_t(* get_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_name)(
       struct _cef_web_plugin_info_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_path)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_path)(
       struct _cef_web_plugin_info_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_version)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_version)(
       struct _cef_web_plugin_info_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_description)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_description)(
       struct _cef_web_plugin_info_t* self);
 } cef_web_plugin_info_t;
 
@@ -5524,7 +5581,7 @@ typedef struct _cef_web_plugin_info_visitor_t {
 
 
 
-  int(* visit)(struct _cef_web_plugin_info_visitor_t* self,
+  int(__attribute__((__stdcall__))* visit)(struct _cef_web_plugin_info_visitor_t* self,
                            struct _cef_web_plugin_info_t* info,
                            int count,
                            int total);
@@ -5545,7 +5602,7 @@ typedef struct _cef_web_plugin_unstable_callback_t {
 
 
 
-  void(* is_unstable)(
+  void(__attribute__((__stdcall__))* is_unstable)(
       struct _cef_web_plugin_unstable_callback_t* self,
       const cef_string_t* path,
       int unstable);
@@ -5568,7 +5625,7 @@ typedef struct _cef_register_cdm_callback_t {
 
 
 
-  void(* on_cdm_registration_complete)(
+  void(__attribute__((__stdcall__))* on_cdm_registration_complete)(
       struct _cef_register_cdm_callback_t* self,
       cef_cdm_registration_error_t result,
       const cef_string_t* error_message);
@@ -5633,7 +5690,7 @@ typedef struct _cef_request_context_handler_t {
 
 
 
-  void(* on_request_context_initialized)(
+  void(__attribute__((__stdcall__))* on_request_context_initialized)(
       struct _cef_request_context_handler_t* self,
       struct _cef_request_context_t* request_context);
 
@@ -5642,9 +5699,9 @@ typedef struct _cef_request_context_handler_t {
 
 
 
-  struct _cef_cookie_manager_t*(* get_cookie_manager)(
+  struct _cef_cookie_manager_t*(__attribute__((__stdcall__))* get_cookie_manager)(
       struct _cef_request_context_handler_t* self);
-  int(* on_before_plugin_load)(
+  int(__attribute__((__stdcall__))* on_before_plugin_load)(
       struct _cef_request_context_handler_t* self,
       const cef_string_t* mime_type,
       const cef_string_t* plugin_url,
@@ -5675,7 +5732,7 @@ typedef struct _cef_resolve_callback_t {
 
 
 
-  void(* on_resolve_completed)(struct _cef_resolve_callback_t* self,
+  void(__attribute__((__stdcall__))* on_resolve_completed)(struct _cef_resolve_callback_t* self,
                                            cef_errorcode_t result,
                                            cef_string_list_t resolved_ips);
 } cef_resolve_callback_t;
@@ -5689,14 +5746,14 @@ typedef struct _cef_request_context_t {
 
 
 
-  int(* is_same)(struct _cef_request_context_t* self,
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_request_context_t* self,
                              struct _cef_request_context_t* other);
 
 
 
 
 
-  int(* is_sharing_with)(struct _cef_request_context_t* self,
+  int(__attribute__((__stdcall__))* is_sharing_with)(struct _cef_request_context_t* self,
                                      struct _cef_request_context_t* other);
 
 
@@ -5704,12 +5761,12 @@ typedef struct _cef_request_context_t {
 
 
 
-  int(* is_global)(struct _cef_request_context_t* self);
+  int(__attribute__((__stdcall__))* is_global)(struct _cef_request_context_t* self);
 
 
 
 
-  struct _cef_request_context_handler_t*(* get_handler)(
+  struct _cef_request_context_handler_t*(__attribute__((__stdcall__))* get_handler)(
       struct _cef_request_context_t* self);
 
 
@@ -5717,12 +5774,12 @@ typedef struct _cef_request_context_t {
 
 
 
-  cef_string_userfree_t(* get_cache_path)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_cache_path)(
       struct _cef_request_context_t* self);
-  struct _cef_cookie_manager_t*(* get_default_cookie_manager)(
+  struct _cef_cookie_manager_t*(__attribute__((__stdcall__))* get_default_cookie_manager)(
       struct _cef_request_context_t* self,
       struct _cef_completion_callback_t* callback);
-  int(* register_scheme_handler_factory)(
+  int(__attribute__((__stdcall__))* register_scheme_handler_factory)(
       struct _cef_request_context_t* self,
       const cef_string_t* scheme_name,
       const cef_string_t* domain_name,
@@ -5732,9 +5789,9 @@ typedef struct _cef_request_context_t {
 
 
 
-  int(* clear_scheme_handler_factories)(
+  int(__attribute__((__stdcall__))* clear_scheme_handler_factories)(
       struct _cef_request_context_t* self);
-  void(* purge_plugin_list_cache)(
+  void(__attribute__((__stdcall__))* purge_plugin_list_cache)(
       struct _cef_request_context_t* self,
       int reload_pages);
 
@@ -5742,12 +5799,12 @@ typedef struct _cef_request_context_t {
 
 
 
-  int(* has_preference)(struct _cef_request_context_t* self,
+  int(__attribute__((__stdcall__))* has_preference)(struct _cef_request_context_t* self,
                                     const cef_string_t* name);
-  struct _cef_value_t*(* get_preference)(
+  struct _cef_value_t*(__attribute__((__stdcall__))* get_preference)(
       struct _cef_request_context_t* self,
       const cef_string_t* name);
-  struct _cef_dictionary_value_t*(* get_all_preferences)(
+  struct _cef_dictionary_value_t*(__attribute__((__stdcall__))* get_all_preferences)(
       struct _cef_request_context_t* self,
       int include_defaults);
 
@@ -5757,13 +5814,13 @@ typedef struct _cef_request_context_t {
 
 
 
-  int(* can_set_preference)(struct _cef_request_context_t* self,
+  int(__attribute__((__stdcall__))* can_set_preference)(struct _cef_request_context_t* self,
                                         const cef_string_t* name);
-  int(* set_preference)(struct _cef_request_context_t* self,
+  int(__attribute__((__stdcall__))* set_preference)(struct _cef_request_context_t* self,
                                     const cef_string_t* name,
                                     struct _cef_value_t* value,
                                     cef_string_t* error);
-  void(* clear_certificate_exceptions)(
+  void(__attribute__((__stdcall__))* clear_certificate_exceptions)(
       struct _cef_request_context_t* self,
       struct _cef_completion_callback_t* callback);
 
@@ -5773,7 +5830,7 @@ typedef struct _cef_request_context_t {
 
 
 
-  void(* close_all_connections)(
+  void(__attribute__((__stdcall__))* close_all_connections)(
       struct _cef_request_context_t* self,
       struct _cef_completion_callback_t* callback);
 
@@ -5781,7 +5838,7 @@ typedef struct _cef_request_context_t {
 
 
 
-  void(* resolve_host)(struct _cef_request_context_t* self,
+  void(__attribute__((__stdcall__))* resolve_host)(struct _cef_request_context_t* self,
                                    const cef_string_t* origin,
                                    struct _cef_resolve_callback_t* callback);
 
@@ -5791,11 +5848,11 @@ typedef struct _cef_request_context_t {
 
 
 
-  cef_errorcode_t(* resolve_host_cached)(
+  cef_errorcode_t(__attribute__((__stdcall__))* resolve_host_cached)(
       struct _cef_request_context_t* self,
       const cef_string_t* origin,
       cef_string_list_t resolved_ips);
-  void(* load_extension)(struct _cef_request_context_t* self,
+  void(__attribute__((__stdcall__))* load_extension)(struct _cef_request_context_t* self,
                                      const cef_string_t* root_directory,
                                      struct _cef_dictionary_value_t* manifest,
                                      struct _cef_extension_handler_t* handler);
@@ -5806,7 +5863,7 @@ typedef struct _cef_request_context_t {
 
 
 
-  int(* did_load_extension)(struct _cef_request_context_t* self,
+  int(__attribute__((__stdcall__))* did_load_extension)(struct _cef_request_context_t* self,
                                         const cef_string_t* extension_id);
 
 
@@ -5815,7 +5872,7 @@ typedef struct _cef_request_context_t {
 
 
 
-  int(* has_extension)(struct _cef_request_context_t* self,
+  int(__attribute__((__stdcall__))* has_extension)(struct _cef_request_context_t* self,
                                    const cef_string_t* extension_id);
 
 
@@ -5824,7 +5881,7 @@ typedef struct _cef_request_context_t {
 
 
 
-  int(* get_extensions)(struct _cef_request_context_t* self,
+  int(__attribute__((__stdcall__))* get_extensions)(struct _cef_request_context_t* self,
                                     cef_string_list_t extension_ids);
 
 
@@ -5832,7 +5889,7 @@ typedef struct _cef_request_context_t {
 
 
 
-  struct _cef_extension_t*(* get_extension)(
+  struct _cef_extension_t*(__attribute__((__stdcall__))* get_extension)(
       struct _cef_request_context_t* self,
       const cef_string_t* extension_id);
 } cef_request_context_t;
@@ -5881,120 +5938,120 @@ typedef struct _cef_browser_t {
 
 
 
-  struct _cef_browser_host_t*(* get_host)(
+  struct _cef_browser_host_t*(__attribute__((__stdcall__))* get_host)(
       struct _cef_browser_t* self);
 
 
 
 
-  int(* can_go_back)(struct _cef_browser_t* self);
+  int(__attribute__((__stdcall__))* can_go_back)(struct _cef_browser_t* self);
 
 
 
 
-  void(* go_back)(struct _cef_browser_t* self);
+  void(__attribute__((__stdcall__))* go_back)(struct _cef_browser_t* self);
 
 
 
 
-  int(* can_go_forward)(struct _cef_browser_t* self);
+  int(__attribute__((__stdcall__))* can_go_forward)(struct _cef_browser_t* self);
 
 
 
 
-  void(* go_forward)(struct _cef_browser_t* self);
+  void(__attribute__((__stdcall__))* go_forward)(struct _cef_browser_t* self);
 
 
 
 
-  int(* is_loading)(struct _cef_browser_t* self);
+  int(__attribute__((__stdcall__))* is_loading)(struct _cef_browser_t* self);
 
 
 
 
-  void(* reload)(struct _cef_browser_t* self);
+  void(__attribute__((__stdcall__))* reload)(struct _cef_browser_t* self);
 
 
 
 
-  void(* reload_ignore_cache)(struct _cef_browser_t* self);
+  void(__attribute__((__stdcall__))* reload_ignore_cache)(struct _cef_browser_t* self);
 
 
 
 
-  void(* stop_load)(struct _cef_browser_t* self);
-
-
-
-
-
-  int(* get_identifier)(struct _cef_browser_t* self);
+  void(__attribute__((__stdcall__))* stop_load)(struct _cef_browser_t* self);
 
 
 
 
 
-  int(* is_same)(struct _cef_browser_t* self,
+  int(__attribute__((__stdcall__))* get_identifier)(struct _cef_browser_t* self);
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_browser_t* self,
                              struct _cef_browser_t* that);
 
 
 
 
-  int(* is_popup)(struct _cef_browser_t* self);
+  int(__attribute__((__stdcall__))* is_popup)(struct _cef_browser_t* self);
 
 
 
 
-  int(* has_document)(struct _cef_browser_t* self);
+  int(__attribute__((__stdcall__))* has_document)(struct _cef_browser_t* self);
 
 
 
 
-  struct _cef_frame_t*(* get_main_frame)(
+  struct _cef_frame_t*(__attribute__((__stdcall__))* get_main_frame)(
       struct _cef_browser_t* self);
 
 
 
 
-  struct _cef_frame_t*(* get_focused_frame)(
+  struct _cef_frame_t*(__attribute__((__stdcall__))* get_focused_frame)(
       struct _cef_browser_t* self);
 
 
 
 
-  struct _cef_frame_t*(* get_frame_byident)(
+  struct _cef_frame_t*(__attribute__((__stdcall__))* get_frame_byident)(
       struct _cef_browser_t* self,
       int64 identifier);
 
 
 
 
-  struct _cef_frame_t*(* get_frame)(struct _cef_browser_t* self,
+  struct _cef_frame_t*(__attribute__((__stdcall__))* get_frame)(struct _cef_browser_t* self,
                                                 const cef_string_t* name);
 
 
 
 
-  size_t(* get_frame_count)(struct _cef_browser_t* self);
+  size_t(__attribute__((__stdcall__))* get_frame_count)(struct _cef_browser_t* self);
 
 
 
 
-  void(* get_frame_identifiers)(struct _cef_browser_t* self,
+  void(__attribute__((__stdcall__))* get_frame_identifiers)(struct _cef_browser_t* self,
                                             size_t* identifiersCount,
                                             int64* identifiers);
 
 
 
 
-  void(* get_frame_names)(struct _cef_browser_t* self,
+  void(__attribute__((__stdcall__))* get_frame_names)(struct _cef_browser_t* self,
                                       cef_string_list_t names);
 
 
 
 
 
-  int(* send_process_message)(
+  int(__attribute__((__stdcall__))* send_process_message)(
       struct _cef_browser_t* self,
       cef_process_id_t target_process,
       struct _cef_process_message_t* message);
@@ -6009,7 +6066,7 @@ typedef struct _cef_run_file_dialog_callback_t {
 
 
   cef_base_ref_counted_t base;
-  void(* on_file_dialog_dismissed)(
+  void(__attribute__((__stdcall__))* on_file_dialog_dismissed)(
       struct _cef_run_file_dialog_callback_t* self,
       int selected_accept_filter,
       cef_string_list_t file_paths);
@@ -6024,7 +6081,7 @@ typedef struct _cef_navigation_entry_visitor_t {
 
 
   cef_base_ref_counted_t base;
-  int(* visit)(struct _cef_navigation_entry_visitor_t* self,
+  int(__attribute__((__stdcall__))* visit)(struct _cef_navigation_entry_visitor_t* self,
                            struct _cef_navigation_entry_t* entry,
                            int current,
                            int index,
@@ -6046,7 +6103,7 @@ typedef struct _cef_pdf_print_callback_t {
 
 
 
-  void(* on_pdf_print_finished)(
+  void(__attribute__((__stdcall__))* on_pdf_print_finished)(
       struct _cef_pdf_print_callback_t* self,
       const cef_string_t* path,
       int ok);
@@ -6068,7 +6125,7 @@ typedef struct _cef_download_image_callback_t {
 
 
 
-  void(* on_download_image_finished)(
+  void(__attribute__((__stdcall__))* on_download_image_finished)(
       struct _cef_download_image_callback_t* self,
       const cef_string_t* image_url,
       int http_status_code,
@@ -6090,23 +6147,23 @@ typedef struct _cef_browser_host_t {
 
 
 
-  struct _cef_browser_t*(* get_browser)(
+  struct _cef_browser_t*(__attribute__((__stdcall__))* get_browser)(
       struct _cef_browser_host_t* self);
-  void(* close_browser)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* close_browser)(struct _cef_browser_host_t* self,
                                     int force_close);
-  int(* try_close_browser)(struct _cef_browser_host_t* self);
+  int(__attribute__((__stdcall__))* try_close_browser)(struct _cef_browser_host_t* self);
 
 
 
 
-  void(* set_focus)(struct _cef_browser_host_t* self, int focus);
+  void(__attribute__((__stdcall__))* set_focus)(struct _cef_browser_host_t* self, int focus);
 
 
 
 
 
 
-  void*(* get_window_handle)(
+  HWND(__attribute__((__stdcall__))* get_window_handle)(
       struct _cef_browser_host_t* self);
 
 
@@ -6115,40 +6172,40 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void*(* get_opener_window_handle)(
+  HWND(__attribute__((__stdcall__))* get_opener_window_handle)(
       struct _cef_browser_host_t* self);
 
 
 
 
-  int(* has_view)(struct _cef_browser_host_t* self);
+  int(__attribute__((__stdcall__))* has_view)(struct _cef_browser_host_t* self);
 
 
 
 
-  struct _cef_client_t*(* get_client)(
+  struct _cef_client_t*(__attribute__((__stdcall__))* get_client)(
       struct _cef_browser_host_t* self);
 
 
 
 
-  struct _cef_request_context_t*(* get_request_context)(
+  struct _cef_request_context_t*(__attribute__((__stdcall__))* get_request_context)(
       struct _cef_browser_host_t* self);
 
 
 
 
 
-  double(* get_zoom_level)(struct _cef_browser_host_t* self);
+  double(__attribute__((__stdcall__))* get_zoom_level)(struct _cef_browser_host_t* self);
 
 
 
 
 
 
-  void(* set_zoom_level)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* set_zoom_level)(struct _cef_browser_host_t* self,
                                      double zoomLevel);
-  void(* run_file_dialog)(
+  void(__attribute__((__stdcall__))* run_file_dialog)(
       struct _cef_browser_host_t* self,
       cef_file_dialog_mode_t mode,
       const cef_string_t* title,
@@ -6160,9 +6217,9 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* start_download)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* start_download)(struct _cef_browser_host_t* self,
                                      const cef_string_t* url);
-  void(* download_image)(
+  void(__attribute__((__stdcall__))* download_image)(
       struct _cef_browser_host_t* self,
       const cef_string_t* image_url,
       int is_favicon,
@@ -6173,7 +6230,7 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* print)(struct _cef_browser_host_t* self);
+  void(__attribute__((__stdcall__))* print)(struct _cef_browser_host_t* self);
 
 
 
@@ -6181,12 +6238,12 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* print_to_pdf)(
+  void(__attribute__((__stdcall__))* print_to_pdf)(
       struct _cef_browser_host_t* self,
       const cef_string_t* path,
       const struct _cef_pdf_print_settings_t* settings,
       struct _cef_pdf_print_callback_t* callback);
-  void(* find)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* find)(struct _cef_browser_host_t* self,
                            int identifier,
                            const cef_string_t* searchText,
                            int forward,
@@ -6196,9 +6253,9 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* stop_finding)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* stop_finding)(struct _cef_browser_host_t* self,
                                    int clearSelection);
-  void(* show_dev_tools)(
+  void(__attribute__((__stdcall__))* show_dev_tools)(
       struct _cef_browser_host_t* self,
       const struct _cef_window_info_t* windowInfo,
       struct _cef_client_t* client,
@@ -6208,13 +6265,13 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* close_dev_tools)(struct _cef_browser_host_t* self);
+  void(__attribute__((__stdcall__))* close_dev_tools)(struct _cef_browser_host_t* self);
 
 
 
 
 
-  int(* has_dev_tools)(struct _cef_browser_host_t* self);
+  int(__attribute__((__stdcall__))* has_dev_tools)(struct _cef_browser_host_t* self);
 
 
 
@@ -6222,7 +6279,7 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* get_navigation_entries)(
+  void(__attribute__((__stdcall__))* get_navigation_entries)(
       struct _cef_browser_host_t* self,
       struct _cef_navigation_entry_visitor_t* visitor,
       int current_only);
@@ -6230,33 +6287,33 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* set_mouse_cursor_change_disabled)(
+  void(__attribute__((__stdcall__))* set_mouse_cursor_change_disabled)(
       struct _cef_browser_host_t* self,
       int disabled);
 
 
 
 
-  int(* is_mouse_cursor_change_disabled)(
+  int(__attribute__((__stdcall__))* is_mouse_cursor_change_disabled)(
       struct _cef_browser_host_t* self);
 
 
 
 
 
-  void(* replace_misspelling)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* replace_misspelling)(struct _cef_browser_host_t* self,
                                           const cef_string_t* word);
 
 
 
 
-  void(* add_word_to_dictionary)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* add_word_to_dictionary)(struct _cef_browser_host_t* self,
                                              const cef_string_t* word);
 
 
 
 
-  int(* is_window_rendering_disabled)(
+  int(__attribute__((__stdcall__))* is_window_rendering_disabled)(
       struct _cef_browser_host_t* self);
 
 
@@ -6265,15 +6322,15 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* was_resized)(struct _cef_browser_host_t* self);
+  void(__attribute__((__stdcall__))* was_resized)(struct _cef_browser_host_t* self);
 
 
 
 
 
 
-  void(* was_hidden)(struct _cef_browser_host_t* self, int hidden);
-  void(* notify_screen_info_changed)(
+  void(__attribute__((__stdcall__))* was_hidden)(struct _cef_browser_host_t* self, int hidden);
+  void(__attribute__((__stdcall__))* notify_screen_info_changed)(
       struct _cef_browser_host_t* self);
 
 
@@ -6281,20 +6338,20 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* invalidate)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* invalidate)(struct _cef_browser_host_t* self,
                                  cef_paint_element_type_t type);
 
 
 
 
-  void(* send_key_event)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* send_key_event)(struct _cef_browser_host_t* self,
                                      const struct _cef_key_event_t* event);
 
 
 
 
 
-  void(* send_mouse_click_event)(
+  void(__attribute__((__stdcall__))* send_mouse_click_event)(
       struct _cef_browser_host_t* self,
       const struct _cef_mouse_event_t* event,
       cef_mouse_button_type_t type,
@@ -6305,11 +6362,11 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* send_mouse_move_event)(
+  void(__attribute__((__stdcall__))* send_mouse_move_event)(
       struct _cef_browser_host_t* self,
       const struct _cef_mouse_event_t* event,
       int mouseLeave);
-  void(* send_mouse_wheel_event)(
+  void(__attribute__((__stdcall__))* send_mouse_wheel_event)(
       struct _cef_browser_host_t* self,
       const struct _cef_mouse_event_t* event,
       int deltaX,
@@ -6318,33 +6375,33 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* send_focus_event)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* send_focus_event)(struct _cef_browser_host_t* self,
                                        int setFocus);
 
 
 
 
-  void(* send_capture_lost_event)(struct _cef_browser_host_t* self);
+  void(__attribute__((__stdcall__))* send_capture_lost_event)(struct _cef_browser_host_t* self);
 
 
 
 
 
-  void(* notify_move_or_resize_started)(
+  void(__attribute__((__stdcall__))* notify_move_or_resize_started)(
       struct _cef_browser_host_t* self);
-  int(* get_windowless_frame_rate)(
+  int(__attribute__((__stdcall__))* get_windowless_frame_rate)(
       struct _cef_browser_host_t* self);
-  void(* set_windowless_frame_rate)(
+  void(__attribute__((__stdcall__))* set_windowless_frame_rate)(
       struct _cef_browser_host_t* self,
       int frame_rate);
-  void(* ime_set_composition)(
+  void(__attribute__((__stdcall__))* ime_set_composition)(
       struct _cef_browser_host_t* self,
       const cef_string_t* text,
       size_t underlinesCount,
       cef_composition_underline_t const* underlines,
       const cef_range_t* replacement_range,
       const cef_range_t* selection_range);
-  void(* ime_commit_text)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* ime_commit_text)(struct _cef_browser_host_t* self,
                                       const cef_string_t* text,
                                       const cef_range_t* replacement_range,
                                       int relative_cursor_pos);
@@ -6355,7 +6412,7 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* ime_finish_composing_text)(
+  void(__attribute__((__stdcall__))* ime_finish_composing_text)(
       struct _cef_browser_host_t* self,
       int keep_selection);
 
@@ -6364,8 +6421,8 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* ime_cancel_composition)(struct _cef_browser_host_t* self);
-  void(* drag_target_drag_enter)(
+  void(__attribute__((__stdcall__))* ime_cancel_composition)(struct _cef_browser_host_t* self);
+  void(__attribute__((__stdcall__))* drag_target_drag_enter)(
       struct _cef_browser_host_t* self,
       struct _cef_drag_data_t* drag_data,
       const struct _cef_mouse_event_t* event,
@@ -6377,7 +6434,7 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* drag_target_drag_over)(
+  void(__attribute__((__stdcall__))* drag_target_drag_over)(
       struct _cef_browser_host_t* self,
       const struct _cef_mouse_event_t* event,
       cef_drag_operations_mask_t allowed_ops);
@@ -6387,23 +6444,23 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* drag_target_drag_leave)(struct _cef_browser_host_t* self);
-  void(* drag_target_drop)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* drag_target_drag_leave)(struct _cef_browser_host_t* self);
+  void(__attribute__((__stdcall__))* drag_target_drop)(struct _cef_browser_host_t* self,
                                        const struct _cef_mouse_event_t* event);
-  void(* drag_source_ended_at)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* drag_source_ended_at)(struct _cef_browser_host_t* self,
                                            int x,
                                            int y,
                                            cef_drag_operations_mask_t op);
-  void(* drag_source_system_drag_ended)(
+  void(__attribute__((__stdcall__))* drag_source_system_drag_ended)(
       struct _cef_browser_host_t* self);
 
 
 
 
 
-  struct _cef_navigation_entry_t*(* get_visible_navigation_entry)(
+  struct _cef_navigation_entry_t*(__attribute__((__stdcall__))* get_visible_navigation_entry)(
       struct _cef_browser_host_t* self);
-  void(* set_accessibility_state)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* set_accessibility_state)(struct _cef_browser_host_t* self,
                                               cef_state_t accessibility_state);
 
 
@@ -6411,7 +6468,7 @@ typedef struct _cef_browser_host_t {
 
 
 
-  void(* set_auto_resize_enabled)(struct _cef_browser_host_t* self,
+  void(__attribute__((__stdcall__))* set_auto_resize_enabled)(struct _cef_browser_host_t* self,
                                               int enabled,
                                               const cef_size_t* min_size,
                                               const cef_size_t* max_size);
@@ -6420,7 +6477,7 @@ typedef struct _cef_browser_host_t {
 
 
 
-  struct _cef_extension_t*(* get_extension)(
+  struct _cef_extension_t*(__attribute__((__stdcall__))* get_extension)(
       struct _cef_browser_host_t* self);
 
 
@@ -6428,7 +6485,7 @@ typedef struct _cef_browser_host_t {
 
 
 
-  int(* is_background_host)(struct _cef_browser_host_t* self);
+  int(__attribute__((__stdcall__))* is_background_host)(struct _cef_browser_host_t* self);
 } cef_browser_host_t;
 __attribute__((visibility("default"))) int cef_browser_host_create_browser(
     const cef_window_info_t* windowInfo,
@@ -6448,6 +6505,7 @@ __attribute__((visibility("default"))) cef_browser_t* cef_browser_host_create_br
     const cef_string_t* url,
     const struct _cef_browser_settings_t* settings,
     struct _cef_request_context_t* request_context);
+
 typedef struct _cef_print_settings_t {
 
 
@@ -6458,37 +6516,37 @@ typedef struct _cef_print_settings_t {
 
 
 
-  int(* is_valid)(struct _cef_print_settings_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_print_settings_t* self);
 
 
 
 
 
-  int(* is_read_only)(struct _cef_print_settings_t* self);
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_print_settings_t* self);
 
 
 
 
-  struct _cef_print_settings_t*(* copy)(
+  struct _cef_print_settings_t*(__attribute__((__stdcall__))* copy)(
       struct _cef_print_settings_t* self);
 
 
 
 
-  void(* set_orientation)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* set_orientation)(struct _cef_print_settings_t* self,
                                       int landscape);
 
 
 
 
-  int(* is_landscape)(struct _cef_print_settings_t* self);
+  int(__attribute__((__stdcall__))* is_landscape)(struct _cef_print_settings_t* self);
 
 
 
 
 
 
-  void(* set_printer_printable_area)(
+  void(__attribute__((__stdcall__))* set_printer_printable_area)(
       struct _cef_print_settings_t* self,
       const cef_size_t* physical_size_device_units,
       const cef_rect_t* printable_area_device_units,
@@ -6497,101 +6555,101 @@ typedef struct _cef_print_settings_t {
 
 
 
-  void(* set_device_name)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* set_device_name)(struct _cef_print_settings_t* self,
                                       const cef_string_t* name);
 
 
 
 
 
-  cef_string_userfree_t(* get_device_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_device_name)(
       struct _cef_print_settings_t* self);
 
 
 
 
-  void(* set_dpi)(struct _cef_print_settings_t* self, int dpi);
+  void(__attribute__((__stdcall__))* set_dpi)(struct _cef_print_settings_t* self, int dpi);
 
 
 
 
-  int(* get_dpi)(struct _cef_print_settings_t* self);
+  int(__attribute__((__stdcall__))* get_dpi)(struct _cef_print_settings_t* self);
 
 
 
 
-  void(* set_page_ranges)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* set_page_ranges)(struct _cef_print_settings_t* self,
                                       size_t rangesCount,
                                       cef_range_t const* ranges);
 
 
 
 
-  size_t(* get_page_ranges_count)(
+  size_t(__attribute__((__stdcall__))* get_page_ranges_count)(
       struct _cef_print_settings_t* self);
 
 
 
 
-  void(* get_page_ranges)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* get_page_ranges)(struct _cef_print_settings_t* self,
                                       size_t* rangesCount,
                                       cef_range_t* ranges);
 
 
 
 
-  void(* set_selection_only)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* set_selection_only)(struct _cef_print_settings_t* self,
                                          int selection_only);
 
 
 
 
-  int(* is_selection_only)(struct _cef_print_settings_t* self);
+  int(__attribute__((__stdcall__))* is_selection_only)(struct _cef_print_settings_t* self);
 
 
 
 
-  void(* set_collate)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* set_collate)(struct _cef_print_settings_t* self,
                                   int collate);
 
 
 
 
-  int(* will_collate)(struct _cef_print_settings_t* self);
+  int(__attribute__((__stdcall__))* will_collate)(struct _cef_print_settings_t* self);
 
 
 
 
-  void(* set_color_model)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* set_color_model)(struct _cef_print_settings_t* self,
                                       cef_color_model_t model);
 
 
 
 
-  cef_color_model_t(* get_color_model)(
+  cef_color_model_t(__attribute__((__stdcall__))* get_color_model)(
       struct _cef_print_settings_t* self);
 
 
 
 
-  void(* set_copies)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* set_copies)(struct _cef_print_settings_t* self,
                                  int copies);
 
 
 
 
-  int(* get_copies)(struct _cef_print_settings_t* self);
+  int(__attribute__((__stdcall__))* get_copies)(struct _cef_print_settings_t* self);
 
 
 
 
-  void(* set_duplex_mode)(struct _cef_print_settings_t* self,
+  void(__attribute__((__stdcall__))* set_duplex_mode)(struct _cef_print_settings_t* self,
                                       cef_duplex_mode_t mode);
 
 
 
 
-  cef_duplex_mode_t(* get_duplex_mode)(
+  cef_duplex_mode_t(__attribute__((__stdcall__))* get_duplex_mode)(
       struct _cef_print_settings_t* self);
 } cef_print_settings_t;
 
@@ -6599,14 +6657,6 @@ typedef struct _cef_print_settings_t {
 
 
 __attribute__((visibility("default"))) cef_print_settings_t* cef_print_settings_create();
-
-
-
-
-
-
-
-
 typedef struct _cef_print_dialog_callback_t {
 
 
@@ -6616,13 +6666,13 @@ typedef struct _cef_print_dialog_callback_t {
 
 
 
-  void(* cont)(struct _cef_print_dialog_callback_t* self,
+  void(__attribute__((__stdcall__))* cont)(struct _cef_print_dialog_callback_t* self,
                            struct _cef_print_settings_t* settings);
 
 
 
 
-  void(* cancel)(struct _cef_print_dialog_callback_t* self);
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_print_dialog_callback_t* self);
 } cef_print_dialog_callback_t;
 
 
@@ -6637,7 +6687,7 @@ typedef struct _cef_print_job_callback_t {
 
 
 
-  void(* cont)(struct _cef_print_job_callback_t* self);
+  void(__attribute__((__stdcall__))* cont)(struct _cef_print_job_callback_t* self);
 } cef_print_job_callback_t;
 
 
@@ -6657,7 +6707,7 @@ typedef struct _cef_print_handler_t {
 
 
 
-  void(* on_print_start)(struct _cef_print_handler_t* self,
+  void(__attribute__((__stdcall__))* on_print_start)(struct _cef_print_handler_t* self,
                                      struct _cef_browser_t* browser);
 
 
@@ -6665,7 +6715,7 @@ typedef struct _cef_print_handler_t {
 
 
 
-  void(* on_print_settings)(struct _cef_print_handler_t* self,
+  void(__attribute__((__stdcall__))* on_print_settings)(struct _cef_print_handler_t* self,
                                         struct _cef_browser_t* browser,
                                         struct _cef_print_settings_t* settings,
                                         int get_defaults);
@@ -6675,7 +6725,7 @@ typedef struct _cef_print_handler_t {
 
 
 
-  int(* on_print_dialog)(
+  int(__attribute__((__stdcall__))* on_print_dialog)(
       struct _cef_print_handler_t* self,
       struct _cef_browser_t* browser,
       int has_selection,
@@ -6686,7 +6736,7 @@ typedef struct _cef_print_handler_t {
 
 
 
-  int(* on_print_job)(struct _cef_print_handler_t* self,
+  int(__attribute__((__stdcall__))* on_print_job)(struct _cef_print_handler_t* self,
                                   struct _cef_browser_t* browser,
                                   const cef_string_t* document_name,
                                   const cef_string_t* pdf_file_path,
@@ -6695,14 +6745,14 @@ typedef struct _cef_print_handler_t {
 
 
 
-  void(* on_print_reset)(struct _cef_print_handler_t* self,
+  void(__attribute__((__stdcall__))* on_print_reset)(struct _cef_print_handler_t* self,
                                      struct _cef_browser_t* browser);
 
 
 
 
 
-  cef_size_t(* get_pdf_paper_size)(
+  cef_size_t(__attribute__((__stdcall__))* get_pdf_paper_size)(
       struct _cef_print_handler_t* self,
       int device_units_per_inch);
 } cef_print_handler_t;
@@ -6716,12 +6766,12 @@ typedef struct _cef_browser_process_handler_t {
 
 
 
-  void(* on_context_initialized)(
+  void(__attribute__((__stdcall__))* on_context_initialized)(
       struct _cef_browser_process_handler_t* self);
-  void(* on_before_child_process_launch)(
+  void(__attribute__((__stdcall__))* on_before_child_process_launch)(
       struct _cef_browser_process_handler_t* self,
       struct _cef_command_line_t* command_line);
-  void(* on_render_process_thread_created)(
+  void(__attribute__((__stdcall__))* on_render_process_thread_created)(
       struct _cef_browser_process_handler_t* self,
       struct _cef_list_value_t* extra_info);
 
@@ -6729,38 +6779,51 @@ typedef struct _cef_browser_process_handler_t {
 
 
 
-  struct _cef_print_handler_t*(* get_print_handler)(
+  struct _cef_print_handler_t*(__attribute__((__stdcall__))* get_print_handler)(
       struct _cef_browser_process_handler_t* self);
-  void(* on_schedule_message_pump_work)(
+  void(__attribute__((__stdcall__))* on_schedule_message_pump_work)(
       struct _cef_browser_process_handler_t* self,
       int64 delay_ms);
 } cef_browser_process_handler_t;
+
+
+
+
+
+
+
 
 typedef struct _cef_load_handler_t {
 
 
 
   cef_base_ref_counted_t base;
-  void(* on_loading_state_change)(struct _cef_load_handler_t* self,
+  void(__attribute__((__stdcall__))* on_loading_state_change)(struct _cef_load_handler_t* self,
                                               struct _cef_browser_t* browser,
                                               int isLoading,
                                               int canGoBack,
                                               int canGoForward);
-  void(* on_load_start)(struct _cef_load_handler_t* self,
+  void(__attribute__((__stdcall__))* on_load_start)(struct _cef_load_handler_t* self,
                                     struct _cef_browser_t* browser,
                                     struct _cef_frame_t* frame,
                                     cef_transition_type_t transition_type);
-  void(* on_load_end)(struct _cef_load_handler_t* self,
+  void(__attribute__((__stdcall__))* on_load_end)(struct _cef_load_handler_t* self,
                                   struct _cef_browser_t* browser,
                                   struct _cef_frame_t* frame,
                                   int httpStatusCode);
-  void(* on_load_error)(struct _cef_load_handler_t* self,
+  void(__attribute__((__stdcall__))* on_load_error)(struct _cef_load_handler_t* self,
                                     struct _cef_browser_t* browser,
                                     struct _cef_frame_t* frame,
                                     cef_errorcode_t errorCode,
                                     const cef_string_t* errorText,
                                     const cef_string_t* failedUrl);
 } cef_load_handler_t;
+
+
+
+
+
+
 
 typedef struct _cef_task_t {
 
@@ -6771,7 +6834,7 @@ typedef struct _cef_task_t {
 
 
 
-  void(* execute)(struct _cef_task_t* self);
+  void(__attribute__((__stdcall__))* execute)(struct _cef_task_t* self);
 } cef_task_t;
 typedef struct _cef_task_runner_t {
 
@@ -6783,25 +6846,25 @@ typedef struct _cef_task_runner_t {
 
 
 
-  int(* is_same)(struct _cef_task_runner_t* self,
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_task_runner_t* self,
                              struct _cef_task_runner_t* that);
 
 
 
 
-  int(* belongs_to_current_thread)(struct _cef_task_runner_t* self);
+  int(__attribute__((__stdcall__))* belongs_to_current_thread)(struct _cef_task_runner_t* self);
 
 
 
 
-  int(* belongs_to_thread)(struct _cef_task_runner_t* self,
+  int(__attribute__((__stdcall__))* belongs_to_thread)(struct _cef_task_runner_t* self,
                                        cef_thread_id_t threadId);
 
 
 
 
 
-  int(* post_task)(struct _cef_task_runner_t* self,
+  int(__attribute__((__stdcall__))* post_task)(struct _cef_task_runner_t* self,
                                struct _cef_task_t* task);
 
 
@@ -6810,7 +6873,7 @@ typedef struct _cef_task_runner_t {
 
 
 
-  int(* post_delayed_task)(struct _cef_task_runner_t* self,
+  int(__attribute__((__stdcall__))* post_delayed_task)(struct _cef_task_runner_t* self,
                                        struct _cef_task_t* task,
                                        int64 delay_ms);
 } cef_task_runner_t;
@@ -6868,7 +6931,7 @@ typedef struct _cef_v8context_t {
 
 
 
-  struct _cef_task_runner_t*(* get_task_runner)(
+  struct _cef_task_runner_t*(__attribute__((__stdcall__))* get_task_runner)(
       struct _cef_v8context_t* self);
 
 
@@ -6876,42 +6939,42 @@ typedef struct _cef_v8context_t {
 
 
 
-  int(* is_valid)(struct _cef_v8context_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_v8context_t* self);
 
 
 
 
 
-  struct _cef_browser_t*(* get_browser)(
+  struct _cef_browser_t*(__attribute__((__stdcall__))* get_browser)(
       struct _cef_v8context_t* self);
 
 
 
 
 
-  struct _cef_frame_t*(* get_frame)(struct _cef_v8context_t* self);
+  struct _cef_frame_t*(__attribute__((__stdcall__))* get_frame)(struct _cef_v8context_t* self);
 
 
 
 
 
-  struct _cef_v8value_t*(* get_global)(
+  struct _cef_v8value_t*(__attribute__((__stdcall__))* get_global)(
       struct _cef_v8context_t* self);
-  int(* enter)(struct _cef_v8context_t* self);
+  int(__attribute__((__stdcall__))* enter)(struct _cef_v8context_t* self);
 
 
 
 
 
-  int(* exit)(struct _cef_v8context_t* self);
+  int(__attribute__((__stdcall__))* exit)(struct _cef_v8context_t* self);
 
 
 
 
 
-  int(* is_same)(struct _cef_v8context_t* self,
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_v8context_t* self,
                              struct _cef_v8context_t* that);
-  int(* eval)(struct _cef_v8context_t* self,
+  int(__attribute__((__stdcall__))* eval)(struct _cef_v8context_t* self,
                           const cef_string_t* code,
                           const cef_string_t* script_url,
                           int start_line,
@@ -6944,7 +7007,7 @@ typedef struct _cef_v8handler_t {
 
 
   cef_base_ref_counted_t base;
-  int(* execute)(struct _cef_v8handler_t* self,
+  int(__attribute__((__stdcall__))* execute)(struct _cef_v8handler_t* self,
                              const cef_string_t* name,
                              struct _cef_v8value_t* object,
                              size_t argumentsCount,
@@ -6964,12 +7027,12 @@ typedef struct _cef_v8accessor_t {
 
 
   cef_base_ref_counted_t base;
-  int(* get)(struct _cef_v8accessor_t* self,
+  int(__attribute__((__stdcall__))* get)(struct _cef_v8accessor_t* self,
                          const cef_string_t* name,
                          struct _cef_v8value_t* object,
                          struct _cef_v8value_t** retval,
                          cef_string_t* exception);
-  int(* set)(struct _cef_v8accessor_t* self,
+  int(__attribute__((__stdcall__))* set)(struct _cef_v8accessor_t* self,
                          const cef_string_t* name,
                          struct _cef_v8value_t* object,
                          struct _cef_v8value_t* value,
@@ -6980,22 +7043,22 @@ typedef struct _cef_v8interceptor_t {
 
 
   cef_base_ref_counted_t base;
-  int(* get_byname)(struct _cef_v8interceptor_t* self,
+  int(__attribute__((__stdcall__))* get_byname)(struct _cef_v8interceptor_t* self,
                                 const cef_string_t* name,
                                 struct _cef_v8value_t* object,
                                 struct _cef_v8value_t** retval,
                                 cef_string_t* exception);
-  int(* get_byindex)(struct _cef_v8interceptor_t* self,
+  int(__attribute__((__stdcall__))* get_byindex)(struct _cef_v8interceptor_t* self,
                                  int index,
                                  struct _cef_v8value_t* object,
                                  struct _cef_v8value_t** retval,
                                  cef_string_t* exception);
-  int(* set_byname)(struct _cef_v8interceptor_t* self,
+  int(__attribute__((__stdcall__))* set_byname)(struct _cef_v8interceptor_t* self,
                                 const cef_string_t* name,
                                 struct _cef_v8value_t* object,
                                 struct _cef_v8value_t* value,
                                 cef_string_t* exception);
-  int(* set_byindex)(struct _cef_v8interceptor_t* self,
+  int(__attribute__((__stdcall__))* set_byindex)(struct _cef_v8interceptor_t* self,
                                  int index,
                                  struct _cef_v8value_t* object,
                                  struct _cef_v8value_t* value,
@@ -7016,14 +7079,14 @@ typedef struct _cef_v8exception_t {
 
 
 
-  cef_string_userfree_t(* get_message)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_message)(
       struct _cef_v8exception_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_source_line)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_source_line)(
       struct _cef_v8exception_t* self);
 
 
@@ -7031,38 +7094,38 @@ typedef struct _cef_v8exception_t {
 
 
 
-  cef_string_userfree_t(* get_script_resource_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_script_resource_name)(
       struct _cef_v8exception_t* self);
 
 
 
 
 
-  int(* get_line_number)(struct _cef_v8exception_t* self);
+  int(__attribute__((__stdcall__))* get_line_number)(struct _cef_v8exception_t* self);
 
 
 
 
 
-  int(* get_start_position)(struct _cef_v8exception_t* self);
+  int(__attribute__((__stdcall__))* get_start_position)(struct _cef_v8exception_t* self);
 
 
 
 
 
-  int(* get_end_position)(struct _cef_v8exception_t* self);
+  int(__attribute__((__stdcall__))* get_end_position)(struct _cef_v8exception_t* self);
 
 
 
 
 
-  int(* get_start_column)(struct _cef_v8exception_t* self);
+  int(__attribute__((__stdcall__))* get_start_column)(struct _cef_v8exception_t* self);
 
 
 
 
 
-  int(* get_end_column)(struct _cef_v8exception_t* self);
+  int(__attribute__((__stdcall__))* get_end_column)(struct _cef_v8exception_t* self);
 } cef_v8exception_t;
 typedef struct _cef_v8value_t {
 
@@ -7075,139 +7138,139 @@ typedef struct _cef_v8value_t {
 
 
 
-  int(* is_valid)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_undefined)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_undefined)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_null)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_null)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_bool)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_bool)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_int)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_int)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_uint)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_uint)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_double)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_double)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_date)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_date)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_string)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_string)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_object)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_object)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_array)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_array)(struct _cef_v8value_t* self);
 
 
 
 
-  int(* is_function)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_function)(struct _cef_v8value_t* self);
 
 
 
 
 
-  int(* is_same)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_v8value_t* self,
                              struct _cef_v8value_t* that);
 
 
 
 
-  int(* get_bool_value)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* get_bool_value)(struct _cef_v8value_t* self);
 
 
 
 
-  int32(* get_int_value)(struct _cef_v8value_t* self);
+  int32(__attribute__((__stdcall__))* get_int_value)(struct _cef_v8value_t* self);
 
 
 
 
-  uint32(* get_uint_value)(struct _cef_v8value_t* self);
+  uint32(__attribute__((__stdcall__))* get_uint_value)(struct _cef_v8value_t* self);
 
 
 
 
-  double(* get_double_value)(struct _cef_v8value_t* self);
+  double(__attribute__((__stdcall__))* get_double_value)(struct _cef_v8value_t* self);
 
 
 
 
-  cef_time_t(* get_date_value)(struct _cef_v8value_t* self);
+  cef_time_t(__attribute__((__stdcall__))* get_date_value)(struct _cef_v8value_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_string_value)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_string_value)(
       struct _cef_v8value_t* self);
-  int(* is_user_created)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* is_user_created)(struct _cef_v8value_t* self);
 
 
 
 
 
-  int(* has_exception)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* has_exception)(struct _cef_v8value_t* self);
 
 
 
 
 
-  struct _cef_v8exception_t*(* get_exception)(
+  struct _cef_v8exception_t*(__attribute__((__stdcall__))* get_exception)(
       struct _cef_v8value_t* self);
 
 
 
 
-  int(* clear_exception)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* clear_exception)(struct _cef_v8value_t* self);
 
 
 
 
 
-  int(* will_rethrow_exceptions)(struct _cef_v8value_t* self);
-  int(* set_rethrow_exceptions)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* will_rethrow_exceptions)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* set_rethrow_exceptions)(struct _cef_v8value_t* self,
                                             int rethrow);
 
 
 
 
-  int(* has_value_bykey)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* has_value_bykey)(struct _cef_v8value_t* self,
                                      const cef_string_t* key);
 
 
 
 
-  int(* has_value_byindex)(struct _cef_v8value_t* self, int index);
+  int(__attribute__((__stdcall__))* has_value_byindex)(struct _cef_v8value_t* self, int index);
 
 
 
@@ -7215,7 +7278,7 @@ typedef struct _cef_v8value_t {
 
 
 
-  int(* delete_value_bykey)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* delete_value_bykey)(struct _cef_v8value_t* self,
                                         const cef_string_t* key);
 
 
@@ -7224,14 +7287,14 @@ typedef struct _cef_v8value_t {
 
 
 
-  int(* delete_value_byindex)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* delete_value_byindex)(struct _cef_v8value_t* self,
                                           int index);
 
 
 
 
 
-  struct _cef_v8value_t*(* get_value_bykey)(
+  struct _cef_v8value_t*(__attribute__((__stdcall__))* get_value_bykey)(
       struct _cef_v8value_t* self,
       const cef_string_t* key);
 
@@ -7240,7 +7303,7 @@ typedef struct _cef_v8value_t {
 
 
   struct _cef_v8value_t*(
-                  * get_value_byindex)(struct _cef_v8value_t* self, int index);
+      __attribute__((__stdcall__))* get_value_byindex)(struct _cef_v8value_t* self, int index);
 
 
 
@@ -7248,7 +7311,7 @@ typedef struct _cef_v8value_t {
 
 
 
-  int(* set_value_bykey)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* set_value_bykey)(struct _cef_v8value_t* self,
                                      const cef_string_t* key,
                                      struct _cef_v8value_t* value,
                                      cef_v8_propertyattribute_t attribute);
@@ -7259,10 +7322,10 @@ typedef struct _cef_v8value_t {
 
 
 
-  int(* set_value_byindex)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* set_value_byindex)(struct _cef_v8value_t* self,
                                        int index,
                                        struct _cef_v8value_t* value);
-  int(* set_value_byaccessor)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* set_value_byaccessor)(struct _cef_v8value_t* self,
                                           const cef_string_t* key,
                                           cef_v8_accesscontrol_t settings,
                                           cef_v8_propertyattribute_t attribute);
@@ -7271,7 +7334,7 @@ typedef struct _cef_v8value_t {
 
 
 
-  int(* get_keys)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* get_keys)(struct _cef_v8value_t* self,
                               cef_string_list_t keys);
 
 
@@ -7279,22 +7342,22 @@ typedef struct _cef_v8value_t {
 
 
 
-  int(* set_user_data)(struct _cef_v8value_t* self,
+  int(__attribute__((__stdcall__))* set_user_data)(struct _cef_v8value_t* self,
                                    struct _cef_base_ref_counted_t* user_data);
 
 
 
 
-  struct _cef_base_ref_counted_t*(* get_user_data)(
+  struct _cef_base_ref_counted_t*(__attribute__((__stdcall__))* get_user_data)(
       struct _cef_v8value_t* self);
 
 
 
 
 
-  int(* get_externally_allocated_memory)(
+  int(__attribute__((__stdcall__))* get_externally_allocated_memory)(
       struct _cef_v8value_t* self);
-  int(* adjust_externally_allocated_memory)(
+  int(__attribute__((__stdcall__))* adjust_externally_allocated_memory)(
       struct _cef_v8value_t* self,
       int change_in_bytes);
 
@@ -7303,7 +7366,7 @@ typedef struct _cef_v8value_t {
 
 
 
-  int(* get_array_length)(struct _cef_v8value_t* self);
+  int(__attribute__((__stdcall__))* get_array_length)(struct _cef_v8value_t* self);
 
 
 
@@ -7311,20 +7374,20 @@ typedef struct _cef_v8value_t {
 
 
 
-  cef_string_userfree_t(* get_function_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_function_name)(
       struct _cef_v8value_t* self);
 
 
 
 
-  struct _cef_v8handler_t*(* get_function_handler)(
+  struct _cef_v8handler_t*(__attribute__((__stdcall__))* get_function_handler)(
       struct _cef_v8value_t* self);
-  struct _cef_v8value_t*(* execute_function)(
+  struct _cef_v8value_t*(__attribute__((__stdcall__))* execute_function)(
       struct _cef_v8value_t* self,
       struct _cef_v8value_t* object,
       size_t argumentsCount,
       struct _cef_v8value_t* const* arguments);
-  struct _cef_v8value_t*(* execute_function_with_context)(
+  struct _cef_v8value_t*(__attribute__((__stdcall__))* execute_function_with_context)(
       struct _cef_v8value_t* self,
       struct _cef_v8context_t* context,
       struct _cef_v8value_t* object,
@@ -7398,18 +7461,18 @@ typedef struct _cef_v8stack_trace_t {
 
 
 
-  int(* is_valid)(struct _cef_v8stack_trace_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_v8stack_trace_t* self);
 
 
 
 
-  int(* get_frame_count)(struct _cef_v8stack_trace_t* self);
+  int(__attribute__((__stdcall__))* get_frame_count)(struct _cef_v8stack_trace_t* self);
 
 
 
 
   struct _cef_v8stack_frame_t*(
-                  * get_frame)(struct _cef_v8stack_trace_t* self, int index);
+      __attribute__((__stdcall__))* get_frame)(struct _cef_v8stack_trace_t* self, int index);
 } cef_v8stack_trace_t;
 
 
@@ -7428,13 +7491,13 @@ typedef struct _cef_v8stack_frame_t {
 
 
 
-  int(* is_valid)(struct _cef_v8stack_frame_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_v8stack_frame_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_script_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_script_name)(
       struct _cef_v8stack_frame_t* self);
 
 
@@ -7443,36 +7506,36 @@ typedef struct _cef_v8stack_frame_t {
 
 
 
-  cef_string_userfree_t(* get_script_name_or_source_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_script_name_or_source_url)(
       struct _cef_v8stack_frame_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_function_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_function_name)(
       struct _cef_v8stack_frame_t* self);
 
 
 
 
-  int(* get_line_number)(struct _cef_v8stack_frame_t* self);
+  int(__attribute__((__stdcall__))* get_line_number)(struct _cef_v8stack_frame_t* self);
 
 
 
 
 
-  int(* get_column)(struct _cef_v8stack_frame_t* self);
+  int(__attribute__((__stdcall__))* get_column)(struct _cef_v8stack_frame_t* self);
 
 
 
 
-  int(* is_eval)(struct _cef_v8stack_frame_t* self);
+  int(__attribute__((__stdcall__))* is_eval)(struct _cef_v8stack_frame_t* self);
 
 
 
 
-  int(* is_constructor)(struct _cef_v8stack_frame_t* self);
+  int(__attribute__((__stdcall__))* is_constructor)(struct _cef_v8stack_frame_t* self);
 } cef_v8stack_frame_t;
 __attribute__((visibility("default"))) int cef_register_extension(const cef_string_t* extension_name,
                                       const cef_string_t* javascript_code,
@@ -7489,14 +7552,14 @@ typedef struct _cef_render_process_handler_t {
 
 
 
-  void(* on_render_thread_created)(
+  void(__attribute__((__stdcall__))* on_render_thread_created)(
       struct _cef_render_process_handler_t* self,
       struct _cef_list_value_t* extra_info);
 
 
 
 
-  void(* on_web_kit_initialized)(
+  void(__attribute__((__stdcall__))* on_web_kit_initialized)(
       struct _cef_render_process_handler_t* self);
 
 
@@ -7504,21 +7567,21 @@ typedef struct _cef_render_process_handler_t {
 
 
 
-  void(* on_browser_created)(
+  void(__attribute__((__stdcall__))* on_browser_created)(
       struct _cef_render_process_handler_t* self,
       struct _cef_browser_t* browser);
 
 
 
 
-  void(* on_browser_destroyed)(
+  void(__attribute__((__stdcall__))* on_browser_destroyed)(
       struct _cef_render_process_handler_t* self,
       struct _cef_browser_t* browser);
 
 
 
 
-  struct _cef_load_handler_t*(* get_load_handler)(
+  struct _cef_load_handler_t*(__attribute__((__stdcall__))* get_load_handler)(
       struct _cef_render_process_handler_t* self);
 
 
@@ -7526,14 +7589,14 @@ typedef struct _cef_render_process_handler_t {
 
 
 
-  int(* on_before_navigation)(
+  int(__attribute__((__stdcall__))* on_before_navigation)(
       struct _cef_render_process_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
       struct _cef_request_t* request,
       cef_navigation_type_t navigation_type,
       int is_redirect);
-  void(* on_context_created)(
+  void(__attribute__((__stdcall__))* on_context_created)(
       struct _cef_render_process_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -7543,7 +7606,7 @@ typedef struct _cef_render_process_handler_t {
 
 
 
-  void(* on_context_released)(
+  void(__attribute__((__stdcall__))* on_context_released)(
       struct _cef_render_process_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -7554,14 +7617,14 @@ typedef struct _cef_render_process_handler_t {
 
 
 
-  void(* on_uncaught_exception)(
+  void(__attribute__((__stdcall__))* on_uncaught_exception)(
       struct _cef_render_process_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
       struct _cef_v8context_t* context,
       struct _cef_v8exception_t* exception,
       struct _cef_v8stack_trace_t* stackTrace);
-  void(* on_focused_node_changed)(
+  void(__attribute__((__stdcall__))* on_focused_node_changed)(
       struct _cef_render_process_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -7572,12 +7635,13 @@ typedef struct _cef_render_process_handler_t {
 
 
 
-  int(* on_process_message_received)(
+  int(__attribute__((__stdcall__))* on_process_message_received)(
       struct _cef_render_process_handler_t* self,
       struct _cef_browser_t* browser,
       cef_process_id_t source_process,
       struct _cef_process_message_t* message);
 } cef_render_process_handler_t;
+
 typedef struct _cef_resource_bundle_handler_t {
 
 
@@ -7590,22 +7654,36 @@ typedef struct _cef_resource_bundle_handler_t {
 
 
 
-  int(* get_localized_string)(
+  int(__attribute__((__stdcall__))* get_localized_string)(
       struct _cef_resource_bundle_handler_t* self,
       int string_id,
       cef_string_t* string);
-  int(* get_data_resource)(
+  int(__attribute__((__stdcall__))* get_data_resource)(
       struct _cef_resource_bundle_handler_t* self,
       int resource_id,
       void** data,
       size_t* data_size);
-  int(* get_data_resource_for_scale)(
+  int(__attribute__((__stdcall__))* get_data_resource_for_scale)(
       struct _cef_resource_bundle_handler_t* self,
       int resource_id,
       cef_scale_factor_t scale_factor,
       void** data,
       size_t* data_size);
 } cef_resource_bundle_handler_t;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 typedef struct _cef_response_t {
 
 
@@ -7615,73 +7693,73 @@ typedef struct _cef_response_t {
 
 
 
-  int(* is_read_only)(struct _cef_response_t* self);
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_response_t* self);
 
 
 
 
-  cef_errorcode_t(* get_error)(struct _cef_response_t* self);
+  cef_errorcode_t(__attribute__((__stdcall__))* get_error)(struct _cef_response_t* self);
 
 
 
 
 
-  void(* set_error)(struct _cef_response_t* self,
+  void(__attribute__((__stdcall__))* set_error)(struct _cef_response_t* self,
                                 cef_errorcode_t error);
 
 
 
 
-  int(* get_status)(struct _cef_response_t* self);
+  int(__attribute__((__stdcall__))* get_status)(struct _cef_response_t* self);
 
 
 
 
-  void(* set_status)(struct _cef_response_t* self, int status);
+  void(__attribute__((__stdcall__))* set_status)(struct _cef_response_t* self, int status);
 
 
 
 
 
-  cef_string_userfree_t(* get_status_text)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_status_text)(
       struct _cef_response_t* self);
 
 
 
 
-  void(* set_status_text)(struct _cef_response_t* self,
+  void(__attribute__((__stdcall__))* set_status_text)(struct _cef_response_t* self,
                                       const cef_string_t* statusText);
 
 
 
 
 
-  cef_string_userfree_t(* get_mime_type)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_mime_type)(
       struct _cef_response_t* self);
 
 
 
 
-  void(* set_mime_type)(struct _cef_response_t* self,
+  void(__attribute__((__stdcall__))* set_mime_type)(struct _cef_response_t* self,
                                     const cef_string_t* mimeType);
 
 
 
 
 
-  cef_string_userfree_t(* get_header)(struct _cef_response_t* self,
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_header)(struct _cef_response_t* self,
                                                   const cef_string_t* name);
 
 
 
 
-  void(* get_header_map)(struct _cef_response_t* self,
+  void(__attribute__((__stdcall__))* get_header_map)(struct _cef_response_t* self,
                                      cef_string_multimap_t headerMap);
 
 
 
 
-  void(* set_header_map)(struct _cef_response_t* self,
+  void(__attribute__((__stdcall__))* set_header_map)(struct _cef_response_t* self,
                                      cef_string_multimap_t headerMap);
 } cef_response_t;
 
@@ -7694,14 +7772,14 @@ typedef struct _cef_resource_handler_t {
 
 
   cef_base_ref_counted_t base;
-  int(* process_request)(struct _cef_resource_handler_t* self,
+  int(__attribute__((__stdcall__))* process_request)(struct _cef_resource_handler_t* self,
                                      struct _cef_request_t* request,
                                      struct _cef_callback_t* callback);
-  void(* get_response_headers)(struct _cef_resource_handler_t* self,
+  void(__attribute__((__stdcall__))* get_response_headers)(struct _cef_resource_handler_t* self,
                                            struct _cef_response_t* response,
                                            int64* response_length,
                                            cef_string_t* redirectUrl);
-  int(* read_response)(struct _cef_resource_handler_t* self,
+  int(__attribute__((__stdcall__))* read_response)(struct _cef_resource_handler_t* self,
                                    void* data_out,
                                    int bytes_to_read,
                                    int* bytes_read,
@@ -7712,20 +7790,20 @@ typedef struct _cef_resource_handler_t {
 
 
 
-  int(* can_get_cookie)(struct _cef_resource_handler_t* self,
+  int(__attribute__((__stdcall__))* can_get_cookie)(struct _cef_resource_handler_t* self,
                                     const struct _cef_cookie_t* cookie);
 
 
 
 
 
-  int(* can_set_cookie)(struct _cef_resource_handler_t* self,
+  int(__attribute__((__stdcall__))* can_set_cookie)(struct _cef_resource_handler_t* self,
                                     const struct _cef_cookie_t* cookie);
 
 
 
 
-  void(* cancel)(struct _cef_resource_handler_t* self);
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_resource_handler_t* self);
 } cef_resource_handler_t;
 
 
@@ -7743,7 +7821,7 @@ typedef struct _cef_scheme_registrar_t {
 
 
   cef_base_scoped_t base;
-  int(* add_custom_scheme)(struct _cef_scheme_registrar_t* self,
+  int(__attribute__((__stdcall__))* add_custom_scheme)(struct _cef_scheme_registrar_t* self,
                                        const cef_string_t* scheme_name,
                                        int is_standard,
                                        int is_local,
@@ -7763,7 +7841,7 @@ typedef struct _cef_scheme_handler_factory_t {
 
 
   cef_base_ref_counted_t base;
-  struct _cef_resource_handler_t*(* create)(
+  struct _cef_resource_handler_t*(__attribute__((__stdcall__))* create)(
       struct _cef_scheme_handler_factory_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -7791,7 +7869,7 @@ typedef struct _cef_app_t {
 
 
   cef_base_ref_counted_t base;
-  void(* on_before_command_line_processing)(
+  void(__attribute__((__stdcall__))* on_before_command_line_processing)(
       struct _cef_app_t* self,
       const cef_string_t* process_type,
       struct _cef_command_line_t* command_line);
@@ -7802,7 +7880,7 @@ typedef struct _cef_app_t {
 
 
 
-  void(* on_register_custom_schemes)(
+  void(__attribute__((__stdcall__))* on_register_custom_schemes)(
       struct _cef_app_t* self,
       struct _cef_scheme_registrar_t* registrar);
 
@@ -7813,21 +7891,21 @@ typedef struct _cef_app_t {
 
 
   struct _cef_resource_bundle_handler_t*(
-                  * get_resource_bundle_handler)(struct _cef_app_t* self);
+      __attribute__((__stdcall__))* get_resource_bundle_handler)(struct _cef_app_t* self);
 
 
 
 
 
   struct _cef_browser_process_handler_t*(
-                  * get_browser_process_handler)(struct _cef_app_t* self);
+      __attribute__((__stdcall__))* get_browser_process_handler)(struct _cef_app_t* self);
 
 
 
 
 
   struct _cef_render_process_handler_t*(
-                  * get_render_process_handler)(struct _cef_app_t* self);
+      __attribute__((__stdcall__))* get_render_process_handler)(struct _cef_app_t* self);
 } cef_app_t;
 __attribute__((visibility("default"))) int cef_execute_process(const struct _cef_main_args_t* args,
                                    cef_app_t* application,
@@ -7864,6 +7942,7 @@ __attribute__((visibility("default"))) void cef_set_osmodal_loop(int osModalLoop
 
 
 __attribute__((visibility("default"))) void cef_enable_highdpi_support();
+
 typedef struct _cef_auth_callback_t {
 
 
@@ -7873,15 +7952,33 @@ typedef struct _cef_auth_callback_t {
 
 
 
-  void(* cont)(struct _cef_auth_callback_t* self,
+  void(__attribute__((__stdcall__))* cont)(struct _cef_auth_callback_t* self,
                            const cef_string_t* username,
                            const cef_string_t* password);
 
 
 
 
-  void(* cancel)(struct _cef_auth_callback_t* self);
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_auth_callback_t* self);
 } cef_auth_callback_t;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -7903,7 +8000,7 @@ typedef struct _cef_menu_model_delegate_t {
 
 
 
-  void(* execute_command)(struct _cef_menu_model_delegate_t* self,
+  void(__attribute__((__stdcall__))* execute_command)(struct _cef_menu_model_delegate_t* self,
                                       struct _cef_menu_model_t* menu_model,
                                       int command_id,
                                       cef_event_flags_t event_flags);
@@ -7912,7 +8009,7 @@ typedef struct _cef_menu_model_delegate_t {
 
 
 
-  void(* mouse_outside_menu)(
+  void(__attribute__((__stdcall__))* mouse_outside_menu)(
       struct _cef_menu_model_delegate_t* self,
       struct _cef_menu_model_t* menu_model,
       const cef_point_t* screen_point);
@@ -7921,7 +8018,7 @@ typedef struct _cef_menu_model_delegate_t {
 
 
 
-  void(* unhandled_open_submenu)(
+  void(__attribute__((__stdcall__))* unhandled_open_submenu)(
       struct _cef_menu_model_delegate_t* self,
       struct _cef_menu_model_t* menu_model,
       int is_rtl);
@@ -7930,7 +8027,7 @@ typedef struct _cef_menu_model_delegate_t {
 
 
 
-  void(* unhandled_close_submenu)(
+  void(__attribute__((__stdcall__))* unhandled_close_submenu)(
       struct _cef_menu_model_delegate_t* self,
       struct _cef_menu_model_t* menu_model,
       int is_rtl);
@@ -7938,20 +8035,20 @@ typedef struct _cef_menu_model_delegate_t {
 
 
 
-  void(* menu_will_show)(struct _cef_menu_model_delegate_t* self,
+  void(__attribute__((__stdcall__))* menu_will_show)(struct _cef_menu_model_delegate_t* self,
                                      struct _cef_menu_model_t* menu_model);
 
 
 
 
-  void(* menu_closed)(struct _cef_menu_model_delegate_t* self,
+  void(__attribute__((__stdcall__))* menu_closed)(struct _cef_menu_model_delegate_t* self,
                                   struct _cef_menu_model_t* menu_model);
 
 
 
 
 
-  int(* format_label)(struct _cef_menu_model_delegate_t* self,
+  int(__attribute__((__stdcall__))* format_label)(struct _cef_menu_model_delegate_t* self,
                                   struct _cef_menu_model_t* menu_model,
                                   cef_string_t* label);
 } cef_menu_model_delegate_t;
@@ -7964,34 +8061,34 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* is_sub_menu)(struct _cef_menu_model_t* self);
+  int(__attribute__((__stdcall__))* is_sub_menu)(struct _cef_menu_model_t* self);
 
 
 
 
-  int(* clear)(struct _cef_menu_model_t* self);
+  int(__attribute__((__stdcall__))* clear)(struct _cef_menu_model_t* self);
 
 
 
 
-  int(* get_count)(struct _cef_menu_model_t* self);
+  int(__attribute__((__stdcall__))* get_count)(struct _cef_menu_model_t* self);
 
 
 
 
-  int(* add_separator)(struct _cef_menu_model_t* self);
+  int(__attribute__((__stdcall__))* add_separator)(struct _cef_menu_model_t* self);
 
 
 
 
-  int(* add_item)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* add_item)(struct _cef_menu_model_t* self,
                               int command_id,
                               const cef_string_t* label);
 
 
 
 
-  int(* add_check_item)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* add_check_item)(struct _cef_menu_model_t* self,
                                     int command_id,
                                     const cef_string_t* label);
 
@@ -7999,7 +8096,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* add_radio_item)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* add_radio_item)(struct _cef_menu_model_t* self,
                                     int command_id,
                                     const cef_string_t* label,
                                     int group_id);
@@ -8007,7 +8104,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  struct _cef_menu_model_t*(* add_sub_menu)(
+  struct _cef_menu_model_t*(__attribute__((__stdcall__))* add_sub_menu)(
       struct _cef_menu_model_t* self,
       int command_id,
       const cef_string_t* label);
@@ -8016,14 +8113,14 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* insert_separator_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* insert_separator_at)(struct _cef_menu_model_t* self,
                                          int index);
 
 
 
 
 
-  int(* insert_item_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* insert_item_at)(struct _cef_menu_model_t* self,
                                     int index,
                                     int command_id,
                                     const cef_string_t* label);
@@ -8032,7 +8129,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* insert_check_item_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* insert_check_item_at)(struct _cef_menu_model_t* self,
                                           int index,
                                           int command_id,
                                           const cef_string_t* label);
@@ -8042,7 +8139,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* insert_radio_item_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* insert_radio_item_at)(struct _cef_menu_model_t* self,
                                           int index,
                                           int command_id,
                                           const cef_string_t* label,
@@ -8052,7 +8149,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  struct _cef_menu_model_t*(* insert_sub_menu_at)(
+  struct _cef_menu_model_t*(__attribute__((__stdcall__))* insert_sub_menu_at)(
       struct _cef_menu_model_t* self,
       int index,
       int command_id,
@@ -8062,31 +8159,31 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* remove)(struct _cef_menu_model_t* self, int command_id);
+  int(__attribute__((__stdcall__))* remove)(struct _cef_menu_model_t* self, int command_id);
 
 
 
 
-  int(* remove_at)(struct _cef_menu_model_t* self, int index);
+  int(__attribute__((__stdcall__))* remove_at)(struct _cef_menu_model_t* self, int index);
 
 
 
 
 
-  int(* get_index_of)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* get_index_of)(struct _cef_menu_model_t* self,
                                   int command_id);
 
 
 
 
 
-  int(* get_command_id_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* get_command_id_at)(struct _cef_menu_model_t* self,
                                        int index);
 
 
 
 
-  int(* set_command_id_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_command_id_at)(struct _cef_menu_model_t* self,
                                        int index,
                                        int command_id);
 
@@ -8094,7 +8191,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  cef_string_userfree_t(* get_label)(struct _cef_menu_model_t* self,
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_label)(struct _cef_menu_model_t* self,
                                                  int command_id);
 
 
@@ -8103,64 +8200,64 @@ typedef struct _cef_menu_model_t {
 
 
   cef_string_userfree_t(
-                  * get_label_at)(struct _cef_menu_model_t* self, int index);
+      __attribute__((__stdcall__))* get_label_at)(struct _cef_menu_model_t* self, int index);
 
 
 
 
-  int(* set_label)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_label)(struct _cef_menu_model_t* self,
                                int command_id,
                                const cef_string_t* label);
 
 
 
 
-  int(* set_label_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_label_at)(struct _cef_menu_model_t* self,
                                   int index,
                                   const cef_string_t* label);
 
 
 
 
-  cef_menu_item_type_t(* get_type)(struct _cef_menu_model_t* self,
+  cef_menu_item_type_t(__attribute__((__stdcall__))* get_type)(struct _cef_menu_model_t* self,
                                                int command_id);
 
 
 
 
   cef_menu_item_type_t(
-                  * get_type_at)(struct _cef_menu_model_t* self, int index);
+      __attribute__((__stdcall__))* get_type_at)(struct _cef_menu_model_t* self, int index);
 
 
 
 
-  int(* get_group_id)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* get_group_id)(struct _cef_menu_model_t* self,
                                   int command_id);
 
 
 
 
-  int(* get_group_id_at)(struct _cef_menu_model_t* self, int index);
+  int(__attribute__((__stdcall__))* get_group_id_at)(struct _cef_menu_model_t* self, int index);
 
 
 
 
 
-  int(* set_group_id)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_group_id)(struct _cef_menu_model_t* self,
                                   int command_id,
                                   int group_id);
 
 
 
 
-  int(* set_group_id_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_group_id_at)(struct _cef_menu_model_t* self,
                                      int index,
                                      int group_id);
 
 
 
 
-  struct _cef_menu_model_t*(* get_sub_menu)(
+  struct _cef_menu_model_t*(__attribute__((__stdcall__))* get_sub_menu)(
       struct _cef_menu_model_t* self,
       int command_id);
 
@@ -8168,23 +8265,23 @@ typedef struct _cef_menu_model_t {
 
 
   struct _cef_menu_model_t*(
-                  * get_sub_menu_at)(struct _cef_menu_model_t* self, int index);
+      __attribute__((__stdcall__))* get_sub_menu_at)(struct _cef_menu_model_t* self, int index);
 
 
 
 
-  int(* is_visible)(struct _cef_menu_model_t* self, int command_id);
+  int(__attribute__((__stdcall__))* is_visible)(struct _cef_menu_model_t* self, int command_id);
 
 
 
 
-  int(* is_visible_at)(struct _cef_menu_model_t* self, int index);
+  int(__attribute__((__stdcall__))* is_visible_at)(struct _cef_menu_model_t* self, int index);
 
 
 
 
 
-  int(* set_visible)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_visible)(struct _cef_menu_model_t* self,
                                  int command_id,
                                  int visible);
 
@@ -8192,25 +8289,25 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* set_visible_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_visible_at)(struct _cef_menu_model_t* self,
                                     int index,
                                     int visible);
 
 
 
 
-  int(* is_enabled)(struct _cef_menu_model_t* self, int command_id);
+  int(__attribute__((__stdcall__))* is_enabled)(struct _cef_menu_model_t* self, int command_id);
 
 
 
 
-  int(* is_enabled_at)(struct _cef_menu_model_t* self, int index);
+  int(__attribute__((__stdcall__))* is_enabled_at)(struct _cef_menu_model_t* self, int index);
 
 
 
 
 
-  int(* set_enabled)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_enabled)(struct _cef_menu_model_t* self,
                                  int command_id,
                                  int enabled);
 
@@ -8218,7 +8315,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* set_enabled_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_enabled_at)(struct _cef_menu_model_t* self,
                                     int index,
                                     int enabled);
 
@@ -8226,19 +8323,19 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* is_checked)(struct _cef_menu_model_t* self, int command_id);
+  int(__attribute__((__stdcall__))* is_checked)(struct _cef_menu_model_t* self, int command_id);
 
 
 
 
 
-  int(* is_checked_at)(struct _cef_menu_model_t* self, int index);
+  int(__attribute__((__stdcall__))* is_checked_at)(struct _cef_menu_model_t* self, int index);
 
 
 
 
 
-  int(* set_checked)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_checked)(struct _cef_menu_model_t* self,
                                  int command_id,
                                  int checked);
 
@@ -8246,7 +8343,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* set_checked_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_checked_at)(struct _cef_menu_model_t* self,
                                     int index,
                                     int checked);
 
@@ -8254,21 +8351,21 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* has_accelerator)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* has_accelerator)(struct _cef_menu_model_t* self,
                                      int command_id);
 
 
 
 
 
-  int(* has_accelerator_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* has_accelerator_at)(struct _cef_menu_model_t* self,
                                         int index);
 
 
 
 
 
-  int(* set_accelerator)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_accelerator)(struct _cef_menu_model_t* self,
                                      int command_id,
                                      int key_code,
                                      int shift_pressed,
@@ -8279,7 +8376,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* set_accelerator_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_accelerator_at)(struct _cef_menu_model_t* self,
                                         int index,
                                         int key_code,
                                         int shift_pressed,
@@ -8290,21 +8387,21 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* remove_accelerator)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* remove_accelerator)(struct _cef_menu_model_t* self,
                                         int command_id);
 
 
 
 
 
-  int(* remove_accelerator_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* remove_accelerator_at)(struct _cef_menu_model_t* self,
                                            int index);
 
 
 
 
 
-  int(* get_accelerator)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* get_accelerator)(struct _cef_menu_model_t* self,
                                      int command_id,
                                      int* key_code,
                                      int* shift_pressed,
@@ -8315,7 +8412,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* get_accelerator_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* get_accelerator_at)(struct _cef_menu_model_t* self,
                                         int index,
                                         int* key_code,
                                         int* shift_pressed,
@@ -8328,11 +8425,11 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* set_color)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_color)(struct _cef_menu_model_t* self,
                                int command_id,
                                cef_menu_color_type_t color_type,
                                cef_color_t color);
-  int(* set_color_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_color_at)(struct _cef_menu_model_t* self,
                                   int index,
                                   cef_menu_color_type_t color_type,
                                   cef_color_t color);
@@ -8342,7 +8439,7 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* get_color)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* get_color)(struct _cef_menu_model_t* self,
                                int command_id,
                                cef_menu_color_type_t color_type,
                                cef_color_t* color);
@@ -8353,14 +8450,14 @@ typedef struct _cef_menu_model_t {
 
 
 
-  int(* get_color_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* get_color_at)(struct _cef_menu_model_t* self,
                                   int index,
                                   cef_menu_color_type_t color_type,
                                   cef_color_t* color);
-  int(* set_font_list)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_font_list)(struct _cef_menu_model_t* self,
                                    int command_id,
                                    const cef_string_t* font_list);
-  int(* set_font_list_at)(struct _cef_menu_model_t* self,
+  int(__attribute__((__stdcall__))* set_font_list_at)(struct _cef_menu_model_t* self,
                                       int index,
                                       const cef_string_t* font_list);
 } cef_menu_model_t;
@@ -8390,14 +8487,14 @@ typedef struct _cef_run_context_menu_callback_t {
 
 
 
-  void(* cont)(struct _cef_run_context_menu_callback_t* self,
+  void(__attribute__((__stdcall__))* cont)(struct _cef_run_context_menu_callback_t* self,
                            int command_id,
                            cef_event_flags_t event_flags);
 
 
 
 
-  void(* cancel)(struct _cef_run_context_menu_callback_t* self);
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_run_context_menu_callback_t* self);
 } cef_run_context_menu_callback_t;
 
 
@@ -8409,20 +8506,20 @@ typedef struct _cef_context_menu_handler_t {
 
 
   cef_base_ref_counted_t base;
-  void(* on_before_context_menu)(
+  void(__attribute__((__stdcall__))* on_before_context_menu)(
       struct _cef_context_menu_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
       struct _cef_context_menu_params_t* params,
       struct _cef_menu_model_t* model);
-  int(* run_context_menu)(
+  int(__attribute__((__stdcall__))* run_context_menu)(
       struct _cef_context_menu_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
       struct _cef_context_menu_params_t* params,
       struct _cef_menu_model_t* model,
       struct _cef_run_context_menu_callback_t* callback);
-  int(* on_context_menu_command)(
+  int(__attribute__((__stdcall__))* on_context_menu_command)(
       struct _cef_context_menu_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -8434,7 +8531,7 @@ typedef struct _cef_context_menu_handler_t {
 
 
 
-  void(* on_context_menu_dismissed)(
+  void(__attribute__((__stdcall__))* on_context_menu_dismissed)(
       struct _cef_context_menu_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame);
@@ -8454,19 +8551,19 @@ typedef struct _cef_context_menu_params_t {
 
 
 
-  int(* get_xcoord)(struct _cef_context_menu_params_t* self);
+  int(__attribute__((__stdcall__))* get_xcoord)(struct _cef_context_menu_params_t* self);
 
 
 
 
 
-  int(* get_ycoord)(struct _cef_context_menu_params_t* self);
+  int(__attribute__((__stdcall__))* get_ycoord)(struct _cef_context_menu_params_t* self);
 
 
 
 
 
-  cef_context_menu_type_flags_t(* get_type_flags)(
+  cef_context_menu_type_flags_t(__attribute__((__stdcall__))* get_type_flags)(
       struct _cef_context_menu_params_t* self);
 
 
@@ -8474,7 +8571,7 @@ typedef struct _cef_context_menu_params_t {
 
 
 
-  cef_string_userfree_t(* get_link_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_link_url)(
       struct _cef_context_menu_params_t* self);
 
 
@@ -8482,7 +8579,7 @@ typedef struct _cef_context_menu_params_t {
 
 
 
-  cef_string_userfree_t(* get_unfiltered_link_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_unfiltered_link_url)(
       struct _cef_context_menu_params_t* self);
 
 
@@ -8490,36 +8587,14 @@ typedef struct _cef_context_menu_params_t {
 
 
 
-  cef_string_userfree_t(* get_source_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_source_url)(
       struct _cef_context_menu_params_t* self);
 
 
 
 
 
-  int(* has_image_contents)(
-      struct _cef_context_menu_params_t* self);
-
-
-
-
-
-
-  cef_string_userfree_t(* get_title_text)(
-      struct _cef_context_menu_params_t* self);
-
-
-
-
-
-  cef_string_userfree_t(* get_page_url)(
-      struct _cef_context_menu_params_t* self);
-
-
-
-
-
-  cef_string_userfree_t(* get_frame_url)(
+  int(__attribute__((__stdcall__))* has_image_contents)(
       struct _cef_context_menu_params_t* self);
 
 
@@ -8527,28 +8602,21 @@ typedef struct _cef_context_menu_params_t {
 
 
 
-  cef_string_userfree_t(* get_frame_charset)(
-      struct _cef_context_menu_params_t* self);
-
-
-
-
-  cef_context_menu_media_type_t(* get_media_type)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_title_text)(
       struct _cef_context_menu_params_t* self);
 
 
 
 
 
-  cef_context_menu_media_state_flags_t(* get_media_state_flags)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_page_url)(
       struct _cef_context_menu_params_t* self);
 
 
 
 
 
-
-  cef_string_userfree_t(* get_selection_text)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_frame_url)(
       struct _cef_context_menu_params_t* self);
 
 
@@ -8556,7 +8624,20 @@ typedef struct _cef_context_menu_params_t {
 
 
 
-  cef_string_userfree_t(* get_misspelled_word)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_frame_charset)(
+      struct _cef_context_menu_params_t* self);
+
+
+
+
+  cef_context_menu_media_type_t(__attribute__((__stdcall__))* get_media_type)(
+      struct _cef_context_menu_params_t* self);
+
+
+
+
+
+  cef_context_menu_media_state_flags_t(__attribute__((__stdcall__))* get_media_state_flags)(
       struct _cef_context_menu_params_t* self);
 
 
@@ -8564,27 +8645,43 @@ typedef struct _cef_context_menu_params_t {
 
 
 
-  int(* get_dictionary_suggestions)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_selection_text)(
+      struct _cef_context_menu_params_t* self);
+
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_misspelled_word)(
+      struct _cef_context_menu_params_t* self);
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* get_dictionary_suggestions)(
       struct _cef_context_menu_params_t* self,
       cef_string_list_t suggestions);
 
 
 
 
-  int(* is_editable)(struct _cef_context_menu_params_t* self);
+  int(__attribute__((__stdcall__))* is_editable)(struct _cef_context_menu_params_t* self);
 
 
 
 
 
-  int(* is_spell_check_enabled)(
+  int(__attribute__((__stdcall__))* is_spell_check_enabled)(
       struct _cef_context_menu_params_t* self);
 
 
 
 
 
-  cef_context_menu_edit_state_flags_t(* get_edit_state_flags)(
+  cef_context_menu_edit_state_flags_t(__attribute__((__stdcall__))* get_edit_state_flags)(
       struct _cef_context_menu_params_t* self);
 
 
@@ -8592,26 +8689,27 @@ typedef struct _cef_context_menu_params_t {
 
 
 
-  int(* is_custom_menu)(struct _cef_context_menu_params_t* self);
+  int(__attribute__((__stdcall__))* is_custom_menu)(struct _cef_context_menu_params_t* self);
 
 
 
 
-  int(* is_pepper_menu)(struct _cef_context_menu_params_t* self);
+  int(__attribute__((__stdcall__))* is_pepper_menu)(struct _cef_context_menu_params_t* self);
 } cef_context_menu_params_t;
+
 typedef struct _cef_file_dialog_callback_t {
 
 
 
   cef_base_ref_counted_t base;
-  void(* cont)(struct _cef_file_dialog_callback_t* self,
+  void(__attribute__((__stdcall__))* cont)(struct _cef_file_dialog_callback_t* self,
                            int selected_accept_filter,
                            cef_string_list_t file_paths);
 
 
 
 
-  void(* cancel)(struct _cef_file_dialog_callback_t* self);
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_file_dialog_callback_t* self);
 } cef_file_dialog_callback_t;
 
 
@@ -8623,7 +8721,7 @@ typedef struct _cef_dialog_handler_t {
 
 
   cef_base_ref_counted_t base;
-  int(* on_file_dialog)(
+  int(__attribute__((__stdcall__))* on_file_dialog)(
       struct _cef_dialog_handler_t* self,
       struct _cef_browser_t* browser,
       cef_file_dialog_mode_t mode,
@@ -8633,6 +8731,7 @@ typedef struct _cef_dialog_handler_t {
       int selected_accept_filter,
       struct _cef_file_dialog_callback_t* callback);
 } cef_dialog_handler_t;
+
 typedef struct _cef_display_handler_t {
 
 
@@ -8642,7 +8741,7 @@ typedef struct _cef_display_handler_t {
 
 
 
-  void(* on_address_change)(struct _cef_display_handler_t* self,
+  void(__attribute__((__stdcall__))* on_address_change)(struct _cef_display_handler_t* self,
                                         struct _cef_browser_t* browser,
                                         struct _cef_frame_t* frame,
                                         const cef_string_t* url);
@@ -8650,21 +8749,21 @@ typedef struct _cef_display_handler_t {
 
 
 
-  void(* on_title_change)(struct _cef_display_handler_t* self,
+  void(__attribute__((__stdcall__))* on_title_change)(struct _cef_display_handler_t* self,
                                       struct _cef_browser_t* browser,
                                       const cef_string_t* title);
 
 
 
 
-  void(* on_favicon_urlchange)(struct _cef_display_handler_t* self,
+  void(__attribute__((__stdcall__))* on_favicon_urlchange)(struct _cef_display_handler_t* self,
                                            struct _cef_browser_t* browser,
                                            cef_string_list_t icon_urls);
-  void(* on_fullscreen_mode_change)(
+  void(__attribute__((__stdcall__))* on_fullscreen_mode_change)(
       struct _cef_display_handler_t* self,
       struct _cef_browser_t* browser,
       int fullscreen);
-  int(* on_tooltip)(struct _cef_display_handler_t* self,
+  int(__attribute__((__stdcall__))* on_tooltip)(struct _cef_display_handler_t* self,
                                 struct _cef_browser_t* browser,
                                 cef_string_t* text);
 
@@ -8672,7 +8771,7 @@ typedef struct _cef_display_handler_t {
 
 
 
-  void(* on_status_message)(struct _cef_display_handler_t* self,
+  void(__attribute__((__stdcall__))* on_status_message)(struct _cef_display_handler_t* self,
                                         struct _cef_browser_t* browser,
                                         const cef_string_t* value);
 
@@ -8680,7 +8779,7 @@ typedef struct _cef_display_handler_t {
 
 
 
-  int(* on_console_message)(struct _cef_display_handler_t* self,
+  int(__attribute__((__stdcall__))* on_console_message)(struct _cef_display_handler_t* self,
                                         struct _cef_browser_t* browser,
                                         cef_log_severity_t level,
                                         const cef_string_t* message,
@@ -8693,10 +8792,15 @@ typedef struct _cef_display_handler_t {
 
 
 
-  int(* on_auto_resize)(struct _cef_display_handler_t* self,
+  int(__attribute__((__stdcall__))* on_auto_resize)(struct _cef_display_handler_t* self,
                                     struct _cef_browser_t* browser,
                                     const cef_size_t* new_size);
 } cef_display_handler_t;
+
+
+
+
+
 typedef struct _cef_download_item_t {
 
 
@@ -8707,109 +8811,101 @@ typedef struct _cef_download_item_t {
 
 
 
-  int(* is_valid)(struct _cef_download_item_t* self);
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_download_item_t* self);
 
 
 
 
-  int(* is_in_progress)(struct _cef_download_item_t* self);
+  int(__attribute__((__stdcall__))* is_in_progress)(struct _cef_download_item_t* self);
 
 
 
 
-  int(* is_complete)(struct _cef_download_item_t* self);
+  int(__attribute__((__stdcall__))* is_complete)(struct _cef_download_item_t* self);
 
 
 
 
-  int(* is_canceled)(struct _cef_download_item_t* self);
+  int(__attribute__((__stdcall__))* is_canceled)(struct _cef_download_item_t* self);
 
 
 
 
-  int64(* get_current_speed)(struct _cef_download_item_t* self);
-
-
-
-
-
-  int(* get_percent_complete)(struct _cef_download_item_t* self);
-
-
-
-
-  int64(* get_total_bytes)(struct _cef_download_item_t* self);
-
-
-
-
-  int64(* get_received_bytes)(struct _cef_download_item_t* self);
-
-
-
-
-  cef_time_t(* get_start_time)(struct _cef_download_item_t* self);
-
-
-
-
-  cef_time_t(* get_end_time)(struct _cef_download_item_t* self);
+  int64(__attribute__((__stdcall__))* get_current_speed)(struct _cef_download_item_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_full_path)(
+  int(__attribute__((__stdcall__))* get_percent_complete)(struct _cef_download_item_t* self);
+
+
+
+
+  int64(__attribute__((__stdcall__))* get_total_bytes)(struct _cef_download_item_t* self);
+
+
+
+
+  int64(__attribute__((__stdcall__))* get_received_bytes)(struct _cef_download_item_t* self);
+
+
+
+
+  cef_time_t(__attribute__((__stdcall__))* get_start_time)(struct _cef_download_item_t* self);
+
+
+
+
+  cef_time_t(__attribute__((__stdcall__))* get_end_time)(struct _cef_download_item_t* self);
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_full_path)(
       struct _cef_download_item_t* self);
 
 
 
 
-  uint32(* get_id)(struct _cef_download_item_t* self);
+  uint32(__attribute__((__stdcall__))* get_id)(struct _cef_download_item_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_url)(
-      struct _cef_download_item_t* self);
-
-
-
-
-
-  cef_string_userfree_t(* get_original_url)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_url)(
       struct _cef_download_item_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_suggested_file_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_original_url)(
       struct _cef_download_item_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_content_disposition)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_suggested_file_name)(
       struct _cef_download_item_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_mime_type)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_content_disposition)(
+      struct _cef_download_item_t* self);
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_mime_type)(
       struct _cef_download_item_t* self);
 } cef_download_item_t;
-
-
-
-
-
-
-
-
 typedef struct _cef_before_download_callback_t {
 
 
@@ -8822,7 +8918,7 @@ typedef struct _cef_before_download_callback_t {
 
 
 
-  void(* cont)(struct _cef_before_download_callback_t* self,
+  void(__attribute__((__stdcall__))* cont)(struct _cef_before_download_callback_t* self,
                            const cef_string_t* download_path,
                            int show_dialog);
 } cef_before_download_callback_t;
@@ -8839,17 +8935,17 @@ typedef struct _cef_download_item_callback_t {
 
 
 
-  void(* cancel)(struct _cef_download_item_callback_t* self);
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_download_item_callback_t* self);
 
 
 
 
-  void(* pause)(struct _cef_download_item_callback_t* self);
+  void(__attribute__((__stdcall__))* pause)(struct _cef_download_item_callback_t* self);
 
 
 
 
-  void(* resume)(struct _cef_download_item_callback_t* self);
+  void(__attribute__((__stdcall__))* resume)(struct _cef_download_item_callback_t* self);
 } cef_download_item_callback_t;
 
 
@@ -8861,18 +8957,19 @@ typedef struct _cef_download_handler_t {
 
 
   cef_base_ref_counted_t base;
-  void(* on_before_download)(
+  void(__attribute__((__stdcall__))* on_before_download)(
       struct _cef_download_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_download_item_t* download_item,
       const cef_string_t* suggested_name,
       struct _cef_before_download_callback_t* callback);
-  void(* on_download_updated)(
+  void(__attribute__((__stdcall__))* on_download_updated)(
       struct _cef_download_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_download_item_t* download_item,
       struct _cef_download_item_callback_t* callback);
 } cef_download_handler_t;
+
 typedef struct _cef_drag_handler_t {
 
 
@@ -8885,22 +8982,23 @@ typedef struct _cef_drag_handler_t {
 
 
 
-  int(* on_drag_enter)(struct _cef_drag_handler_t* self,
+  int(__attribute__((__stdcall__))* on_drag_enter)(struct _cef_drag_handler_t* self,
                                    struct _cef_browser_t* browser,
                                    struct _cef_drag_data_t* dragData,
                                    cef_drag_operations_mask_t mask);
-  void(* on_draggable_regions_changed)(
+  void(__attribute__((__stdcall__))* on_draggable_regions_changed)(
       struct _cef_drag_handler_t* self,
       struct _cef_browser_t* browser,
       size_t regionsCount,
       cef_draggable_region_t const* regions);
 } cef_drag_handler_t;
+
 typedef struct _cef_find_handler_t {
 
 
 
   cef_base_ref_counted_t base;
-  void(* on_find_result)(struct _cef_find_handler_t* self,
+  void(__attribute__((__stdcall__))* on_find_result)(struct _cef_find_handler_t* self,
                                      struct _cef_browser_t* browser,
                                      int identifier,
                                      int count,
@@ -8908,6 +9006,7 @@ typedef struct _cef_find_handler_t {
                                      int activeMatchOrdinal,
                                      int finalUpdate);
 } cef_find_handler_t;
+
 typedef struct _cef_focus_handler_t {
 
 
@@ -8920,7 +9019,7 @@ typedef struct _cef_focus_handler_t {
 
 
 
-  void(* on_take_focus)(struct _cef_focus_handler_t* self,
+  void(__attribute__((__stdcall__))* on_take_focus)(struct _cef_focus_handler_t* self,
                                     struct _cef_browser_t* browser,
                                     int next);
 
@@ -8929,16 +9028,17 @@ typedef struct _cef_focus_handler_t {
 
 
 
-  int(* on_set_focus)(struct _cef_focus_handler_t* self,
+  int(__attribute__((__stdcall__))* on_set_focus)(struct _cef_focus_handler_t* self,
                                   struct _cef_browser_t* browser,
                                   cef_focus_source_t source);
 
 
 
 
-  void(* on_got_focus)(struct _cef_focus_handler_t* self,
+  void(__attribute__((__stdcall__))* on_got_focus)(struct _cef_focus_handler_t* self,
                                    struct _cef_browser_t* browser);
 } cef_focus_handler_t;
+
 typedef struct _cef_geolocation_callback_t {
 
 
@@ -8948,7 +9048,7 @@ typedef struct _cef_geolocation_callback_t {
 
 
 
-  void(* cont)(struct _cef_geolocation_callback_t* self, int allow);
+  void(__attribute__((__stdcall__))* cont)(struct _cef_geolocation_callback_t* self, int allow);
 } cef_geolocation_callback_t;
 
 
@@ -8961,7 +9061,7 @@ typedef struct _cef_geolocation_handler_t {
 
 
   cef_base_ref_counted_t base;
-  int(* on_request_geolocation_permission)(
+  int(__attribute__((__stdcall__))* on_request_geolocation_permission)(
       struct _cef_geolocation_handler_t* self,
       struct _cef_browser_t* browser,
       const cef_string_t* requesting_url,
@@ -8972,11 +9072,12 @@ typedef struct _cef_geolocation_handler_t {
 
 
 
-  void(* on_cancel_geolocation_permission)(
+  void(__attribute__((__stdcall__))* on_cancel_geolocation_permission)(
       struct _cef_geolocation_handler_t* self,
       struct _cef_browser_t* browser,
       int request_id);
 } cef_geolocation_handler_t;
+
 typedef struct _cef_jsdialog_callback_t {
 
 
@@ -8987,7 +9088,7 @@ typedef struct _cef_jsdialog_callback_t {
 
 
 
-  void(* cont)(struct _cef_jsdialog_callback_t* self,
+  void(__attribute__((__stdcall__))* cont)(struct _cef_jsdialog_callback_t* self,
                            int success,
                            const cef_string_t* user_input);
 } cef_jsdialog_callback_t;
@@ -9001,7 +9102,7 @@ typedef struct _cef_jsdialog_handler_t {
 
 
   cef_base_ref_counted_t base;
-  int(* on_jsdialog)(struct _cef_jsdialog_handler_t* self,
+  int(__attribute__((__stdcall__))* on_jsdialog)(struct _cef_jsdialog_handler_t* self,
                                  struct _cef_browser_t* browser,
                                  const cef_string_t* origin_url,
                                  cef_jsdialog_type_t dialog_type,
@@ -9009,7 +9110,7 @@ typedef struct _cef_jsdialog_handler_t {
                                  const cef_string_t* default_prompt_text,
                                  struct _cef_jsdialog_callback_t* callback,
                                  int* suppress_message);
-  int(* on_before_unload_dialog)(
+  int(__attribute__((__stdcall__))* on_before_unload_dialog)(
       struct _cef_jsdialog_handler_t* self,
       struct _cef_browser_t* browser,
       const cef_string_t* message_text,
@@ -9021,25 +9122,48 @@ typedef struct _cef_jsdialog_handler_t {
 
 
 
-  void(* on_reset_dialog_state)(
+  void(__attribute__((__stdcall__))* on_reset_dialog_state)(
       struct _cef_jsdialog_handler_t* self,
       struct _cef_browser_t* browser);
 
 
 
 
-  void(* on_dialog_closed)(struct _cef_jsdialog_handler_t* self,
+  void(__attribute__((__stdcall__))* on_dialog_closed)(struct _cef_jsdialog_handler_t* self,
                                        struct _cef_browser_t* browser);
 } cef_jsdialog_handler_t;
+
+typedef unsigned int        UINT;
+typedef unsigned __int64 UINT_PTR, *PUINT_PTR;
+typedef UINT_PTR            WPARAM;
+typedef __int64 LONG_PTR, *PLONG_PTR;
+typedef LONG_PTR            LPARAM;
+typedef long LONG;
+typedef struct tagPOINT
+{
+    LONG  x;
+    LONG  y;
+} POINT;
+/*
+ * Message structure
+ */
+typedef struct tagMSG {
+    HWND        hwnd;
+    UINT        message;
+    WPARAM      wParam;
+    LPARAM      lParam;
+    DWORD       time;
+    POINT       pt;
+} MSG;
 typedef struct _cef_keyboard_handler_t {
 
 
 
   cef_base_ref_counted_t base;
-  int(* on_pre_key_event)(struct _cef_keyboard_handler_t* self,
+  int(__attribute__((__stdcall__))* on_pre_key_event)(struct _cef_keyboard_handler_t* self,
                                       struct _cef_browser_t* browser,
                                       const struct _cef_key_event_t* event,
-                                      void* os_event,
+                                      MSG* os_event,
                                       int* is_keyboard_shortcut);
 
 
@@ -9048,11 +9172,12 @@ typedef struct _cef_keyboard_handler_t {
 
 
 
-  int(* on_key_event)(struct _cef_keyboard_handler_t* self,
+  int(__attribute__((__stdcall__))* on_key_event)(struct _cef_keyboard_handler_t* self,
                                   struct _cef_browser_t* browser,
                                   const struct _cef_key_event_t* event,
-                                  void* os_event);
+                                  MSG* os_event);
 } cef_keyboard_handler_t;
+
 struct _cef_client_t;
 
 
@@ -9065,7 +9190,7 @@ typedef struct _cef_life_span_handler_t {
 
 
   cef_base_ref_counted_t base;
-  int(* on_before_popup)(
+  int(__attribute__((__stdcall__))* on_before_popup)(
       struct _cef_life_span_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -9083,15 +9208,18 @@ typedef struct _cef_life_span_handler_t {
 
 
 
-  void(* on_after_created)(struct _cef_life_span_handler_t* self,
+  void(__attribute__((__stdcall__))* on_after_created)(struct _cef_life_span_handler_t* self,
                                        struct _cef_browser_t* browser);
-  int(* do_close)(struct _cef_life_span_handler_t* self,
+  int(__attribute__((__stdcall__))* do_close)(struct _cef_life_span_handler_t* self,
                               struct _cef_browser_t* browser);
-  void(* on_before_close)(struct _cef_life_span_handler_t* self,
+  void(__attribute__((__stdcall__))* on_before_close)(struct _cef_life_span_handler_t* self,
                                       struct _cef_browser_t* browser);
 } cef_life_span_handler_t;
 
 
+
+struct HICON__{int unused;}; typedef struct HICON__ *HICON;
+typedef HICON HCURSOR;      /* HICONs & HCURSORs are polymorphic */
 typedef struct _cef_render_handler_t {
 
 
@@ -9102,14 +9230,14 @@ typedef struct _cef_render_handler_t {
 
 
 
-  struct _cef_accessibility_handler_t*(* get_accessibility_handler)(
+  struct _cef_accessibility_handler_t*(__attribute__((__stdcall__))* get_accessibility_handler)(
       struct _cef_render_handler_t* self);
 
 
 
 
 
-  int(* get_root_screen_rect)(struct _cef_render_handler_t* self,
+  int(__attribute__((__stdcall__))* get_root_screen_rect)(struct _cef_render_handler_t* self,
                                           struct _cef_browser_t* browser,
                                           cef_rect_t* rect);
 
@@ -9117,7 +9245,7 @@ typedef struct _cef_render_handler_t {
 
 
 
-  int(* get_view_rect)(struct _cef_render_handler_t* self,
+  int(__attribute__((__stdcall__))* get_view_rect)(struct _cef_render_handler_t* self,
                                    struct _cef_browser_t* browser,
                                    cef_rect_t* rect);
 
@@ -9125,13 +9253,13 @@ typedef struct _cef_render_handler_t {
 
 
 
-  int(* get_screen_point)(struct _cef_render_handler_t* self,
+  int(__attribute__((__stdcall__))* get_screen_point)(struct _cef_render_handler_t* self,
                                       struct _cef_browser_t* browser,
                                       int viewX,
                                       int viewY,
                                       int* screenX,
                                       int* screenY);
-  int(* get_screen_info)(struct _cef_render_handler_t* self,
+  int(__attribute__((__stdcall__))* get_screen_info)(struct _cef_render_handler_t* self,
                                      struct _cef_browser_t* browser,
                                      struct _cef_screen_info_t* screen_info);
 
@@ -9139,7 +9267,7 @@ typedef struct _cef_render_handler_t {
 
 
 
-  void(* on_popup_show)(struct _cef_render_handler_t* self,
+  void(__attribute__((__stdcall__))* on_popup_show)(struct _cef_render_handler_t* self,
                                     struct _cef_browser_t* browser,
                                     int show);
 
@@ -9147,10 +9275,10 @@ typedef struct _cef_render_handler_t {
 
 
 
-  void(* on_popup_size)(struct _cef_render_handler_t* self,
+  void(__attribute__((__stdcall__))* on_popup_size)(struct _cef_render_handler_t* self,
                                     struct _cef_browser_t* browser,
                                     const cef_rect_t* rect);
-  void(* on_paint)(struct _cef_render_handler_t* self,
+  void(__attribute__((__stdcall__))* on_paint)(struct _cef_render_handler_t* self,
                                struct _cef_browser_t* browser,
                                cef_paint_element_type_t type,
                                size_t dirtyRectsCount,
@@ -9163,13 +9291,13 @@ typedef struct _cef_render_handler_t {
 
 
 
-  void(* on_cursor_change)(
+  void(__attribute__((__stdcall__))* on_cursor_change)(
       struct _cef_render_handler_t* self,
       struct _cef_browser_t* browser,
-      void* cursor,
+      HCURSOR cursor,
       cef_cursor_type_t type,
       const struct _cef_cursor_info_t* custom_cursor_info);
-  int(* start_dragging)(struct _cef_render_handler_t* self,
+  int(__attribute__((__stdcall__))* start_dragging)(struct _cef_render_handler_t* self,
                                     struct _cef_browser_t* browser,
                                     struct _cef_drag_data_t* drag_data,
                                     cef_drag_operations_mask_t allowed_ops,
@@ -9181,14 +9309,14 @@ typedef struct _cef_render_handler_t {
 
 
 
-  void(* update_drag_cursor)(struct _cef_render_handler_t* self,
+  void(__attribute__((__stdcall__))* update_drag_cursor)(struct _cef_render_handler_t* self,
                                          struct _cef_browser_t* browser,
                                          cef_drag_operations_mask_t operation);
 
 
 
 
-  void(* on_scroll_offset_changed)(
+  void(__attribute__((__stdcall__))* on_scroll_offset_changed)(
       struct _cef_render_handler_t* self,
       struct _cef_browser_t* browser,
       double x,
@@ -9199,13 +9327,15 @@ typedef struct _cef_render_handler_t {
 
 
 
-  void(* on_ime_composition_range_changed)(
+  void(__attribute__((__stdcall__))* on_ime_composition_range_changed)(
       struct _cef_render_handler_t* self,
       struct _cef_browser_t* browser,
       const cef_range_t* selected_range,
       size_t character_boundsCount,
       cef_rect_t const* character_bounds);
 } cef_render_handler_t;
+
+
 typedef struct _cef_response_filter_t {
 
 
@@ -9216,8 +9346,8 @@ typedef struct _cef_response_filter_t {
 
 
 
-  int(* init_filter)(struct _cef_response_filter_t* self);
-  cef_response_filter_status_t(* filter)(
+  int(__attribute__((__stdcall__))* init_filter)(struct _cef_response_filter_t* self);
+  cef_response_filter_status_t(__attribute__((__stdcall__))* filter)(
       struct _cef_response_filter_t* self,
       void* data_in,
       size_t data_in_size,
@@ -9226,6 +9356,7 @@ typedef struct _cef_response_filter_t {
       size_t data_out_size,
       size_t* data_out_written);
 } cef_response_filter_t;
+
 typedef struct _cef_sslinfo_t {
 
 
@@ -9236,12 +9367,12 @@ typedef struct _cef_sslinfo_t {
 
 
 
-  cef_cert_status_t(* get_cert_status)(struct _cef_sslinfo_t* self);
+  cef_cert_status_t(__attribute__((__stdcall__))* get_cert_status)(struct _cef_sslinfo_t* self);
 
 
 
 
-  struct _cef_x509certificate_t*(* get_x509certificate)(
+  struct _cef_x509certificate_t*(__attribute__((__stdcall__))* get_x509certificate)(
       struct _cef_sslinfo_t* self);
 } cef_sslinfo_t;
 
@@ -9265,12 +9396,12 @@ typedef struct _cef_request_callback_t {
 
 
 
-  void(* cont)(struct _cef_request_callback_t* self, int allow);
+  void(__attribute__((__stdcall__))* cont)(struct _cef_request_callback_t* self, int allow);
 
 
 
 
-  void(* cancel)(struct _cef_request_callback_t* self);
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_request_callback_t* self);
 } cef_request_callback_t;
 
 
@@ -9286,7 +9417,7 @@ typedef struct _cef_select_client_certificate_callback_t {
 
 
 
-  void(* select)(
+  void(__attribute__((__stdcall__))* select)(
       struct _cef_select_client_certificate_callback_t* self,
       struct _cef_x509certificate_t* cert);
 } cef_select_client_certificate_callback_t;
@@ -9300,19 +9431,19 @@ typedef struct _cef_request_handler_t {
 
 
   cef_base_ref_counted_t base;
-  int(* on_before_browse)(struct _cef_request_handler_t* self,
+  int(__attribute__((__stdcall__))* on_before_browse)(struct _cef_request_handler_t* self,
                                       struct _cef_browser_t* browser,
                                       struct _cef_frame_t* frame,
                                       struct _cef_request_t* request,
                                       int is_redirect);
-  int(* on_open_urlfrom_tab)(
+  int(__attribute__((__stdcall__))* on_open_urlfrom_tab)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
       const cef_string_t* target_url,
       cef_window_open_disposition_t target_disposition,
       int user_gesture);
-  cef_return_value_t(* on_before_resource_load)(
+  cef_return_value_t(__attribute__((__stdcall__))* on_before_resource_load)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -9325,12 +9456,12 @@ typedef struct _cef_request_handler_t {
 
 
 
-  struct _cef_resource_handler_t*(* get_resource_handler)(
+  struct _cef_resource_handler_t*(__attribute__((__stdcall__))* get_resource_handler)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
       struct _cef_request_t* request);
-  void(* on_resource_redirect)(struct _cef_request_handler_t* self,
+  void(__attribute__((__stdcall__))* on_resource_redirect)(struct _cef_request_handler_t* self,
                                            struct _cef_browser_t* browser,
                                            struct _cef_frame_t* frame,
                                            struct _cef_request_t* request,
@@ -9343,7 +9474,7 @@ typedef struct _cef_request_handler_t {
 
 
 
-  int(* on_resource_response)(struct _cef_request_handler_t* self,
+  int(__attribute__((__stdcall__))* on_resource_response)(struct _cef_request_handler_t* self,
                                           struct _cef_browser_t* browser,
                                           struct _cef_frame_t* frame,
                                           struct _cef_request_t* request,
@@ -9354,7 +9485,7 @@ typedef struct _cef_request_handler_t {
 
 
 
-  struct _cef_response_filter_t*(* get_resource_response_filter)(
+  struct _cef_response_filter_t*(__attribute__((__stdcall__))* get_resource_response_filter)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -9367,7 +9498,7 @@ typedef struct _cef_request_handler_t {
 
 
 
-  void(* on_resource_load_complete)(
+  void(__attribute__((__stdcall__))* on_resource_load_complete)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -9375,7 +9506,7 @@ typedef struct _cef_request_handler_t {
       struct _cef_response_t* response,
       cef_urlrequest_status_t status,
       int64 received_content_length);
-  int(* get_auth_credentials)(
+  int(__attribute__((__stdcall__))* get_auth_credentials)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       struct _cef_frame_t* frame,
@@ -9392,7 +9523,7 @@ typedef struct _cef_request_handler_t {
 
 
 
-  int(* can_get_cookies)(struct _cef_request_handler_t* self,
+  int(__attribute__((__stdcall__))* can_get_cookies)(struct _cef_request_handler_t* self,
                                      struct _cef_browser_t* browser,
                                      struct _cef_frame_t* frame,
                                      struct _cef_request_t* request);
@@ -9403,28 +9534,28 @@ typedef struct _cef_request_handler_t {
 
 
 
-  int(* can_set_cookie)(struct _cef_request_handler_t* self,
+  int(__attribute__((__stdcall__))* can_set_cookie)(struct _cef_request_handler_t* self,
                                     struct _cef_browser_t* browser,
                                     struct _cef_frame_t* frame,
                                     struct _cef_request_t* request,
                                     const struct _cef_cookie_t* cookie);
-  int(* on_quota_request)(struct _cef_request_handler_t* self,
+  int(__attribute__((__stdcall__))* on_quota_request)(struct _cef_request_handler_t* self,
                                       struct _cef_browser_t* browser,
                                       const cef_string_t* origin_url,
                                       int64 new_size,
                                       struct _cef_request_callback_t* callback);
-  void(* on_protocol_execution)(struct _cef_request_handler_t* self,
+  void(__attribute__((__stdcall__))* on_protocol_execution)(struct _cef_request_handler_t* self,
                                             struct _cef_browser_t* browser,
                                             const cef_string_t* url,
                                             int* allow_os_execution);
-  int(* on_certificate_error)(
+  int(__attribute__((__stdcall__))* on_certificate_error)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       cef_errorcode_t cert_error,
       const cef_string_t* request_url,
       struct _cef_sslinfo_t* ssl_info,
       struct _cef_request_callback_t* callback);
-  int(* on_select_client_certificate)(
+  int(__attribute__((__stdcall__))* on_select_client_certificate)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       int isProxy,
@@ -9438,7 +9569,7 @@ typedef struct _cef_request_handler_t {
 
 
 
-  void(* on_plugin_crashed)(struct _cef_request_handler_t* self,
+  void(__attribute__((__stdcall__))* on_plugin_crashed)(struct _cef_request_handler_t* self,
                                         struct _cef_browser_t* browser,
                                         const cef_string_t* plugin_path);
 
@@ -9447,26 +9578,18 @@ typedef struct _cef_request_handler_t {
 
 
 
-  void(* on_render_view_ready)(struct _cef_request_handler_t* self,
+  void(__attribute__((__stdcall__))* on_render_view_ready)(struct _cef_request_handler_t* self,
                                            struct _cef_browser_t* browser);
 
 
 
 
 
-  void(* on_render_process_terminated)(
+  void(__attribute__((__stdcall__))* on_render_process_terminated)(
       struct _cef_request_handler_t* self,
       struct _cef_browser_t* browser,
       cef_termination_status_t status);
 } cef_request_handler_t;
-
-
-
-
-
-
-
-
 typedef struct _cef_client_t {
 
 
@@ -9477,102 +9600,103 @@ typedef struct _cef_client_t {
 
 
 
-  struct _cef_context_menu_handler_t*(* get_context_menu_handler)(
+  struct _cef_context_menu_handler_t*(__attribute__((__stdcall__))* get_context_menu_handler)(
       struct _cef_client_t* self);
 
 
 
 
 
-  struct _cef_dialog_handler_t*(* get_dialog_handler)(
+  struct _cef_dialog_handler_t*(__attribute__((__stdcall__))* get_dialog_handler)(
       struct _cef_client_t* self);
 
 
 
 
-  struct _cef_display_handler_t*(* get_display_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-
-  struct _cef_download_handler_t*(* get_download_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-  struct _cef_drag_handler_t*(* get_drag_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-  struct _cef_find_handler_t*(* get_find_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-  struct _cef_focus_handler_t*(* get_focus_handler)(
+  struct _cef_display_handler_t*(__attribute__((__stdcall__))* get_display_handler)(
       struct _cef_client_t* self);
 
 
 
 
 
-  struct _cef_geolocation_handler_t*(* get_geolocation_handler)(
+  struct _cef_download_handler_t*(__attribute__((__stdcall__))* get_download_handler)(
+      struct _cef_client_t* self);
+
+
+
+
+  struct _cef_drag_handler_t*(__attribute__((__stdcall__))* get_drag_handler)(
+      struct _cef_client_t* self);
+
+
+
+
+  struct _cef_find_handler_t*(__attribute__((__stdcall__))* get_find_handler)(
+      struct _cef_client_t* self);
+
+
+
+
+  struct _cef_focus_handler_t*(__attribute__((__stdcall__))* get_focus_handler)(
       struct _cef_client_t* self);
 
 
 
 
 
-  struct _cef_jsdialog_handler_t*(* get_jsdialog_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-  struct _cef_keyboard_handler_t*(* get_keyboard_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-  struct _cef_life_span_handler_t*(* get_life_span_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-  struct _cef_load_handler_t*(* get_load_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-  struct _cef_render_handler_t*(* get_render_handler)(
-      struct _cef_client_t* self);
-
-
-
-
-  struct _cef_request_handler_t*(* get_request_handler)(
+  struct _cef_geolocation_handler_t*(__attribute__((__stdcall__))* get_geolocation_handler)(
       struct _cef_client_t* self);
 
 
 
 
 
+  struct _cef_jsdialog_handler_t*(__attribute__((__stdcall__))* get_jsdialog_handler)(
+      struct _cef_client_t* self);
 
-  int(* on_process_message_received)(
+
+
+
+  struct _cef_keyboard_handler_t*(__attribute__((__stdcall__))* get_keyboard_handler)(
+      struct _cef_client_t* self);
+
+
+
+
+  struct _cef_life_span_handler_t*(__attribute__((__stdcall__))* get_life_span_handler)(
+      struct _cef_client_t* self);
+
+
+
+
+  struct _cef_load_handler_t*(__attribute__((__stdcall__))* get_load_handler)(
+      struct _cef_client_t* self);
+
+
+
+
+  struct _cef_render_handler_t*(__attribute__((__stdcall__))* get_render_handler)(
+      struct _cef_client_t* self);
+
+
+
+
+  struct _cef_request_handler_t*(__attribute__((__stdcall__))* get_request_handler)(
+      struct _cef_client_t* self);
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* on_process_message_received)(
       struct _cef_client_t* self,
       struct _cef_browser_t* browser,
       cef_process_id_t source_process,
       struct _cef_process_message_t* message);
 } cef_client_t;
+
 
 
 
@@ -9583,6 +9707,7 @@ __attribute__((visibility("default"))) int cef_crash_reporting_enabled();
 
 __attribute__((visibility("default"))) void cef_set_crash_key_value(const cef_string_t* key,
                                         const cef_string_t* value);
+
 __attribute__((visibility("default"))) int cef_create_directory(const cef_string_t* full_path);
 __attribute__((visibility("default"))) int cef_get_temp_directory(cef_string_t* temp_dir);
 __attribute__((visibility("default"))) int cef_create_new_temp_directory(const cef_string_t* prefix,
@@ -9612,6 +9737,7 @@ __attribute__((visibility("default"))) void cef_load_crlsets_file(const cef_stri
 
 
 
+
 typedef struct _cef_get_geolocation_callback_t {
 
 
@@ -9622,7 +9748,7 @@ typedef struct _cef_get_geolocation_callback_t {
 
 
 
-  void(* on_location_update)(
+  void(__attribute__((__stdcall__))* on_location_update)(
       struct _cef_get_geolocation_callback_t* self,
       const struct _cef_geoposition_t* position);
 } cef_get_geolocation_callback_t;
@@ -9633,6 +9759,7 @@ typedef struct _cef_get_geolocation_callback_t {
 
 
 __attribute__((visibility("default"))) int cef_get_geolocation(cef_get_geolocation_callback_t* callback);
+
 __attribute__((visibility("default"))) int cef_add_cross_origin_whitelist_entry(
     const cef_string_t* source_origin,
     const cef_string_t* target_protocol,
@@ -9654,6 +9781,7 @@ __attribute__((visibility("default"))) int cef_remove_cross_origin_whitelist_ent
 
 
 __attribute__((visibility("default"))) int cef_clear_cross_origin_whitelist();
+
 __attribute__((visibility("default"))) int cef_parse_url(const cef_string_t* url,
                              struct _cef_urlparts_t* parts);
 
@@ -9732,11 +9860,14 @@ __attribute__((visibility("default"))) struct _cef_value_t* cef_parse_jsonand_re
 
 __attribute__((visibility("default"))) cef_string_userfree_t
 cef_write_json(struct _cef_value_t* node, cef_json_writer_options_t options);
+
 __attribute__((visibility("default"))) int cef_get_path(cef_path_key_t key, cef_string_t* path);
 
 
 
+
 __attribute__((visibility("default"))) int cef_launch_process(struct _cef_command_line_t* command_line);
+
 
 
 
@@ -9755,14 +9886,14 @@ typedef struct _cef_resource_bundle_t {
 
 
 
-  cef_string_userfree_t(* get_localized_string)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_localized_string)(
       struct _cef_resource_bundle_t* self,
       int string_id);
-  int(* get_data_resource)(struct _cef_resource_bundle_t* self,
+  int(__attribute__((__stdcall__))* get_data_resource)(struct _cef_resource_bundle_t* self,
                                        int resource_id,
                                        void** data,
                                        size_t* data_size);
-  int(* get_data_resource_for_scale)(
+  int(__attribute__((__stdcall__))* get_data_resource_for_scale)(
       struct _cef_resource_bundle_t* self,
       int resource_id,
       cef_scale_factor_t scale_factor,
@@ -9779,6 +9910,7 @@ __attribute__((visibility("default"))) cef_resource_bundle_t* cef_resource_bundl
 
 
 
+
 struct _cef_server_handler_t;
 typedef struct _cef_server_t {
 
@@ -9789,7 +9921,7 @@ typedef struct _cef_server_t {
 
 
 
-  struct _cef_task_runner_t*(* get_task_runner)(
+  struct _cef_task_runner_t*(__attribute__((__stdcall__))* get_task_runner)(
       struct _cef_server_t* self);
 
 
@@ -9797,7 +9929,7 @@ typedef struct _cef_server_t {
 
 
 
-  void(* shutdown)(struct _cef_server_t* self);
+  void(__attribute__((__stdcall__))* shutdown)(struct _cef_server_t* self);
 
 
 
@@ -9805,27 +9937,27 @@ typedef struct _cef_server_t {
 
 
 
-  int(* is_running)(struct _cef_server_t* self);
+  int(__attribute__((__stdcall__))* is_running)(struct _cef_server_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_address)(struct _cef_server_t* self);
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_address)(struct _cef_server_t* self);
 
 
 
 
 
-  int(* has_connection)(struct _cef_server_t* self);
+  int(__attribute__((__stdcall__))* has_connection)(struct _cef_server_t* self);
 
 
 
 
 
-  int(* is_valid_connection)(struct _cef_server_t* self,
+  int(__attribute__((__stdcall__))* is_valid_connection)(struct _cef_server_t* self,
                                          int connection_id);
-  void(* send_http200response)(struct _cef_server_t* self,
+  void(__attribute__((__stdcall__))* send_http200response)(struct _cef_server_t* self,
                                            int connection_id,
                                            const cef_string_t* content_type,
                                            const void* data,
@@ -9836,7 +9968,7 @@ typedef struct _cef_server_t {
 
 
 
-  void(* send_http404response)(struct _cef_server_t* self,
+  void(__attribute__((__stdcall__))* send_http404response)(struct _cef_server_t* self,
                                            int connection_id);
 
 
@@ -9845,16 +9977,16 @@ typedef struct _cef_server_t {
 
 
 
-  void(* send_http500response)(struct _cef_server_t* self,
+  void(__attribute__((__stdcall__))* send_http500response)(struct _cef_server_t* self,
                                            int connection_id,
                                            const cef_string_t* error_message);
-  void(* send_http_response)(struct _cef_server_t* self,
+  void(__attribute__((__stdcall__))* send_http_response)(struct _cef_server_t* self,
                                          int connection_id,
                                          int response_code,
                                          const cef_string_t* content_type,
                                          int64 content_length,
                                          cef_string_multimap_t extra_headers);
-  void(* send_raw_data)(struct _cef_server_t* self,
+  void(__attribute__((__stdcall__))* send_raw_data)(struct _cef_server_t* self,
                                     int connection_id,
                                     const void* data,
                                     size_t data_size);
@@ -9863,7 +9995,7 @@ typedef struct _cef_server_t {
 
 
 
-  void(* close_connection)(struct _cef_server_t* self,
+  void(__attribute__((__stdcall__))* close_connection)(struct _cef_server_t* self,
                                        int connection_id);
 
 
@@ -9872,7 +10004,7 @@ typedef struct _cef_server_t {
 
 
 
-  void(* send_web_socket_message)(struct _cef_server_t* self,
+  void(__attribute__((__stdcall__))* send_web_socket_message)(struct _cef_server_t* self,
                                               int connection_id,
                                               const void* data,
                                               size_t data_size);
@@ -9886,7 +10018,7 @@ typedef struct _cef_server_handler_t {
 
 
   cef_base_ref_counted_t base;
-  void(* on_server_created)(struct _cef_server_handler_t* self,
+  void(__attribute__((__stdcall__))* on_server_created)(struct _cef_server_handler_t* self,
                                         struct _cef_server_t* server);
 
 
@@ -9895,7 +10027,7 @@ typedef struct _cef_server_handler_t {
 
 
 
-  void(* on_server_destroyed)(struct _cef_server_handler_t* self,
+  void(__attribute__((__stdcall__))* on_server_destroyed)(struct _cef_server_handler_t* self,
                                           struct _cef_server_t* server);
 
 
@@ -9903,18 +10035,18 @@ typedef struct _cef_server_handler_t {
 
 
 
-  void(* on_client_connected)(struct _cef_server_handler_t* self,
+  void(__attribute__((__stdcall__))* on_client_connected)(struct _cef_server_handler_t* self,
                                           struct _cef_server_t* server,
                                           int connection_id);
-  void(* on_client_disconnected)(struct _cef_server_handler_t* self,
+  void(__attribute__((__stdcall__))* on_client_disconnected)(struct _cef_server_handler_t* self,
                                              struct _cef_server_t* server,
                                              int connection_id);
-  void(* on_http_request)(struct _cef_server_handler_t* self,
+  void(__attribute__((__stdcall__))* on_http_request)(struct _cef_server_handler_t* self,
                                       struct _cef_server_t* server,
                                       int connection_id,
                                       const cef_string_t* client_address,
                                       struct _cef_request_t* request);
-  void(* on_web_socket_request)(struct _cef_server_handler_t* self,
+  void(__attribute__((__stdcall__))* on_web_socket_request)(struct _cef_server_handler_t* self,
                                             struct _cef_server_t* server,
                                             int connection_id,
                                             const cef_string_t* client_address,
@@ -9926,11 +10058,11 @@ typedef struct _cef_server_handler_t {
 
 
 
-  void(* on_web_socket_connected)(
+  void(__attribute__((__stdcall__))* on_web_socket_connected)(
       struct _cef_server_handler_t* self,
       struct _cef_server_t* server,
       int connection_id);
-  void(* on_web_socket_message)(struct _cef_server_handler_t* self,
+  void(__attribute__((__stdcall__))* on_web_socket_message)(struct _cef_server_handler_t* self,
                                             struct _cef_server_t* server,
                                             int connection_id,
                                             const void* data,
@@ -9943,28 +10075,18 @@ typedef struct _cef_server_handler_t {
 
 
 
-// typedef pid_t cef_platform_thread_id_t;
 
 
 
 
 
-
-// __attribute__((visibility("default"))) cef_platform_thread_id_t cef_get_current_platform_thread_id();
-
-
+typedef DWORD cef_platform_thread_id_t;
+__attribute__((visibility("default"))) cef_platform_thread_id_t cef_get_current_platform_thread_id();
 
 
-
-// typedef pthread_t cef_platform_thread_handle_t;
-
-
-
-
-
-
-// __attribute__((visibility("default"))) cef_platform_thread_handle_t
-// cef_get_current_platform_thread_handle();
+typedef DWORD cef_platform_thread_handle_t;
+__attribute__((visibility("default"))) cef_platform_thread_handle_t
+cef_get_current_platform_thread_handle();
 typedef struct _cef_thread_t {
 
 
@@ -9975,28 +10097,28 @@ typedef struct _cef_thread_t {
 
 
 
-  struct _cef_task_runner_t*(* get_task_runner)(
+  struct _cef_task_runner_t*(__attribute__((__stdcall__))* get_task_runner)(
       struct _cef_thread_t* self);
 
 
 
 
 
-  // cef_platform_thread_id_t(* get_platform_thread_id)(
-  //     struct _cef_thread_t* self);
+  cef_platform_thread_id_t(__attribute__((__stdcall__))* get_platform_thread_id)(
+      struct _cef_thread_t* self);
 
 
 
 
 
 
-  void(* stop)(struct _cef_thread_t* self);
+  void(__attribute__((__stdcall__))* stop)(struct _cef_thread_t* self);
 
 
 
 
 
-  int(* is_running)(struct _cef_thread_t* self);
+  int(__attribute__((__stdcall__))* is_running)(struct _cef_thread_t* self);
 } cef_thread_t;
 __attribute__((visibility("default"))) cef_thread_t* cef_thread_create(
     const cef_string_t* display_name,
@@ -10004,6 +10126,7 @@ __attribute__((visibility("default"))) cef_thread_t* cef_thread_create(
     cef_message_loop_type_t message_loop_type,
     int stoppable,
     cef_com_init_mode_t com_init_mode);
+
 typedef struct _cef_end_tracing_callback_t {
 
 
@@ -10015,7 +10138,7 @@ typedef struct _cef_end_tracing_callback_t {
 
 
 
-  void(* on_end_tracing_complete)(
+  void(__attribute__((__stdcall__))* on_end_tracing_complete)(
       struct _cef_end_tracing_callback_t* self,
       const cef_string_t* tracing_file);
 } cef_end_tracing_callback_t;
@@ -10030,6 +10153,7 @@ __attribute__((visibility("default"))) int cef_end_tracing(const cef_string_t* t
 
 
 __attribute__((visibility("default"))) int64 cef_now_from_system_trace_time();
+
 struct _cef_urlrequest_client_t;
 typedef struct _cef_urlrequest_t {
 
@@ -10041,46 +10165,46 @@ typedef struct _cef_urlrequest_t {
 
 
 
-  struct _cef_request_t*(* get_request)(
+  struct _cef_request_t*(__attribute__((__stdcall__))* get_request)(
       struct _cef_urlrequest_t* self);
 
 
 
 
-  struct _cef_urlrequest_client_t*(* get_client)(
+  struct _cef_urlrequest_client_t*(__attribute__((__stdcall__))* get_client)(
       struct _cef_urlrequest_t* self);
 
 
 
 
-  cef_urlrequest_status_t(* get_request_status)(
-      struct _cef_urlrequest_t* self);
-
-
-
-
-
-  cef_errorcode_t(* get_request_error)(
+  cef_urlrequest_status_t(__attribute__((__stdcall__))* get_request_status)(
       struct _cef_urlrequest_t* self);
 
 
 
 
 
-
-  struct _cef_response_t*(* get_response)(
+  cef_errorcode_t(__attribute__((__stdcall__))* get_request_error)(
       struct _cef_urlrequest_t* self);
 
 
 
 
 
-  int(* response_was_cached)(struct _cef_urlrequest_t* self);
+
+  struct _cef_response_t*(__attribute__((__stdcall__))* get_response)(
+      struct _cef_urlrequest_t* self);
 
 
 
 
-  void(* cancel)(struct _cef_urlrequest_t* self);
+
+  int(__attribute__((__stdcall__))* response_was_cached)(struct _cef_urlrequest_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* cancel)(struct _cef_urlrequest_t* self);
 } cef_urlrequest_t;
 __attribute__((visibility("default"))) cef_urlrequest_t* cef_urlrequest_create(
     struct _cef_request_t* request,
@@ -10103,7 +10227,7 @@ typedef struct _cef_urlrequest_client_t {
 
 
 
-  void(* on_request_complete)(struct _cef_urlrequest_client_t* self,
+  void(__attribute__((__stdcall__))* on_request_complete)(struct _cef_urlrequest_client_t* self,
                                           struct _cef_urlrequest_t* request);
 
 
@@ -10112,7 +10236,7 @@ typedef struct _cef_urlrequest_client_t {
 
 
 
-  void(* on_upload_progress)(struct _cef_urlrequest_client_t* self,
+  void(__attribute__((__stdcall__))* on_upload_progress)(struct _cef_urlrequest_client_t* self,
                                          struct _cef_urlrequest_t* request,
                                          int64 current,
                                          int64 total);
@@ -10122,7 +10246,7 @@ typedef struct _cef_urlrequest_client_t {
 
 
 
-  void(* on_download_progress)(
+  void(__attribute__((__stdcall__))* on_download_progress)(
       struct _cef_urlrequest_client_t* self,
       struct _cef_urlrequest_t* request,
       int64 current,
@@ -10133,11 +10257,11 @@ typedef struct _cef_urlrequest_client_t {
 
 
 
-  void(* on_download_data)(struct _cef_urlrequest_client_t* self,
+  void(__attribute__((__stdcall__))* on_download_data)(struct _cef_urlrequest_client_t* self,
                                        struct _cef_urlrequest_t* request,
                                        const void* data,
                                        size_t data_length);
-  int(* get_auth_credentials)(
+  int(__attribute__((__stdcall__))* get_auth_credentials)(
       struct _cef_urlrequest_client_t* self,
       int isProxy,
       const cef_string_t* host,
@@ -10146,6 +10270,7 @@ typedef struct _cef_urlrequest_client_t {
       const cef_string_t* scheme,
       struct _cef_auth_callback_t* callback);
 } cef_urlrequest_client_t;
+
 
 
 typedef struct _cef_waitable_event_t {
@@ -10157,33 +10282,34 @@ typedef struct _cef_waitable_event_t {
 
 
 
-  void(* reset)(struct _cef_waitable_event_t* self);
+  void(__attribute__((__stdcall__))* reset)(struct _cef_waitable_event_t* self);
 
 
 
 
 
-  void(* signal)(struct _cef_waitable_event_t* self);
-
-
-
-
-
-
-  int(* is_signaled)(struct _cef_waitable_event_t* self);
+  void(__attribute__((__stdcall__))* signal)(struct _cef_waitable_event_t* self);
 
 
 
 
 
 
-  void(* wait)(struct _cef_waitable_event_t* self);
-  int(* timed_wait)(struct _cef_waitable_event_t* self,
+  int(__attribute__((__stdcall__))* is_signaled)(struct _cef_waitable_event_t* self);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* wait)(struct _cef_waitable_event_t* self);
+  int(__attribute__((__stdcall__))* timed_wait)(struct _cef_waitable_event_t* self,
                                 int64 max_ms);
 } cef_waitable_event_t;
 __attribute__((visibility("default"))) cef_waitable_event_t* cef_waitable_event_create(
     int automatic_reset,
     int initially_signaled);
+
 
 
 typedef struct _cef_xml_reader_t {
@@ -10197,24 +10323,24 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  int(* move_to_next_node)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* move_to_next_node)(struct _cef_xml_reader_t* self);
 
 
 
 
 
-  int(* close)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* close)(struct _cef_xml_reader_t* self);
 
 
 
 
-  int(* has_error)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* has_error)(struct _cef_xml_reader_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_error)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_error)(
       struct _cef_xml_reader_t* self);
 
 
@@ -10223,19 +10349,19 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_xml_node_type_t(* get_type)(struct _cef_xml_reader_t* self);
+  cef_xml_node_type_t(__attribute__((__stdcall__))* get_type)(struct _cef_xml_reader_t* self);
 
 
 
 
-  int(* get_depth)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* get_depth)(struct _cef_xml_reader_t* self);
 
 
 
 
 
 
-  cef_string_userfree_t(* get_local_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_local_name)(
       struct _cef_xml_reader_t* self);
 
 
@@ -10243,7 +10369,7 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_string_userfree_t(* get_prefix)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_prefix)(
       struct _cef_xml_reader_t* self);
 
 
@@ -10251,7 +10377,7 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_string_userfree_t(* get_qualified_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_qualified_name)(
       struct _cef_xml_reader_t* self);
 
 
@@ -10259,7 +10385,7 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_string_userfree_t(* get_namespace_uri)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_namespace_uri)(
       struct _cef_xml_reader_t* self);
 
 
@@ -10267,7 +10393,7 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_string_userfree_t(* get_base_uri)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_base_uri)(
       struct _cef_xml_reader_t* self);
 
 
@@ -10275,42 +10401,42 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_string_userfree_t(* get_xml_lang)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_xml_lang)(
       struct _cef_xml_reader_t* self);
 
 
 
 
 
-  int(* is_empty_element)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* is_empty_element)(struct _cef_xml_reader_t* self);
 
 
 
 
-  int(* has_value)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* has_value)(struct _cef_xml_reader_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_value)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_value)(
       struct _cef_xml_reader_t* self);
 
 
 
 
-  int(* has_attributes)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* has_attributes)(struct _cef_xml_reader_t* self);
 
 
 
 
-  size_t(* get_attribute_count)(struct _cef_xml_reader_t* self);
+  size_t(__attribute__((__stdcall__))* get_attribute_count)(struct _cef_xml_reader_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_attribute_byindex)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_attribute_byindex)(
       struct _cef_xml_reader_t* self,
       int index);
 
@@ -10318,7 +10444,7 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_string_userfree_t(* get_attribute_byqname)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_attribute_byqname)(
       struct _cef_xml_reader_t* self,
       const cef_string_t* qualifiedName);
 
@@ -10327,7 +10453,7 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_string_userfree_t(* get_attribute_bylname)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_attribute_bylname)(
       struct _cef_xml_reader_t* self,
       const cef_string_t* localName,
       const cef_string_t* namespaceURI);
@@ -10336,28 +10462,28 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  cef_string_userfree_t(* get_inner_xml)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_inner_xml)(
       struct _cef_xml_reader_t* self);
 
 
 
 
 
-  cef_string_userfree_t(* get_outer_xml)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_outer_xml)(
       struct _cef_xml_reader_t* self);
 
 
 
 
-  int(* get_line_number)(struct _cef_xml_reader_t* self);
-  int(* move_to_attribute_byindex)(struct _cef_xml_reader_t* self,
+  int(__attribute__((__stdcall__))* get_line_number)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* move_to_attribute_byindex)(struct _cef_xml_reader_t* self,
                                                int index);
 
 
 
 
 
-  int(* move_to_attribute_byqname)(
+  int(__attribute__((__stdcall__))* move_to_attribute_byqname)(
       struct _cef_xml_reader_t* self,
       const cef_string_t* qualifiedName);
 
@@ -10366,7 +10492,7 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  int(* move_to_attribute_bylname)(
+  int(__attribute__((__stdcall__))* move_to_attribute_bylname)(
       struct _cef_xml_reader_t* self,
       const cef_string_t* localName,
       const cef_string_t* namespaceURI);
@@ -10375,19 +10501,19 @@ typedef struct _cef_xml_reader_t {
 
 
 
-  int(* move_to_first_attribute)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* move_to_first_attribute)(struct _cef_xml_reader_t* self);
 
 
 
 
 
-  int(* move_to_next_attribute)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* move_to_next_attribute)(struct _cef_xml_reader_t* self);
 
 
 
 
 
-  int(* move_to_carrying_element)(struct _cef_xml_reader_t* self);
+  int(__attribute__((__stdcall__))* move_to_carrying_element)(struct _cef_xml_reader_t* self);
 } cef_xml_reader_t;
 
 
@@ -10398,6 +10524,7 @@ __attribute__((visibility("default"))) cef_xml_reader_t* cef_xml_reader_create(
     struct _cef_stream_reader_t* stream,
     cef_xml_encoding_type_t encodingType,
     const cef_string_t* URI);
+
 typedef struct _cef_zip_reader_t {
 
 
@@ -10408,20 +10535,20 @@ typedef struct _cef_zip_reader_t {
 
 
 
-  int(* move_to_first_file)(struct _cef_zip_reader_t* self);
+  int(__attribute__((__stdcall__))* move_to_first_file)(struct _cef_zip_reader_t* self);
 
 
 
 
 
-  int(* move_to_next_file)(struct _cef_zip_reader_t* self);
+  int(__attribute__((__stdcall__))* move_to_next_file)(struct _cef_zip_reader_t* self);
 
 
 
 
 
 
-  int(* move_to_file)(struct _cef_zip_reader_t* self,
+  int(__attribute__((__stdcall__))* move_to_file)(struct _cef_zip_reader_t* self,
                                   const cef_string_t* fileName,
                                   int caseSensitive);
 
@@ -10429,7 +10556,7 @@ typedef struct _cef_zip_reader_t {
 
 
 
-  int(* close)(struct _cef_zip_reader_t* self);
+  int(__attribute__((__stdcall__))* close)(struct _cef_zip_reader_t* self);
 
 
 
@@ -10437,49 +10564,49 @@ typedef struct _cef_zip_reader_t {
 
 
 
-  cef_string_userfree_t(* get_file_name)(
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_file_name)(
       struct _cef_zip_reader_t* self);
 
 
 
 
-  int64(* get_file_size)(struct _cef_zip_reader_t* self);
+  int64(__attribute__((__stdcall__))* get_file_size)(struct _cef_zip_reader_t* self);
 
 
 
 
-  cef_time_t(* get_file_last_modified)(
+  cef_time_t(__attribute__((__stdcall__))* get_file_last_modified)(
       struct _cef_zip_reader_t* self);
 
 
 
 
 
-  int(* open_file)(struct _cef_zip_reader_t* self,
+  int(__attribute__((__stdcall__))* open_file)(struct _cef_zip_reader_t* self,
                                const cef_string_t* password);
 
 
 
 
-  int(* close_file)(struct _cef_zip_reader_t* self);
+  int(__attribute__((__stdcall__))* close_file)(struct _cef_zip_reader_t* self);
 
 
 
 
 
-  int(* read_file)(struct _cef_zip_reader_t* self,
+  int(__attribute__((__stdcall__))* read_file)(struct _cef_zip_reader_t* self,
                                void* buffer,
                                size_t bufferSize);
 
 
 
 
-  int64(* tell)(struct _cef_zip_reader_t* self);
+  int64(__attribute__((__stdcall__))* tell)(struct _cef_zip_reader_t* self);
 
 
 
 
-  int(* eof)(struct _cef_zip_reader_t* self);
+  int(__attribute__((__stdcall__))* eof)(struct _cef_zip_reader_t* self);
 } cef_zip_reader_t;
 
 
@@ -10488,3 +10615,1612 @@ typedef struct _cef_zip_reader_t {
 
 __attribute__((visibility("default"))) cef_zip_reader_t* cef_zip_reader_create(
     struct _cef_stream_reader_t* stream);
+
+
+
+
+
+
+
+
+
+
+struct _cef_box_layout_t;
+struct _cef_fill_layout_t;
+
+
+
+
+
+
+typedef struct _cef_layout_t {
+
+
+
+  cef_base_ref_counted_t base;
+
+
+
+
+  struct _cef_box_layout_t*(__attribute__((__stdcall__))* as_box_layout)(
+      struct _cef_layout_t* self);
+
+
+
+
+  struct _cef_fill_layout_t*(__attribute__((__stdcall__))* as_fill_layout)(
+      struct _cef_layout_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_layout_t* self);
+} cef_layout_t;
+
+
+
+
+
+struct _cef_view_t;
+typedef struct _cef_box_layout_t {
+
+
+
+  cef_layout_t base;
+  void(__attribute__((__stdcall__))* set_flex_for_view)(struct _cef_box_layout_t* self,
+                                        struct _cef_view_t* view,
+                                        int flex);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* clear_flex_for_view)(struct _cef_box_layout_t* self,
+                                          struct _cef_view_t* view);
+} cef_box_layout_t;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+struct _cef_view_t;
+
+
+
+
+
+
+typedef struct _cef_view_delegate_t {
+
+
+
+  cef_base_ref_counted_t base;
+
+
+
+
+
+  cef_size_t(__attribute__((__stdcall__))* get_preferred_size)(
+      struct _cef_view_delegate_t* self,
+      struct _cef_view_t* view);
+
+
+
+
+  cef_size_t(__attribute__((__stdcall__))* get_minimum_size)(struct _cef_view_delegate_t* self,
+                                             struct _cef_view_t* view);
+
+
+
+
+  cef_size_t(__attribute__((__stdcall__))* get_maximum_size)(struct _cef_view_delegate_t* self,
+                                             struct _cef_view_t* view);
+
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* get_height_for_width)(struct _cef_view_delegate_t* self,
+                                          struct _cef_view_t* view,
+                                          int width);
+  void(__attribute__((__stdcall__))* on_parent_view_changed)(struct _cef_view_delegate_t* self,
+                                             struct _cef_view_t* view,
+                                             int added,
+                                             struct _cef_view_t* parent);
+  void(__attribute__((__stdcall__))* on_child_view_changed)(struct _cef_view_delegate_t* self,
+                                            struct _cef_view_t* view,
+                                            int added,
+                                            struct _cef_view_t* child);
+
+
+
+
+  void(__attribute__((__stdcall__))* on_focus)(struct _cef_view_delegate_t* self,
+                               struct _cef_view_t* view);
+
+
+
+
+  void(__attribute__((__stdcall__))* on_blur)(struct _cef_view_delegate_t* self,
+                              struct _cef_view_t* view);
+} cef_view_delegate_t;
+
+
+
+
+
+struct _cef_browser_t;
+struct _cef_browser_view_t;
+
+
+
+
+
+
+typedef struct _cef_browser_view_delegate_t {
+
+
+
+  cef_view_delegate_t base;
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* on_browser_created)(
+      struct _cef_browser_view_delegate_t* self,
+      struct _cef_browser_view_t* browser_view,
+      struct _cef_browser_t* browser);
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* on_browser_destroyed)(
+      struct _cef_browser_view_delegate_t* self,
+      struct _cef_browser_view_t* browser_view,
+      struct _cef_browser_t* browser);
+  struct _cef_browser_view_delegate_t*(
+      __attribute__((__stdcall__))* get_delegate_for_popup_browser_view)(
+      struct _cef_browser_view_delegate_t* self,
+      struct _cef_browser_view_t* browser_view,
+      const struct _cef_browser_settings_t* settings,
+      struct _cef_client_t* client,
+      int is_devtools);
+  int(__attribute__((__stdcall__))* on_popup_browser_view_created)(
+      struct _cef_browser_view_delegate_t* self,
+      struct _cef_browser_view_t* browser_view,
+      struct _cef_browser_view_t* popup_browser_view,
+      int is_devtools);
+} cef_browser_view_delegate_t;
+
+
+
+
+
+
+
+
+struct _cef_browser_view_t;
+struct _cef_button_t;
+struct _cef_panel_t;
+struct _cef_scroll_view_t;
+struct _cef_textfield_t;
+struct _cef_window_t;
+
+
+
+
+
+
+
+typedef struct _cef_view_t {
+
+
+
+  cef_base_ref_counted_t base;
+
+
+
+
+  struct _cef_browser_view_t*(__attribute__((__stdcall__))* as_browser_view)(
+      struct _cef_view_t* self);
+
+
+
+
+  struct _cef_button_t*(__attribute__((__stdcall__))* as_button)(struct _cef_view_t* self);
+
+
+
+
+  struct _cef_panel_t*(__attribute__((__stdcall__))* as_panel)(struct _cef_view_t* self);
+
+
+
+
+  struct _cef_scroll_view_t*(__attribute__((__stdcall__))* as_scroll_view)(
+      struct _cef_view_t* self);
+
+
+
+
+  struct _cef_textfield_t*(__attribute__((__stdcall__))* as_textfield)(
+      struct _cef_view_t* self);
+
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_type_string)(
+      struct _cef_view_t* self);
+  cef_string_userfree_t(__attribute__((__stdcall__))* to_string)(struct _cef_view_t* self,
+                                                 int include_children);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_valid)(struct _cef_view_t* self);
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_attached)(struct _cef_view_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_same)(struct _cef_view_t* self,
+                             struct _cef_view_t* that);
+
+
+
+
+  struct _cef_view_delegate_t*(__attribute__((__stdcall__))* get_delegate)(
+      struct _cef_view_t* self);
+
+
+
+
+  struct _cef_window_t*(__attribute__((__stdcall__))* get_window)(struct _cef_view_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* get_id)(struct _cef_view_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_id)(struct _cef_view_t* self, int id);
+
+
+
+
+  int(__attribute__((__stdcall__))* get_group_id)(struct _cef_view_t* self);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_group_id)(struct _cef_view_t* self, int group_id);
+
+
+
+
+  struct _cef_view_t*(__attribute__((__stdcall__))* get_parent_view)(struct _cef_view_t* self);
+
+
+
+
+
+
+  struct _cef_view_t*(__attribute__((__stdcall__))* get_view_for_id)(struct _cef_view_t* self,
+                                                     int id);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_bounds)(struct _cef_view_t* self,
+                                 const cef_rect_t* bounds);
+
+
+
+
+
+  cef_rect_t(__attribute__((__stdcall__))* get_bounds)(struct _cef_view_t* self);
+
+
+
+
+
+  cef_rect_t(__attribute__((__stdcall__))* get_bounds_in_screen)(struct _cef_view_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_size)(struct _cef_view_t* self,
+                               const cef_size_t* size);
+
+
+
+
+  cef_size_t(__attribute__((__stdcall__))* get_size)(struct _cef_view_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_position)(struct _cef_view_t* self,
+                                   const cef_point_t* position);
+
+
+
+
+  cef_point_t(__attribute__((__stdcall__))* get_position)(struct _cef_view_t* self);
+
+
+
+
+  cef_size_t(__attribute__((__stdcall__))* get_preferred_size)(struct _cef_view_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* size_to_preferred_size)(struct _cef_view_t* self);
+
+
+
+
+  cef_size_t(__attribute__((__stdcall__))* get_minimum_size)(struct _cef_view_t* self);
+
+
+
+
+  cef_size_t(__attribute__((__stdcall__))* get_maximum_size)(struct _cef_view_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* get_height_for_width)(struct _cef_view_t* self, int width);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* invalidate_layout)(struct _cef_view_t* self);
+  void(__attribute__((__stdcall__))* set_visible)(struct _cef_view_t* self, int visible);
+  int(__attribute__((__stdcall__))* is_visible)(struct _cef_view_t* self);
+  int(__attribute__((__stdcall__))* is_drawn)(struct _cef_view_t* self);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_enabled)(struct _cef_view_t* self, int enabled);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_enabled)(struct _cef_view_t* self);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_focusable)(struct _cef_view_t* self, int focusable);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_focusable)(struct _cef_view_t* self);
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_accessibility_focusable)(struct _cef_view_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* request_focus)(struct _cef_view_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_background_color)(struct _cef_view_t* self,
+                                           cef_color_t color);
+
+
+
+
+  cef_color_t(__attribute__((__stdcall__))* get_background_color)(struct _cef_view_t* self);
+  int(__attribute__((__stdcall__))* convert_point_to_screen)(struct _cef_view_t* self,
+                                             cef_point_t* point);
+  int(__attribute__((__stdcall__))* convert_point_from_screen)(struct _cef_view_t* self,
+                                               cef_point_t* point);
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* convert_point_to_window)(struct _cef_view_t* self,
+                                             cef_point_t* point);
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* convert_point_from_window)(struct _cef_view_t* self,
+                                               cef_point_t* point);
+
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* convert_point_to_view)(struct _cef_view_t* self,
+                                           struct _cef_view_t* view,
+                                           cef_point_t* point);
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* convert_point_from_view)(struct _cef_view_t* self,
+                                             struct _cef_view_t* view,
+                                             cef_point_t* point);
+} cef_view_t;
+typedef struct _cef_browser_view_t {
+
+
+
+  cef_view_t base;
+
+
+
+
+
+  struct _cef_browser_t*(__attribute__((__stdcall__))* get_browser)(
+      struct _cef_browser_view_t* self);
+  void(__attribute__((__stdcall__))* set_prefer_accelerators)(struct _cef_browser_view_t* self,
+                                              int prefer_accelerators);
+} cef_browser_view_t;
+
+
+
+
+
+__attribute__((visibility("default"))) cef_browser_view_t* cef_browser_view_create(
+    struct _cef_client_t* client,
+    const cef_string_t* url,
+    const struct _cef_browser_settings_t* settings,
+    struct _cef_request_context_t* request_context,
+    struct _cef_browser_view_delegate_t* delegate);
+
+
+
+
+__attribute__((visibility("default"))) cef_browser_view_t* cef_browser_view_get_for_browser(
+    struct _cef_browser_t* browser);
+
+
+
+
+
+
+
+
+
+struct _cef_label_button_t;
+
+
+
+
+
+
+typedef struct _cef_button_t {
+
+
+
+  cef_view_t base;
+
+
+
+
+  struct _cef_label_button_t*(__attribute__((__stdcall__))* as_label_button)(
+      struct _cef_button_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_state)(struct _cef_button_t* self,
+                                cef_button_state_t state);
+
+
+
+
+  cef_button_state_t(__attribute__((__stdcall__))* get_state)(struct _cef_button_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_ink_drop_enabled)(struct _cef_button_t* self,
+                                           int enabled);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_tooltip_text)(struct _cef_button_t* self,
+                                       const cef_string_t* tooltip_text);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_accessible_name)(struct _cef_button_t* self,
+                                          const cef_string_t* name);
+} cef_button_t;
+
+
+
+
+
+
+
+
+struct _cef_button_t;
+
+
+
+
+
+
+typedef struct _cef_button_delegate_t {
+
+
+
+  cef_view_delegate_t base;
+
+
+
+
+  void(__attribute__((__stdcall__))* on_button_pressed)(struct _cef_button_delegate_t* self,
+                                        struct _cef_button_t* button);
+
+
+
+
+  void(__attribute__((__stdcall__))* on_button_state_changed)(
+      struct _cef_button_delegate_t* self,
+      struct _cef_button_t* button);
+} cef_button_delegate_t;
+
+typedef struct _cef_display_t {
+
+
+
+  cef_base_ref_counted_t base;
+
+
+
+
+  int64(__attribute__((__stdcall__))* get_id)(struct _cef_display_t* self);
+
+
+
+
+
+
+
+  float(__attribute__((__stdcall__))* get_device_scale_factor)(struct _cef_display_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* convert_point_to_pixels)(struct _cef_display_t* self,
+                                              cef_point_t* point);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* convert_point_from_pixels)(struct _cef_display_t* self,
+                                                cef_point_t* point);
+
+
+
+
+  cef_rect_t(__attribute__((__stdcall__))* get_bounds)(struct _cef_display_t* self);
+
+
+
+
+
+  cef_rect_t(__attribute__((__stdcall__))* get_work_area)(struct _cef_display_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* get_rotation)(struct _cef_display_t* self);
+} cef_display_t;
+
+
+
+
+__attribute__((visibility("default"))) cef_display_t* cef_display_get_primary();
+
+
+
+
+
+__attribute__((visibility("default"))) cef_display_t* cef_display_get_nearest_point(
+    const cef_point_t* point,
+    int input_pixel_coords);
+
+
+
+
+
+
+__attribute__((visibility("default"))) cef_display_t* cef_display_get_matching_bounds(
+    const cef_rect_t* bounds,
+    int input_pixel_coords);
+
+
+
+
+
+__attribute__((visibility("default"))) size_t cef_display_get_count();
+
+
+
+
+
+__attribute__((visibility("default"))) void cef_display_get_alls(size_t* displaysCount,
+                                     cef_display_t** displays);
+
+typedef struct _cef_fill_layout_t {
+
+
+
+  cef_layout_t base;
+} cef_fill_layout_t;
+
+struct _cef_menu_button_t;
+
+
+
+
+
+typedef struct _cef_label_button_t {
+
+
+
+  cef_button_t base;
+
+
+
+
+
+  struct _cef_menu_button_t*(__attribute__((__stdcall__))* as_menu_button)(
+      struct _cef_label_button_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_text)(struct _cef_label_button_t* self,
+                               const cef_string_t* text);
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_text)(
+      struct _cef_label_button_t* self);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_image)(struct _cef_label_button_t* self,
+                                cef_button_state_t button_state,
+                                struct _cef_image_t* image);
+
+
+
+
+
+  struct _cef_image_t*(__attribute__((__stdcall__))* get_image)(
+      struct _cef_label_button_t* self,
+      cef_button_state_t button_state);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_text_color)(struct _cef_label_button_t* self,
+                                     cef_button_state_t for_state,
+                                     cef_color_t color);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_enabled_text_colors)(struct _cef_label_button_t* self,
+                                              cef_color_t color);
+  void(__attribute__((__stdcall__))* set_font_list)(struct _cef_label_button_t* self,
+                                    const cef_string_t* font_list);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_horizontal_alignment)(
+      struct _cef_label_button_t* self,
+      cef_horizontal_alignment_t alignment);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_minimum_size)(struct _cef_label_button_t* self,
+                                       const cef_size_t* size);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_maximum_size)(struct _cef_label_button_t* self,
+                                       const cef_size_t* size);
+} cef_label_button_t;
+__attribute__((visibility("default"))) cef_label_button_t* cef_label_button_create(
+    struct _cef_button_delegate_t* delegate,
+    const cef_string_t* text,
+    int with_frame);
+
+
+
+
+
+
+
+
+
+
+
+
+
+struct _cef_menu_button_t;
+
+
+
+
+typedef struct _cef_menu_button_pressed_lock_t {
+
+
+
+  cef_base_ref_counted_t base;
+} cef_menu_button_pressed_lock_t;
+
+
+
+
+
+
+typedef struct _cef_menu_button_delegate_t {
+
+
+
+  cef_button_delegate_t base;
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* on_menu_button_pressed)(
+      struct _cef_menu_button_delegate_t* self,
+      struct _cef_menu_button_t* menu_button,
+      const cef_point_t* screen_point,
+      struct _cef_menu_button_pressed_lock_t* button_pressed_lock);
+} cef_menu_button_delegate_t;
+typedef struct _cef_menu_button_t {
+
+
+
+  cef_label_button_t base;
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* show_menu)(struct _cef_menu_button_t* self,
+                                struct _cef_menu_model_t* menu_model,
+                                const cef_point_t* screen_point,
+                                cef_menu_anchor_position_t anchor_position);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* trigger_menu)(struct _cef_menu_button_t* self);
+} cef_menu_button_t;
+__attribute__((visibility("default"))) cef_menu_button_t* cef_menu_button_create(
+    struct _cef_menu_button_delegate_t* delegate,
+    const cef_string_t* text,
+    int with_frame,
+    int with_menu_marker);
+
+
+
+
+typedef struct _cef_panel_delegate_t {
+
+
+
+  cef_view_delegate_t base;
+} cef_panel_delegate_t;
+
+
+
+
+
+
+struct _cef_box_layout_t;
+struct _cef_fill_layout_t;
+struct _cef_layout_t;
+struct _cef_window_t;
+
+
+
+
+
+
+typedef struct _cef_panel_t {
+
+
+
+  cef_view_t base;
+
+
+
+
+  struct _cef_window_t*(__attribute__((__stdcall__))* as_window)(struct _cef_panel_t* self);
+
+
+
+
+  struct _cef_fill_layout_t*(__attribute__((__stdcall__))* set_to_fill_layout)(
+      struct _cef_panel_t* self);
+
+
+
+
+  struct _cef_box_layout_t*(__attribute__((__stdcall__))* set_to_box_layout)(
+      struct _cef_panel_t* self,
+      const struct _cef_box_layout_settings_t* settings);
+
+
+
+
+  struct _cef_layout_t*(__attribute__((__stdcall__))* get_layout)(struct _cef_panel_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* layout)(struct _cef_panel_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* add_child_view)(struct _cef_panel_t* self,
+                                     struct _cef_view_t* view);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* add_child_view_at)(struct _cef_panel_t* self,
+                                        struct _cef_view_t* view,
+                                        int index);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* reorder_child_view)(struct _cef_panel_t* self,
+                                         struct _cef_view_t* view,
+                                         int index);
+
+
+
+
+  void(__attribute__((__stdcall__))* remove_child_view)(struct _cef_panel_t* self,
+                                        struct _cef_view_t* view);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* remove_all_child_views)(struct _cef_panel_t* self);
+
+
+
+
+  size_t(__attribute__((__stdcall__))* get_child_view_count)(struct _cef_panel_t* self);
+
+
+
+
+  struct _cef_view_t*(
+      __attribute__((__stdcall__))* get_child_view_at)(struct _cef_panel_t* self, int index);
+} cef_panel_t;
+
+
+
+
+__attribute__((visibility("default"))) cef_panel_t* cef_panel_create(
+    struct _cef_panel_delegate_t* delegate);
+
+
+typedef struct _cef_scroll_view_t {
+
+
+
+  cef_view_t base;
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_content_view)(struct _cef_scroll_view_t* self,
+                                       struct _cef_view_t* view);
+
+
+
+
+  struct _cef_view_t*(__attribute__((__stdcall__))* get_content_view)(
+      struct _cef_scroll_view_t* self);
+
+
+
+
+  cef_rect_t(__attribute__((__stdcall__))* get_visible_content_rect)(
+      struct _cef_scroll_view_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* has_horizontal_scrollbar)(struct _cef_scroll_view_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* get_horizontal_scrollbar_height)(
+      struct _cef_scroll_view_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* has_vertical_scrollbar)(struct _cef_scroll_view_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* get_vertical_scrollbar_width)(
+      struct _cef_scroll_view_t* self);
+} cef_scroll_view_t;
+
+
+
+
+__attribute__((visibility("default"))) cef_scroll_view_t* cef_scroll_view_create(
+    struct _cef_view_delegate_t* delegate);
+
+
+
+
+
+
+
+
+
+
+struct _cef_textfield_t;
+
+
+
+
+
+
+typedef struct _cef_textfield_delegate_t {
+
+
+
+  cef_view_delegate_t base;
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* on_key_event)(struct _cef_textfield_delegate_t* self,
+                                  struct _cef_textfield_t* textfield,
+                                  const struct _cef_key_event_t* event);
+
+
+
+
+  void(__attribute__((__stdcall__))* on_after_user_action)(
+      struct _cef_textfield_delegate_t* self,
+      struct _cef_textfield_t* textfield);
+} cef_textfield_delegate_t;
+typedef struct _cef_textfield_t {
+
+
+
+  cef_view_t base;
+
+
+
+
+  void(__attribute__((__stdcall__))* set_password_input)(struct _cef_textfield_t* self,
+                                         int password_input);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_password_input)(struct _cef_textfield_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_read_only)(struct _cef_textfield_t* self,
+                                    int read_only);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_read_only)(struct _cef_textfield_t* self);
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_text)(struct _cef_textfield_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_text)(struct _cef_textfield_t* self,
+                               const cef_string_t* text);
+
+
+
+
+  void(__attribute__((__stdcall__))* append_text)(struct _cef_textfield_t* self,
+                                  const cef_string_t* text);
+
+
+
+
+  void(__attribute__((__stdcall__))* insert_or_replace_text)(struct _cef_textfield_t* self,
+                                             const cef_string_t* text);
+
+
+
+
+  int(__attribute__((__stdcall__))* has_selection)(struct _cef_textfield_t* self);
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_selected_text)(
+      struct _cef_textfield_t* self);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* select_all)(struct _cef_textfield_t* self, int reversed);
+
+
+
+
+  void(__attribute__((__stdcall__))* clear_selection)(struct _cef_textfield_t* self);
+
+
+
+
+  cef_range_t(__attribute__((__stdcall__))* get_selected_range)(struct _cef_textfield_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* select_range)(struct _cef_textfield_t* self,
+                                   const cef_range_t* range);
+
+
+
+
+  size_t(__attribute__((__stdcall__))* get_cursor_position)(struct _cef_textfield_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_text_color)(struct _cef_textfield_t* self,
+                                     cef_color_t color);
+
+
+
+
+  cef_color_t(__attribute__((__stdcall__))* get_text_color)(struct _cef_textfield_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_selection_text_color)(struct _cef_textfield_t* self,
+                                               cef_color_t color);
+
+
+
+
+  cef_color_t(__attribute__((__stdcall__))* get_selection_text_color)(
+      struct _cef_textfield_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_selection_background_color)(
+      struct _cef_textfield_t* self,
+      cef_color_t color);
+
+
+
+
+  cef_color_t(__attribute__((__stdcall__))* get_selection_background_color)(
+      struct _cef_textfield_t* self);
+  void(__attribute__((__stdcall__))* set_font_list)(struct _cef_textfield_t* self,
+                                    const cef_string_t* font_list);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* apply_text_color)(struct _cef_textfield_t* self,
+                                       cef_color_t color,
+                                       const cef_range_t* range);
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* apply_text_style)(struct _cef_textfield_t* self,
+                                       cef_text_style_t style,
+                                       int add,
+                                       const cef_range_t* range);
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_command_enabled)(struct _cef_textfield_t* self,
+                                        int command_id);
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* execute_command)(struct _cef_textfield_t* self,
+                                      int command_id);
+
+
+
+
+  void(__attribute__((__stdcall__))* clear_edit_history)(struct _cef_textfield_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_placeholder_text)(struct _cef_textfield_t* self,
+                                           const cef_string_t* text);
+
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_placeholder_text)(
+      struct _cef_textfield_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_placeholder_text_color)(struct _cef_textfield_t* self,
+                                                 cef_color_t color);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_accessible_name)(struct _cef_textfield_t* self,
+                                          const cef_string_t* name);
+} cef_textfield_t;
+
+
+
+
+__attribute__((visibility("default"))) cef_textfield_t* cef_textfield_create(
+    struct _cef_textfield_delegate_t* delegate);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+struct _cef_window_t;
+
+
+
+
+
+
+typedef struct _cef_window_delegate_t {
+
+
+
+  cef_panel_delegate_t base;
+
+
+
+
+  void(__attribute__((__stdcall__))* on_window_created)(struct _cef_window_delegate_t* self,
+                                        struct _cef_window_t* window);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* on_window_destroyed)(struct _cef_window_delegate_t* self,
+                                          struct _cef_window_t* window);
+  struct _cef_window_t*(__attribute__((__stdcall__))* get_parent_window)(
+      struct _cef_window_delegate_t* self,
+      struct _cef_window_t* window,
+      int* is_menu,
+      int* can_activate_menu);
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_frameless)(struct _cef_window_delegate_t* self,
+                                  struct _cef_window_t* window);
+
+
+
+
+  int(__attribute__((__stdcall__))* can_resize)(struct _cef_window_delegate_t* self,
+                                struct _cef_window_t* window);
+
+
+
+
+  int(__attribute__((__stdcall__))* can_maximize)(struct _cef_window_delegate_t* self,
+                                  struct _cef_window_t* window);
+
+
+
+
+  int(__attribute__((__stdcall__))* can_minimize)(struct _cef_window_delegate_t* self,
+                                  struct _cef_window_t* window);
+
+
+
+
+
+  int(__attribute__((__stdcall__))* can_close)(struct _cef_window_delegate_t* self,
+                               struct _cef_window_t* window);
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* on_accelerator)(struct _cef_window_delegate_t* self,
+                                    struct _cef_window_t* window,
+                                    int command_id);
+
+
+
+
+
+
+  int(__attribute__((__stdcall__))* on_key_event)(struct _cef_window_delegate_t* self,
+                                  struct _cef_window_t* window,
+                                  const struct _cef_key_event_t* event);
+} cef_window_delegate_t;
+typedef struct _cef_window_t {
+
+
+
+  cef_panel_t base;
+
+
+
+
+  void(__attribute__((__stdcall__))* show)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* hide)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* center_window)(struct _cef_window_t* self,
+                                    const cef_size_t* size);
+
+
+
+
+  void(__attribute__((__stdcall__))* close)(struct _cef_window_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_closed)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* activate)(struct _cef_window_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* deactivate)(struct _cef_window_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_active)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* bring_to_top)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_always_on_top)(struct _cef_window_t* self, int on_top);
+
+
+
+
+
+  int(__attribute__((__stdcall__))* is_always_on_top)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* maximize)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* minimize)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* restore)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_fullscreen)(struct _cef_window_t* self,
+                                     int fullscreen);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_maximized)(struct _cef_window_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_minimized)(struct _cef_window_t* self);
+
+
+
+
+  int(__attribute__((__stdcall__))* is_fullscreen)(struct _cef_window_t* self);
+
+
+
+
+  void(__attribute__((__stdcall__))* set_title)(struct _cef_window_t* self,
+                                const cef_string_t* title);
+
+
+
+
+
+  cef_string_userfree_t(__attribute__((__stdcall__))* get_title)(struct _cef_window_t* self);
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_window_icon)(struct _cef_window_t* self,
+                                      struct _cef_image_t* image);
+
+
+
+
+  struct _cef_image_t*(__attribute__((__stdcall__))* get_window_icon)(
+      struct _cef_window_t* self);
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_window_app_icon)(struct _cef_window_t* self,
+                                          struct _cef_image_t* image);
+
+
+
+
+  struct _cef_image_t*(__attribute__((__stdcall__))* get_window_app_icon)(
+      struct _cef_window_t* self);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* show_menu)(struct _cef_window_t* self,
+                                struct _cef_menu_model_t* menu_model,
+                                const cef_point_t* screen_point,
+                                cef_menu_anchor_position_t anchor_position);
+
+
+
+
+  void(__attribute__((__stdcall__))* cancel_menu)(struct _cef_window_t* self);
+
+
+
+
+
+  struct _cef_display_t*(__attribute__((__stdcall__))* get_display)(struct _cef_window_t* self);
+
+
+
+
+
+  cef_rect_t(__attribute__((__stdcall__))* get_client_area_bounds_in_screen)(
+      struct _cef_window_t* self);
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_draggable_regions)(
+      struct _cef_window_t* self,
+      size_t regionsCount,
+      cef_draggable_region_t const* regions);
+
+
+
+
+  HWND(__attribute__((__stdcall__))* get_window_handle)(
+      struct _cef_window_t* self);
+  void(__attribute__((__stdcall__))* send_key_press)(struct _cef_window_t* self,
+                                     int key_code,
+                                     uint32 event_flags);
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* send_mouse_move)(struct _cef_window_t* self,
+                                      int screen_x,
+                                      int screen_y);
+  void(__attribute__((__stdcall__))* send_mouse_events)(struct _cef_window_t* self,
+                                        cef_mouse_button_type_t button,
+                                        int mouse_down,
+                                        int mouse_up);
+
+
+
+
+
+
+
+  void(__attribute__((__stdcall__))* set_accelerator)(struct _cef_window_t* self,
+                                      int command_id,
+                                      int key_code,
+                                      int shift_pressed,
+                                      int ctrl_pressed,
+                                      int alt_pressed);
+
+
+
+
+  void(__attribute__((__stdcall__))* remove_accelerator)(struct _cef_window_t* self,
+                                         int command_id);
+
+
+
+
+  void(__attribute__((__stdcall__))* remove_all_accelerators)(struct _cef_window_t* self);
+} cef_window_t;
+
+
+
+
+__attribute__((visibility("default"))) cef_window_t* cef_window_create_top_level(
+    struct _cef_window_delegate_t* delegate);
