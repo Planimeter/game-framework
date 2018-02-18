@@ -353,6 +353,8 @@ __attribute__((visibility("default"))) int cef_time_delta(const cef_time_t* cef_
 
 
 
+struct HINSTANCE__{int unused;}; typedef struct HINSTANCE__ *HINSTANCE;
+typedef HINSTANCE HMODULE;
 ///
 // Structure representing CefExecuteProcess arguments.
 ///
