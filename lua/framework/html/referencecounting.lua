@@ -6,7 +6,6 @@
 
 require( "class" )
 local ffi = require( "ffi" )
-local cef = require( "cef" )
 
 class( "framework.html.browser" )
 

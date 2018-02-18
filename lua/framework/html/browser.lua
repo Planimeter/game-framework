@@ -4,9 +4,15 @@
 --
 --============================================================================--
 
+jit.off()
+
 require( "class" )
+require( "framework.graphics.image" )
 local ffi = require( "ffi" )
 local cef = require( "cef" )
+local GL  = require( "opengl" )
+
+local image = framework.graphics.image
 
 class( "framework.html.browser" )
 
@@ -18,7 +24,11 @@ local function toutf16( s )
 	return value
 end
 
-function browser:browser( url )
+function browser:browser( url, width, height )
+	if ( not width and not height ) then
+		width, height = framework.graphics.getSize()
+	end
+
 	require( "framework.html.referencecounting" )
 	require( "framework.html.client" )
 	require( "framework.html.lifespan" )
@@ -49,6 +59,15 @@ function browser:browser( url )
 
 	self:initializeClient()
 	self:initializeLifeSpanHandler()
+
+	self.texture = ffi.new( "GLuint[1]" )
+	GL.glGenTextures( 1, self.texture )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
+	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
+	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
+
+	self.width  = width
+	self.height = height
 	self:initializeRenderHandler()
 
 	cef.cef_browser_host_create_browser( self.windowInfo, self.client,
@@ -59,7 +78,9 @@ function browser:browser( url )
 end
 
 function browser:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+	image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
 function browser:__gc()
+	GL.glDeleteTextures( 1, self.texture )
 end

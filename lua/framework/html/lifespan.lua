@@ -17,9 +17,9 @@ local function on_before_close( self, browser )
 end
 
 function browser:initializeLifeSpanHandler()
-	local handler = ffi.new( "cef_life_span_handler_t" )
+	local handler     = ffi.new( "cef_life_span_handler_t" )
 	handler.base.size = ffi.sizeof( handler )
 	self:implementRefCounting( handler )
 	handler.on_before_close = on_before_close
-	self.lifeSpanHandler = handler
+	self.lifeSpanHandler    = handler
 end
