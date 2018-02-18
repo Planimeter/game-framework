@@ -26,8 +26,7 @@ function browser:browser( url )
 	g_render_handler    = ffi.new( "cef_render_handler_t" )
 
 	local main_args = ffi.new( "cef_main_args_t" )
-
-	local app = ffi.new( "cef_app_t" )
+	local app       = ffi.new( "cef_app_t" )
 
 	local settings        = ffi.new( "cef_settings_t" )
 	settings.size         = ffi.sizeof( settings )
