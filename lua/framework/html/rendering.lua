@@ -18,16 +18,18 @@ local function get_view_rect( self, browser, rect )
 	return 1
 end
 
-local function on_paint(
-	self,
-	browser,
-	type,
-	dirtyRectsCount,
-	dirtyRects,
-	buffer,
-	width,
-	height
-)
+local function on_paint( self )
+	return function(
+		self,
+		browser,
+		type,
+		dirtyRectsCount,
+		dirtyRects,
+		buffer,
+		width,
+		height
+	)
+	end
 end
 
 function browser:initializeRenderHandler()
@@ -35,6 +37,6 @@ function browser:initializeRenderHandler()
 	handler.base.size = ffi.sizeof( handler )
 	initialize_cef_base_ref_counted( handler )
 	handler.get_view_rect = get_view_rect
-	handler.on_paint = on_paint
-	browser._renderHandler = handler
+	handler.on_paint = on_paint( self )
+	self.renderHandler = handler
 end

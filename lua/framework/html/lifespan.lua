@@ -21,5 +21,5 @@ function browser:initializeLifeSpanHandler()
 	handler.base.size = ffi.sizeof( handler )
 	self:implementRefCounting( handler )
 	handler.on_before_close = on_before_close
-	browser._lifeSpanHandler = handler
+	self.lifeSpanHandler = handler
 end
