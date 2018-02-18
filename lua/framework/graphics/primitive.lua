@@ -40,16 +40,16 @@ function rectangle( mode, x, y, width, height, cornerRadius )
 		local vertices = { x + width / 2, y + height / 2 }
 		local angleDelta = 1 / segmentsPerCorner * math.pi / 2
 		local cornerCenterVerts = {
-			x + width - cornerRadius, 	y + height - cornerRadius,
-			x + cornerRadius, 			y + height - cornerRadius,
-			x + cornerRadius, 			y + cornerRadius,
-			x + width - cornerRadius, 	y + cornerRadius
+			x + width - cornerRadius, y + height - cornerRadius,
+			x + cornerRadius,         y + height - cornerRadius,
+			x + cornerRadius,         y + cornerRadius,
+			x + width - cornerRadius, y + cornerRadius
 		}
-		for corner=0,3 do
+		for corner=0, 3 do
 			local angle = corner * math.pi / 2
 			local cornerCenterX = cornerCenterVerts[ corner * 2 + 1 ]
 			local cornerCenterY = cornerCenterVerts[ corner * 2 + 2 ]
-			for s = 1, segmentsPerCorner do 
+			for s = 1, segmentsPerCorner do
 				vertices[ #vertices+1 ] = cornerCenterX + math.cos( angle ) * cornerRadius
 				vertices[ #vertices+1 ] = cornerCenterY + math.sin( angle ) * cornerRadius
 				angle = angle + angleDelta
@@ -60,7 +60,7 @@ function rectangle( mode, x, y, width, height, cornerRadius )
 		mode = mode == "fill" and GL.GL_TRIANGLE_FAN or mode
 		polygon( mode, vertices )
 		return
-	end 
+	end
 	local vertices = {
 		x,         y + height,
 		x + width, y + height,
