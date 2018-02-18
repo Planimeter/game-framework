@@ -21,39 +21,39 @@ end
 function browser:browser( url )
 	require( "framework.html.referencecounting" )
 	require( "framework.html.client" )
-	require( "test.cef_life_span_handler" )
-	require( "test.cef_render_handler" )
+	require( "framework.html.lifespan" )
+	require( "framework.html.rendering" )
 
-	g_life_span_handler = ffi.new( "cef_life_span_handler_t" )
-	g_render_handler    = ffi.new( "cef_render_handler_t" )
-
-	local main_args = ffi.new( "cef_main_args_t" )
-	local app       = ffi.new( "cef_app_t" )
-
+	self.mainArgs         = ffi.new( "cef_main_args_t" )
+	self.app              = ffi.new( "cef_app_t" )
 	local settings        = ffi.new( "cef_settings_t" )
 	settings.size         = ffi.sizeof( settings )
 	settings.log_severity = ffi.C.LOGSEVERITY_WARNING
 	settings.no_sandbox   = 1
+	self.settings         = settings
 
 	local browser_subprocess_path    = "cef.exe"
 	settings.browser_subprocess_path = toutf16( browser_subprocess_path )
 
-	cef.cef_initialize( main_args, settings, app, nil )
+	cef.cef_initialize( self.mainArgs, self.settings, self.app, nil )
 
-	local window_info = ffi.new( "cef_window_info_t" )
-	window_info.width = 0x80000000
-	window_info.height = 0x80000000
-	window_info.windowless_rendering_enabled = 1
+	local windowInfo  = ffi.new( "cef_window_info_t" )
+	windowInfo.width  = 0x80000000
+	windowInfo.height = 0x80000000
+	windowInfo.windowless_rendering_enabled = 1
+	self.windowInfo   = windowInfo
 
-	local browser_settings = ffi.new( "cef_browser_settings_t" )
-	browser_settings.size  = ffi.sizeof( browser_settings )
+	local browserSettings = ffi.new( "cef_browser_settings_t" )
+	browserSettings.size  = ffi.sizeof( browserSettings )
+	self.browserSettings  = browserSettings
 
-	self:initializeClient( client )
-	initialize_cef_life_span_handler( g_life_span_handler )
-	initialize_cef_render_handler( g_render_handler )
+	self:initializeClient()
+	self:initializeLifeSpanHandler()
+	self:initializeRenderHandler()
 
-	cef.cef_browser_host_create_browser( window_info, client, toutf16( url ),
-	                                     browser_settings, nil )
+	cef.cef_browser_host_create_browser( self.windowInfo, self.client,
+	                                     toutf16( url ),
+	                                     self.browserSettings, nil )
 
 	setproxy( self )
 end
