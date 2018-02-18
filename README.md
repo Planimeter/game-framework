@@ -36,8 +36,8 @@ While LÖVE advertises itself as a game engine/framework, lgf is strictly a
 framework. It only simplifies the collective libraries below in to an
 easy-to-read set of modules for graphics, audio, event, filesystem, keyboard,
 mouse, physics, sound, timer, and window usage. It does not provider
-higher-level constructs such as UI, keyboard and mouse bindings, entities, or
-level loading.
+higher-level constructs such as UI widgets, keyboard and mouse bindings,
+entities, or level loading.
 
 ## Features
 * SDL2 for window creation, OpenGL function loading, and event handling
@@ -49,6 +49,7 @@ level loading.
 * PhysicsFS for abstracting access to various archives
 * Chipmunk for 2-dimensional real-time rigid body physics
 * Assimp for loading various 3D file formats
+* Chromium Embedded Framework for UI
 
 ## Libraries
 * [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
@@ -73,6 +74,8 @@ LuaJIT FFI bindings for OpenAL
 LuaJIT FFI bindings for Chipmunk
 * [lassimp](https://github.com/Planimeter/lassimp)  
 LuaJIT FFI bindings for Assimp
+* [lcef](https://github.com/Planimeter/lcef)  
+LuaJIT FFI bindings for Chromium Embedded Framework
 
 ## License
 MIT License
