@@ -20,7 +20,7 @@ end
 
 local function on_paint( self )
 	return function(
-		self,
+		handler,
 		browser,
 		type,
 		dirtyRectsCount,
