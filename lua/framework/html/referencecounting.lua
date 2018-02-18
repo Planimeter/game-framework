@@ -23,7 +23,8 @@ local function has_one_ref( self )
 	return 1
 end
 
-function browser.implement_refcounting( base )
+function browser:implementRefCounting( base )
+	base = ffi.cast( "cef_base_ref_counted_t*", base )
 	local size = base.size
 	if ( size <= 0 ) then
 		error( "initialize_cef_base failed, size member not set" )

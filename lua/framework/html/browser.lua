@@ -20,7 +20,7 @@ end
 
 function browser:browser( url )
 	require( "framework.html.referencecounting" )
-	require( "test.cef_client" )
+	require( "framework.html.client" )
 	require( "test.cef_life_span_handler" )
 	require( "test.cef_render_handler" )
 
@@ -48,8 +48,7 @@ function browser:browser( url )
 	local browser_settings = ffi.new( "cef_browser_settings_t" )
 	browser_settings.size  = ffi.sizeof( browser_settings )
 
-	local client = ffi.new( "cef_client_t" )
-	initialize_cef_client( client )
+	self:initializeClient( client )
 	initialize_cef_life_span_handler( g_life_span_handler )
 	initialize_cef_render_handler( g_render_handler )
 
