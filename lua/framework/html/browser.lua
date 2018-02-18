@@ -10,6 +10,8 @@ local cef = require( "cef" )
 
 class( "framework.html.browser" )
 
+local browser = framework.html.browser
+
 local function toutf16( s )
 	local value = ffi.new( "cef_string_t" )
 	cef.cef_string_utf8_to_utf16( s, string.len( s ), value )
@@ -17,7 +19,7 @@ local function toutf16( s )
 end
 
 function browser:browser( url )
-	require( "test.cef_base" )
+	require( "framework.html.referencecounting" )
 	require( "test.cef_client" )
 	require( "test.cef_life_span_handler" )
 	require( "test.cef_render_handler" )
