@@ -5,7 +5,7 @@
 --============================================================================--
 
 function framework.load( arg )
-	framework.graphics.setDefault3DShader()
+	framework.graphics.setGlTFPBRShader()
 	local width, height = framework.graphics.getSize()
 	framework.graphics.setPerspectiveProjection( 45, width / height, 0.1, 1000 )
 	teapot = framework.graphics.newModel( "models/teapot.obj" )

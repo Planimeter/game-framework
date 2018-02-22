@@ -155,6 +155,53 @@ function setDefault3DShader()
 	framework.graphics.setOrthographicProjection( width, height )
 end
 
+function setGlTFPBRShader()
+	-- shader
+	local fragmentSource = framework.filesystem.read( "shaders/pbr-frag.glsl" )
+	local vertexSource   = framework.filesystem.read( "shaders/pbr-vert.glsl" )
+	local shader         = newShader( fragmentSource, vertexSource )
+	GL.glBindFragDataLocation( shader, 0, "fragColor" )
+	linkShader( shader )
+	setShader( shader )
+
+	-- default.frag
+	-- uniforms
+	-- tex
+	setDefaultTexture()
+
+	-- color
+	setColor( { 255, 255, 255, 1 } )
+
+	-- default3d.vert
+	-- attribs
+	-- vertex
+	local vertex = GL.glGetAttribLocation( shader, "vertex" )
+	local stride = ( 3 + 2 ) * ffi.sizeof( "GLfloat" )
+	GL.glEnableVertexAttribArray( vertex )
+	GL.glVertexAttribPointer( vertex, 3, GL.GL_FLOAT, 0, stride, nil )
+
+	-- texcoord
+	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
+	GL.glEnableVertexAttribArray( texcoord )
+	local pointer = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
+	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
+
+	-- uniforms
+	-- model
+	local model = GL.glGetUniformLocation( shader, "model" )
+	local mat4 = ffi.new( "kmMat4" )
+	kazmath.kmMat4Identity( mat4 )
+	GL.glUniformMatrix4fv( model, 1, GL.GL_FALSE, mat4.mat )
+
+	-- view
+	local view = GL.glGetUniformLocation( shader, "view" )
+	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
+
+	-- projection
+	local width, height = framework.graphics.getSize()
+	framework.graphics.setOrthographicProjection( width, height )
+end
+
 function getDefaultTexture()
 	return _defaultTexture
 end
