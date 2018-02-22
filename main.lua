@@ -6,7 +6,13 @@
 
 function framework.load( arg )
 	framework.graphics.setGlTFPBRShader()
-	framework.graphics.setLightDirection( { 0, 0.5, 0.5 } )
+	local rotation = 75 * math.pi / 180
+	local pitch    = 40 * math.pi / 180
+	framework.graphics.setLightDirection( {
+		math.sin( rotation ) * math.cos( pitch ),
+		math.sin( pitch ),
+		math.cos( rotation ) * math.cos( pitch )
+	} )
 	local width, height = framework.graphics.getSize()
 	framework.graphics.setPerspectiveProjection( 45, width / height, 0.1, 1000 )
 	teapot = framework.graphics.newModel( "models/teapot.obj" )
