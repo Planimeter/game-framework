@@ -1,3 +1,4 @@
+#version 330
 in vec4 a_Position;
 #ifdef HAS_NORMALS
 in vec4 a_Normal;
