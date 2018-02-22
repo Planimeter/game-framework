@@ -55,15 +55,15 @@ uniform vec4 u_ScaleDiffBaseMR;
 uniform vec4 u_ScaleFGDSpec;
 uniform vec4 u_ScaleIBLAmbient;
 
-varying vec3 v_Position;
+in vec3 v_Position;
 
-varying vec2 v_UV;
+in vec2 v_UV;
 
 #ifdef HAS_NORMALS
 #ifdef HAS_TANGENTS
-varying mat3 v_TBN;
+in mat3 v_TBN;
 #else
-varying vec3 v_Normal;
+in vec3 v_Normal;
 #endif
 #endif
 

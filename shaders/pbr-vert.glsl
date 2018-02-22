@@ -1,26 +1,26 @@
-attribute vec4 a_Position;
+in vec4 a_Position;
 #ifdef HAS_NORMALS
-attribute vec4 a_Normal;
+in vec4 a_Normal;
 #endif
 #ifdef HAS_TANGENTS
-attribute vec4 a_Tangent;
+in vec4 a_Tangent;
 #endif
 #ifdef HAS_UV
-attribute vec2 a_UV;
+in vec2 a_UV;
 #endif
 
 uniform mat4 u_MVPMatrix;
 uniform mat4 u_ModelMatrix;
 uniform mat4 u_NormalMatrix;
 
-varying vec3 v_Position;
-varying vec2 v_UV;
+out vec3 v_Position;
+out vec2 v_UV;
 
 #ifdef HAS_NORMALS
 #ifdef HAS_TANGENTS
-varying mat3 v_TBN;
+out mat3 v_TBN;
 #else
-varying vec3 v_Normal;
+out vec3 v_Normal;
 #endif
 #endif
 
@@ -49,5 +49,3 @@ void main()
 
   gl_Position = u_MVPMatrix * a_Position; // needs w for proper perspective correction
 }
-
-
