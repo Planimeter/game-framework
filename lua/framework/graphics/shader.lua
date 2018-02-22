@@ -175,6 +175,9 @@ function setGlTFPBRShader()
 	-- tex
 	setDefaultTexture()
 
+	-- u_MetallicRoughnessValues
+	setMetallicRoughnessValues( { 1, 1 } )
+
 	-- color
 	setColor( { 255, 255, 255, 1 } )
 
@@ -275,4 +278,18 @@ function setLightColor( color )
 	local index  = GL.glGetUniformLocation( getShader(), "u_LightColor" )
 	GL.glUniform3fv( index, 1, pColor )
 	_lightColor = color
+end
+
+function getMetallicRoughnessValues()
+	return _metallicRoughnessValues
+end
+
+function setMetallicRoughnessValues( metallicRoughnessValues )
+	local pMetallicRoughnessValues = ffi.new( "GLfloat[2]",
+		( metallicRoughnessValues[ 1 ] or 1 ),
+		( metallicRoughnessValues[ 2 ] or 1 )
+	)
+	local index  = GL.glGetUniformLocation( getShader(), "u_MetallicRoughnessValues" )
+	GL.glUniform2fv( index, 1, pMetallicRoughnessValues )
+	_metallicRoughnessValues = metallicRoughnessValues
 end
