@@ -15,7 +15,7 @@ uniform mat4 u_ModelMatrix;
 uniform mat4 u_NormalMatrix;
 
 out vec3 v_Position;
-out vec2 v_UV;
+out vec2 texCoord;
 
 #ifdef HAS_NORMALS
 #ifdef HAS_TANGENTS
@@ -43,9 +43,9 @@ void main()
   #endif
 
   #ifdef HAS_UV
-  v_UV = a_UV;
+  texCoord = a_UV;
   #else
-  v_UV = vec2(0.,0.);
+  texCoord = vec2(0.,0.);
   #endif
 
   gl_Position = u_MVPMatrix * a_Position; // needs w for proper perspective correction
