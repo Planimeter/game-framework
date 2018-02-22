@@ -52,9 +52,9 @@ uniform vec4 color;
 uniform vec3 u_Camera;
 
 // debugging flags used for shader output of intermediate PBR variables
-uniform vec4 u_ScaleDiffBaseMR;
-uniform vec4 u_ScaleFGDSpec;
-uniform vec4 u_ScaleIBLAmbient;
+// uniform vec4 u_ScaleDiffBaseMR;
+// uniform vec4 u_ScaleFGDSpec;
+// uniform vec4 u_ScaleIBLAmbient;
 
 in vec3 v_Position;
 
@@ -287,35 +287,35 @@ void main()
     vec3 diffuseContrib = (1.0 - F) * diffuse(pbrInputs);
     vec3 specContrib = F * G * D / (4.0 * NdotL * NdotV);
     // Obtain final intensity as reflectance (BRDF) scaled by the energy of the light (cosine law)
-    vec3 color = NdotL * u_LightColor * (diffuseContrib + specContrib);
+    vec3 _color = NdotL * u_LightColor * (diffuseContrib + specContrib);
 
     // Calculate lighting contribution from image based lighting source (IBL)
 #ifdef USE_IBL
-    color += getIBLContribution(pbrInputs, n, reflection);
+    _color += getIBLContribution(pbrInputs, n, reflection);
 #endif
 
     // Apply optional PBR terms for additional (optional) shading
 #ifdef HAS_OCCLUSIONMAP
     float ao = texture(u_OcclusionSampler, texCoord).r;
-    color = mix(color, color * ao, u_OcclusionStrength);
+    _color = mix(_color, _color * ao, u_OcclusionStrength);
 #endif
 
 #ifdef HAS_EMISSIVEMAP
     vec3 emissive = SRGBtoLINEAR(texture(u_EmissiveSampler, texCoord)).rgb * u_EmissiveFactor;
-    color += emissive;
+    _color += emissive;
 #endif
 
     // This section uses mix to override final color for reference app visualization
     // of various parameters in the lighting equation.
-    color = mix(color, F, u_ScaleFGDSpec.x);
-    color = mix(color, vec3(G), u_ScaleFGDSpec.y);
-    color = mix(color, vec3(D), u_ScaleFGDSpec.z);
-    color = mix(color, specContrib, u_ScaleFGDSpec.w);
+    // _color = mix(_color, F, u_ScaleFGDSpec.x);
+    // _color = mix(_color, vec3(G), u_ScaleFGDSpec.y);
+    // _color = mix(_color, vec3(D), u_ScaleFGDSpec.z);
+    // _color = mix(_color, specContrib, u_ScaleFGDSpec.w);
 
-    color = mix(color, diffuseContrib, u_ScaleDiffBaseMR.x);
-    color = mix(color, baseColor.rgb, u_ScaleDiffBaseMR.y);
-    color = mix(color, vec3(metallic), u_ScaleDiffBaseMR.z);
-    color = mix(color, vec3(perceptualRoughness), u_ScaleDiffBaseMR.w);
+    // _color = mix(_color, diffuseContrib, u_ScaleDiffBaseMR.x);
+    // _color = mix(_color, baseColor.rgb, u_ScaleDiffBaseMR.y);
+    // _color = mix(_color, vec3(metallic), u_ScaleDiffBaseMR.z);
+    // _color = mix(_color, vec3(perceptualRoughness), u_ScaleDiffBaseMR.w);
 
-    fragColor = vec4(pow(color,vec3(1.0/2.2)), baseColor.a);
+    fragColor = vec4(pow(_color,vec3(1.0/2.2)), baseColor.a);
 }
