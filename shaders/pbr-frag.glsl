@@ -67,6 +67,8 @@ in vec3 v_Normal;
 #endif
 #endif
 
+out vec4 fragColor;
+
 // Encapsulate the various inputs used by the various functions in the shading equation
 // We store values in this struct to simplify the integration of alternative implementations
 // of the shading terms, outlined in the Readme.MD Appendix.
@@ -314,5 +316,5 @@ void main()
     color = mix(color, vec3(metallic), u_ScaleDiffBaseMR.z);
     color = mix(color, vec3(perceptualRoughness), u_ScaleDiffBaseMR.w);
 
-    gl_FragColor = vec4(pow(color,vec3(1.0/2.2)), baseColor.a);
+    fragColor = vec4(pow(color,vec3(1.0/2.2)), baseColor.a);
 }
