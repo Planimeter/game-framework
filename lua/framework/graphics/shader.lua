@@ -164,15 +164,21 @@ function setGlTFPBRShader()
 	linkShader( shader )
 	setShader( shader )
 
-	-- default.frag
+	-- pbr-frag.glsl
 	-- uniforms
+	-- u_LightDirection
+	setLightDirection( { 0, 0, 0 } )
+
+	-- u_LightColor
+	setLightColor( { 255, 255, 255 } )
+
 	-- tex
 	setDefaultTexture()
 
 	-- color
 	setColor( { 255, 255, 255, 1 } )
 
-	-- default3d.vert
+	-- pbr-vert.glsl
 	-- attribs
 	-- vertex
 	local vertex = GL.glGetAttribLocation( shader, "vertex" )
@@ -239,4 +245,34 @@ function setColor( color )
 	local index  = GL.glGetUniformLocation( getShader(), "color" )
 	GL.glUniform4fv( index, 1, pColor )
 	_color = color
+end
+
+function getLightDirection()
+	return _lightDirection
+end
+
+function setLightDirection( direction )
+	local pDirection = ffi.new( "GLfloat[3]",
+		( direction[ 1 ] or 0 ),
+		( direction[ 2 ] or 0 ),
+		( direction[ 3 ] or 0 )
+	)
+	local index  = GL.glGetUniformLocation( getShader(), "u_LightDirection" )
+	GL.glUniform3fv( index, 1, pDirection )
+	_lightDirection = direction
+end
+
+function getLightColor()
+	return _lightColor
+end
+
+function setLightColor( color )
+	local pColor = ffi.new( "GLfloat[3]",
+		( color[ 1 ] or 0 ) / 255,
+		( color[ 2 ] or 0 ) / 255,
+		( color[ 3 ] or 0 ) / 255
+	)
+	local index  = GL.glGetUniformLocation( getShader(), "u_LightColor" )
+	GL.glUniform3fv( index, 1, pColor )
+	_lightColor = color
 end
