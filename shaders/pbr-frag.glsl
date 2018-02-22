@@ -26,7 +26,7 @@ uniform samplerCube u_SpecularEnvSampler;
 uniform sampler2D u_brdfLUT;
 #endif
 
-#define HAS_BASECOLORMAP = 1
+#define HAS_BASECOLORMAP
 #ifdef HAS_BASECOLORMAP
 uniform sampler2D tex;
 #endif
