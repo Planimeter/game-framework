@@ -6,6 +6,7 @@
 
 function framework.load( arg )
 	framework.graphics.setGlTFPBRShader()
+	framework.graphics.setLightDirection( { 0, 0.5, 0.5 } )
 	local width, height = framework.graphics.getSize()
 	framework.graphics.setPerspectiveProjection( 45, width / height, 0.1, 1000 )
 	teapot = framework.graphics.newModel( "models/teapot.obj" )
