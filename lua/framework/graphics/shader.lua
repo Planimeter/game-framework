@@ -289,7 +289,10 @@ function setMetallicRoughnessValues( metallicRoughnessValues )
 		( metallicRoughnessValues[ 1 ] or 1 ),
 		( metallicRoughnessValues[ 2 ] or 1 )
 	)
-	local index  = GL.glGetUniformLocation( getShader(), "u_MetallicRoughnessValues" )
+	local index  = GL.glGetUniformLocation(
+		getShader(),
+		"u_MetallicRoughnessValues"
+	)
 	GL.glUniform2fv( index, 1, pMetallicRoughnessValues )
 	_metallicRoughnessValues = metallicRoughnessValues
 end
