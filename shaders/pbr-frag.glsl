@@ -26,8 +26,9 @@ uniform samplerCube u_SpecularEnvSampler;
 uniform sampler2D u_brdfLUT;
 #endif
 
+#define HAS_BASECOLORMAP = 1
 #ifdef HAS_BASECOLORMAP
-uniform sampler2D u_BaseColorSampler;
+uniform sampler2D tex;
 #endif
 #ifdef HAS_NORMALMAP
 uniform sampler2D u_NormalSampler;
@@ -46,7 +47,7 @@ uniform float u_OcclusionStrength;
 #endif
 
 uniform vec2 u_MetallicRoughnessValues;
-uniform vec4 u_BaseColorFactor;
+uniform vec4 color;
 
 uniform vec3 u_Camera;
 
@@ -57,7 +58,7 @@ uniform vec4 u_ScaleIBLAmbient;
 
 in vec3 v_Position;
 
-in vec2 v_UV;
+in vec2 texCoord;
 
 #ifdef HAS_NORMALS
 #ifdef HAS_TANGENTS
@@ -114,8 +115,8 @@ vec3 getNormal()
 #ifndef HAS_TANGENTS
     vec3 pos_dx = dFdx(v_Position);
     vec3 pos_dy = dFdy(v_Position);
-    vec3 tex_dx = dFdx(vec3(v_UV, 0.0));
-    vec3 tex_dy = dFdy(vec3(v_UV, 0.0));
+    vec3 tex_dx = dFdx(vec3(texCoord, 0.0));
+    vec3 tex_dy = dFdy(vec3(texCoord, 0.0));
     vec3 t = (tex_dy.t * pos_dx - tex_dx.t * pos_dy) / (tex_dx.s * tex_dy.t - tex_dy.s * tex_dx.t);
 
 #ifdef HAS_NORMALS
@@ -132,7 +133,7 @@ vec3 getNormal()
 #endif
 
 #ifdef HAS_NORMALMAP
-    vec3 n = texture2D(u_NormalSampler, v_UV).rgb;
+    vec3 n = texture(u_NormalSampler, texCoord).rgb;
     n = normalize(tbn * ((2.0 * n - 1.0) * vec3(u_NormalScale, u_NormalScale, 1.0)));
 #else
     // The tbn matrix is linearly interpolated, so we need to re-normalize
@@ -150,7 +151,7 @@ vec3 getNormal()
 //     float mipCount = 9.0; // resolution of 512x512
 //     float lod = (pbrInputs.perceptualRoughness * mipCount);
 //     // retrieve a scale and bias to F0. See [1], Figure 3
-//     vec3 brdf = SRGBtoLINEAR(texture2D(u_brdfLUT, vec2(pbrInputs.NdotV, 1.0 - pbrInputs.perceptualRoughness))).rgb;
+//     vec3 brdf = SRGBtoLINEAR(texture(u_brdfLUT, vec2(pbrInputs.NdotV, 1.0 - pbrInputs.perceptualRoughness))).rgb;
 //     vec3 diffuseLight = SRGBtoLINEAR(textureCube(u_DiffuseEnvSampler, n)).rgb;
 //
 // #ifdef USE_TEX_LOD
@@ -219,7 +220,7 @@ void main()
 #ifdef HAS_METALROUGHNESSMAP
     // Roughness is stored in the 'g' channel, metallic is stored in the 'b' channel.
     // This layout intentionally reserves the 'r' channel for (optional) occlusion map data
-    vec4 mrSample = texture2D(u_MetallicRoughnessSampler, v_UV);
+    vec4 mrSample = texture(u_MetallicRoughnessSampler, texCoord);
     perceptualRoughness = mrSample.g * perceptualRoughness;
     metallic = mrSample.b * metallic;
 #endif
@@ -231,9 +232,9 @@ void main()
 
     // The albedo may be defined from a base texture or a flat color
 #ifdef HAS_BASECOLORMAP
-    vec4 baseColor = SRGBtoLINEAR(texture2D(u_BaseColorSampler, v_UV)) * u_BaseColorFactor;
+    vec4 baseColor = SRGBtoLINEAR(texture(tex, texCoord)) * color;
 #else
-    vec4 baseColor = u_BaseColorFactor;
+    vec4 baseColor = color;
 #endif
 
     vec3 f0 = vec3(0.04);
@@ -295,12 +296,12 @@ void main()
 
     // Apply optional PBR terms for additional (optional) shading
 #ifdef HAS_OCCLUSIONMAP
-    float ao = texture2D(u_OcclusionSampler, v_UV).r;
+    float ao = texture(u_OcclusionSampler, texCoord).r;
     color = mix(color, color * ao, u_OcclusionStrength);
 #endif
 
 #ifdef HAS_EMISSIVEMAP
-    vec3 emissive = SRGBtoLINEAR(texture2D(u_EmissiveSampler, v_UV)).rgb * u_EmissiveFactor;
+    vec3 emissive = SRGBtoLINEAR(texture(u_EmissiveSampler, texCoord)).rgb * u_EmissiveFactor;
     color += emissive;
 #endif
 
