@@ -37,7 +37,10 @@ end
 function rectangle( mode, x, y, width, height, cornerRadius )
 	if ( cornerRadius and cornerRadius > 0 ) then
 		local segmentsPerCorner = math.floor( cornerRadius * math.pi * 2 / 4 )
-		local vertices = { x + width / 2, y + height / 2 }
+		local vertices = {
+			x + width  / 2,
+			y + height / 2
+		}
 		local angleDelta = 1 / segmentsPerCorner * math.pi / 2
 		local cornerCenterVerts = {
 			x + width - cornerRadius, y + height - cornerRadius,
@@ -45,11 +48,11 @@ function rectangle( mode, x, y, width, height, cornerRadius )
 			x + cornerRadius,         y + cornerRadius,
 			x + width - cornerRadius, y + cornerRadius
 		}
-		for corner=0, 3 do
+		for corner = 0, 3 do
 			local angle = corner * math.pi / 2
 			local cornerCenterX = cornerCenterVerts[ corner * 2 + 1 ]
 			local cornerCenterY = cornerCenterVerts[ corner * 2 + 2 ]
-			for s = 1, segmentsPerCorner do
+			for i = 1, segmentsPerCorner do
 				vertices[ #vertices+1 ] = cornerCenterX + math.cos( angle ) * cornerRadius
 				vertices[ #vertices+1 ] = cornerCenterY + math.sin( angle ) * cornerRadius
 				angle = angle + angleDelta
