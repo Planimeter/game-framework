@@ -15,11 +15,13 @@ in vec2 texcoord;
 
 // uniform mat4 u_MVPMatrix;
 // uniform mat4 u_ModelMatrix;
-uniform mat4 u_NormalMatrix;
+// uniform mat4 u_NormalMatrix;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+
+uniform mat4 normalMatrix;
 
 out vec3 v_Position;
 out vec2 v_UV;
@@ -40,7 +42,7 @@ void main()
 
   #ifdef HAS_NORMALS
   #ifdef HAS_TANGENTS
-  vec3 normalW = normalize(vec3(u_NormalMatrix * vec4(normal.xyz, 0.0)));
+  vec3 normalW = normalize(vec3(normalMatrix * vec4(normal.xyz, 0.0)));
   vec3 tangentW = normalize(vec3(model * vec4(tangent.xyz, 0.0)));
   vec3 bitangentW = cross(normalW, tangentW) * tangent.w;
   v_TBN = mat3(tangentW, bitangentW, normalW);

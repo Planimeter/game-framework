@@ -29,12 +29,20 @@ for _, transformation in ipairs( transformations ) do
 	_stack[ transformation ] = _stack[ transformation ] or { mat4 }
 end
 
+local mat4 = ffi.new( "kmMat4" )
+kazmath.kmMat4Identity( mat4 )
+_normalMatrix = _normalMatrix or mat4
+
 function getMatrixMode()
 	return _mode
 end
 
 function setMatrixMode( mode )
 	_mode = mode
+end
+
+function getNormalMatrix()
+	return _normalMatrix
 end
 
 function getTransformation()
@@ -63,6 +71,7 @@ function setPerspectiveProjection( fov, aspect, near, far )
 		local mat4 = getTransformation()
 		kazmath.kmMat4PerspectiveProjection( mat4, fov, aspect, near, far )
 	setMatrixMode( mode )
+	updateTransformations()
 end
 
 function setOrthographicProjection( width, height )
@@ -77,6 +86,7 @@ function setOrthographicProjection( width, height )
 			mat4, 0, width, height, 0, -1.0, 1.0
 		)
 	setMatrixMode( mode )
+	updateTransformations()
 end
 
 function origin()
@@ -106,6 +116,20 @@ function translate( x, y, z )
 	kazmath.kmMat4Multiply( mat4, mat4, translation )
 end
 
+local function updateNormalMatrix()
+	local mode = getMatrixMode()
+	local modelView = ffi.new( "kmMat4" )
+	setMatrixMode( "model" )
+	local model = getTransformation()
+	setMatrixMode( "view" )
+	local view = getTransformation()
+	setMatrixMode( mode )
+	kazmath.kmMat4Multiply( modelView, model, view )
+	local inverseModelView = ffi.new( "kmMat4" )
+	kazmath.kmMat4Inverse( inverseModelView, modelView )
+	kazmath.kmMat4Transpose( _normalMatrix, inverseModelView )
+end
+
 function updateTransformations()
 	local mode   = getMatrixMode()
 	local shader = framework.graphics.getShader()
@@ -115,5 +139,11 @@ function updateTransformations()
 		local mat4 = getTransformation()
 		GL.glUniformMatrix4fv( uniform, 1, GL.GL_FALSE, mat4.mat )
 	end
+
+	updateNormalMatrix()
+	local uniform = GL.glGetUniformLocation( shader, "normalMatrix" )
+	local normalMatrix = getNormalMatrix()
+	GL.glUniformMatrix4fv( uniform, 1, GL.GL_FALSE, normalMatrix.mat )
+
 	setMatrixMode( mode )
 end
