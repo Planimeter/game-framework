@@ -42,6 +42,7 @@ end
 function model:model( filename )
 	local buffer, length = framework.filesystem.read( filename )
 	self.scene = assimp.aiImportFileFromMemory( buffer, length, bit.bor(
+		ffi.C.aiProcess_CalcTangentSpace,
 		ffi.C.aiProcess_GenNormals,
 		ffi.C.aiProcess_Triangulate
 	), nil )
