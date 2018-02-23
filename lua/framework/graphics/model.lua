@@ -61,19 +61,23 @@ function model:model( filename )
 	if ( buffer == nil ) then
 		error( length, 3 )
 	end
+	local hint = "." .. string.match( filename, "%.([^%.]+)$" )
 	self.scene = assimp.aiImportFileFromMemory( buffer, length, bit.bor(
 		ffi.C.aiProcess_CalcTangentSpace,
 		ffi.C.aiProcess_GenNormals,
 		ffi.C.aiProcess_Triangulate,
 		ffi.C.aiProcess_GenUVCoords,
 		ffi.C.aiProcess_SortByPType
-	), nil )
+	), hint )
 	if ( self.scene == nil ) then
 		error( ffi.string( assimp.aiGetErrorString() ), 3 )
 	end
 
 	self.meshes = {}
-	processNode( self, self.scene.mRootNode )
+
+	if ( self.scene.mRootNode ~= nil ) then
+		processNode( self, self.scene.mRootNode )
+	end
 
 	setproxy( self )
 end
