@@ -65,6 +65,9 @@ function model:model( filename )
 		ffi.C.aiProcess_GenUVCoords,
 		ffi.C.aiProcess_SortByPType
 	), nil )
+	if ( self.scene == nil ) then
+		error( ffi.string( assimp.aiGetErrorString() ), 3 )
+	end
 
 	self.meshes = {}
 	processNode( self, self.scene.mRootNode )
