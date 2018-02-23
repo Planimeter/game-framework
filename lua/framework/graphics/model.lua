@@ -58,10 +58,11 @@ end
 
 function model:model( filename )
 	local buffer, length = framework.filesystem.read( filename )
+	local hint = string.match( filename, "%.([^%.]+)$" )
 	if ( buffer == nil ) then
+		string.replace( length, "$$$___magic___$$$." .. hint, filename )
 		error( length, 3 )
 	end
-	local hint = string.match( filename, "%.([^%.]+)$" )
 	self.scene = assimp.aiImportFileFromMemory( buffer, length, bit.bor(
 		ffi.C.aiProcess_CalcTangentSpace,
 		ffi.C.aiProcess_GenNormals,
