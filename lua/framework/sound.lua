@@ -59,6 +59,9 @@ function sound:sound( filename )
 	AL.alGenBuffers( 1, self.buffer )
 
 	local buffer, length = framework.filesystem.read( filename )
+	if ( buffer == nil ) then
+		error( length, 3 )
+	end
 	local rw = SDL.SDL_RWFromMem( buffer, length )
 	local sample = SDL_sound.Sound_NewSample( rw, nil, nil, 10240 )
 	if ( sample == nil ) then

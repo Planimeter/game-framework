@@ -25,6 +25,9 @@ function image:image( filename )
 	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
 
 	local buffer, length = framework.filesystem.read( filename )
+	if ( buffer == nil ) then
+		error( length, 3 )
+	end
 	IL.ilLoadL( IL.IL_TYPE_UNKNOWN, buffer, length )
 	IL.ilConvertImage( IL.IL_RGBA, IL.IL_UNSIGNED_BYTE )
 	local width  = IL.ilGetInteger( IL.IL_IMAGE_WIDTH )

@@ -21,6 +21,10 @@ function font:font( filename, size )
 
 	self.face = ffi.new( "FT_Face[1]" )
 	self.buffer, self.length = framework.filesystem.read( filename )
+	if ( self.buffer == nil ) then
+		FT.FT_Done_Face( self.face )
+		error( self.length, 3 )
+	end
 	FT.FT_New_Memory_Face( ft[0], self.buffer, self.length, 0, self.face )
 
 	self.size = size

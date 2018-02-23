@@ -78,7 +78,10 @@ function mount( newDir, mountPoint, appendToPath )
 end
 
 function read( filename )
-	local file   = physfs.PHYSFS_openRead( filename )
+	local file = physfs.PHYSFS_openRead( filename )
+	if ( file == nil ) then
+		return nil, ffi.string( physfs.PHYSFS_getLastError() )
+	end
 	local length = physfs.PHYSFS_fileLength( file )
 	local buffer = ffi.new( "char[?]", length )
 	physfs.PHYSFS_read( file, buffer, 1, length )
