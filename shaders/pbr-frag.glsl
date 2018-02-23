@@ -62,6 +62,7 @@ in vec2 v_UV;
 
 #define HAS_NORMALS
 #ifdef HAS_NORMALS
+// #define HAS_TANGENTS
 #ifdef HAS_TANGENTS
 in mat3 v_TBN;
 #else
