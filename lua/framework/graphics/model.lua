@@ -9,6 +9,7 @@ local assimp = require( "assimp" )
 local ffi    = require( "ffi" )
 local bit    = require( "bit" )
 local GL     = require( "opengl" )
+local physfs = require( "physicsfs" )
 
 class( "framework.graphics.model" )
 
@@ -56,20 +57,78 @@ local function processNode( self, node )
 	end
 end
 
-function model:model( filename )
-	local buffer, length = framework.filesystem.read( filename )
-	local hint = string.match( filename, "%.([^%.]+)$" )
-	if ( buffer == nil ) then
-		string.replace( length, "$$$___magic___$$$." .. hint, filename )
-		error( length, 3 )
+local function PHYSFSReadProc( self, buffer, size, count )
+	local file = ffi.cast( "void *", self.UserData )
+	return physfs.PHYSFS_read( file, buffer, size, count )
+end
+
+local function PHYSFSWriteProc( self, buffer, size, count )
+	local file = ffi.cast( "void *", self.UserData )
+	return physfs.PHYSFS_write( file, buffer, size, count )
+end
+
+local function PHYSFSTellProc( self )
+	local file = ffi.cast( "void *", self.UserData )
+	return physfs.PHYSFS_tell( file )
+end
+
+local function PHYSFSFileSizeProc( self )
+	local file = ffi.cast( "void *", self.UserData )
+	return physfs.PHYSFS_fileLength( file )
+end
+
+local function PHYSFSSeekProc( self, offset, whence )
+	local file = ffi.cast( "void *", self.UserData )
+	local ret  = physfs.PHYSFS_seek( file, offset )
+	if ( ret ~= 0 ) then
+		return ffi.C.aiReturn_SUCCESS
+	else
+		-- TODO: Return ffi.C.aiReturn_OUTOFMEMORY
+		return ffi.C.aiReturn_FAILURE
 	end
-	self.scene = assimp.aiImportFileFromMemory( buffer, length, bit.bor(
+end
+
+local function PHYSFSFlushProc( self )
+	local file = ffi.cast( "void *", self.UserData )
+	physfs.PHYSFS_flush( file )
+end
+
+local function PHYSFSOpenProc( self, filename, mode )
+	local file        = ffi.new( "struct aiFile" )
+	file.ReadProc     = PHYSFSReadProc
+	file.WriteProc    = PHYSFSWriteProc
+	file.TellProc     = PHYSFSTellProc
+	file.FileSizeProc = PHYSFSFileSizeProc
+	file.SeekProc     = PHYSFSSeekProc
+	file.FlushProc    = PHYSFSFlushProc
+	file.UserData     = ffi.cast( "void *", physfs.PHYSFS_openRead( filename ) )
+	return file
+end
+
+local function PHYSFSCloseProc( self, file )
+	physfs.PHYSFS_close( ffi.cast( "void *", file.UserData ) )
+end
+
+local function getPHYSFSFileIO()
+	if ( model._fileIO ) then
+		return model._fileIO
+	end
+
+	local fileIO     = ffi.new( "struct aiFileIO" )
+	fileIO.OpenProc  = PHYSFSOpenProc
+	fileIO.CloseProc = PHYSFSCloseProc
+	model._fileIO    = fileIO
+	return fileIO
+end
+
+function model:model( filename )
+	self.scene = assimp.aiImportFileEx( filename, bit.bor(
 		ffi.C.aiProcess_CalcTangentSpace,
 		ffi.C.aiProcess_GenNormals,
 		ffi.C.aiProcess_Triangulate,
 		ffi.C.aiProcess_GenUVCoords,
 		ffi.C.aiProcess_SortByPType
-	), hint )
+	), getPHYSFSFileIO() )
 	if ( self.scene == nil ) then
 		error( ffi.string( assimp.aiGetErrorString() ), 3 )
 	end
