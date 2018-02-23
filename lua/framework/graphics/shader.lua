@@ -129,7 +129,7 @@ function setDefault3DShader()
 	-- attribs
 	-- position
 	local position = GL.glGetAttribLocation( shader, "position" )
-	local stride = ( 3 + 3 + 2 ) * ffi.sizeof( "GLfloat" )
+	local stride = ( 3 + 3 + 3 + 2 ) * ffi.sizeof( "GLfloat" )
 	GL.glEnableVertexAttribArray( position )
 	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
 
@@ -139,10 +139,16 @@ function setDefault3DShader()
 	local pointer = ffi.cast( "GLvoid *", 3 * ffi.sizeof( "GLfloat" ) )
 	GL.glVertexAttribPointer( normal, 3, GL.GL_FLOAT, 0, stride, pointer )
 
+	-- tangent
+	local tangent = GL.glGetAttribLocation( shader, "tangent" )
+	GL.glEnableVertexAttribArray( tangent )
+	pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
+	GL.glVertexAttribPointer( tangent, 3, GL.GL_FLOAT, 0, stride, pointer )
+
 	-- texcoord
 	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
 	GL.glEnableVertexAttribArray( texcoord )
-	pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
+	pointer = ffi.cast( "GLvoid *", ( 3 + 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 
 	-- uniforms
@@ -191,7 +197,7 @@ function setGlTFPBRShader()
 	-- attribs
 	-- position
 	local position = GL.glGetAttribLocation( shader, "position" )
-	local stride = ( 3 + 3 + 2 ) * ffi.sizeof( "GLfloat" )
+	local stride = ( 3 + 3 + 3 + 2 ) * ffi.sizeof( "GLfloat" )
 	GL.glEnableVertexAttribArray( position )
 	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
 
@@ -201,10 +207,16 @@ function setGlTFPBRShader()
 	local pointer = ffi.cast( "GLvoid *", 3 * ffi.sizeof( "GLfloat" ) )
 	GL.glVertexAttribPointer( normal, 3, GL.GL_FLOAT, 0, stride, pointer )
 
+	-- tangent
+	local tangent = GL.glGetAttribLocation( shader, "tangent" )
+	GL.glEnableVertexAttribArray( tangent )
+	pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
+	GL.glVertexAttribPointer( tangent, 3, GL.GL_FLOAT, 0, stride, pointer )
+
 	-- texcoord
 	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
 	GL.glEnableVertexAttribArray( texcoord )
-	pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
+	pointer = ffi.cast( "GLvoid *", ( 3 + 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 
 	-- uniforms

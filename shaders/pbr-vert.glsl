@@ -5,7 +5,7 @@ in vec4 position;
 in vec4 normal;
 #endif
 #ifdef HAS_TANGENTS
-in vec4 a_Tangent;
+in vec4 tangent;
 #endif
 #define HAS_UV
 #ifdef HAS_UV
@@ -40,8 +40,8 @@ void main()
   #ifdef HAS_NORMALS
   #ifdef HAS_TANGENTS
   vec3 normalW = normalize(vec3(u_NormalMatrix * vec4(normal.xyz, 0.0)));
-  vec3 tangentW = normalize(vec3(model * vec4(a_Tangent.xyz, 0.0)));
-  vec3 bitangentW = cross(normalW, tangentW) * a_Tangent.w;
+  vec3 tangentW = normalize(vec3(model * vec4(tangent.xyz, 0.0)));
+  vec3 bitangentW = cross(normalW, tangentW) * tangent.w;
   v_TBN = mat3(tangentW, bitangentW, normalW);
   #else // HAS_TANGENTS != 1
   v_Normal = normalize(vec3(model * vec4(normal.xyz, 0.0)));

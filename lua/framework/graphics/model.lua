@@ -15,14 +15,31 @@ class( "framework.graphics.model" )
 local model = framework.graphics.model
 
 local function processMesh( self, mesh )
-	local vertices = ffi.new( "GLfloat[?]", 6 * mesh.mNumVertices )
+	local stride   = ( 3 + 3 + 3 + 2 )
+	local vertices = ffi.new( "GLfloat[?]", stride * mesh.mNumVertices )
 	for i = 0, mesh.mNumVertices - 1 do
-		vertices[6 * i + 0] = mesh.mVertices[i].x
-		vertices[6 * i + 1] = mesh.mVertices[i].y
-		vertices[6 * i + 2] = mesh.mVertices[i].z
-		vertices[6 * i + 3] = mesh.mNormals[i].x
-		vertices[6 * i + 4] = mesh.mNormals[i].y
-		vertices[6 * i + 5] = mesh.mNormals[i].z
+		do
+			vertices[stride * i + 0]  = mesh.mVertices[i].x
+			vertices[stride * i + 1]  = mesh.mVertices[i].y
+			vertices[stride * i + 2]  = mesh.mVertices[i].z
+		end
+
+		if ( mesh.mNormals ~= nil ) then
+			vertices[stride * i + 3]  = mesh.mNormals[i].x
+			vertices[stride * i + 4]  = mesh.mNormals[i].y
+			vertices[stride * i + 5]  = mesh.mNormals[i].z
+		end
+
+		if ( mesh.mTangents ~= nil ) then
+			vertices[stride * i + 6]  = mesh.mTangents[i].x
+			vertices[stride * i + 7]  = mesh.mTangents[i].y
+			vertices[stride * i + 8]  = mesh.mTangents[i].z
+		end
+
+		if ( mesh.mTextureCoords[0] ~= nil ) then
+			vertices[stride * i + 9]  = mesh.mTextureCoords[0][i].x
+			vertices[stride * i + 10] = mesh.mTextureCoords[0][i].y
+		end
 	end
 	require( "framework.graphics.mesh" )
 	return framework.graphics.mesh( vertices, mesh.mNumVertices )
@@ -44,7 +61,9 @@ function model:model( filename )
 	self.scene = assimp.aiImportFileFromMemory( buffer, length, bit.bor(
 		ffi.C.aiProcess_CalcTangentSpace,
 		ffi.C.aiProcess_GenNormals,
-		ffi.C.aiProcess_Triangulate
+		ffi.C.aiProcess_Triangulate,
+		ffi.C.aiProcess_GenUVCoords,
+		ffi.C.aiProcess_SortByPType
 	), nil )
 
 	self.meshes = {}
