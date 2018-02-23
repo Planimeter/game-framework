@@ -15,11 +15,14 @@ class( "framework.graphics.model" )
 local model = framework.graphics.model
 
 local function processMesh( self, mesh )
-	local vertices = ffi.new( "GLfloat[?]", 3 * mesh.mNumVertices )
+	local vertices = ffi.new( "GLfloat[?]", 6 * mesh.mNumVertices )
 	for i = 0, mesh.mNumVertices - 1 do
-		vertices[3 * i + 0] = mesh.mVertices[i].x
-		vertices[3 * i + 1] = mesh.mVertices[i].y
-		vertices[3 * i + 2] = mesh.mVertices[i].z
+		vertices[6 * i + 0] = mesh.mVertices[i].x
+		vertices[6 * i + 1] = mesh.mVertices[i].y
+		vertices[6 * i + 2] = mesh.mVertices[i].z
+		vertices[6 * i + 4] = mesh.mNormals[i].x
+		vertices[6 * i + 5] = mesh.mNormals[i].y
+		vertices[6 * i + 6] = mesh.mNormals[i].z
 	end
 	require( "framework.graphics.mesh" )
 	return framework.graphics.mesh( vertices, mesh.mNumVertices )

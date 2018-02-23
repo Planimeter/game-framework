@@ -58,8 +58,9 @@ uniform vec3 u_Camera;
 
 in vec3 v_Position;
 
-in vec2 texCoord;
+in vec2 v_UV;
 
+#define HAS_NORMALS
 #ifdef HAS_NORMALS
 #ifdef HAS_TANGENTS
 in mat3 v_TBN;
@@ -68,7 +69,7 @@ in vec3 v_Normal;
 #endif
 #endif
 
-out vec4 fragColor;
+out vec4 FragColor;
 
 // Encapsulate the various inputs used by the various functions in the shading equation
 // We store values in this struct to simplify the integration of alternative implementations
@@ -115,8 +116,8 @@ vec3 getNormal()
 #ifndef HAS_TANGENTS
     vec3 pos_dx = dFdx(v_Position);
     vec3 pos_dy = dFdy(v_Position);
-    vec3 tex_dx = dFdx(vec3(texCoord, 0.0));
-    vec3 tex_dy = dFdy(vec3(texCoord, 0.0));
+    vec3 tex_dx = dFdx(vec3(v_UV, 0.0));
+    vec3 tex_dy = dFdy(vec3(v_UV, 0.0));
     vec3 t = (tex_dy.t * pos_dx - tex_dx.t * pos_dy) / (tex_dx.s * tex_dy.t - tex_dy.s * tex_dx.t);
 
 #ifdef HAS_NORMALS
@@ -133,7 +134,7 @@ vec3 getNormal()
 #endif
 
 #ifdef HAS_NORMALMAP
-    vec3 n = texture(u_NormalSampler, texCoord).rgb;
+    vec3 n = texture(u_NormalSampler, v_UV).rgb;
     n = normalize(tbn * ((2.0 * n - 1.0) * vec3(u_NormalScale, u_NormalScale, 1.0)));
 #else
     // The tbn matrix is linearly interpolated, so we need to re-normalize
@@ -220,7 +221,7 @@ void main()
 #ifdef HAS_METALROUGHNESSMAP
     // Roughness is stored in the 'g' channel, metallic is stored in the 'b' channel.
     // This layout intentionally reserves the 'r' channel for (optional) occlusion map data
-    vec4 mrSample = texture(u_MetallicRoughnessSampler, texCoord);
+    vec4 mrSample = texture(u_MetallicRoughnessSampler, v_UV);
     perceptualRoughness = mrSample.g * perceptualRoughness;
     metallic = mrSample.b * metallic;
 #endif
@@ -232,7 +233,7 @@ void main()
 
     // The albedo may be defined from a base texture or a flat color
 #ifdef HAS_BASECOLORMAP
-    vec4 baseColor = SRGBtoLINEAR(texture(tex, texCoord)) * color;
+    vec4 baseColor = SRGBtoLINEAR(texture(tex, v_UV)) * color;
 #else
     vec4 baseColor = color;
 #endif
@@ -296,12 +297,12 @@ void main()
 
     // Apply optional PBR terms for additional (optional) shading
 #ifdef HAS_OCCLUSIONMAP
-    float ao = texture(u_OcclusionSampler, texCoord).r;
+    float ao = texture(u_OcclusionSampler, v_UV).r;
     _color = mix(_color, _color * ao, u_OcclusionStrength);
 #endif
 
 #ifdef HAS_EMISSIVEMAP
-    vec3 emissive = SRGBtoLINEAR(texture(u_EmissiveSampler, texCoord)).rgb * u_EmissiveFactor;
+    vec3 emissive = SRGBtoLINEAR(texture(u_EmissiveSampler, v_UV)).rgb * u_EmissiveFactor;
     _color += emissive;
 #endif
 
@@ -317,5 +318,5 @@ void main()
     // _color = mix(_color, vec3(metallic), u_ScaleDiffBaseMR.z);
     // _color = mix(_color, vec3(perceptualRoughness), u_ScaleDiffBaseMR.w);
 
-    fragColor = vec4(pow(_color,vec3(1.0/2.2)), baseColor.a);
+    FragColor = vec4(pow(_color,vec3(1.0/2.2)), baseColor.a);
 }

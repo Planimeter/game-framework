@@ -66,7 +66,7 @@ function setDefaultShader()
 	local fragmentSource = framework.filesystem.read( "shaders/default.frag" )
 	local vertexSource   = framework.filesystem.read( "shaders/default2d.vert" )
 	local shader         = newShader( fragmentSource, vertexSource )
-	GL.glBindFragDataLocation( shader, 0, "fragColor" )
+	GL.glBindFragDataLocation( shader, 0, "FragColor" )
 	linkShader( shader )
 	setShader( shader )
 
@@ -80,11 +80,11 @@ function setDefaultShader()
 
 	-- default2d.vert
 	-- attribs
-	-- vertex
-	local vertex = GL.glGetAttribLocation( shader, "vertex" )
+	-- position
+	local position = GL.glGetAttribLocation( shader, "position" )
 	local stride = ( 2 + 2 ) * ffi.sizeof( "GLfloat" )
-	GL.glEnableVertexAttribArray( vertex )
-	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, stride, nil )
+	GL.glEnableVertexAttribArray( position )
+	GL.glVertexAttribPointer( position, 2, GL.GL_FLOAT, 0, stride, nil )
 
 	-- texcoord
 	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
@@ -113,7 +113,7 @@ function setDefault3DShader()
 	local fragmentSource = framework.filesystem.read( "shaders/default.frag" )
 	local vertexSource   = framework.filesystem.read( "shaders/default3d.vert" )
 	local shader         = newShader( fragmentSource, vertexSource )
-	GL.glBindFragDataLocation( shader, 0, "fragColor" )
+	GL.glBindFragDataLocation( shader, 0, "FragColor" )
 	linkShader( shader )
 	setShader( shader )
 
@@ -127,16 +127,22 @@ function setDefault3DShader()
 
 	-- default3d.vert
 	-- attribs
-	-- vertex
-	local vertex = GL.glGetAttribLocation( shader, "vertex" )
-	local stride = ( 3 + 2 ) * ffi.sizeof( "GLfloat" )
-	GL.glEnableVertexAttribArray( vertex )
-	GL.glVertexAttribPointer( vertex, 3, GL.GL_FLOAT, 0, stride, nil )
+	-- position
+	local position = GL.glGetAttribLocation( shader, "position" )
+	local stride = ( 3 + 3 + 2 ) * ffi.sizeof( "GLfloat" )
+	GL.glEnableVertexAttribArray( position )
+	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
+
+	-- normal
+	local normal = GL.glGetAttribLocation( shader, "normal" )
+	GL.glEnableVertexAttribArray( normal )
+	local pointer = ffi.cast( "GLvoid *", 3 * ffi.sizeof( "GLfloat" ) )
+	GL.glVertexAttribPointer( normal, 3, GL.GL_FLOAT, 0, stride, pointer )
 
 	-- texcoord
 	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
 	GL.glEnableVertexAttribArray( texcoord )
-	local pointer = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
+	pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 
 	-- uniforms
@@ -160,7 +166,7 @@ function setGlTFPBRShader()
 	local fragmentSource = framework.filesystem.read( "shaders/pbr-frag.glsl" )
 	local vertexSource   = framework.filesystem.read( "shaders/pbr-vert.glsl" )
 	local shader         = newShader( fragmentSource, vertexSource )
-	GL.glBindFragDataLocation( shader, 0, "fragColor" )
+	GL.glBindFragDataLocation( shader, 0, "FragColor" )
 	linkShader( shader )
 	setShader( shader )
 
@@ -183,16 +189,22 @@ function setGlTFPBRShader()
 
 	-- pbr-vert.glsl
 	-- attribs
-	-- vertex
-	local vertex = GL.glGetAttribLocation( shader, "vertex" )
-	local stride = ( 3 + 2 ) * ffi.sizeof( "GLfloat" )
-	GL.glEnableVertexAttribArray( vertex )
-	GL.glVertexAttribPointer( vertex, 3, GL.GL_FLOAT, 0, stride, nil )
+	-- position
+	local position = GL.glGetAttribLocation( shader, "position" )
+	local stride = ( 3 + 3 + 2 ) * ffi.sizeof( "GLfloat" )
+	GL.glEnableVertexAttribArray( position )
+	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
+
+	-- normal
+	local normal = GL.glGetAttribLocation( shader, "normal" )
+	GL.glEnableVertexAttribArray( normal )
+	local pointer = ffi.cast( "GLvoid *", 3 * ffi.sizeof( "GLfloat" ) )
+	GL.glVertexAttribPointer( normal, 3, GL.GL_FLOAT, 0, stride, pointer )
 
 	-- texcoord
 	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
 	GL.glEnableVertexAttribArray( texcoord )
-	local pointer = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
+	pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 
 	-- uniforms

@@ -56,7 +56,7 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	local width      = self.width
 	local height     = self.height
 	local vertices   = {
-		-- vertex              -- texcoord
+		-- position            -- texcoord
 		x,         y + height, 0.0, 1.0,
 		x + width, y + height, 1.0, 1.0,
 		x,         y,          0.0, 0.0,
@@ -67,13 +67,13 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
 	local size      = ffi.sizeof( pVertices )
 	local shader    = framework.graphics.getShader()
-	local vertex    = GL.glGetAttribLocation( shader, "vertex" )
+	local position  = GL.glGetAttribLocation( shader, "position" )
 	local stride    = 4 * ffi.sizeof( "GLfloat" )
 	local texcoord  = GL.glGetAttribLocation( shader, "texcoord" )
 	local pointer   = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
 	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
-	GL.glVertexAttribPointer( vertex, 2, GL.GL_FLOAT, 0, stride, nil )
+	GL.glVertexAttribPointer( position, 2, GL.GL_FLOAT, 0, stride, nil )
 	GL.glEnableVertexAttribArray( texcoord )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 	framework.graphics.updateTransformations()
