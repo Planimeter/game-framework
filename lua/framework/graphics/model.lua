@@ -20,9 +20,9 @@ local function processMesh( self, mesh )
 		vertices[6 * i + 0] = mesh.mVertices[i].x
 		vertices[6 * i + 1] = mesh.mVertices[i].y
 		vertices[6 * i + 2] = mesh.mVertices[i].z
-		vertices[6 * i + 4] = mesh.mNormals[i].x
-		vertices[6 * i + 5] = mesh.mNormals[i].y
-		vertices[6 * i + 6] = mesh.mNormals[i].z
+		vertices[6 * i + 3] = mesh.mNormals[i].x
+		vertices[6 * i + 4] = mesh.mNormals[i].y
+		vertices[6 * i + 5] = mesh.mNormals[i].z
 	end
 	require( "framework.graphics.mesh" )
 	return framework.graphics.mesh( vertices, mesh.mNumVertices )
