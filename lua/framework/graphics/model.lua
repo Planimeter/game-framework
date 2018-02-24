@@ -101,8 +101,11 @@ local function PHYSFSOpenProc( self, filename, mode )
 	file.FileSizeProc = PHYSFSFileSizeProc
 	file.SeekProc     = PHYSFSSeekProc
 	file.FlushProc    = PHYSFSFlushProc
-	file.UserData     = ffi.cast( "void *", physfs.PHYSFS_openRead( filename ) )
-	return file
+	local handle      = physfs.PHYSFS_openRead( filename )
+	file.UserData     = ffi.cast( "void *", handle )
+	if ( handle ~= nil ) then
+		return file
+	end
 end
 
 local function PHYSFSCloseProc( self, file )
