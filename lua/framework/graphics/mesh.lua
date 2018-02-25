@@ -40,7 +40,8 @@ function mesh:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	local texcoord       = GL.glGetAttribLocation( shader, "texcoord" )
 	local defaultTexture = framework.graphics.getDefaultTexture()
 	local textures       = self.textures
-	local diffuse        = textures.diffuse or defaultTexture
+	local diffuse        = textures.diffuse and
+	                       textures.diffuse.texture or defaultTexture
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, self.vbo[0] )
 	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
 	GL.glVertexAttribPointer( normal, 3, GL.GL_FLOAT, 0, stride, pointer )
