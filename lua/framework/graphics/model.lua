@@ -162,7 +162,9 @@ function model:getBoundingBox( min, max )
 	max.y = -1e10
 	max.z = -1e10
 	if ( self.scene.mRootNode ~= nil ) then
-		self:getBoundingBoxForNode( self.scene.mRootNode, min, max, transformation )
+		self:getBoundingBoxForNode(
+			self.scene.mRootNode, min, max, transformation
+		)
 	end
 end
 
@@ -190,7 +192,9 @@ function model:getBoundingBoxForNode( node, min, max, transformation )
 	end
 
 	for n = 0, node.mNumChildren - 1 do
-		self:getBoundingBoxForNode( node.mChildren[n], min, max, transformation )
+		self:getBoundingBoxForNode(
+			node.mChildren[n], min, max, transformation
+		)
 	end
 	transformation[0] = prev[0]
 end
