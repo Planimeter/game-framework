@@ -15,48 +15,6 @@ class( "framework.graphics.model" )
 
 local model = framework.graphics.model
 
-local function processMesh( self, mesh )
-	local stride   = ( 3 + 3 + 3 + 2 )
-	local vertices = ffi.new( "GLfloat[?]", stride * mesh.mNumVertices )
-	for i = 0, mesh.mNumVertices - 1 do
-		do
-			vertices[stride * i + 0]  = mesh.mVertices[i].x
-			vertices[stride * i + 1]  = mesh.mVertices[i].y
-			vertices[stride * i + 2]  = mesh.mVertices[i].z
-		end
-
-		if ( mesh.mNormals ~= nil ) then
-			vertices[stride * i + 3]  = mesh.mNormals[i].x
-			vertices[stride * i + 4]  = mesh.mNormals[i].y
-			vertices[stride * i + 5]  = mesh.mNormals[i].z
-		end
-
-		if ( mesh.mTangents ~= nil ) then
-			vertices[stride * i + 6]  = mesh.mTangents[i].x
-			vertices[stride * i + 7]  = mesh.mTangents[i].y
-			vertices[stride * i + 8]  = mesh.mTangents[i].z
-		end
-
-		if ( mesh.mTextureCoords[0] ~= nil ) then
-			vertices[stride * i + 9]  = mesh.mTextureCoords[0][i].x
-			vertices[stride * i + 10] = mesh.mTextureCoords[0][i].y
-		end
-	end
-	require( "framework.graphics.mesh" )
-	return framework.graphics.mesh( vertices, mesh.mNumVertices )
-end
-
-local function processNode( self, node )
-	for i = 0, node.mNumMeshes - 1 do
-		local mesh = self.scene.mMeshes[node.mMeshes[i]]
-		table.insert( self.meshes, processMesh( self, mesh ) )
-	end
-
-	for i = 0, node.mNumChildren - 1 do
-		processNode( self, node.mChildren[i] )
-	end
-end
-
 local function PHYSFSReadProc( self, buffer, size, count )
 	local file = ffi.cast( "void *", self.UserData )
 	return physfs.PHYSFS_read( file, buffer, size, count )
@@ -124,8 +82,82 @@ local function getPHYSFSFileIO()
 	return fileIO
 end
 
+local function processMesh( self, mesh )
+	local stride   = ( 3 + 3 + 3 + 2 )
+	local vertices = ffi.new( "GLfloat[?]", stride * mesh.mNumVertices )
+	for i = 0, mesh.mNumVertices - 1 do
+		do
+			vertices[stride * i + 0]  = mesh.mVertices[i].x
+			vertices[stride * i + 1]  = mesh.mVertices[i].y
+			vertices[stride * i + 2]  = mesh.mVertices[i].z
+		end
+
+		if ( mesh.mNormals ~= nil ) then
+			vertices[stride * i + 3]  = mesh.mNormals[i].x
+			vertices[stride * i + 4]  = mesh.mNormals[i].y
+			vertices[stride * i + 5]  = mesh.mNormals[i].z
+		end
+
+		if ( mesh.mTangents ~= nil ) then
+			vertices[stride * i + 6]  = mesh.mTangents[i].x
+			vertices[stride * i + 7]  = mesh.mTangents[i].y
+			vertices[stride * i + 8]  = mesh.mTangents[i].z
+		end
+
+		if ( mesh.mTextureCoords[0] ~= nil ) then
+			vertices[stride * i + 9]  = mesh.mTextureCoords[0][i].x
+			vertices[stride * i + 10] = mesh.mTextureCoords[0][i].y
+		end
+	end
+
+	local textures = {}
+	local texIndex = 0
+	local texFound = ffi.C.aiReturn_SUCCESS
+
+	local path = ffi.new( "struct aiString" )
+
+	repeat
+		texFound = assimp.aiGetMaterialTexture(
+			self.scene.mMaterials[mesh.mMaterialIndex],
+			assimp.aiTextureType_DIFFUSE,
+			texIndex,
+			path,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil
+		)
+		if ( path.length > 0 ) then
+			local directory = string.match( self.filename, "(.+/)[^/]*$" ) or ""
+			local filename  = directory .. ffi.string( path.data, path.length )
+			textures[ "diffuse" ] = filename
+		end
+		texIndex = texIndex + 1
+	until ( texFound ~= ffi.C.aiReturn_SUCCESS )
+
+	require( "framework.graphics.mesh" )
+	return framework.graphics.mesh( vertices, mesh.mNumVertices, textures )
+end
+
+local function processNode( self, node )
+	for i = 0, node.mNumMeshes - 1 do
+		local mesh = self.scene.mMeshes[node.mMeshes[i]]
+		table.insert( self.meshes, processMesh( self, mesh ) )
+	end
+
+	for i = 0, node.mNumChildren - 1 do
+		processNode( self, node.mChildren[i] )
+	end
+end
+
+local function processMaterials( self )
+end
+
 function model:model( filename )
-	self.scene = assimp.aiImportFileEx( filename, bit.bor(
+	self.filename = filename
+	self.scene    = assimp.aiImportFileEx( filename, bit.bor(
 		ffi.C.aiProcess_CalcTangentSpace,
 		ffi.C.aiProcess_GenNormals,
 		ffi.C.aiProcess_Triangulate,

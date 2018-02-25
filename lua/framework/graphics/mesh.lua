@@ -12,7 +12,7 @@ class( "framework.graphics.mesh" )
 
 local mesh = framework.graphics.mesh
 
-function mesh:mesh( vertices, count )
+function mesh:mesh( vertices, count, textures )
 	self.vbo = ffi.new( "GLuint[1]" )
 	GL.glGenBuffers( 1, self.vbo )
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, self.vbo[0] )
@@ -21,6 +21,11 @@ function mesh:mesh( vertices, count )
 	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, vertices, GL.GL_STATIC_DRAW )
 	self.vertices = vertices
 	self.count    = count
+
+	for type, filename in pairs( textures ) do
+		textures[ type ] = framework.graphics.newImage( filename )
+	end
+	self.textures = textures
 
 	setproxy( self )
 end
@@ -34,6 +39,8 @@ function mesh:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	local tangent        = GL.glGetAttribLocation( shader, "tangent" )
 	local texcoord       = GL.glGetAttribLocation( shader, "texcoord" )
 	local defaultTexture = framework.graphics.getDefaultTexture()
+	local textures       = self.textures
+	local diffuse        = textures.diffuse or defaultTexture
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, self.vbo[0] )
 	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
 	GL.glVertexAttribPointer( normal, 3, GL.GL_FLOAT, 0, stride, pointer )
@@ -42,7 +49,7 @@ function mesh:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	pointer = ffi.cast( "GLvoid *", ( 3 + 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 	framework.graphics.updateTransformations()
-	GL.glBindTexture( GL.GL_TEXTURE_2D, defaultTexture[0] )
+	GL.glBindTexture( GL.GL_TEXTURE_2D, diffuse[0] )
 	framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, self.count )
 end
 
