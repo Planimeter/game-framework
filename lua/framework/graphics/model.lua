@@ -151,6 +151,48 @@ function model:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	end
 end
 
+function model:getBoundingBox( min, max )
+	local transformation = ffi.new( "struct aiMatrix4x4[1]" )
+	assimp.aiIdentityMatrix4( transformation )
+
+	min.x =  1e10
+	min.y =  1e10
+	min.z =  1e10
+	max.x = -1e10
+	max.y = -1e10
+	max.z = -1e10
+	self:getBoundingBoxForNode( self.scene.mRootNode, min, max, transformation )
+end
+
+function model:getBoundingBoxForNode( node, min, max, transformation )
+	local prev = ffi.new( "struct aiMatrix4x4[1]" )
+	prev[0] = transformation[0]
+
+	assimp.aiMultiplyMatrix4( transformation, node.mTransformation )
+
+	for n = 0, node.mNumMeshes - 1 do
+		local mesh = self.scene.mMeshes[node.mMeshes[n]]
+		for t = 0, mesh.mNumVertices - 1 do
+
+			local tmp = mesh.mVertices[t]
+			assimp.aiTransformVecByMatrix4( tmp, transformation )
+
+			min.x = math.min( min.x, tmp.x )
+			min.y = math.min( min.y, tmp.y )
+			min.z = math.min( min.z, tmp.z )
+
+			max.x = math.max( max.x, tmp.x )
+			max.y = math.max( max.y, tmp.y )
+			max.z = math.max( max.z, tmp.z )
+		end
+	end
+
+	for n = 0, node.mNumChildren - 1 do
+		self:getBoundingBoxForNode( node.mChildren[n], min, max, transformation )
+	end
+	transformation[0] = prev[0]
+end
+
 function model:__gc()
 	assimp.aiReleaseImport( self.scene )
 end
