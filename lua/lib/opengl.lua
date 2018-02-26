@@ -2011,9 +2011,10 @@ local _M = {
 }
 return setmetatable( _M, {
 	__index = function( table, key )
-		local ct    = "PFN" .. string.upper( key ) .. "PROC"
-		local cdata = ffi.cast( ct, SDL.SDL_GL_GetProcAddress( key ) )
-		_M[ key ]   = cdata
-		return cdata
+		local ct      = "PFN" .. string.upper( key ) .. "PROC"
+		local pointer = SDL.SDL_GL_GetProcAddress( key )
+		local cdata   = ffi.cast( ct, pointer )
+		_M[ key ]     = cdata
+		return pointer ~= nil and cdata or nil
 	end
 } )
