@@ -129,7 +129,7 @@ local function processMesh( self, mesh )
 			nil,
 			nil
 		)
-		if ( path.length > 0 ) then
+		if ( texFound == ffi.C.aiReturn_SUCCESS ) then
 			local directory = string.match( self.filename, "(.+/)[^/]*$" ) or ""
 			local filename  = directory .. ffi.string( path.data, path.length )
 			textures[ "diffuse" ] = filename
