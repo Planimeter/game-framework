@@ -37,8 +37,9 @@ function font:font( filename, size )
 
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
+	local o    = GL.GL_ONE
 	local r    = GL.GL_RED
-	local mask = ffi.new( "GLint[4]", { r, r, r, r } )
+	local mask = ffi.new( "GLint[4]", { o, o, o, r } )
 	GL.glTexParameteriv( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_SWIZZLE_RGBA, mask )
 
 	setproxy( self )
