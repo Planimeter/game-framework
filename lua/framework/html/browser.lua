@@ -45,6 +45,13 @@ function browser:browser( url, width, height )
 	local browser_subprocess_path    = "cef.exe"
 	settings.browser_subprocess_path = toutf16( browser_subprocess_path )
 
+	local baseDir               = framework.filesystem.getSourceBaseDirectory()
+	local resources_dir_path    = baseDir .. "lua\\resources"
+	settings.resources_dir_path = toutf16( resources_dir_path )
+
+	local locales_dir_path    = baseDir .. "lua\\resources\\locales"
+	settings.locales_dir_path = toutf16( locales_dir_path )
+
 	cef.cef_initialize( self.mainArgs, self.settings, self.app, nil )
 
 	local windowInfo  = ffi.new( "cef_window_info_t" )
