@@ -61,9 +61,7 @@ local function PHYSFSOpenProc( self, filename, mode )
 	file.FlushProc    = PHYSFSFlushProc
 	local handle      = physfs.PHYSFS_openRead( filename )
 	file.UserData     = ffi.cast( "void *", handle )
-	if ( handle ~= nil ) then
-		return file
-	end
+	return handle ~= nil and file or nil
 end
 
 local function PHYSFSCloseProc( self, file )
