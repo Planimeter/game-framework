@@ -117,7 +117,7 @@ local function processMesh( self, mesh )
 	repeat
 		texFound = assimp.aiGetMaterialTexture(
 			self.scene.mMaterials[mesh.mMaterialIndex],
-			assimp.aiTextureType_DIFFUSE,
+			ffi.C.aiTextureType_DIFFUSE,
 			texIndex,
 			path,
 			nil,
