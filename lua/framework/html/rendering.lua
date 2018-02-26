@@ -39,7 +39,7 @@ local function on_paint( self )
 			self.width,
 			self.height,
 			0,
-			GL.GL_RGBA,
+			GL.GL_BGRA_EXT or 0x80E1,
 			GL.GL_UNSIGNED_BYTE,
 			buffer
 		)
