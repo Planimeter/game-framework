@@ -80,6 +80,57 @@ local function getPHYSFSFileIO()
 	return fileIO
 end
 
+local textureTypes = {
+	diffuse      = ffi.C.aiTextureType_DIFFUSE,
+	specular     = ffi.C.aiTextureType_SPECULAR,
+	ambient      = ffi.C.aiTextureType_AMBIENT,
+	emissive     = ffi.C.aiTextureType_EMISSIVE,
+	height       = ffi.C.aiTextureType_HEIGHT,
+	normals      = ffi.C.aiTextureType_NORMALS,
+	shininess    = ffi.C.aiTextureType_SHININESS,
+	opacity      = ffi.C.aiTextureType_OPACITY,
+	displacement = ffi.C.aiTextureType_DISPLACEMENT,
+	lightmap     = ffi.C.aiTextureType_LIGHTMAP,
+	reflection   = ffi.C.aiTextureType_REFLECTION
+}
+
+local function getMaterialTexture( self, mesh, type )
+	local texIndex = 0
+	local texFound = ffi.C.aiReturn_SUCCESS
+
+	local path = ffi.new( "struct aiString" )
+
+	repeat
+		texFound = assimp.aiGetMaterialTexture(
+			self.scene.mMaterials[mesh.mMaterialIndex],
+			type,
+			texIndex,
+			path,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil,
+			nil
+		)
+		if ( texFound == ffi.C.aiReturn_SUCCESS ) then
+			local filename  = self.filename
+			local directory = string.match( filename, "(.+/)[^/]*$" ) or ""
+			filename        = directory .. ffi.string( path.data, path.length )
+			return filename
+		end
+		texIndex = texIndex + 1
+	until ( texFound ~= ffi.C.aiReturn_SUCCESS )
+end
+
+local function processMaterials( self, mesh )
+	local textures = {}
+	for k, type in pairs( textureTypes ) do
+		textures[ k ] = getMaterialTexture( self, mesh, type )
+	end
+	return textures
+end
+
 local function processMesh( self, mesh )
 	local stride   = ( 3 + 3 + 3 + 2 )
 	local vertices = ffi.new( "GLfloat[?]", stride * mesh.mNumVertices )
@@ -108,33 +159,7 @@ local function processMesh( self, mesh )
 		end
 	end
 
-	local textures = {}
-	local texIndex = 0
-	local texFound = ffi.C.aiReturn_SUCCESS
-
-	local path = ffi.new( "struct aiString" )
-
-	repeat
-		texFound = assimp.aiGetMaterialTexture(
-			self.scene.mMaterials[mesh.mMaterialIndex],
-			ffi.C.aiTextureType_DIFFUSE,
-			texIndex,
-			path,
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			nil
-		)
-		if ( texFound == ffi.C.aiReturn_SUCCESS ) then
-			local directory = string.match( self.filename, "(.+/)[^/]*$" ) or ""
-			local filename  = directory .. ffi.string( path.data, path.length )
-			textures[ "diffuse" ] = filename
-		end
-		texIndex = texIndex + 1
-	until ( texFound ~= ffi.C.aiReturn_SUCCESS )
-
+	local textures = processMaterials( self, mesh )
 	require( "framework.graphics.mesh" )
 	return framework.graphics.mesh( vertices, mesh.mNumVertices, textures )
 end
@@ -148,9 +173,6 @@ local function processNode( self, node )
 	for i = 0, node.mNumChildren - 1 do
 		processNode( self, node.mChildren[i] )
 	end
-end
-
-local function processMaterials( self )
 end
 
 function model:model( filename )
