@@ -70,7 +70,7 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 			local width    = g.bitmap.width
 			local height   = g.bitmap.rows
 			local vertices = {
-				-- vertex              -- texcoord
+				-- vertex                -- texcoord
 				gx,         gy + height, 0.0, 1.0,
 				gx + width, gy + height, 1.0, 1.0,
 				gx,         gy,          0.0, 0.0,
