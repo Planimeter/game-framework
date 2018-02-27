@@ -182,7 +182,8 @@ function model:model( filename )
 		ffi.C.aiProcess_GenNormals,
 		ffi.C.aiProcess_Triangulate,
 		ffi.C.aiProcess_GenUVCoords,
-		ffi.C.aiProcess_SortByPType
+		ffi.C.aiProcess_SortByPType,
+		ffi.C.aiProcess_FlipUVs
 	), getPHYSFSFileIO() )
 	if ( self.scene == nil ) then
 		error( ffi.string( assimp.aiGetErrorString() ), 3 )
