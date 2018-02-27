@@ -82,6 +82,15 @@ function print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
+function setBackgroundColor( color )
+	GL.glClearColor(
+		( color[ 1 ] or 0 ) / 255,
+		( color[ 2 ] or 0 ) / 255,
+		( color[ 3 ] or 0 ) / 255,
+		( color[ 4 ] or 0 )
+	)
+end
+
 function setFont( font )
 	_font = font
 end

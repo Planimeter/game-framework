@@ -41,7 +41,7 @@ local function PHYSFSSeekProc( self, offset, whence )
 	if ( ret ~= 0 ) then
 		return ffi.C.aiReturn_SUCCESS
 	else
-		-- TODO: Return ffi.C.aiReturn_OUTOFMEMORY
+		-- TODO: Return ffi.C.aiReturn_OUTOFMEMORY.
 		return ffi.C.aiReturn_FAILURE
 	end
 end
@@ -200,6 +200,7 @@ end
 
 function model:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	for _, mesh in ipairs( self.meshes ) do
+		-- TODO: Transform mesh.
 		framework.graphics.draw( mesh, x, y, r, sx, sy, ox, oy, kx, ky )
 	end
 end
