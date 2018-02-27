@@ -114,7 +114,7 @@ end
 
 function init()
 	require( "framework.filesystem" )
-	framework.filesystem.init( arg[ 0 ] )
+	framework.filesystem.init( arg[ -1 ] )
 	framework.filesystem.mount( arg[ 1 ], nil, false )
 	framework.filesystem.mount( framework.cpath, nil, false )
 
