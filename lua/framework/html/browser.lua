@@ -45,11 +45,10 @@ function browser:browser( url, width, height )
 	local browser_subprocess_path    = "cef.exe"
 	settings.browser_subprocess_path = toutf16( browser_subprocess_path )
 
-	local baseDir               = framework.filesystem.getSourceBaseDirectory()
-	local resources_dir_path    = baseDir .. "lua\\resources"
+	local resources_dir_path    = framework.path .. "resources"
 	settings.resources_dir_path = toutf16( resources_dir_path )
 
-	local locales_dir_path    = baseDir .. "lua\\resources\\locales"
+	local locales_dir_path    = framework.path .. "resources\\locales"
 	settings.locales_dir_path = toutf16( locales_dir_path )
 
 	cef.cef_initialize( self.mainArgs, self.settings, self.app, nil )
@@ -77,9 +76,9 @@ function browser:browser( url, width, height )
 	self.height = height
 	self:initializeRenderHandler()
 
-	cef.cef_browser_host_create_browser( self.windowInfo, self.client,
-	                                     toutf16( url ),
-	                                     self.browserSettings, nil )
+	self.browser = cef.cef_browser_host_create_browser_sync(
+		self.windowInfo, self.client, toutf16( url ), self.browserSettings, nil
+	)
 
 	setproxy( self )
 end
