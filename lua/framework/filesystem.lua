@@ -56,12 +56,6 @@ function getLastModified( filename )
 	return physfs.PHYSFS_getLastModTime( filename )
 end
 
-function getSourceBaseDirectory()
-	return string.gsub(
-		ffi.string( physfs.PHYSFS_getBaseDir() ), "lua\\framework\\$", ""
-	)
-end
-
 function getUserDirectory()
 	return ffi.string( physfs.PHYSFS_getUserDir() )
 end
