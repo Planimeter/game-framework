@@ -12,7 +12,7 @@ class( "framework.graphics.mesh" )
 
 local mesh = framework.graphics.mesh
 
-function mesh:mesh( vertices, count, textures )
+function mesh:mesh( vertices, count, textures, transformation )
 	self.vbo = ffi.new( "GLuint[1]" )
 	GL.glGenBuffers( 1, self.vbo )
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, self.vbo[0] )
@@ -20,7 +20,7 @@ function mesh:mesh( vertices, count, textures )
 	local size = ffi.sizeof( vertices )
 	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, vertices, GL.GL_STATIC_DRAW )
 	self.vertices = vertices
-	self.count    = count
+	self.count = count
 
 	for type, filename in pairs( textures ) do
 		textures[ type ] = framework.graphics.newImage( filename )

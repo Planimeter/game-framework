@@ -131,7 +131,7 @@ local function processMaterials( self, mesh )
 	return textures
 end
 
-local function processMesh( self, mesh )
+local function processMesh( self, mesh, transformation )
 	local stride   = ( 3 + 3 + 3 + 2 )
 	local vertices = ffi.new( "GLfloat[?]", stride * mesh.mNumVertices )
 	for i = 0, mesh.mNumVertices - 1 do
@@ -161,18 +161,26 @@ local function processMesh( self, mesh )
 
 	local textures = processMaterials( self, mesh )
 	require( "framework.graphics.mesh" )
-	return framework.graphics.mesh( vertices, mesh.mNumVertices, textures )
+	return framework.graphics.mesh(
+		vertices, mesh.mNumVertices, textures, transformation
+	)
 end
 
-local function processNode( self, node )
+local function processNode( self, node, transformation )
+	local prev = ffi.new( "struct aiMatrix4x4[1]" )
+	prev[0] = transformation[0]
+
+	assimp.aiMultiplyMatrix4( transformation, node.mTransformation )
+
 	for i = 0, node.mNumMeshes - 1 do
 		local mesh = self.scene.mMeshes[node.mMeshes[i]]
-		table.insert( self.meshes, processMesh( self, mesh ) )
+		table.insert( self.meshes, processMesh( self, mesh, transformation ) )
 	end
 
 	for i = 0, node.mNumChildren - 1 do
-		processNode( self, node.mChildren[i] )
+		processNode( self, node.mChildren[i], transformation )
 	end
+	transformation[0] = prev[0]
 end
 
 function model:model( filename )
@@ -192,7 +200,10 @@ function model:model( filename )
 	self.meshes = {}
 
 	if ( self.scene.mRootNode ~= nil ) then
-		processNode( self, self.scene.mRootNode )
+		local transformation = ffi.new( "struct aiMatrix4x4[1]" )
+		assimp.aiIdentityMatrix4( transformation )
+
+		processNode( self, self.scene.mRootNode, transformation )
 	end
 
 	setproxy( self )
@@ -200,8 +211,9 @@ end
 
 function model:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	for _, mesh in ipairs( self.meshes ) do
-		-- TODO: Transform mesh.
-		framework.graphics.draw( mesh, x, y, r, sx, sy, ox, oy, kx, ky )
+		framework.graphics.push()
+			framework.graphics.draw( mesh, x, y, r, sx, sy, ox, oy, kx, ky )
+		framework.graphics.pop()
 	end
 end
 
