@@ -37,7 +37,8 @@ end
 
 function framework.draw()
 	framework.graphics.push()
-		framework.graphics.translate( -center.x, -center.y, -center.z - 10 )
+		framework.graphics.rotateY( math.rad( 180 ) )
+		framework.graphics.translate( -center.x, -center.y, -center.z + 10 )
 		framework.graphics.draw( teapot )
 	framework.graphics.pop()
 end
