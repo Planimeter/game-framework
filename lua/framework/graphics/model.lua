@@ -5,11 +5,12 @@
 --============================================================================--
 
 require( "class" )
-local assimp = require( "assimp" )
-local ffi    = require( "ffi" )
-local bit    = require( "bit" )
-local GL     = require( "opengl" )
-local physfs = require( "physicsfs" )
+local assimp  = require( "assimp" )
+local ffi     = require( "ffi" )
+local bit     = require( "bit" )
+local GL      = require( "opengl" )
+local physfs  = require( "physicsfs" )
+local kazmath = require( "kazmath" )
 
 class( "framework.graphics.model" )
 
@@ -159,14 +160,11 @@ local function processMesh( self, mesh, transformation )
 		end
 	end
 
-	local textures = processMaterials( self, mesh )
-
-	local mat4 = ffi.new( "kmMat4[1]" )
-	mat4[0] = ffi.cast( "kmMat4 &", transformation[0] )
-
+	local textures        = processMaterials( self, mesh )
+	local pTransformation = ffi.cast( "kmMat4 &", transformation[0] )
 	require( "framework.graphics.mesh" )
 	return framework.graphics.mesh(
-		vertices, mesh.mNumVertices, textures, mat4
+		vertices, mesh.mNumVertices, textures, pTransformation
 	)
 end
 
@@ -216,6 +214,10 @@ end
 function model:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	for _, mesh in ipairs( self.meshes ) do
 		framework.graphics.push()
+			local mat4 = framework.graphics.getTransformation()
+			local transpose = ffi.new( "kmMat4" )
+			kazmath.kmMat4Transpose( transpose, mesh.transformation )
+			kazmath.kmMat4Multiply( mat4, mat4, transpose )
 			framework.graphics.draw( mesh, x, y, r, sx, sy, ox, oy, kx, ky )
 		framework.graphics.pop()
 	end

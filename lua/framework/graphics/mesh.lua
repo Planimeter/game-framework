@@ -27,7 +27,7 @@ function mesh:mesh( vertices, count, textures, transformation )
 	end
 	self.textures = textures
 
-	self.transformation = transformation
+	self.transformation = ffi.new( "kmMat4", transformation )
 
 	setproxy( self )
 end
