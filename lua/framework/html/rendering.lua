@@ -14,7 +14,7 @@ local browser = framework.html.browser
 
 local function get_view_rect( self )
 	return function( handler, browser, rect )
-		local _rect = ffi.new( "cef_rect_t", { 0, 0, self.width, self.height } )
+		local _rect = ffi.new( "cef_rect_t", 0, 0, self.width, self.height )
 		ffi.copy( rect, _rect, ffi.sizeof( _rect ) )
 		return 1
 	end

@@ -13,8 +13,8 @@ local center = ffi.new( "struct aiVector3D" )
 function framework.load( arg )
 	framework.graphics.setGlTFPBRShader()
 
-	local rotation = 75 * math.pi / 180
-	local pitch    = 40 * math.pi / 180
+	local rotation = math.rad( 75 )
+	local pitch    = math.rad( 40 )
 	framework.graphics.setLightDirection( {
 		math.sin( rotation ) * math.cos( pitch ),
 		math.sin( pitch ),
@@ -37,8 +37,18 @@ end
 
 function framework.draw()
 	framework.graphics.push()
+		framework.graphics.lookAt(
+			0,  0,  3,
+			0,  0, -5,
+			0,  1,  0
+		)
 		framework.graphics.rotateY( math.rad( 180 ) )
-		framework.graphics.translate( -center.x, -center.y, -center.z + 10 )
+		scale = max.x - min.x
+		scale = math.max( max.y - min.y, scale )
+		scale = math.max( max.z - min.z, scale )
+		scale = 1 / scale
+		framework.graphics.scale( scale, scale, scale )
+		framework.graphics.translate( -center.x, -center.y, -center.z )
 		framework.graphics.draw( teapot )
 	framework.graphics.pop()
 end

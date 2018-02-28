@@ -89,6 +89,18 @@ function setOrthographicProjection( width, height )
 	updateTransformations()
 end
 
+function lookAt( eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ )
+	local mode = getMatrixMode()
+	setMatrixMode( "view" )
+		local mat4   = getTransformation()
+		local eye    = ffi.new( "kmVec3", eyeX,    eyeY,    eyeZ )
+		local center = ffi.new( "kmVec3", centerX, centerY, centerZ )
+		local up     = ffi.new( "kmVec3", upX,     upY,     upZ )
+		kazmath.kmMat4LookAt( mat4, eye, center, up )
+	setMatrixMode( mode )
+	updateTransformations()
+end
+
 function origin()
 	kazmath.kmMat4Identity( getTransformation() )
 end
