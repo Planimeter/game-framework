@@ -12,7 +12,7 @@ local assimp = ffi.load( "assimp" )
 local _M     = {}
 
 function _M.aiPrintMatrix4( mat )
-	mat = mat[0]
+	mat = ffi.cast( "struct aiMatrix4x4 *", mat )
 	print(
 		        mat.a1, mat.a2, mat.a3, mat.a4 .. "\n",
 		"\r" .. mat.b1, mat.b2, mat.b3, mat.b4 .. "\n",
