@@ -100,6 +100,22 @@ function rotate( angle )
 	kazmath.kmMat4Multiply( mat4, mat4, rotation )
 end
 
+function rotateX( angle )
+	local rotation = ffi.new( "kmMat4" )
+	kazmath.kmMat4RotationX( rotation, angle )
+	local mat4 = getTransformation()
+	kazmath.kmMat4Multiply( mat4, mat4, rotation )
+end
+
+function rotateY( angle )
+	local rotation = ffi.new( "kmMat4" )
+	kazmath.kmMat4RotationY( rotation, angle )
+	local mat4 = getTransformation()
+	kazmath.kmMat4Multiply( mat4, mat4, rotation )
+end
+
+rotateZ = rotate
+
 function scale( x, y, z )
 	z = z or 1
 	local scaling = ffi.new( "kmMat4" )
