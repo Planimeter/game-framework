@@ -6,6 +6,7 @@
 
 function framework.load( arg )
 	framework.graphics.setGlTFPBRShader()
+	framework.graphics.setBackgroundColor( { 51, 51, 51, 1 } )
 
 	local rotation = math.rad( 75 )
 	local pitch    = math.rad( 40 )
