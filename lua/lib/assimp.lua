@@ -13,10 +13,10 @@ local _M     = {}
 
 function _M.aiPrintMatrix4( mat )
 	print(
-		        a1, a2, a3, a4 .. "\n",
-		"\r" .. b1, b2, b3, b4 .. "\n",
-		"\r" .. c1, c2, c3, c4 .. "\n",
-		"\r" .. d1, d2, d3, d4
+		        mat.a1, mat.a2, mat.a3, mat.a4 .. "\n",
+		"\r" .. mat.b1, mat.b2, mat.b3, mat.b4 .. "\n",
+		"\r" .. mat.c1, mat.c2, mat.c3, mat.c4 .. "\n",
+		"\r" .. mat.d1, mat.d2, mat.d3, mat.d4
 	)
 end
 
