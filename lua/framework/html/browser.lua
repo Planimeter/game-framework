@@ -61,6 +61,7 @@ function browser:browser( url, width, height )
 
 	local browserSettings = ffi.new( "cef_browser_settings_t" )
 	browserSettings.size  = ffi.sizeof( browserSettings )
+	browserSettings.windowless_frame_rate = 60
 	self.browserSettings  = browserSettings
 
 	self:initializeClient()
