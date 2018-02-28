@@ -65,6 +65,18 @@ function resize( width, height )
 	framework.graphics.setOrthographicProjection( width, height )
 end
 
+local fullScreenFlags = {
+	exclusive = ffi.C.SDL_WINDOW_FULLSCREEN,
+	desktop   = ffi.C.SDL_WINDOW_FULLSCREEN_DESKTOP
+}
+
+function setFullscreen( fullscreen, type )
+	type = type or "desktop"
+	return SDL.SDL_SetWindowFullscreen(
+		framework.window._window, fullscreen and fullScreenFlags[ type ] or 0
+	) == 0
+end
+
 function swap()
 	SDL.SDL_GL_SwapWindow( _window )
 	framework.graphics._drawCalls = 0
