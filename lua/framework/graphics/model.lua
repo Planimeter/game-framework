@@ -160,9 +160,13 @@ local function processMesh( self, mesh, transformation )
 	end
 
 	local textures = processMaterials( self, mesh )
+
+	local mat4 = ffi.new( "kmMat4[1]" )
+	mat4[0] = ffi.cast( "kmMat4 &", transformation[0] )
+
 	require( "framework.graphics.mesh" )
 	return framework.graphics.mesh(
-		vertices, mesh.mNumVertices, textures, transformation
+		vertices, mesh.mNumVertices, textures, mat4
 	)
 end
 
