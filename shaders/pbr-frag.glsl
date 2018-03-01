@@ -20,6 +20,7 @@ precision highp float;
 uniform vec3 u_LightDirection;
 uniform vec3 u_LightColor;
 
+// #define USE_IBL
 #ifdef USE_IBL
 uniform samplerCube u_DiffuseEnvSampler;
 uniform samplerCube u_SpecularEnvSampler;
@@ -154,20 +155,20 @@ vec3 getNormal()
 //     float lod = (pbrInputs.perceptualRoughness * mipCount);
 //     // retrieve a scale and bias to F0. See [1], Figure 3
 //     vec3 brdf = SRGBtoLINEAR(texture(u_brdfLUT, vec2(pbrInputs.NdotV, 1.0 - pbrInputs.perceptualRoughness))).rgb;
-//     vec3 diffuseLight = SRGBtoLINEAR(textureCube(u_DiffuseEnvSampler, n)).rgb;
+//     vec3 diffuseLight = SRGBtoLINEAR(texture(u_DiffuseEnvSampler, n)).rgb;
 //
 // #ifdef USE_TEX_LOD
 //     vec3 specularLight = SRGBtoLINEAR(textureCubeLodEXT(u_SpecularEnvSampler, reflection, lod)).rgb;
 // #else
-//     vec3 specularLight = SRGBtoLINEAR(textureCube(u_SpecularEnvSampler, reflection)).rgb;
+//     vec3 specularLight = SRGBtoLINEAR(texture(u_SpecularEnvSampler, reflection)).rgb;
 // #endif
 //
 //     vec3 diffuse = diffuseLight * pbrInputs.diffuseColor;
 //     vec3 specular = specularLight * (pbrInputs.specularColor * brdf.x + brdf.y);
 //
 //     // For presentation, this allows us to disable IBL terms
-//     diffuse *= u_ScaleIBLAmbient.x;
-//     specular *= u_ScaleIBLAmbient.y;
+//     // diffuse *= u_ScaleIBLAmbient.x;
+//     // specular *= u_ScaleIBLAmbient.y;
 //
 //     return diffuse + specular;
 // }
