@@ -34,7 +34,7 @@ function _M.kmMat4ReversedZPerspectiveProjection(pOut, fovY,
 	end
 
 	--[[sin(r) / cos(r) = tan(r)]]
-	tangent = math.sin(r) / s
+	tangent = math.sin(r) / c
 
 	kazmath.kmMat4Identity(pOut)
 	pOut.mat[0] = 1 / tangent / aspect
