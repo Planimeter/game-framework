@@ -13,6 +13,16 @@ local kazmath = ffi.load(
 )
 local _M = {}
 
+function _M.kmMat4Print( pOut )
+	local mat = pOut.mat
+	print(
+		        mat[0],  mat[1],  mat[2],  mat[3]  .. "\n",
+		"\r" .. mat[4],  mat[5],  mat[6],  mat[7]  .. "\n",
+		"\r" .. mat[8],  mat[9],  mat[10], mat[11] .. "\n",
+		"\r" .. mat[12], mat[13], mat[14], mat[15]
+	)
+end
+
 function _M.kmMat4ReversedZPerspectiveProjection(pOut, fovY,
                                                  aspect, zNear)
 	local r = kazmath.kmDegreesToRadians(fovY / 2)
@@ -35,16 +45,6 @@ function _M.kmMat4ReversedZPerspectiveProjection(pOut, fovY,
 	pOut.mat[15] = 0
 
 	return pOut
-end
-
-function _M.kmMat4Print( pOut )
-	local mat = pOut.mat
-	print(
-		        mat[0],  mat[1],  mat[2],  mat[3]  .. "\n",
-		"\r" .. mat[4],  mat[5],  mat[6],  mat[7]  .. "\n",
-		"\r" .. mat[8],  mat[9],  mat[10], mat[11] .. "\n",
-		"\r" .. mat[12], mat[13], mat[14], mat[15]
-	)
 end
 
 return setmetatable( _M, {
