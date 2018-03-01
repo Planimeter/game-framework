@@ -31,17 +31,21 @@ uniform sampler2D u_brdfLUT;
 #ifdef HAS_BASECOLORMAP
 uniform sampler2D tex;
 #endif
+// #define HAS_NORMALMAP
 #ifdef HAS_NORMALMAP
 uniform sampler2D u_NormalSampler;
 uniform float u_NormalScale;
 #endif
+#define HAS_EMISSIVEMAP
 #ifdef HAS_EMISSIVEMAP
 uniform sampler2D u_EmissiveSampler;
 uniform vec3 u_EmissiveFactor;
 #endif
+#define HAS_METALROUGHNESSMAP
 #ifdef HAS_METALROUGHNESSMAP
 uniform sampler2D u_MetallicRoughnessSampler;
 #endif
+#define HAS_OCCLUSIONMAP
 #ifdef HAS_OCCLUSIONMAP
 uniform sampler2D u_OcclusionSampler;
 uniform float u_OcclusionStrength;
@@ -63,7 +67,7 @@ in vec2 v_UV;
 
 #define HAS_NORMALS
 #ifdef HAS_NORMALS
-// #define HAS_TANGENTS
+#define HAS_TANGENTS
 #ifdef HAS_TANGENTS
 in mat3 v_TBN;
 #else

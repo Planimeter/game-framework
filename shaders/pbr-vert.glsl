@@ -4,7 +4,7 @@ in vec4 position;
 #ifdef HAS_NORMALS
 in vec4 normal;
 #endif
-// #define HAS_TANGENTS
+#define HAS_TANGENTS
 #ifdef HAS_TANGENTS
 in vec4 tangent;
 #endif
