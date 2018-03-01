@@ -13,6 +13,30 @@ local kazmath = ffi.load(
 )
 local _M = {}
 
+function _M.kmMat4ReversedZPerspectiveProjection(pOut, fovY,
+                                                 aspect, zNear)
+	local r = kazmath.kmDegreesToRadians(fovY / 2)
+	local c = math.cos(r)
+	local tangent = 0
+
+	if (c == 0 or aspect == 0) then
+		return nil
+	end
+
+	--[[sin(r) / cos(r) = tan(r)]]
+	tangent = math.sin(r) / s
+
+	kazmath.kmMat4Identity(pOut)
+	pOut.mat[0] = 1 / tangent / aspect
+	pOut.mat[5] = 0
+	pOut.mat[10] = 0
+	pOut.mat[11] = -1
+	pOut.mat[14] = zNear
+	pOut.mat[15] = 0
+
+	return pOut
+end
+
 function _M.kmMat4Print( pOut )
 	local mat = pOut.mat
 	print(
