@@ -42,14 +42,15 @@ entities, or level loading.
 ## Features
 * SDL2 for window creation, OpenGL function loading, and event handling
 * Modern OpenGL (OpenGL 3.3/4.0+ Core Profile)
-* glTF 2.0 physically-based rendering reference shaders
+* PhysicsFS for abstracting access to various archives
 * DevIL for loading a wide variety of image formats
 * FreeType for rendering text
 * SDL_sound for decoding several popular sound file formats
 * OpenAL for rendering 3D sound
-* PhysicsFS for abstracting access to various archives
 * Chipmunk for 2-dimensional real-time rigid body physics
 * Assimp for loading various 3D file formats
+* glTF 2.0 physically-based rendering reference shaders
+* Reversed-Z infinite far plane depth buffer support
 * Chromium Embedded Framework for UI
 
 ## Libraries
