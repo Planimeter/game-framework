@@ -74,6 +74,16 @@ function setPerspectiveProjection( fov, aspect, near, far )
 	updateTransformations()
 end
 
+function setReversedZPerspectiveProjection( fov, aspect, near )
+	local mode = getMatrixMode()
+	setMatrixMode( "projection" )
+		local mat4 = getTransformation()
+		kazmath.kmMat4ReversedZPerspectiveProjection( mat4, fov, aspect, near )
+		GL.glDepthFunc( GL.GL_GEQUAL )
+	setMatrixMode( mode )
+	updateTransformations()
+end
+
 function setOrthographicProjection( width, height )
 	if ( not width and not height ) then
 		width, height = framework.graphics.getSize()
