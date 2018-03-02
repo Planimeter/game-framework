@@ -6,6 +6,7 @@
 
 require( "framework.html.browser" )
 local cef = require( "cef" )
+local jit = require( "jit" )
 
 local framework = framework
 
@@ -19,6 +20,8 @@ end
 function update( dt )
 	cef.cef_do_message_loop_work()
 end
+
+jit.off( update )
 
 function quit()
 	cef.cef_shutdown()

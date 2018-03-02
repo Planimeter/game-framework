@@ -4,8 +4,6 @@
 --
 --============================================================================--
 
-jit.off()
-
 require( "class" )
 require( "framework.graphics.image" )
 local ffi = require( "ffi" )
