@@ -48,11 +48,9 @@ local function get_keyboard_handler( self )
 end
 
 local function get_life_span_handler( self )
-    local function getLifeSpanHandler( handler )
+    return function( handler )
         return self.lifeSpanHandler
     end
-    jit.off( getLifeSpanHandler )
-    return getLifeSpanHandler
 end
 
 local function get_load_handler( self )
@@ -60,11 +58,9 @@ local function get_load_handler( self )
 end
 
 local function get_render_handler( self )
-    local function getRenderHandler( handler )
+    return function( handler )
         return self.renderHandler
     end
-    jit.off( getRenderHandler )
-    return getRenderHandler
 end
 
 local function get_request_handler( self )
