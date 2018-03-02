@@ -4,6 +4,8 @@
 --
 --============================================================================--
 
+jit.off()
+
 require( "framework.html.browser" )
 local cef = require( "cef" )
 local jit = require( "jit" )

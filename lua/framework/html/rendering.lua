@@ -14,8 +14,7 @@ local browser = framework.html.browser
 
 local function get_view_rect( self )
 	return function( handler, browser, rect )
-		local _rect = ffi.new( "cef_rect_t", 0, 0, self.width, self.height )
-		ffi.copy( rect, _rect, ffi.sizeof( _rect ) )
+		rect[0] = ffi.new( "cef_rect_t", 0, 0, self.width, self.height )
 		return 1
 	end
 end
@@ -36,8 +35,8 @@ local function on_paint( self )
 			GL.GL_TEXTURE_2D,
 			0,
 			GL.GL_RGBA,
-			self.width,
-			self.height,
+			width,
+			height,
 			0,
 			GL.GL_BGRA_EXT or 0x80E1,
 			GL.GL_UNSIGNED_BYTE,
@@ -47,10 +46,10 @@ local function on_paint( self )
 end
 
 function browser:initializeRenderHandler()
-	local handler     = ffi.new( "cef_render_handler_t" )
+	local handler = ffi.new( "cef_render_handler_t" )
 	handler.base.size = ffi.sizeof( handler )
 	self:implementRefCounting( handler )
 	handler.get_view_rect = get_view_rect( self )
-	handler.on_paint      = on_paint( self )
-	self.renderHandler    = handler
+	handler.on_paint = on_paint( self )
+	self.renderHandler = handler
 end

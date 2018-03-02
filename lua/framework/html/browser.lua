@@ -86,6 +86,15 @@ function browser:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
+function browser:resize( width, height )
+	self.width  = width
+	self.height = height
+
+	local browser = self.browser
+	local host    = browser.get_host( browser )
+	host.was_resized( host )
+end
+
 function browser:__gc()
 	GL.glDeleteTextures( 1, self.texture )
 end
