@@ -18,7 +18,7 @@ https://www.microsoft.com/en-us/download/details.aspx?id=48145
 
 ### macOS
 ```bash
-brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp
+brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet
 ```
 
 ## Run
