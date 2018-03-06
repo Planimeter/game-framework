@@ -212,7 +212,7 @@ function setGlTFPBRShader()
 	GL.glUniform1i( u_EmissiveSampler, 2 )
 
 	-- u_EmissiveFactor
-	setEmissiveFactor( { 1, 1, 1 } )
+	setEmissiveFactor( { 0, 0, 0 } )
 
 	-- u_MetallicRoughnessSampler
 	local u_MetallicRoughnessSampler = GL.glGetUniformLocation(
