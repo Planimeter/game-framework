@@ -23,8 +23,6 @@ function update( dt )
 	cef.cef_do_message_loop_work()
 end
 
-jit.off( update )
-
 function quit()
 	cef.cef_shutdown()
 end
