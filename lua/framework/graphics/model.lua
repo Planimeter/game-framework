@@ -82,17 +82,18 @@ local function getPHYSFSFileIO()
 end
 
 local textureTypes = {
-	diffuse      = ffi.C.aiTextureType_DIFFUSE,
-	specular     = ffi.C.aiTextureType_SPECULAR,
-	ambient      = ffi.C.aiTextureType_AMBIENT,
-	emissive     = ffi.C.aiTextureType_EMISSIVE,
-	height       = ffi.C.aiTextureType_HEIGHT,
-	normals      = ffi.C.aiTextureType_NORMALS,
-	shininess    = ffi.C.aiTextureType_SHININESS,
-	opacity      = ffi.C.aiTextureType_OPACITY,
-	displacement = ffi.C.aiTextureType_DISPLACEMENT,
-	lightmap     = ffi.C.aiTextureType_LIGHTMAP,
-	reflection   = ffi.C.aiTextureType_REFLECTION
+	diffuse           = ffi.C.aiTextureType_DIFFUSE,
+	specular          = ffi.C.aiTextureType_SPECULAR,
+	ambient           = ffi.C.aiTextureType_AMBIENT,
+	emissive          = ffi.C.aiTextureType_EMISSIVE,
+	height            = ffi.C.aiTextureType_HEIGHT,
+	normals           = ffi.C.aiTextureType_NORMALS,
+	shininess         = ffi.C.aiTextureType_SHININESS,
+	opacity           = ffi.C.aiTextureType_OPACITY,
+	displacement      = ffi.C.aiTextureType_DISPLACEMENT,
+	lightmap          = ffi.C.aiTextureType_LIGHTMAP,
+	reflection        = ffi.C.aiTextureType_REFLECTION,
+	metallicRoughness = ffi.C.aiTextureType_UNKNOWN
 }
 
 local function getMaterialTexture( self, mesh, type )
