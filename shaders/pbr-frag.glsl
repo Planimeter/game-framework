@@ -31,7 +31,7 @@ uniform sampler2D u_brdfLUT;
 #ifdef HAS_BASECOLORMAP
 uniform sampler2D tex;
 #endif
-// #define HAS_NORMALMAP
+#define HAS_NORMALMAP
 #ifdef HAS_NORMALMAP
 uniform sampler2D u_NormalSampler;
 uniform float u_NormalScale;
@@ -101,6 +101,7 @@ const float c_MinRoughness = 0.04;
 
 vec4 SRGBtoLINEAR(vec4 srgbIn)
 {
+    #define MANUAL_SRGB
     #ifdef MANUAL_SRGB
     #ifdef SRGB_FAST_APPROXIMATION
     vec3 linOut = pow(srgbIn.xyz,vec3(2.2));
