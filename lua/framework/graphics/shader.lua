@@ -362,8 +362,9 @@ end
 
 function setBrdfLUT( filename )
 	_brdfLUT = framework.graphics.newImage( filename )
-	framework.graphics.setActiveTexture( 7 )
+	setActiveTexture( 7 )
 	GL.glBindTexture( GL.GL_TEXTURE_2D, _brdfLUT.texture[0] )
+	setActiveTexture( 0 )
 end
 
 function getNormalScale()
