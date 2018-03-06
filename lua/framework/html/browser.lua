@@ -40,7 +40,7 @@ function browser:browser( url, width, height )
 	settings.no_sandbox   = 1
 	self.settings         = settings
 
-	local browser_subprocess_path    = "cef.exe"
+	local browser_subprocess_path    = "bin\\cef.exe"
 	settings.browser_subprocess_path = toutf16( browser_subprocess_path )
 
 	local resources_dir_path    = framework.path .. "resources"
