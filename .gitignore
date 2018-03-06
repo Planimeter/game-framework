@@ -1,2 +1,17 @@
+/bin/cef_sandbox.lib
+/bin/chrome_elf.dll
+/bin/d3dcompiler_43.dll
+/bin/d3dcompiler_47.dll
+/bin/icudtl.dat
+/bin/libEGL.dll
+/bin/libGLESv2.dll
+/bin/libcef.dll
+/bin/libcef.lib
+/bin/natives_blob.bin
+/bin/snapshot_blob.bin
+/bin/swiftshader/libEGL.dll
+/bin/swiftshader/libGLESv2.dll
+/bin/v8_context_snapshot.bin
+/bin/widevinecdmadapter.dll
 /debug.log
 /GPUCache
