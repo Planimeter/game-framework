@@ -184,6 +184,12 @@ function setGlTFPBRShader()
 	-- u_LightColor
 	setLightColor( { 255, 255, 255 } )
 
+	-- u_NormalSampler
+	local u_brdfLUT = GL.glGetUniformLocation(
+		shader, "u_brdfLUT"
+	)
+	GL.glUniform1i( u_brdfLUT, 7 )
+
 	-- u_brdfLUT
 	setBrdfLUT( "textures/brdfLUT.png" )
 
@@ -194,7 +200,7 @@ function setGlTFPBRShader()
 	local u_NormalSampler = GL.glGetUniformLocation(
 		shader, "u_NormalSampler"
 	)
-	GL.glUniform1i( u_NormalSampler, 2 )
+	GL.glUniform1i( u_NormalSampler, 1 )
 
 	-- u_NormalScale
 	setNormalScale( 1 )
@@ -203,7 +209,7 @@ function setGlTFPBRShader()
 	local u_EmissiveSampler = GL.glGetUniformLocation(
 		shader, "u_EmissiveSampler"
 	)
-	GL.glUniform1i( u_EmissiveSampler, 3 )
+	GL.glUniform1i( u_EmissiveSampler, 2 )
 
 	-- u_EmissiveFactor
 	setEmissiveFactor( { 1, 1, 1 } )
@@ -212,13 +218,13 @@ function setGlTFPBRShader()
 	local u_MetallicRoughnessSampler = GL.glGetUniformLocation(
 		shader, "u_MetallicRoughnessSampler"
 	)
-	GL.glUniform1i( u_MetallicRoughnessSampler, 4 )
+	GL.glUniform1i( u_MetallicRoughnessSampler, 3 )
 
 	-- u_OcclusionSampler
 	local u_OcclusionSampler = GL.glGetUniformLocation(
 		shader, "u_OcclusionSampler"
 	)
-	GL.glUniform1i( u_OcclusionSampler, 5 )
+	GL.glUniform1i( u_OcclusionSampler, 4 )
 
 	-- u_OcclusionStrength
 	setOcclusionStrength( 1 )
@@ -356,7 +362,7 @@ end
 
 function setBrdfLUT( filename )
 	_brdfLUT = framework.graphics.newImage( filename )
-	framework.graphics.setActiveTexture( 1 )
+	framework.graphics.setActiveTexture( 7 )
 	GL.glBindTexture( GL.GL_TEXTURE_2D, _brdfLUT.texture[0] )
 end
 

@@ -32,12 +32,15 @@ function mesh:mesh( vertices, count, textures, transformation )
 	setproxy( self )
 end
 
-local textureUnits = {
-	diffuse           = 0,
-	normals           = 2,
-	emissive          = 3,
-	metallicRoughness = 4,
-	lightmap          = 5
+local textureUnits     = {
+	diffuse            = 0,
+	normals            = 1,
+	emissive           = 2,
+	metallicRoughness  = 3,
+	lightmap           = 4,
+	diffuseEnvSampler  = 5,
+	specularEnvSampler = 6,
+	brdfLUT            = 7
 }
 
 function mesh:draw( x, y, r, sx, sy, ox, oy, kx, ky )
