@@ -4,6 +4,8 @@
 --
 --============================================================================--
 
+local ffi       = require( "ffi" )
+
 local gsub      = string.gsub
 local gamedir   = arg[ 2 ]
 
@@ -11,10 +13,18 @@ local framework = {}
 _G.framework    = framework
 
 if ( jit.os == "Windows" ) then
+	-- Declare `SetDllDirectoryA`
+	ffi.cdef[[
+		int __stdcall SetDllDirectoryA(const char* lpPathName);
+	]]
+
 	-- Add `framework.path' and `framework.cpath'
 	local path      = gsub( arg[ 0 ], "\\framework\\init%.lua$", "\\" )
 	framework.path  = path
 	framework.cpath = gsub( path, "\\lua\\$", "\\" )
+
+	-- Set DLL directory
+	ffi.C.SetDllDirectoryA( framework.cpath .. "bin" )
 
 	-- Add `lib'
 	package.path    = package.path  .. path .. "lib\\?.lua;"
@@ -77,7 +87,6 @@ function main()
 	load( arg )
 
 	require( "framework.event" )
-	local ffi = require( "ffi" )
 
 	while ( true ) do
 		local e = nil
