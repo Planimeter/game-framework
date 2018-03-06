@@ -35,8 +35,8 @@ end
 local textureUnits = {
 	diffuse           = 0,
 	normals           = 1,
-	metallicRoughness = 2,
-	emissive          = 3,
+	emissive          = 2,
+	metallicRoughness = 3,
 	lightmap          = 4
 }
 

@@ -200,7 +200,7 @@ function setGlTFPBRShader()
 	local u_EmissiveSampler = GL.glGetUniformLocation(
 		shader, "u_EmissiveSampler"
 	)
-	GL.glUniform1i( u_EmissiveSampler, 3 )
+	GL.glUniform1i( u_EmissiveSampler, 2 )
 
 	-- u_EmissiveFactor
 	setEmissiveFactor( { 1, 1, 1 } )
@@ -209,7 +209,7 @@ function setGlTFPBRShader()
 	local u_MetallicRoughnessSampler = GL.glGetUniformLocation(
 		shader, "u_MetallicRoughnessSampler"
 	)
-	GL.glUniform1i( u_MetallicRoughnessSampler, 2 )
+	GL.glUniform1i( u_MetallicRoughnessSampler, 3 )
 
 	-- u_OcclusionSampler
 	local u_OcclusionSampler = GL.glGetUniformLocation(
