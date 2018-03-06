@@ -187,6 +187,33 @@ function setGlTFPBRShader()
 	-- tex
 	setDefaultTexture()
 
+	-- u_NormalSampler
+	local u_NormalSampler = GL.glGetUniformLocation(
+		shader, "u_NormalSampler"
+	)
+	GL.glUniform1i( u_NormalSampler, 1 )
+
+	-- u_NormalScale
+	setNormalScale( 1 )
+
+	-- u_EmissiveSampler
+	local u_EmissiveSampler = GL.glGetUniformLocation(
+		shader, "u_EmissiveSampler"
+	)
+	GL.glUniform1i( u_EmissiveSampler, 3 )
+
+	-- u_EmissiveFactor
+	setEmissiveFactor( { 1, 1, 1 } )
+
+	-- u_OcclusionSampler
+	local u_OcclusionSampler = GL.glGetUniformLocation(
+		shader, "u_OcclusionSampler"
+	)
+	GL.glUniform1i( u_OcclusionSampler, 4 )
+
+	-- u_OcclusionStrength
+	setOcclusionStrength( 1 )
+
 	-- u_MetallicRoughnessValues
 	setMetallicRoughnessValues( { 1, 1 } )
 
@@ -279,7 +306,7 @@ function setColor( color )
 		( color[ 3 ] or 0 ) / 255,
 		( color[ 4 ] or 0 )
 	)
-	local index  = GL.glGetUniformLocation( getShader(), "color" )
+	local index = GL.glGetUniformLocation( getShader(), "color" )
 	GL.glUniform4fv( index, 1, pColor )
 	_color = color
 end
@@ -294,7 +321,7 @@ function setLightDirection( direction )
 		( direction[ 2 ] or 0 ),
 		( direction[ 3 ] or 0 )
 	)
-	local index  = GL.glGetUniformLocation( getShader(), "u_LightDirection" )
+	local index = GL.glGetUniformLocation( getShader(), "u_LightDirection" )
 	GL.glUniform3fv( index, 1, pDirection )
 	_lightDirection = direction
 end
@@ -309,9 +336,49 @@ function setLightColor( color )
 		( color[ 2 ] or 0 ) / 255,
 		( color[ 3 ] or 0 ) / 255
 	)
-	local index  = GL.glGetUniformLocation( getShader(), "u_LightColor" )
+	local index = GL.glGetUniformLocation( getShader(), "u_LightColor" )
 	GL.glUniform3fv( index, 1, pColor )
 	_lightColor = color
+end
+
+function getNormalScale()
+	return _normalScale
+end
+
+function setNormalScale( normalScale )
+	local pNormalScale = ffi.new( "GLfloat[1]", normalScale )
+	local index = GL.glGetUniformLocation(
+		getShader(),
+		"u_NormalScale"
+	)
+	GL.glUniform1fv( index, 1, pNormalScale )
+	_normalScale = normalScale
+end
+
+function getEmissiveFactor()
+	return _emissiveFactor
+end
+
+function setEmissiveFactor( emissiveFactor )
+	local pEmissiveFactor = ffi.new( "GLfloat[3]", emissiveFactor )
+	local index = GL.glGetUniformLocation(
+		getShader(), "u_EmissiveFactor"
+	)
+	GL.glUniform3fv( index, 1, pEmissiveFactor )
+	_emissiveFactor = emissiveFactor
+end
+
+function getOcclusionStrength()
+	return _occlusionStrength
+end
+
+function setOcclusionStrength( occlusionStrength )
+	local pOcclusionStrength = ffi.new( "GLfloat[1]", occlusionStrength )
+	local index = GL.glGetUniformLocation(
+		getShader(), "u_OcclusionStrength"
+	)
+	GL.glUniform1fv( index, 1, pOcclusionStrength )
+	_occlusionStrength = occlusionStrength
 end
 
 function getMetallicRoughnessValues()
@@ -323,9 +390,8 @@ function setMetallicRoughnessValues( metallicRoughnessValues )
 		( metallicRoughnessValues[ 1 ] or 1 ),
 		( metallicRoughnessValues[ 2 ] or 1 )
 	)
-	local index  = GL.glGetUniformLocation(
-		getShader(),
-		"u_MetallicRoughnessValues"
+	local index = GL.glGetUniformLocation(
+		getShader(), "u_MetallicRoughnessValues"
 	)
 	GL.glUniform2fv( index, 1, pMetallicRoughnessValues )
 	_metallicRoughnessValues = metallicRoughnessValues
