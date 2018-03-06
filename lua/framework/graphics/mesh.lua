@@ -34,10 +34,10 @@ end
 
 local textureUnits = {
 	diffuse           = 0,
-	normals           = 1,
-	emissive          = 2,
-	metallicRoughness = 3,
-	lightmap          = 4
+	normals           = 2,
+	emissive          = 3,
+	metallicRoughness = 4,
+	lightmap          = 5
 }
 
 function mesh:draw( x, y, r, sx, sy, ox, oy, kx, ky )
