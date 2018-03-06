@@ -9,7 +9,7 @@ io.input( framework.path .. "include/kazmath.h" )
 ffi.cdef( io.read( "*all" ) )
 
 local kazmath = ffi.load(
-	ffi.os == "Windows" and "kazmath" or framework.cpath .. "libkazmath.dylib"
+	ffi.os == "Windows" and "kazmath" or framework.cpath .. "bin/libkazmath.dylib"
 )
 local _M = {}
 
