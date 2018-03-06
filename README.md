@@ -52,6 +52,7 @@ entities, or level loading.
 * glTF 2.0 physically-based rendering reference shaders
 * Reversed-Z infinite far plane depth buffer support
 * Chromium Embedded Framework for UI
+* ENet for online multi-player support
 
 ## Libraries
 * [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
@@ -78,6 +79,8 @@ LuaJIT FFI bindings for Chipmunk
 LuaJIT FFI bindings for Assimp
 * [lcef](https://github.com/Planimeter/lcef)  
 LuaJIT FFI bindings for Chromium Embedded Framework
+* [lenet](https://github.com/Planimeter/lenet)  
+LuaJIT FFI bindings for ENet
 
 ## License
 MIT License
