@@ -235,6 +235,16 @@ function setGlTFPBRShader()
 	framework.graphics.setOrthographicProjection( width, height )
 end
 
+function getActiveTexture()
+	local texture = ffi.new( "GLint[1]" )
+	GL.glGetIntegerv( GL.GL_ACTIVE_TEXTURE, texture )
+	return texture[0]
+end
+
+function setActiveTexture( texture )
+	GL.glActiveTexture( GL[ "GL_TEXTURE" .. texture ] )
+end
+
 function getDefaultTexture()
 	return _defaultTexture
 end
