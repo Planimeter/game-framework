@@ -5,5 +5,6 @@
 --============================================================================--
 
 local framework = framework
+love = framework
 
 module( "framework.love" )
