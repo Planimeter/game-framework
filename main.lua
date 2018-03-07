@@ -5,9 +5,10 @@
 --============================================================================--
 
 function framework.load( arg )
+	-- Set glTF 2.0 physically-based rendering shader
 	framework.graphics.setGlTFPBRShader()
-	framework.graphics.setBackgroundColor( { 51, 51, 51, 1 } )
 
+	-- Light
 	local rotation = math.rad( 75 )
 	local pitch    = math.rad( 40 )
 	framework.graphics.setLightDirection( {
@@ -15,15 +16,21 @@ function framework.load( arg )
 		math.sin( pitch ),
 		math.cos( rotation ) * math.cos( pitch )
 	} )
+
+	-- Camera
 	framework.graphics.setCameraPosition( {
 		-1 * math.sin(  rotation ) * math.cos( -pitch ),
 		-1 * math.sin( -pitch ),
 		 1 * math.cos(  rotation ) * math.cos( -pitch )
 	} )
 
+	-- Load scene
 	helmet = framework.graphics.newModel(
 		"models/DamagedHelmet/gltf/DamagedHelmet.gltf"
 	)
+
+	-- Set background color
+	framework.graphics.setBackgroundColor( { 51, 51, 51, 1 } )
 end
 
 function framework.update( dt )
