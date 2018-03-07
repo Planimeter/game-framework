@@ -144,6 +144,9 @@ function init()
 		}
 	}
 
+	-- LÖVE compatibility
+	require( "framework.love" )
+
 	if ( framework.filesystem.isFile( "conf.lua" ) ) then
 		require( "conf" )
 	end
