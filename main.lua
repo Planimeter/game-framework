@@ -15,9 +15,11 @@ function framework.load( arg )
 		math.sin( pitch ),
 		math.cos( rotation ) * math.cos( pitch )
 	} )
-
-	local width, height = framework.graphics.getSize()
-	framework.graphics.setPerspectiveProjection( 45, width / height, 0.01, 100 )
+	framework.graphics.setCameraPosition( {
+		-1 * math.sin(  rotation ) * math.cos( -pitch ),
+		-1 * math.sin( -pitch ),
+		 1 * math.cos(  rotation ) * math.cos( -pitch )
+	} )
 
 	helmet = framework.graphics.newModel(
 		"models/DamagedHelmet/gltf/DamagedHelmet.gltf"
@@ -28,6 +30,9 @@ function framework.update( dt )
 end
 
 function framework.draw()
+	local width, height = framework.graphics.getSize()
+	framework.graphics.setPerspectiveProjection( 45, width / height, 0.01, 100 )
+
 	framework.graphics.push()
 		framework.graphics.lookAt(
 			0, 0, 4,

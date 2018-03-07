@@ -184,7 +184,28 @@ function setGlTFPBRShader()
 	-- u_LightColor
 	setLightColor( { 255, 255, 255 } )
 
-	-- u_NormalSampler
+	-- tex
+	setDefaultTexture()
+
+	-- u_DiffuseEnvSampler
+	local u_DiffuseEnvSampler = GL.glGetUniformLocation(
+		shader, "u_DiffuseEnvSampler"
+	)
+	GL.glUniform1i( u_DiffuseEnvSampler, 5 )
+
+	setActiveTexture( 5 )
+	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, _defaultTexture[0] )
+
+	-- u_SpecularEnvSampler
+	local u_SpecularEnvSampler = GL.glGetUniformLocation(
+		shader, "u_SpecularEnvSampler"
+	)
+	GL.glUniform1i( u_SpecularEnvSampler, 6 )
+
+	setActiveTexture( 6 )
+	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, _defaultTexture[0] )
+
+	-- u_brdfLUT
 	local u_brdfLUT = GL.glGetUniformLocation(
 		shader, "u_brdfLUT"
 	)
@@ -192,9 +213,6 @@ function setGlTFPBRShader()
 
 	-- u_brdfLUT
 	setBrdfLUT( "textures/brdfLUT.png" )
-
-	-- tex
-	setDefaultTexture()
 
 	-- u_NormalSampler
 	local u_NormalSampler = GL.glGetUniformLocation(
@@ -212,7 +230,7 @@ function setGlTFPBRShader()
 	GL.glUniform1i( u_EmissiveSampler, 2 )
 
 	-- u_EmissiveFactor
-	setEmissiveFactor( { 0, 0, 0 } )
+	setEmissiveFactor( { 1, 1, 1 } )
 
 	-- u_MetallicRoughnessSampler
 	local u_MetallicRoughnessSampler = GL.glGetUniformLocation(
@@ -331,11 +349,7 @@ function getLightDirection()
 end
 
 function setLightDirection( direction )
-	local pDirection = ffi.new( "GLfloat[3]",
-		( direction[ 1 ] or 0 ),
-		( direction[ 2 ] or 0 ),
-		( direction[ 3 ] or 0 )
-	)
+	local pDirection = ffi.new( "GLfloat[3]", direction )
 	local index = GL.glGetUniformLocation( getShader(), "u_LightDirection" )
 	GL.glUniform3fv( index, 1, pDirection )
 	_lightDirection = direction
@@ -373,10 +387,7 @@ end
 
 function setNormalScale( normalScale )
 	local pNormalScale = ffi.new( "GLfloat[1]", normalScale )
-	local index = GL.glGetUniformLocation(
-		getShader(),
-		"u_NormalScale"
-	)
+	local index = GL.glGetUniformLocation( getShader(), "u_NormalScale" )
 	GL.glUniform1fv( index, 1, pNormalScale )
 	_normalScale = normalScale
 end
@@ -387,9 +398,7 @@ end
 
 function setEmissiveFactor( emissiveFactor )
 	local pEmissiveFactor = ffi.new( "GLfloat[3]", emissiveFactor )
-	local index = GL.glGetUniformLocation(
-		getShader(), "u_EmissiveFactor"
-	)
+	local index = GL.glGetUniformLocation( getShader(), "u_EmissiveFactor" )
 	GL.glUniform3fv( index, 1, pEmissiveFactor )
 	_emissiveFactor = emissiveFactor
 end
@@ -400,9 +409,7 @@ end
 
 function setOcclusionStrength( occlusionStrength )
 	local pOcclusionStrength = ffi.new( "GLfloat[1]", occlusionStrength )
-	local index = GL.glGetUniformLocation(
-		getShader(), "u_OcclusionStrength"
-	)
+	local index = GL.glGetUniformLocation( getShader(), "u_OcclusionStrength" )
 	GL.glUniform1fv( index, 1, pOcclusionStrength )
 	_occlusionStrength = occlusionStrength
 end
@@ -421,4 +428,15 @@ function setMetallicRoughnessValues( metallicRoughnessValues )
 	)
 	GL.glUniform2fv( index, 1, pMetallicRoughnessValues )
 	_metallicRoughnessValues = metallicRoughnessValues
+end
+
+function getCameraPosition()
+	return _cameraPosition
+end
+
+function setCameraPosition( cameraPosition )
+	local pCamera = ffi.new( "GLfloat[3]", cameraPosition )
+	local index = GL.glGetUniformLocation( getShader(), "u_Camera" )
+	GL.glUniform3fv( index, 1, pCamera )
+	_cameraPosition = cameraPosition
 end

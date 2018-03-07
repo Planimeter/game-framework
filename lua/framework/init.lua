@@ -134,11 +134,12 @@ function init()
 			graphics = true
 		},
 		window = {
-			title  = "",
-			x      = nil,
-			y      = nil,
-			width  = 800,
-			height = 600
+			title     = "",
+			x         = nil,
+			y         = nil,
+			width     = 800,
+			height    = 600,
+			resizable = true
 		}
 	}
 
@@ -160,7 +161,12 @@ function init()
 		local y      = c.window.y
 		local width  = c.window.width
 		local height = c.window.height
-		framework.window.createWindow( title, x, y, width, height )
+		local flags  = 0
+		if ( c.window.resizable ) then
+			local bit = require( "bit" )
+			flags = bit.bor( flags, ffi.C.SDL_WINDOW_RESIZABLE )
+		end
+		framework.window.createWindow( title, x, y, width, height, flags )
 	end
 
 	if ( framework.filesystem.isFile( "main.lua" ) ) then
