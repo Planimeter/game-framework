@@ -53,6 +53,8 @@ entities, or level loading.
 * Reversed-Z infinite far plane depth buffer support
 * Chromium Embedded Framework for UI
 * ENet for online multi-player support
+* Lua Lanes for multithreading
+* LuaSocket for network support
 
 ## Libraries
 * [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
