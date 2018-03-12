@@ -55,6 +55,7 @@ entities, or level loading.
 * ENet for online multi-player support
 * Lua Lanes for multithreading
 * LuaSocket for network support
+* LuaSec for secure connections
 
 ## Libraries
 * [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  
