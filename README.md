@@ -35,7 +35,7 @@ a subset of LÖVE's API, while omitting LÖVE-specific features.
 While LÖVE advertises itself as a game engine/framework, lgf is strictly a
 framework. It only simplifies the collective libraries below in to an
 easy-to-read set of modules for graphics, audio, event, filesystem, keyboard,
-mouse, physics, sound, timer, and window usage. It does not provider
+mouse, physics, sound, timer, and window usage. It does not provide
 higher-level constructs such as UI widgets, keyboard and mouse bindings,
 entities, or level loading.
 
