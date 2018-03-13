@@ -124,9 +124,9 @@ end
 function init()
 	require( "framework.filesystem" )
 	framework.filesystem.init( arg[ -1 ] )
-	framework.filesystem.mount( framework.cpath, nil, false )
-	framework.filesystem.mount( framework.path, nil, false )
 	framework.filesystem.mount( gamedir, nil, false )
+	framework.filesystem.mount( framework.path, nil, false )
+	framework.filesystem.mount( framework.cpath, nil, false )
 
 	local c = {
 		modules = {
