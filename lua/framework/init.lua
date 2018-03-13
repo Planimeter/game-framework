@@ -29,7 +29,7 @@ if ( jit.os == "Windows" ) then
 	-- Add `lib'
 	package.path    = package.path  .. path .. "lib\\?.lua;"
 	package.cpath   = package.cpath .. ";".. path .. "lib\\?.dll;"
-	package.cpath   = package.cpath .. path .. "loadall.dll"
+	package.cpath   = package.cpath .. path .. "lib\\loadall.dll"
 
 	-- Add `./?/init.lua'
 	if ( gamedir ) then
@@ -58,7 +58,7 @@ else
 	-- Add `lib'
 	package.path    = package.path  .. path .. "lib/?.lua"
 	package.cpath   = package.cpath .. ";" .. path .. "lib/?.so;"
-	package.cpath   = package.cpath .. path .. "loadall.so"
+	package.cpath   = package.cpath .. path .. "lib/loadall.so"
 
 	-- Add `./?/init.lua'
 	if ( gamedir ) then
