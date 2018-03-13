@@ -21,7 +21,7 @@ if ( jit.os == "Windows" ) then
 	-- Add `framework.path' and `framework.cpath'
 	local path      = gsub( arg[ 0 ], "\\framework\\init%.lua$", "\\" )
 	framework.path  = path
-	framework.cpath = gsub( path, "\\lua\\$", "\\" )
+	framework.cpath = path
 
 	-- Set DLL directory
 	ffi.C.SetDllDirectoryA( framework.cpath .. "bin" )
@@ -49,7 +49,7 @@ else
 	-- Add `framework.path' and `framework.cpath'
 	local path      = gsub( arg[ 0 ], "/framework/init%.lua$", "/" )
 	framework.path  = path
-	framework.cpath = gsub( path, "/lua/$", "/" )
+	framework.cpath = path
 
 	-- Add working directory
 	package.path    = package.path  .. ";" .. path .. "?.lua;"
