@@ -5,7 +5,7 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( framework.path .. "include/assimp.h" )
+io.input( "include/assimp.h" )
 ffi.cdef( io.read( "*all" ) )
 
 local assimp = ffi.load( "assimp" )

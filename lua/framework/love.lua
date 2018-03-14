@@ -9,7 +9,11 @@ local jit       = jit
 local framework = framework
 _G.love         = framework
 
-do
+local function filesystem()
+	module( "love.filesystem" )
+end
+
+local function system()
 	module( "love.system" )
 
 	function getOS()
@@ -22,3 +26,6 @@ do
 		end
 	end
 end
+
+filesystem()
+system()

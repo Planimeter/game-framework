@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( framework.path .. "include/cef_app_capi.h" )
+io.input( "include/cef_app_capi.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( ffi.os == "Windows" and "libcef" or "cef" )

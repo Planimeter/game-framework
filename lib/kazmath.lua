@@ -5,7 +5,7 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( framework.path .. "include/kazmath.h" )
+io.input( "include/kazmath.h" )
 ffi.cdef( io.read( "*all" ) )
 
 local kazmath = ffi.load(
