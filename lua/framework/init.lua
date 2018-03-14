@@ -19,7 +19,7 @@ if ( jit.os == "Windows" ) then
 	]]
 
 	-- Add `framework.path' and `framework.cpath'
-	local path      = gsub( arg[ 0 ], "\\framework\\init%.lua$", "\\" )
+	local path      = gsub( arg[ 0 ], "\\lua\\framework\\init%.lua$", "\\" )
 	framework.path  = path
 	framework.cpath = path
 
@@ -47,7 +47,7 @@ if ( jit.os == "Windows" ) then
 	end
 else
 	-- Add `framework.path' and `framework.cpath'
-	local path      = gsub( arg[ 0 ], "/framework/init%.lua$", "/" )
+	local path      = gsub( arg[ 0 ], "/lua/framework/init%.lua$", "/" )
 	framework.path  = path
 	framework.cpath = path
 
