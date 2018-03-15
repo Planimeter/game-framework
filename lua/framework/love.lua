@@ -9,11 +9,17 @@ local jit       = jit
 local framework = framework
 _G.love         = framework
 
-local function filesystem()
+local function love_filesystem()
 	module( "love.filesystem" )
+
+	function getRequirePath()
+		return "./?.lua;lua/?.lua;lua/?/init.lua;"
+	end
+
+	return _M
 end
 
-local function system()
+local function love_system()
 	module( "love.system" )
 
 	function getOS()
@@ -25,7 +31,16 @@ local function system()
 			return jit.os
 		end
 	end
+
+	return _M
 end
 
-filesystem()
-system()
+local modules = {
+	[ "love.filesystem" ] = love_filesystem,
+	[ "love.system" ]     = love_system
+}
+
+-- Preload module loaders.
+for name, func in pairs( modules ) do
+	package.preload[ name ] = func()
+end
