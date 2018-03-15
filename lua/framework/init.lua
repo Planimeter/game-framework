@@ -6,6 +6,7 @@
 
 local ffi       = require( "ffi" )
 
+local execdir   = "./"
 local gsub      = string.gsub
 local gamedir   = arg[ 2 ]
 
@@ -13,23 +14,24 @@ local framework = {}
 _G.framework    = framework
 
 if ( jit.os == "Windows" ) then
+	execdir = ".\\"
+
 	-- Declare `SetDllDirectoryA`
 	ffi.cdef[[
 		int __stdcall SetDllDirectoryA(const char* lpPathName);
 	]]
 
-	-- Add `framework.path' and `framework.cpath'
-	local path      = gsub( arg[ 0 ], "\\lua\\framework\\init%.lua$", "\\" )
-	framework.path  = path
-	framework.cpath = path
+	-- Get working directory
+	execdir           = gsub( arg[ 0 ], "\\lua\\framework\\init%.lua$", "\\" )
+	framework.execdir = execdir
 
 	-- Set DLL directory
-	ffi.C.SetDllDirectoryA( framework.cpath .. "bin" )
+	ffi.C.SetDllDirectoryA( execdir .. "bin" )
 
 	-- Add `lib'
-	package.path    = package.path  .. path .. "lib\\?.lua;"
-	package.cpath   = package.cpath .. ";".. path .. "lib\\?.dll;"
-	package.cpath   = package.cpath .. path .. "lib\\loadall.dll"
+	package.path      = package.path  .. execdir .. "lib\\?.lua;"
+	package.cpath     = package.cpath .. ";".. execdir .. "lib\\?.dll;"
+	package.cpath     = package.cpath .. execdir .. "lib\\loadall.dll"
 
 	-- Add `./?/init.lua'
 	if ( gamedir ) then
@@ -42,23 +44,22 @@ if ( jit.os == "Windows" ) then
 		package.path = gsub(
 			package.path,
 			"^%.\\%?%.lua;",
-			framework.cpath .. "?.lua;"
+			execdir .. "?.lua;"
 		)
 	end
 else
-	-- Add `framework.path' and `framework.cpath'
-	local path      = gsub( arg[ 0 ], "/lua/framework/init%.lua$", "/" )
-	framework.path  = path
-	framework.cpath = path
+	-- Get working directory
+	execdir           = gsub( arg[ 0 ], "/lua/framework/init%.lua$", "/" )
+	framework.execdir = execdir
 
 	-- Add working directory
-	package.path    = package.path  .. ";" .. path .. "?.lua;"
-	package.path    = package.path  .. path .. "?/init.lua;"
+	package.path      = package.path  .. ";" .. execdir .. "?.lua;"
+	package.path      = package.path  .. execdir .. "?/init.lua;"
 
 	-- Add `lib'
-	package.path    = package.path  .. path .. "lib/?.lua"
-	package.cpath   = package.cpath .. ";" .. path .. "lib/?.so;"
-	package.cpath   = package.cpath .. path .. "lib/loadall.so"
+	package.path      = package.path  .. execdir .. "lib/?.lua"
+	package.cpath     = package.cpath .. ";" .. execdir .. "lib/?.so;"
+	package.cpath     = package.cpath .. execdir .. "lib/loadall.so"
 
 	-- Add `./?/init.lua'
 	if ( gamedir ) then
@@ -71,7 +72,7 @@ else
 		package.path = gsub(
 			package.path,
 			"^%./%?%.lua;",
-			framework.cpath .. "?.lua;"
+			execdir .. "?.lua;"
 		)
 	end
 end
@@ -125,8 +126,7 @@ function init()
 	require( "framework.filesystem" )
 	framework.filesystem.init( arg[ -1 ] )
 	framework.filesystem.mount( gamedir, nil, false )
-	framework.filesystem.mount( framework.path, nil, false )
-	framework.filesystem.mount( framework.cpath, nil, false )
+	framework.filesystem.mount( execdir, nil, false )
 
 	local c = {
 		modules = {

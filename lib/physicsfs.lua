@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/physfs.h" )
+io.input( framework.execdir .. "include/physfs.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( "physfs" )

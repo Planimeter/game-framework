@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/freetype.h" )
+io.input( framework.execdir .. "include/freetype.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( "freetype" )

@@ -43,10 +43,11 @@ function browser:browser( url, width, height )
 	local browser_subprocess_path    = "bin\\cef.exe"
 	settings.browser_subprocess_path = toutf16( browser_subprocess_path )
 
-	local resources_dir_path    = framework.path .. "resources"
+	local cwd                   = framework.filesystem.getWorkingDirectory()
+	local resources_dir_path    = cwd .. "resources"
 	settings.resources_dir_path = toutf16( resources_dir_path )
 
-	local locales_dir_path    = framework.path .. "resources\\locales"
+	local locales_dir_path    = cwd .. "resources\\locales"
 	settings.locales_dir_path = toutf16( locales_dir_path )
 
 	cef.cef_initialize( self.mainArgs, self.settings, self.app, nil )

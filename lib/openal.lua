@@ -5,7 +5,7 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/al.h" )
+io.input( framework.execdir .. "include/al.h" )
 ffi.cdef( io.read( "*all" ) )
 
 local AL = ffi.load( ffi.os == "Windows" and "OpenAL32" or "OpenAL.framework/OpenAL" )

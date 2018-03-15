@@ -5,6 +5,6 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/enet.h" )
+io.input( framework.execdir .. "include/enet.h" )
 ffi.cdef( io.read( "*all" ) )
 return ffi.load( "enet" )

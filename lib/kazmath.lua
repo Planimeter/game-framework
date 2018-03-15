@@ -5,11 +5,11 @@
 --============================================================================--
 
 local ffi = require( "ffi" )
-io.input( "include/kazmath.h" )
+io.input( framework.execdir .. "include/kazmath.h" )
 ffi.cdef( io.read( "*all" ) )
 
 local kazmath = ffi.load(
-	ffi.os == "Windows" and "kazmath" or framework.cpath .. "bin/libkazmath.dylib"
+	ffi.os == "Windows" and "kazmath" or framework.execdir .. "bin/libkazmath.dylib"
 )
 local _M = {}
 
