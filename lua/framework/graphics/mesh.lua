@@ -5,8 +5,9 @@
 --============================================================================--
 
 require( "class" )
-local GL  = require( "opengl" )
-local ffi = require( "ffi" )
+local GL      = require( "opengl" )
+local ffi     = require( "ffi" )
+local kazmath = require( "kazmath" )
 
 class( "framework.graphics.mesh" )
 
@@ -27,7 +28,9 @@ function mesh:mesh( vertices, count, textures, transformation )
 	end
 	self.textures = textures
 
-	self.transformation = ffi.new( "kmMat4", transformation )
+	transformation = ffi.new( "kmMat4", transformation )
+	self.transformation = ffi.new( "kmMat4" )
+	kazmath.kmMat4Transpose( self.transformation, transformation )
 
 	setproxy( self )
 end
