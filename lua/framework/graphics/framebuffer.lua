@@ -61,6 +61,7 @@ function framebuffer:framebuffer( width, height )
 end
 
 function framebuffer:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+	local mode = framework.graphics.getMatrixMode()
 	framework.graphics.setMatrixMode( "projection" )
 	framework.graphics.push()
 		local mat4          = framework.graphics.getTransformation()
@@ -70,7 +71,7 @@ function framebuffer:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 		)
 		image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
 	framework.graphics.pop()
-	framework.graphics.setMatrixMode( "model" )
+	framework.graphics.setMatrixMode( mode )
 end
 
 function framebuffer:__gc()
