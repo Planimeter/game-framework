@@ -190,10 +190,7 @@ function model:model( filename )
 	self.filename = filename
 	self.scene    = assimp.aiImportFileEx( filename, bit.bor(
 		ffi.C.aiProcess_CalcTangentSpace,
-		ffi.C.aiProcess_GenNormals,
 		ffi.C.aiProcess_Triangulate,
-		ffi.C.aiProcess_GenUVCoords,
-		ffi.C.aiProcess_SortByPType,
 		ffi.C.aiProcess_FlipUVs
 	), getPHYSFSFileIO() )
 	if ( self.scene == nil ) then
