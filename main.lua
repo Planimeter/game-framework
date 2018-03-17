@@ -85,8 +85,7 @@ function framework.mousemoved( x, y, dx, dy, istouch )
 	if ( not mouseDown ) then
 		return
 	end
-	roll = roll + ( dx / 100 )
-
+	roll  = roll  + ( dx / 100 )
 	pitch = pitch + ( dy / 100 )
 end
 
