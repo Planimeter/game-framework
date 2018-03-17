@@ -214,13 +214,16 @@ end
 
 function model:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	for _, mesh in ipairs( self.meshes ) do
+		local transformation = ffi.new( "kmMat4" )
+		kazmath.kmMat4Transpose( transformation, mesh.transformation )
+		local mode = framework.graphics.getMatrixMode()
+		framework.graphics.setMatrixMode( "model" )
 		framework.graphics.push()
 			local mat4 = framework.graphics.getTransformation()
-			local transpose = ffi.new( "kmMat4" )
-			kazmath.kmMat4Transpose( transpose, mesh.transformation )
-			kazmath.kmMat4Multiply( mat4, mat4, transpose )
+			kazmath.kmMat4Multiply( mat4, mat4, transformation )
 			framework.graphics.draw( mesh, x, y, r, sx, sy, ox, oy, kx, ky )
 		framework.graphics.pop()
+		framework.graphics.setMatrixMode( mode )
 	end
 end
 
