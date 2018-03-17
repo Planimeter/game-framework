@@ -51,9 +51,9 @@ function framework.draw()
 
 	-- set up the camera position and view matrix
 	framework.graphics.setCameraPosition( {
-		-1 * math.sin(  roll ) * math.cos( -pitch ),
-		-1 * math.sin( -pitch ),
-		 1 * math.cos(  roll ) * math.cos( -pitch )
+		-translate * math.sin(  roll ) * math.cos( -pitch ),
+		-translate * math.sin( -pitch ),
+		 translate * math.cos(  roll ) * math.cos( -pitch )
 	} )
 
 	-- Update view matrix
