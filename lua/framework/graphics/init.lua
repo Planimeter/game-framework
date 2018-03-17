@@ -50,6 +50,12 @@ function getSize()
 	return width[0], height[0]
 end
 
+function newCubemap( filenames )
+	require( "framework.graphics.cubemap" )
+	local cubemap = framework.graphics.cubemap
+	return cubemap( filenames )
+end
+
 function newFont( filename, size )
 	require( "framework.graphics.font" )
 	local font = framework.graphics.font
