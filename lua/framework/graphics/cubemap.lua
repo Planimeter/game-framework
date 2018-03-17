@@ -15,41 +15,57 @@ class( "framework.graphics.cubemap" )
 
 local cubemap = framework.graphics.cubemap
 
+local faces = {
+	1 = { "right",  GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X },
+	2 = { "left",   GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X },
+	3 = { "top",    GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y },
+	4 = { "bottom", GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y },
+	5 = { "front",  GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z },
+	6 = { "back",   GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z }
+}
+
 function cubemap:cubemap( filenames )
 	self.images = ffi.new( "ILuint[6]" )
 	IL.ilGenImages( 6, self.images )
-	IL.ilBindImage( self.images[0] )
 
 	self.texture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, self.texture )
 	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, self.texture[0] )
 
-	local buffer, length = framework.filesystem.read( filename )
-	if ( buffer == nil ) then
-		error( length, 3 )
-	end
-	IL.ilLoadL( IL.IL_TYPE_UNKNOWN, buffer, length )
-	IL.ilConvertImage( IL.IL_RGBA, IL.IL_UNSIGNED_BYTE )
-	local width  = IL.ilGetInteger( IL.IL_IMAGE_WIDTH )
-	local height = IL.ilGetInteger( IL.IL_IMAGE_HEIGHT )
-	local pixels = IL.ilGetData()
-	self.width   = width
-	self.height  = height
-	self.pixels  = pixels
-
 	GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MAX_LEVEL, 0 )
-	GL.glTexImage2D(
-		GL.GL_TEXTURE_2D,
-		0,
-		GL.GL_RGBA,
-		width,
-		height,
-		0,
-		GL.GL_RGBA,
-		GL.GL_UNSIGNED_BYTE,
-		pixels
-	)
+
+	for i = 1, #faces do
+		IL.ilBindImage( self.images[i - 1] )
+
+		local face   = faces[ i ]
+		local k      =  face[ 1 ]
+		local target =  face[ 2 ]
+		local buffer, length = framework.filesystem.read( filenames[ k ] )
+		if ( buffer == nil ) then
+			error( length, 3 )
+		end
+		IL.ilLoadL( IL.IL_TYPE_UNKNOWN, buffer, length )
+		IL.ilConvertImage( IL.IL_RGBA, IL.IL_UNSIGNED_BYTE )
+		local width  = IL.ilGetInteger( IL.IL_IMAGE_WIDTH )
+		local height = IL.ilGetInteger( IL.IL_IMAGE_HEIGHT )
+		local pixels = IL.ilGetData()
+		self.width   = width
+		self.height  = height
+		self.pixels  = pixels
+
+		GL.glTexImage2D(
+			target,
+			0,
+			GL.GL_RGBA,
+			width,
+			height,
+			0,
+			GL.GL_RGBA,
+			GL.GL_UNSIGNED_BYTE,
+			pixels
+		)
+	end
 
 	setproxy( self )
 end
