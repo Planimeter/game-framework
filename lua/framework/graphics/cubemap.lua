@@ -22,7 +22,7 @@ function cubemap:cubemap( filenames )
 
 	self.texture = ffi.new( "GLuint[1]" )
 	GL.glGenTextures( 1, self.texture )
-	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
+	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, self.texture[0] )
 
 	local buffer, length = framework.filesystem.read( filename )
 	if ( buffer == nil ) then
@@ -37,8 +37,8 @@ function cubemap:cubemap( filenames )
 	self.height  = height
 	self.pixels  = pixels
 
-	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
-	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
+	GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_BASE_LEVEL, 0 )
+	GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MAX_LEVEL, 0 )
 	GL.glTexImage2D(
 		GL.GL_TEXTURE_2D,
 		0,
