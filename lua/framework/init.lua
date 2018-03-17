@@ -55,14 +55,10 @@ else
 	-- Add Windows LUA_LDIR paths
 	local ldir        = "./?.lua;!lua/?.lua;!lua/?/init.lua;"
 	package.path      = gsub( package.path, "^%./%?%.lua;", ldir )
-	package.path      = gsub( package.path, "!", framework.execdir )
-
-	-- Add working directory
-	package.path      = package.path  .. ";" .. execdir .. "?.lua;"
-	package.path      = package.path  .. execdir .. "?/init.lua;"
+	package.path      = gsub( package.path, "!", execdir )
 
 	-- Add `lib'
-	package.path      = package.path  .. execdir .. "lib/?.lua"
+	package.path      = package.path  .. ";" .. execdir .. "lib/?.lua"
 	package.cpath     = package.cpath .. ";" .. execdir .. "lib/?.so;"
 	package.cpath     = package.cpath .. execdir .. "lib/loadall.so"
 
