@@ -52,6 +52,11 @@ else
 	execdir           = gsub( arg[ 0 ], "/lua/framework/init%.lua$", "/" )
 	framework.execdir = execdir
 
+	-- Add Windows LUA_LDIR paths
+	local ldir        = "./?.lua;!lua/?.lua;!lua/?/init.lua;"
+	package.path      = gsub( package.path, "^%./%?%.lua;", ldir )
+	package.path      = gsub( package.path, "!", framework.execdir )
+
 	-- Add working directory
 	package.path      = package.path  .. ";" .. execdir .. "?.lua;"
 	package.path      = package.path  .. execdir .. "?/init.lua;"
