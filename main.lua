@@ -13,22 +13,22 @@ function framework.load( arg )
 
 	framework.graphics.setActiveTexture( 5 )
 	diffuseCubemap = framework.graphics.newCubemap( {
-		right  = "textures/papermill/diffuse/diffuse_right.jpg",
-		left   = "textures/papermill/diffuse/diffuse_left.jpg",
-		top    = "textures/papermill/diffuse/diffuse_top.jpg",
-		bottom = "textures/papermill/diffuse/diffuse_bottom.jpg",
-		front  = "textures/papermill/diffuse/diffuse_front.jpg",
-		back   = "textures/papermill/diffuse/diffuse_back.jpg"
+		{ "right",  "textures/papermill/diffuse/diffuse_right.jpg"  },
+		{ "left",   "textures/papermill/diffuse/diffuse_left.jpg"   },
+		{ "top",    "textures/papermill/diffuse/diffuse_top.jpg"    },
+		{ "bottom", "textures/papermill/diffuse/diffuse_bottom.jpg" },
+		{ "front",  "textures/papermill/diffuse/diffuse_front.jpg"  },
+		{ "back",   "textures/papermill/diffuse/diffuse_back.jpg"   }
 	} )
 
 	framework.graphics.setActiveTexture( 6 )
 	specularCubemap = framework.graphics.newCubemap( {
-		right  = "textures/papermill/specular/specular_right.jpg",
-		left   = "textures/papermill/specular/specular_left.jpg",
-		top    = "textures/papermill/specular/specular_top.jpg",
-		bottom = "textures/papermill/specular/specular_bottom.jpg",
-		front  = "textures/papermill/specular/specular_front.jpg",
-		back   = "textures/papermill/specular/specular_back.jpg"
+		{ "right",  "textures/papermill/specular/specular_right.jpg"  },
+		{ "left",   "textures/papermill/specular/specular_left.jpg"   },
+		{ "top",    "textures/papermill/specular/specular_top.jpg"    },
+		{ "bottom", "textures/papermill/specular/specular_bottom.jpg" },
+		{ "front",  "textures/papermill/specular/specular_front.jpg"  },
+		{ "back",   "textures/papermill/specular/specular_back.jpg"   }
 	} )
 
 	framework.graphics.setActiveTexture( 0 )
