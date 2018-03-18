@@ -33,7 +33,7 @@ function cubemap:cubemap( filenames )
 	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, self.texture[0] )
 
 	local mipmapLevels = #filenames / 6
-	if ( mipmapLevels == 1 ) then
+	if ( mipmapLevels < 2 ) then
 		GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR )
 		GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR )
 	else
