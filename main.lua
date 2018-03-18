@@ -33,17 +33,15 @@ function framework.load( arg )
 	framework.graphics.setGlTFPBRShader()
 
 	-- TODO: Fix usage of this API.
-	framework.graphics.setActiveTexture( 5 )
 	diffuseCubemap = framework.graphics.newCubemap(
+		"diffuse",
 		getCubemap( "textures/papermill/diffuse/diffuse_%s_%u.jpg", 1 )
 	)
 
-	framework.graphics.setActiveTexture( 6 )
 	specularCubemap = framework.graphics.newCubemap(
+		"specular",
 		getCubemap( "textures/papermill/specular/specular_%s_%u.jpg", 10 )
 	)
-
-	framework.graphics.setActiveTexture( 0 )
 
 	-- View matrix
 	framework.graphics.lookAt(

@@ -180,70 +180,65 @@ function setGlTFPBRShader()
 	-- uniforms
 	-- u_LightDirection
 	setLightDirection( { 0, 0, 0 } )
-
 	-- u_LightColor
 	setLightColor( { 255, 255, 255 } )
-
-	-- tex
-	setDefaultTexture()
 
 	-- u_DiffuseEnvSampler
 	local u_DiffuseEnvSampler = GL.glGetUniformLocation(
 		shader, "u_DiffuseEnvSampler"
 	)
-	GL.glUniform1i( u_DiffuseEnvSampler, 5 )
-
+	GL.glUniform1i( u_DiffuseEnvSampler, 1 )
 	-- u_SpecularEnvSampler
 	local u_SpecularEnvSampler = GL.glGetUniformLocation(
 		shader, "u_SpecularEnvSampler"
 	)
-	GL.glUniform1i( u_SpecularEnvSampler, 6 )
+	GL.glUniform1i( u_SpecularEnvSampler, 2 )
 
-	-- u_brdfLUT
-	local u_brdfLUT = GL.glGetUniformLocation(
-		shader, "u_brdfLUT"
-	)
-	GL.glUniform1i( u_brdfLUT, 7 )
-
-	-- u_brdfLUT
-	setBrdfLUT( "textures/brdfLUT.png" )
-
-	-- u_NormalSampler
-	local u_NormalSampler = GL.glGetUniformLocation(
-		shader, "u_NormalSampler"
-	)
-	GL.glUniform1i( u_NormalSampler, 1 )
-
-	-- u_NormalScale
-	setNormalScale( 1 )
-
-	-- u_EmissiveSampler
-	local u_EmissiveSampler = GL.glGetUniformLocation(
-		shader, "u_EmissiveSampler"
-	)
-	GL.glUniform1i( u_EmissiveSampler, 2 )
-
-	-- u_EmissiveFactor
-	setEmissiveFactor( { 1, 1, 1 } )
+	-- tex
+	setActiveTexture( 3 )
+		setDefaultTexture()
+	setActiveTexture( 0 )
 
 	-- u_MetallicRoughnessSampler
 	local u_MetallicRoughnessSampler = GL.glGetUniformLocation(
 		shader, "u_MetallicRoughnessSampler"
 	)
-	GL.glUniform1i( u_MetallicRoughnessSampler, 3 )
+	GL.glUniform1i( u_MetallicRoughnessSampler, 4 )
+
+	-- u_NormalSampler
+	local u_NormalSampler = GL.glGetUniformLocation(
+		shader, "u_NormalSampler"
+	)
+	GL.glUniform1i( u_NormalSampler, 5 )
+	-- u_NormalScale
+	setNormalScale( 1 )
+
+	-- u_brdfLUT
+	local u_brdfLUT = GL.glGetUniformLocation(
+		shader, "u_brdfLUT"
+	)
+	GL.glUniform1i( u_brdfLUT, 6 )
+	-- u_brdfLUT
+	setBrdfLUT( "textures/brdfLUT.png" )
+
+	-- u_EmissiveSampler
+	local u_EmissiveSampler = GL.glGetUniformLocation(
+		shader, "u_EmissiveSampler"
+	)
+	GL.glUniform1i( u_EmissiveSampler, 7 )
+	-- u_EmissiveFactor
+	setEmissiveFactor( { 1, 1, 1 } )
 
 	-- u_OcclusionSampler
 	local u_OcclusionSampler = GL.glGetUniformLocation(
 		shader, "u_OcclusionSampler"
 	)
-	GL.glUniform1i( u_OcclusionSampler, 4 )
-
+	GL.glUniform1i( u_OcclusionSampler, 8 )
 	-- u_OcclusionStrength
 	setOcclusionStrength( 1 )
 
 	-- u_MetallicRoughnessValues
 	setMetallicRoughnessValues( { 1, 1 } )
-
 	-- color
 	setColor( { 255, 255, 255, 1 } )
 
@@ -370,7 +365,7 @@ end
 
 function setBrdfLUT( filename )
 	_brdfLUT = framework.graphics.newImage( filename )
-	setActiveTexture( 7 )
+	setActiveTexture( 3 )
 	GL.glBindTexture( GL.GL_TEXTURE_2D, _brdfLUT.texture[0] )
 	setActiveTexture( 0 )
 end

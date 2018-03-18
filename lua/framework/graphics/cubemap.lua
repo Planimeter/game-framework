@@ -24,7 +24,15 @@ local faces = {
 	back   = GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
 }
 
-function cubemap:cubemap( filenames )
+function cubemap:cubemap( type, filenames )
+	if ( type == "diffuse" ) then
+		framework.graphics.setActiveTexture( 1 )
+	elseif ( type == "specular" ) then
+		framework.graphics.setActiveTexture( 2 )
+	elseif ( type == "environment" ) then
+		framework.graphics.setActiveTexture( 0 )
+	end
+
 	self.images = ffi.new( "ILuint[?]", #filenames )
 	IL.ilGenImages( #filenames, self.images )
 
@@ -72,6 +80,8 @@ function cubemap:cubemap( filenames )
 			pixels
 		)
 	end
+
+	framework.graphics.setActiveTexture( 0 )
 
 	setproxy( self )
 end
