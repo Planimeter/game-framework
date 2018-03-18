@@ -36,7 +36,7 @@ function mesh:mesh( vertices, count, textures, transformation )
 end
 
 local textureUnits        = {
-	environmentEnvSampler = 0
+	environmentEnvSampler = 0,
 	diffuseEnvSampler     = 1,
 	specularEnvSampler    = 2,
 	diffuse               = 3,
