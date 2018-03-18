@@ -16,12 +16,12 @@ class( "framework.graphics.cubemap" )
 local cubemap = framework.graphics.cubemap
 
 local faces = {
-	1 = { "right",  GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X },
-	2 = { "left",   GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X },
-	3 = { "top",    GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y },
-	4 = { "bottom", GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y },
-	5 = { "front",  GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z },
-	6 = { "back",   GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z }
+	{ "right",  GL.GL_TEXTURE_CUBE_MAP_POSITIVE_X },
+	{ "left",   GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_X },
+	{ "top",    GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Y },
+	{ "bottom", GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y },
+	{ "front",  GL.GL_TEXTURE_CUBE_MAP_POSITIVE_Z },
+	{ "back",   GL.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z }
 }
 
 function cubemap:cubemap( filenames )
@@ -35,6 +35,10 @@ function cubemap:cubemap( filenames )
 	GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MAX_LEVEL, 0 )
 
+	self.width  = {}
+	self.height = {}
+	self.pixels = {}
+
 	for i = 1, #faces do
 		IL.ilBindImage( self.images[i - 1] )
 
@@ -47,12 +51,12 @@ function cubemap:cubemap( filenames )
 		end
 		IL.ilLoadL( IL.IL_TYPE_UNKNOWN, buffer, length )
 		IL.ilConvertImage( IL.IL_RGBA, IL.IL_UNSIGNED_BYTE )
-		local width  = IL.ilGetInteger( IL.IL_IMAGE_WIDTH )
-		local height = IL.ilGetInteger( IL.IL_IMAGE_HEIGHT )
-		local pixels = IL.ilGetData()
-		self.width   = width
-		self.height  = height
-		self.pixels  = pixels
+		local width      = IL.ilGetInteger( IL.IL_IMAGE_WIDTH )
+		local height     = IL.ilGetInteger( IL.IL_IMAGE_HEIGHT )
+		local pixels     = IL.ilGetData()
+		self.width[ i ]  = width
+		self.height[ i ] = height
+		self.pixels[ i ] = pixels
 
 		GL.glTexImage2D(
 			target,

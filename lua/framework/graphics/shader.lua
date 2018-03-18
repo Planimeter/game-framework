@@ -193,17 +193,11 @@ function setGlTFPBRShader()
 	)
 	GL.glUniform1i( u_DiffuseEnvSampler, 5 )
 
-	setActiveTexture( 5 )
-	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, _defaultTexture[0] )
-
 	-- u_SpecularEnvSampler
 	local u_SpecularEnvSampler = GL.glGetUniformLocation(
 		shader, "u_SpecularEnvSampler"
 	)
 	GL.glUniform1i( u_SpecularEnvSampler, 6 )
-
-	setActiveTexture( 6 )
-	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, _defaultTexture[0] )
 
 	-- u_brdfLUT
 	local u_brdfLUT = GL.glGetUniformLocation(

@@ -11,6 +11,28 @@ function framework.load( arg )
 	-- Set glTF 2.0 physically-based rendering shader
 	framework.graphics.setGlTFPBRShader()
 
+	framework.graphics.setActiveTexture( 5 )
+	diffuseCubemap = framework.graphics.newCubemap( {
+		right  = "textures/papermill/diffuse/diffuse_right.jpg",
+		left   = "textures/papermill/diffuse/diffuse_left.jpg",
+		top    = "textures/papermill/diffuse/diffuse_top.jpg",
+		bottom = "textures/papermill/diffuse/diffuse_bottom.jpg",
+		front  = "textures/papermill/diffuse/diffuse_front.jpg",
+		back   = "textures/papermill/diffuse/diffuse_back.jpg",
+	} )
+
+	framework.graphics.setActiveTexture( 6 )
+	specularCubemap = framework.graphics.newCubemap( {
+		right  = "textures/papermill/specular/specular_right.jpg",
+		left   = "textures/papermill/specular/specular_left.jpg",
+		top    = "textures/papermill/specular/specular_top.jpg",
+		bottom = "textures/papermill/specular/specular_bottom.jpg",
+		front  = "textures/papermill/specular/specular_front.jpg",
+		back   = "textures/papermill/specular/specular_back.jpg",
+	} )
+
+	framework.graphics.setActiveTexture( 0 )
+
 	-- View matrix
 	framework.graphics.lookAt(
 		0, 0, 4,
