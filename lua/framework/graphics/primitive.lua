@@ -130,7 +130,7 @@ function skybox( cubemap )
 	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, 0, nil )
 	framework.graphics.updateTransformations()
 	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, cubemap.texture[0] )
-	framework.graphics.drawArrays( mode, 0, #vertices / 3 )
+	framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 3 )
 end
 
 function setLineWidth( lineWidth )
