@@ -195,6 +195,10 @@ function setGlTFPBRShader()
 	GL.glUniform1i( u_SpecularEnvSampler, 2 )
 
 	-- tex
+	local tex = GL.glGetUniformLocation(
+		shader, "tex"
+	)
+	GL.glUniform1i( tex, 3 )
 	setActiveTexture( 3 )
 		setDefaultTexture()
 	setActiveTexture( 0 )
