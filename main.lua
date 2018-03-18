@@ -18,7 +18,7 @@ function framework.load( arg )
 		top    = "textures/papermill/diffuse/diffuse_top.jpg",
 		bottom = "textures/papermill/diffuse/diffuse_bottom.jpg",
 		front  = "textures/papermill/diffuse/diffuse_front.jpg",
-		back   = "textures/papermill/diffuse/diffuse_back.jpg",
+		back   = "textures/papermill/diffuse/diffuse_back.jpg"
 	} )
 
 	framework.graphics.setActiveTexture( 6 )
@@ -28,7 +28,7 @@ function framework.load( arg )
 		top    = "textures/papermill/specular/specular_top.jpg",
 		bottom = "textures/papermill/specular/specular_bottom.jpg",
 		front  = "textures/papermill/specular/specular_front.jpg",
-		back   = "textures/papermill/specular/specular_back.jpg",
+		back   = "textures/papermill/specular/specular_back.jpg"
 	} )
 
 	framework.graphics.setActiveTexture( 0 )
