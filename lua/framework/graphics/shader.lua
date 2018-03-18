@@ -368,7 +368,10 @@ function getBrdfLUT()
 end
 
 function setBrdfLUT( filename )
-	_brdfLUT = framework.graphics.newImage( filename )
+	_brdfLUT = framework.graphics.newImage( filename, {
+		{ GL.GL_TEXTURE_WRAP_S, GL.GL_CLAMP_TO_EDGE },
+		{ GL.GL_TEXTURE_WRAP_T, GL.GL_CLAMP_TO_EDGE }
+	} )
 	setActiveTexture( 6 )
 	GL.glBindTexture( GL.GL_TEXTURE_2D, _brdfLUT.texture[0] )
 	setActiveTexture( 0 )
