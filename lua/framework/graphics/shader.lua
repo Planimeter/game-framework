@@ -365,7 +365,7 @@ end
 
 function setBrdfLUT( filename )
 	_brdfLUT = framework.graphics.newImage( filename )
-	setActiveTexture( 3 )
+	setActiveTexture( 6 )
 	GL.glBindTexture( GL.GL_TEXTURE_2D, _brdfLUT.texture[0] )
 	setActiveTexture( 0 )
 end
