@@ -68,10 +68,10 @@ function newFramebuffer( width, height )
 	return framebuffer( width, height )
 end
 
-function newImage( filename )
+function newImage( filename, params )
 	require( "framework.graphics.image" )
 	local image = framework.graphics.image
-	return image( filename )
+	return image( filename, params )
 end
 
 function newModel( filename )

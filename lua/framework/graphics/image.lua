@@ -15,7 +15,7 @@ class( "framework.graphics.image" )
 
 local image = framework.graphics.image
 
-function image:image( filename )
+function image:image( filename, params )
 	self.image = ffi.new( "ILuint[1]" )
 	IL.ilGenImages( 1, self.image )
 	IL.ilBindImage( self.image[0] )
@@ -39,6 +39,13 @@ function image:image( filename )
 
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_BASE_LEVEL, 0 )
 	GL.glTexParameteri( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAX_LEVEL, 0 )
+
+	if ( params ) then
+		for i, v in ipairs( params ) do
+			GL.glTexParameteri( GL.GL_TEXTURE_2D, v[ 1 ], v[ 2 ] )
+		end
+	end
+
 	GL.glTexImage2D(
 		GL.GL_TEXTURE_2D,
 		0,
