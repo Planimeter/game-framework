@@ -101,6 +101,7 @@ const float c_MinRoughness = 0.04;
 
 vec4 SRGBtoLINEAR(vec4 srgbIn)
 {
+    #define MANUAL_SRGB
     #ifdef MANUAL_SRGB
     #ifdef SRGB_FAST_APPROXIMATION
     vec3 linOut = pow(srgbIn.xyz,vec3(2.2));
@@ -161,7 +162,6 @@ vec3 getIBLContribution(PBRInfo pbrInputs, vec3 n, vec3 reflection)
     vec3 brdf = SRGBtoLINEAR(texture(u_brdfLUT, vec2(pbrInputs.NdotV, 1.0 - pbrInputs.perceptualRoughness))).rgb;
     vec3 diffuseLight = SRGBtoLINEAR(texture(u_DiffuseEnvSampler, n)).rgb;
 
-#define USE_TEX_LOD
 #ifdef USE_TEX_LOD
     vec3 specularLight = SRGBtoLINEAR(textureLod(u_SpecularEnvSampler, reflection, lod)).rgb;
 #else
