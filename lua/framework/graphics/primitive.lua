@@ -75,6 +75,64 @@ function rectangle( mode, x, y, width, height, cornerRadius )
 	polygon( mode, vertices )
 end
 
+function skybox( cubemap )
+	local vertices = {
+		-1.0,  1.0, -1.0,
+		-1.0, -1.0, -1.0,
+		 1.0, -1.0, -1.0,
+		 1.0, -1.0, -1.0,
+		 1.0,  1.0, -1.0,
+		-1.0,  1.0, -1.0,
+
+		-1.0, -1.0,  1.0,
+		-1.0, -1.0, -1.0,
+		-1.0,  1.0, -1.0,
+		-1.0,  1.0, -1.0,
+		-1.0,  1.0,  1.0,
+		-1.0, -1.0,  1.0,
+
+		 1.0, -1.0, -1.0,
+		 1.0, -1.0,  1.0,
+		 1.0,  1.0,  1.0,
+		 1.0,  1.0,  1.0,
+		 1.0,  1.0, -1.0,
+		 1.0, -1.0, -1.0,
+
+		-1.0, -1.0,  1.0,
+		-1.0,  1.0,  1.0,
+		 1.0,  1.0,  1.0,
+		 1.0,  1.0,  1.0,
+		 1.0, -1.0,  1.0,
+		-1.0, -1.0,  1.0,
+
+		-1.0,  1.0, -1.0,
+		 1.0,  1.0, -1.0,
+		 1.0,  1.0,  1.0,
+		 1.0,  1.0,  1.0,
+		-1.0,  1.0,  1.0,
+		-1.0,  1.0, -1.0,
+
+		-1.0, -1.0, -1.0,
+		-1.0, -1.0,  1.0,
+		 1.0, -1.0, -1.0,
+		 1.0, -1.0, -1.0,
+		-1.0, -1.0,  1.0,
+		 1.0, -1.0,  1.0
+	}
+	local defaultVBO     = framework.graphics._defaultVBO
+	local pVertices      = ffi.new( "GLfloat[?]", #vertices, vertices )
+	local size           = ffi.sizeof( pVertices )
+	local shader         = framework.graphics.getShader()
+	local position       = GL.glGetAttribLocation( shader, "position" )
+	local defaultTexture = framework.graphics.getDefaultTexture()
+	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
+	GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
+	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, 0, nil )
+	framework.graphics.updateTransformations()
+	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, cubemap.texture[0] )
+	framework.graphics.drawArrays( mode, 0, #vertices / 3 )
+end
+
 function setLineWidth( lineWidth )
 	_lineWidth = lineWidth
 end
