@@ -32,7 +32,7 @@ function framework.load( arg )
 	-- Set glTF 2.0 physically-based rendering shader
 	framework.graphics.setGlTFPBRShader()
 
-	-- TODO: Fix usage of this API.
+	-- Create cube maps
 	diffuseCubemap = framework.graphics.newCubemap(
 		"diffuse",
 		getCubemap( "textures/papermill/diffuse/diffuse_%s_%u.jpg", 1 )
