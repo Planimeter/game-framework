@@ -9,7 +9,7 @@
 uniform samplerCube cubemap;
 uniform vec4 color;
 
-in vec2 TexCoord;
+in vec3 TexCoord;
 
 out vec4 FragColor;
 
