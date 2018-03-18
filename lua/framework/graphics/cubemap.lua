@@ -25,7 +25,7 @@ local faces = {
 }
 
 function cubemap:cubemap( filenames )
-	self.images = ffi.new( "ILuint[6]" )
+	self.images = ffi.new( "ILuint[?]", #filenames )
 	IL.ilGenImages( #filenames, self.images )
 
 	self.texture = ffi.new( "GLuint[1]" )
@@ -33,8 +33,13 @@ function cubemap:cubemap( filenames )
 	GL.glBindTexture( GL.GL_TEXTURE_CUBE_MAP, self.texture[0] )
 
 	local mipmapLevels = #filenames / 6
-	GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_BASE_LEVEL, 0 )
-	GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MAX_LEVEL, mipmapLevels - 1 )
+	if ( mipmapLevels == 1 ) then
+		GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR )
+		GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR )
+	else
+		GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR_MIPMAP_LINEAR )
+		GL.glTexParameteri( GL.GL_TEXTURE_CUBE_MAP, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR )
+	end
 
 	self.pixels = {}
 
@@ -43,6 +48,7 @@ function cubemap:cubemap( filenames )
 
 		local target   = face[ 1 ]
 		local filename = face[ 2 ]
+		local level    = math.ceil( i / 6 ) - 1
 		local buffer, length = framework.filesystem.read( filename )
 		if ( buffer == nil ) then
 			error( length, 3 )
@@ -56,7 +62,7 @@ function cubemap:cubemap( filenames )
 
 		GL.glTexImage2D(
 			faces[ target ],
-			0,
+			level,
 			GL.GL_RGBA,
 			width,
 			height,
@@ -72,5 +78,5 @@ end
 
 function cubemap:__gc()
 	GL.glDeleteTextures( 1, self.texture )
-	IL.ilDeleteImages( 6, self.images )
+	IL.ilDeleteImages( #self.pixels, self.images )
 end
