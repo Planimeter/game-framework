@@ -26,19 +26,6 @@ brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet
 ./lgf
 ```
 
-## About
-### Overview
-lgf is a replacement for LÖVE built on LuaJIT and the FFI library. It implements
-a subset of LÖVE's API, while omitting LÖVE-specific features.
-
-### Framework versus game engine
-While LÖVE advertises itself as a game engine/framework, lgf is strictly a
-framework. It only simplifies the collective libraries below in to an
-easy-to-read set of modules for graphics, audio, event, filesystem, keyboard,
-mouse, physics, sound, timer, and window usage. It does not provide
-higher-level constructs such as UI widgets, keyboard and mouse bindings,
-entities, or level loading.
-
 ## Features
 * SDL2 for window creation, OpenGL function loading, and event handling
 * Modern OpenGL (OpenGL 3.3/4.0+ Core Profile)
