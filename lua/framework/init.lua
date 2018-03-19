@@ -141,7 +141,7 @@ function init()
 			y         = nil,
 			width     = 800,
 			height    = 600,
-			resizable = true
+			resizable = false
 		}
 	}
 
