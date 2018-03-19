@@ -23,8 +23,8 @@ out vec2 TexCoord;
 
 void main()
 {
+	gl_Position = projection * view * model * vec4( position, 1.0 );
 	Normal      = normal;
 	Tangent     = tangent;
 	TexCoord    = texcoord;
-	gl_Position = projection * view * model * vec4( position, 1.0 );
 }
