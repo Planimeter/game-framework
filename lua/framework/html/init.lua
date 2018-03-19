@@ -6,7 +6,6 @@
 
 jit.off()
 
-require( "framework.html.browser" )
 local cef = require( "cef" )
 local jit = require( "jit" )
 
@@ -15,6 +14,7 @@ local framework = framework
 module( "framework.html" )
 
 function newBrowser( url )
+	require( "framework.html.browser" )
 	local browser = framework.html.browser
 	return browser( url )
 end
