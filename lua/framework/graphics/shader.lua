@@ -9,9 +9,14 @@ local ffi     = require( "ffi" )
 local kazmath = require( "kazmath" )
 
 local error     = error
+local type      = type
+local dofile    = dofile
 local framework = framework
 
 module( "framework.graphics" )
+
+_shaders        = _shaders        or {}
+_shaders.loaded = _shaders.loaded or {}
 
 local function getShaderCompileStatus( shader )
 	local status = ffi.new( "GLint[1]" )
@@ -57,275 +62,17 @@ function getShader()
 end
 
 function setShader( shader )
+	if ( type( shader ) == "string" ) then
+		if ( not _shaders.loaded[ shader ] ) then
+			local dir      = "lua/framework/graphics/shaders/"
+			local filename = dir .. shader .. ".lua"
+			_shaders.loaded[ shader ] = dofile( filename )()
+		end
+		shader = _shaders.loaded[ shader ]
+	end
+
 	GL.glUseProgram( shader )
 	_shader = shader
-end
-
-function setDefaultShader()
-	-- shader
-	local fragmentSource = framework.filesystem.read( "shaders/default.frag" )
-	local vertexSource   = framework.filesystem.read( "shaders/default2d.vert" )
-	local shader         = newShader( fragmentSource, vertexSource )
-	GL.glBindFragDataLocation( shader, 0, "FragColor" )
-	linkShader( shader )
-	setShader( shader )
-
-	-- default.frag
-	-- uniforms
-	-- tex
-	setDefaultTexture()
-
-	-- color
-	setColor( { 255, 255, 255, 1 } )
-
-	-- default2d.vert
-	-- attribs
-	-- position
-	local position = GL.glGetAttribLocation( shader, "position" )
-	local stride = ( 2 + 2 ) * ffi.sizeof( "GLfloat" )
-	GL.glEnableVertexAttribArray( position )
-	GL.glVertexAttribPointer( position, 2, GL.GL_FLOAT, 0, stride, nil )
-
-	-- texcoord
-	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
-	GL.glEnableVertexAttribArray( texcoord )
-	local pointer = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
-	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
-
-	-- uniforms
-	-- model
-	local model = GL.glGetUniformLocation( shader, "model" )
-	local mat4 = ffi.new( "kmMat4" )
-	kazmath.kmMat4Identity( mat4 )
-	GL.glUniformMatrix4fv( model, 1, GL.GL_FALSE, mat4.mat )
-
-	-- view
-	local view = GL.glGetUniformLocation( shader, "view" )
-	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
-
-	-- projection
-	local width, height = framework.graphics.getSize()
-	framework.graphics.setOrthographicProjection( width, height )
-end
-
-function setDefault3DShader()
-	-- shader
-	local fragmentSource = framework.filesystem.read( "shaders/default.frag" )
-	local vertexSource   = framework.filesystem.read( "shaders/default3d.vert" )
-	local shader         = newShader( fragmentSource, vertexSource )
-	GL.glBindFragDataLocation( shader, 0, "FragColor" )
-	linkShader( shader )
-	setShader( shader )
-
-	-- default.frag
-	-- uniforms
-	-- tex
-	setDefaultTexture()
-
-	-- color
-	setColor( { 255, 255, 255, 1 } )
-
-	-- default3d.vert
-	-- attribs
-	-- position
-	local position = GL.glGetAttribLocation( shader, "position" )
-	local stride = ( 3 + 3 + 3 + 2 ) * ffi.sizeof( "GLfloat" )
-	GL.glEnableVertexAttribArray( position )
-	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
-
-	-- normal
-	local normal = GL.glGetAttribLocation( shader, "normal" )
-	GL.glEnableVertexAttribArray( normal )
-	local pointer = ffi.cast( "GLvoid *", 3 * ffi.sizeof( "GLfloat" ) )
-	GL.glVertexAttribPointer( normal, 3, GL.GL_FLOAT, 0, stride, pointer )
-
-	-- tangent
-	local tangent = GL.glGetAttribLocation( shader, "tangent" )
-	GL.glEnableVertexAttribArray( tangent )
-	pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
-	GL.glVertexAttribPointer( tangent, 3, GL.GL_FLOAT, 0, stride, pointer )
-
-	-- texcoord
-	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
-	GL.glEnableVertexAttribArray( texcoord )
-	pointer = ffi.cast( "GLvoid *", ( 3 + 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
-	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
-
-	-- uniforms
-	-- model
-	local model = GL.glGetUniformLocation( shader, "model" )
-	local mat4 = ffi.new( "kmMat4" )
-	kazmath.kmMat4Identity( mat4 )
-	GL.glUniformMatrix4fv( model, 1, GL.GL_FALSE, mat4.mat )
-
-	-- view
-	local view = GL.glGetUniformLocation( shader, "view" )
-	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
-
-	-- projection
-	local width, height = framework.graphics.getSize()
-	framework.graphics.setOrthographicProjection( width, height )
-end
-
-function setGlTFPBRShader()
-	-- shader
-	local fragmentSource = framework.filesystem.read( "shaders/pbr-frag.glsl" )
-	local vertexSource   = framework.filesystem.read( "shaders/pbr-vert.glsl" )
-	local shader         = newShader( fragmentSource, vertexSource )
-	GL.glBindFragDataLocation( shader, 0, "FragColor" )
-	linkShader( shader )
-	setShader( shader )
-
-	-- pbr-frag.glsl
-	-- uniforms
-	-- u_LightDirection
-	setLightDirection( { 0, 0, 0 } )
-	-- u_LightColor
-	setLightColor( { 255, 255, 255 } )
-
-	-- u_DiffuseEnvSampler
-	local u_DiffuseEnvSampler = GL.glGetUniformLocation(
-		shader, "u_DiffuseEnvSampler"
-	)
-	GL.glUniform1i( u_DiffuseEnvSampler, 1 )
-	-- u_SpecularEnvSampler
-	local u_SpecularEnvSampler = GL.glGetUniformLocation(
-		shader, "u_SpecularEnvSampler"
-	)
-	GL.glUniform1i( u_SpecularEnvSampler, 2 )
-
-	-- tex
-	local tex = GL.glGetUniformLocation(
-		shader, "tex"
-	)
-	GL.glUniform1i( tex, 3 )
-	setActiveTexture( 3 )
-		setDefaultTexture()
-	setActiveTexture( 0 )
-
-	-- u_MetallicRoughnessSampler
-	local u_MetallicRoughnessSampler = GL.glGetUniformLocation(
-		shader, "u_MetallicRoughnessSampler"
-	)
-	GL.glUniform1i( u_MetallicRoughnessSampler, 4 )
-
-	-- u_NormalSampler
-	local u_NormalSampler = GL.glGetUniformLocation(
-		shader, "u_NormalSampler"
-	)
-	GL.glUniform1i( u_NormalSampler, 5 )
-	-- u_NormalScale
-	setNormalScale( 1 )
-
-	-- u_brdfLUT
-	local u_brdfLUT = GL.glGetUniformLocation(
-		shader, "u_brdfLUT"
-	)
-	GL.glUniform1i( u_brdfLUT, 6 )
-	-- u_brdfLUT
-	setBrdfLUT( "textures/brdfLUT.png" )
-
-	-- u_EmissiveSampler
-	local u_EmissiveSampler = GL.glGetUniformLocation(
-		shader, "u_EmissiveSampler"
-	)
-	GL.glUniform1i( u_EmissiveSampler, 7 )
-	-- u_EmissiveFactor
-	setEmissiveFactor( { 1, 1, 1 } )
-
-	-- u_OcclusionSampler
-	local u_OcclusionSampler = GL.glGetUniformLocation(
-		shader, "u_OcclusionSampler"
-	)
-	GL.glUniform1i( u_OcclusionSampler, 8 )
-	-- u_OcclusionStrength
-	setOcclusionStrength( 1 )
-
-	-- u_MetallicRoughnessValues
-	setMetallicRoughnessValues( { 1, 1 } )
-	-- color
-	setColor( { 255, 255, 255, 1 } )
-
-	-- pbr-vert.glsl
-	-- attribs
-	-- position
-	local position = GL.glGetAttribLocation( shader, "position" )
-	local stride = ( 3 + 3 + 3 + 2 ) * ffi.sizeof( "GLfloat" )
-	GL.glEnableVertexAttribArray( position )
-	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
-
-	-- normal
-	local normal = GL.glGetAttribLocation( shader, "normal" )
-	GL.glEnableVertexAttribArray( normal )
-	local pointer = ffi.cast( "GLvoid *", 3 * ffi.sizeof( "GLfloat" ) )
-	GL.glVertexAttribPointer( normal, 3, GL.GL_FLOAT, 0, stride, pointer )
-
-	-- tangent
-	local tangent = GL.glGetAttribLocation( shader, "tangent" )
-	GL.glEnableVertexAttribArray( tangent )
-	pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
-	GL.glVertexAttribPointer( tangent, 3, GL.GL_FLOAT, 0, stride, pointer )
-
-	-- texcoord
-	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
-	GL.glEnableVertexAttribArray( texcoord )
-	pointer = ffi.cast( "GLvoid *", ( 3 + 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
-	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
-
-	-- uniforms
-	-- model
-	local model = GL.glGetUniformLocation( shader, "model" )
-	local mat4 = ffi.new( "kmMat4" )
-	kazmath.kmMat4Identity( mat4 )
-	GL.glUniformMatrix4fv( model, 1, GL.GL_FALSE, mat4.mat )
-
-	-- view
-	local view = GL.glGetUniformLocation( shader, "view" )
-	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
-
-	-- projection
-	local width, height = framework.graphics.getSize()
-	framework.graphics.setOrthographicProjection( width, height )
-end
-
-function setSkyboxShader()
-	-- shader
-	local fragmentSource = framework.filesystem.read( "shaders/defaultSkybox.frag" )
-	local vertexSource   = framework.filesystem.read( "shaders/defaultSkybox.vert" )
-	local shader         = newShader( fragmentSource, vertexSource )
-	GL.glBindFragDataLocation( shader, 0, "FragColor" )
-	linkShader( shader )
-	setShader( shader )
-
-	-- default.frag
-	-- uniforms
-	-- tex
-	setDefaultTexture()
-
-	-- defaultSkybox.vert
-	-- attribs
-	-- position
-	local position = GL.glGetAttribLocation( shader, "position" )
-	local stride = ( 3 + 3 ) * ffi.sizeof( "GLfloat" )
-	GL.glEnableVertexAttribArray( position )
-	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
-
-	-- texcoord
-	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
-	GL.glEnableVertexAttribArray( texcoord )
-	local pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
-	GL.glVertexAttribPointer( texcoord, 3, GL.GL_FLOAT, 0, stride, pointer )
-
-	-- uniforms
-	-- view
-	local view = GL.glGetUniformLocation( shader, "view" )
-	local mat4 = ffi.new( "kmMat4" )
-	kazmath.kmMat4Identity( mat4 )
-	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
-
-	-- projection
-	local width, height = framework.graphics.getSize()
-	framework.graphics.setOrthographicProjection( width, height )
 end
 
 function getActiveTexture()

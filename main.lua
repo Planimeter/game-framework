@@ -30,7 +30,7 @@ end
 
 function framework.load( arg )
 	-- Set glTF 2.0 physically-based rendering shader
-	framework.graphics.setGlTFPBRShader()
+	framework.graphics.setShader( "gltfpbr" )
 
 	-- Create cube maps
 	diffuseCubemap = framework.graphics.newCubemap(

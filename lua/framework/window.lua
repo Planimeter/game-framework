@@ -42,7 +42,7 @@ function createWindow( title, x, y, width, height, flags )
 
 	framework.graphics.createDefaultVAO()
 	framework.graphics.createDefaultVBO()
-	framework.graphics.setDefaultShader()
+	framework.graphics.setShader( "default2d" )
 
 	local font = framework.graphics.newFont( "fonts/Vera.ttf" )
 	framework.graphics.setFont( font )
