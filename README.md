@@ -16,6 +16,9 @@ https://www.microsoft.com/en-us/download/details.aspx?id=13523
 **Visual C++ Redistributable for Visual Studio 2015**  
 https://www.microsoft.com/en-us/download/details.aspx?id=48145
 
+**02/13/2018 - CEF 3.3282.1733.g9091548 / Chromium 64.0.3282.119**  
+http://opensource.spotify.com/cefbuilds/index.html
+
 ### macOS
 ```bash
 brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet
