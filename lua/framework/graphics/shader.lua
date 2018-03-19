@@ -288,6 +288,46 @@ function setGlTFPBRShader()
 	framework.graphics.setOrthographicProjection( width, height )
 end
 
+function setSkyboxShader()
+	-- shader
+	local fragmentSource = framework.filesystem.read( "shaders/defaultSkybox.frag" )
+	local vertexSource   = framework.filesystem.read( "shaders/defaultSkybox.vert" )
+	local shader         = newShader( fragmentSource, vertexSource )
+	GL.glBindFragDataLocation( shader, 0, "FragColor" )
+	linkShader( shader )
+	setShader( shader )
+
+	-- default.frag
+	-- uniforms
+	-- tex
+	setDefaultTexture()
+
+	-- defaultSkybox.vert
+	-- attribs
+	-- position
+	local position = GL.glGetAttribLocation( shader, "position" )
+	local stride = ( 3 + 3 ) * ffi.sizeof( "GLfloat" )
+	GL.glEnableVertexAttribArray( position )
+	GL.glVertexAttribPointer( position, 3, GL.GL_FLOAT, 0, stride, nil )
+
+	-- texcoord
+	local texcoord = GL.glGetAttribLocation( shader, "texcoord" )
+	GL.glEnableVertexAttribArray( texcoord )
+	local pointer = ffi.cast( "GLvoid *", ( 3 + 3 ) * ffi.sizeof( "GLfloat" ) )
+	GL.glVertexAttribPointer( texcoord, 3, GL.GL_FLOAT, 0, stride, pointer )
+
+	-- uniforms
+	-- view
+	local view = GL.glGetUniformLocation( shader, "view" )
+	local mat4 = ffi.new( "kmMat4" )
+	kazmath.kmMat4Identity( mat4 )
+	GL.glUniformMatrix4fv( view, 1, GL.GL_FALSE, mat4.mat )
+
+	-- projection
+	local width, height = framework.graphics.getSize()
+	framework.graphics.setOrthographicProjection( width, height )
+end
+
 function getActiveTexture()
 	local texture = ffi.new( "GLint[1]" )
 	GL.glGetIntegerv( GL.GL_ACTIVE_TEXTURE, texture )
