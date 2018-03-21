@@ -30,8 +30,10 @@ function createWindow( title, x, y, width, height, flags, glattrs )
 		ffi.C.SDL_GL_CONTEXT_PROFILE_CORE
 	)
 
-	for k, v in pairs( glattrs ) do
-		SDL.SDL_GL_SetAttribute( ffi.C[ k ], v )
+	if ( glattrs ) then
+		for k, v in pairs( glattrs ) do
+			SDL.SDL_GL_SetAttribute( ffi.C[ k ], v )
+		end
 	end
 
 	_window  = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
