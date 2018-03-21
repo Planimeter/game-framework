@@ -6,6 +6,7 @@
 
 require( "class" )
 local ffi = require( "ffi" )
+local cef = require( "cef" )
 local GL  = require( "opengl" )
 
 class( "framework.html.browser" )
@@ -30,6 +31,8 @@ local function on_paint( self )
 		width,
 		height
 	)
+		assert( cef.cef_currently_on( ffi.C.TID_UI ) )
+
 		GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
 		GL.glTexImage2D(
 			GL.GL_TEXTURE_2D,
@@ -38,8 +41,8 @@ local function on_paint( self )
 			width,
 			height,
 			0,
-			GL.GL_BGRA_EXT or 0x80E1,
-			GL.GL_UNSIGNED_BYTE,
+			GL.GL_BGRA,
+			GL.GL_UNSIGNED_INT_8_8_8_8_REV,
 			buffer
 		)
 	end

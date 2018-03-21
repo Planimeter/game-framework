@@ -21,3 +21,8 @@ end
 function framework.draw()
 	framework.graphics.draw( browser )
 end
+
+function framework.quit()
+	framework.html.quit()
+	return true
+end
