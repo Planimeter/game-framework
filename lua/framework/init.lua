@@ -141,7 +141,8 @@ function init()
 			y         = nil,
 			width     = 800,
 			height    = 600,
-			resizable = false
+			resizable = false,
+			msaa      = 0
 		}
 	}
 
@@ -161,17 +162,26 @@ function init()
 	end
 
 	if ( c.modules.window ) then
-		local title  = c.window.title
-		local x      = c.window.x
-		local y      = c.window.y
-		local width  = c.window.width
-		local height = c.window.height
-		local flags  = 0
+		local title   = c.window.title
+		local x       = c.window.x
+		local y       = c.window.y
+		local width   = c.window.width
+		local height  = c.window.height
+		local flags   = 0
+		local glattrs = nil
 		if ( c.window.resizable ) then
 			local bit = require( "bit" )
 			flags = bit.bor( flags, ffi.C.SDL_WINDOW_RESIZABLE )
 		end
-		framework.window.createWindow( title, x, y, width, height, flags )
+		if ( c.window.msaa > 0 ) then
+			glattrs = {
+				SDL_GL_MULTISAMPLEBUFFERS = 1,
+				SDL_GL_MULTISAMPLESAMPLES = c.window.msaa
+			}
+		end
+		framework.window.createWindow(
+			title, x, y, width, height, flags, glattrs
+		)
 	end
 
 	if ( framework.filesystem.isFile( "main.lua" ) ) then

@@ -13,7 +13,7 @@ local framework = framework
 
 module( "framework.window" )
 
-function createWindow( title, x, y, width, height, flags )
+function createWindow( title, x, y, width, height, flags, glattrs )
 	x = x or SDL.SDL_WINDOWPOS_UNDEFINED
 	y = y or SDL.SDL_WINDOWPOS_UNDEFINED
 
@@ -29,16 +29,24 @@ function createWindow( title, x, y, width, height, flags )
 		ffi.C.SDL_GL_CONTEXT_PROFILE_CORE
 	)
 
+	for k, v in pairs( glattrs ) do
+		SDL.SDL_GL_SetAttribute( ffi.C[ k ], v )
+	end
+
 	_window  = SDL.SDL_CreateWindow( title, x, y, width, height, flags )
 	_context = SDL.SDL_GL_CreateContext( _window )
 
 	width, height = framework.graphics.getSize()
 	GL.glViewport( 0, 0, width, height )
-	GL.glEnable( GL.GL_BLEND )
-	GL.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA )
 	GL.glEnable( GL.GL_DEPTH_TEST )
 	GL.glDepthFunc( GL.GL_LEQUAL )
+	GL.glEnable( GL.GL_BLEND )
+	GL.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA )
 	GL.glEnable( GL.GL_TEXTURE_CUBE_MAP_SEAMLESS )
+
+	if ( glattrs.SDL_GL_MULTISAMPLESAMPLES > 0 ) then
+		GL.glEnable( GL.GL_MULTISAMPLE )
+	end
 
 	framework.graphics.createDefaultVAO()
 	framework.graphics.createDefaultVBO()
