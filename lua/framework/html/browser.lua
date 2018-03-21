@@ -27,7 +27,6 @@ function browser:browser( url, width, height )
 		width, height = framework.graphics.getSize()
 	end
 
-	require( "framework.html.referencecounting" )
 	require( "framework.html.client" )
 	require( "framework.html.lifespan" )
 	require( "framework.html.rendering" )

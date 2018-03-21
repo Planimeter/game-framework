@@ -48,7 +48,6 @@ end
 function browser:initializeRenderHandler()
 	local handler = ffi.new( "cef_render_handler_t" )
 	handler.base.size = ffi.sizeof( handler )
-	-- self:implementRefCounting( handler )
 	handler.get_view_rect = get_view_rect( self )
 	handler.on_paint = on_paint( self )
 	self.renderHandler = handler

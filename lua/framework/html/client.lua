@@ -74,7 +74,6 @@ end
 function browser:initializeClient( client )
 	local client = ffi.new( "cef_client_t" )
 	client.base.size = ffi.sizeof( client )
-	-- self:implementRefCounting( client )
 	client.get_context_menu_handler    = get_context_menu_handler
 	client.get_dialog_handler          = get_dialog_handler
 	client.get_display_handler         = get_display_handler
