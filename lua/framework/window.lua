@@ -9,6 +9,7 @@ local ffi = require( "ffi" )
 local bit = require( "bit" )
 local GL  = require( "opengl" )
 
+local pairs     = pairs
 local framework = framework
 
 module( "framework.window" )
