@@ -28,7 +28,7 @@ function browser:implementRefCounting( base )
 	if ( size <= 0 ) then
 		error( "initialize_cef_base failed, size member not set" )
 	end
-	base.add_ref     = add_ref
-	base.release     = release
-	base.has_one_ref = has_one_ref
+	base.add_ref     = nil
+	base.release     = nil
+	base.has_one_ref = nil
 end
