@@ -6,7 +6,7 @@
 
 #version 330
 
-out vec4 FragDepth;
+out float FragDepth;
 
 void main()
 {
