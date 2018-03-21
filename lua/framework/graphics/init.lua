@@ -62,10 +62,10 @@ function newFont( filename, size )
 	return font( filename, size )
 end
 
-function newFramebuffer( width, height )
+function newFramebuffer( type, width, height )
 	require( "framework.graphics.framebuffer" )
 	local framebuffer = framework.graphics.framebuffer
-	return framebuffer( width, height )
+	return framebuffer( type, width, height )
 end
 
 function newImage( filename, params )

@@ -16,7 +16,16 @@ class( "framework.graphics.framebuffer" )
 
 local framebuffer = framework.graphics.framebuffer
 
-function framebuffer:framebuffer( width, height )
+function framebuffer:framebuffer( type, width, height )
+	local format     = GL.GL_RGBA
+	local dataType   = GL.GL_UNSIGNED_BYTE
+	local attachment = GL.GL_COLOR_ATTACHMENT0
+	if ( type == "depth" ) then
+		format     = GL.GL_DEPTH_COMPONENT
+		dataType   = GL.GL_FLOAT
+		attachment = GL.GL_DEPTH_ATTACHMENT
+	end
+
 	if ( not width and not height ) then
 		width, height = framework.graphics.getSize()
 	end
@@ -37,18 +46,18 @@ function framebuffer:framebuffer( width, height )
 	GL.glTexImage2D(
 		GL.GL_TEXTURE_2D,
 		0,
-		GL.GL_RGBA,
+		format,
 		width,
 		height,
 		0,
-		GL.GL_RGBA,
-		GL.GL_UNSIGNED_BYTE,
+		format,
+		dataType,
 		nil
 	)
 
 	GL.glFramebufferTexture2D(
 		GL.GL_FRAMEBUFFER,
-		GL.GL_COLOR_ATTACHMENT0,
+		attachment,
 		GL.GL_TEXTURE_2D,
 		self.texture[0],
 		0
