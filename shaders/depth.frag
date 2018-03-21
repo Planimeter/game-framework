@@ -6,9 +6,9 @@
 
 #version 330
 
-out vec4 FragColor;
+out vec4 FragDepth;
 
 void main()
 {
-	FragColor = gl_FragCoord.z;
+	FragDepth = gl_FragCoord.z;
 }
