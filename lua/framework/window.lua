@@ -45,10 +45,6 @@ function createWindow( title, x, y, width, height, flags, glattrs )
 	GL.glBlendFunc( GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA )
 	GL.glEnable( GL.GL_TEXTURE_CUBE_MAP_SEAMLESS )
 
-	if ( glattrs.SDL_GL_MULTISAMPLESAMPLES > 0 ) then
-		GL.glEnable( GL.GL_MULTISAMPLE )
-	end
-
 	framework.graphics.createDefaultVAO()
 	framework.graphics.createDefaultVBO()
 	framework.graphics.setShader( "default2d" )
