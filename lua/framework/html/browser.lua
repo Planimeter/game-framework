@@ -82,9 +82,7 @@ function browser:browser( url, width, height )
 	setproxy( self )
 end
 
-function browser:draw( x, y, r, sx, sy, ox, oy, kx, ky )
-	image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
-end
+browser.draw = image.draw
 
 function browser:resize( width, height )
 	self.width  = width
