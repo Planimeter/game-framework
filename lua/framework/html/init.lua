@@ -4,10 +4,7 @@
 --
 --============================================================================--
 
-jit.off()
-
 local cef = require( "cef" )
-local jit = require( "jit" )
 
 local require   = require
 local framework = framework
