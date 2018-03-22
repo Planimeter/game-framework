@@ -40,7 +40,6 @@ brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet
 * Chipmunk for 2-dimensional real-time rigid body physics
 * Assimp for loading various 3D file formats
 * glTF 2.0 physically-based rendering reference shaders
-* Reversed-Z infinite far plane depth buffer support
 * Chromium Embedded Framework for UI
 * ENet for online multi-player support
 * Lua Lanes for multithreading
