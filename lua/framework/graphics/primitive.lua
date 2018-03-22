@@ -34,34 +34,38 @@ function polygon( mode, vertices )
 	framework.graphics.drawArrays( mode, 0, #vertices / 2 )
 end
 
-function rectangle( mode, x, y, width, height, cornerRadius )
-	if ( cornerRadius and cornerRadius > 0 ) then
-		local segmentsPerCorner = math.floor( cornerRadius * math.pi * 2 / 4 )
-		local vertices = {
-			x + width  / 2,
-			y + height / 2
-		}
-		local angleDelta = 1 / segmentsPerCorner * math.pi / 2
-		local cornerCenterVerts = {
-			x + width - cornerRadius, y + height - cornerRadius,
-			x + cornerRadius,         y + height - cornerRadius,
-			x + cornerRadius,         y + cornerRadius,
-			x + width - cornerRadius, y + cornerRadius
-		}
-		for corner = 0, 3 do
-			local angle = corner * math.pi / 2
-			local cornerCenterX = cornerCenterVerts[ corner * 2 + 1 ]
-			local cornerCenterY = cornerCenterVerts[ corner * 2 + 2 ]
-			for i = 1, segmentsPerCorner do
-				vertices[ #vertices+1 ] = cornerCenterX + math.cos( angle ) * cornerRadius
-				vertices[ #vertices+1 ] = cornerCenterY + math.sin( angle ) * cornerRadius
-				angle = angle + angleDelta
-			end
+local function roundedRectangle( mode, x, y, width, height, r )
+	local segments = math.floor( r * math.pi * 2 / 4 )
+	local vertices = {
+		x + width  / 2,
+		y + height / 2
+	}
+	local angleDelta = 1 / segments * math.pi / 2
+	local cornerVertices = {
+		x + width - r, y + height - r,
+		x + r,         y + height - r,
+		x + r,         y + r,
+		x + width - r, y + r
+	}
+	for corner = 0, 3 do
+		local angle = corner * math.pi / 2
+		local cornerCenterX = cornerVertices[ corner * 2 + 1 ]
+		local cornerCenterY = cornerVertices[ corner * 2 + 2 ]
+		for i = 1, segments do
+			vertices[ #vertices+1 ] = cornerCenterX + math.cos( angle ) * r
+			vertices[ #vertices+1 ] = cornerCenterY + math.sin( angle ) * r
+			angle = angle + angleDelta
 		end
-		vertices[ #vertices+1 ] = x + width
-		vertices[ #vertices+1 ] = y + height - cornerRadius
-		mode = mode == "fill" and GL.GL_TRIANGLE_FAN or mode
-		polygon( mode, vertices )
+	end
+	vertices[ #vertices+1 ] = x + width
+	vertices[ #vertices+1 ] = y + height - r
+	mode = mode == "fill" and GL.GL_TRIANGLE_FAN or mode
+	polygon( mode, vertices )
+end
+
+function rectangle( mode, x, y, width, height, r )
+	if ( r and r > 0 ) then
+		roundedRectangle( mode, x, y, width, height, r )
 		return
 	end
 	local vertices = {
@@ -133,12 +137,4 @@ function skybox( cubemap )
 	GL.glDepthMask( GL.GL_FALSE )
 	framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 3 )
 	GL.glDepthMask( GL.GL_TRUE )
-end
-
-function setLineWidth( lineWidth )
-	_lineWidth = lineWidth
-end
-
-function getLineWidth()
-	return _lineWidth
 end

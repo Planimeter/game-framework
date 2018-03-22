@@ -44,12 +44,12 @@ local function createShader( type, source )
 	return shader
 end
 
-function newShader( fragmentSource, vertexSource )
-	local fragmentShader = createShader( GL.GL_FRAGMENT_SHADER, fragmentSource )
-	local vertexShader   = createShader( GL.GL_VERTEX_SHADER, vertexSource )
-	local shaderProgram  = GL.glCreateProgram()
-	GL.glAttachShader( shaderProgram, vertexShader )
-	GL.glAttachShader( shaderProgram, fragmentShader )
+function newShader( fragSource, vertSource )
+	local fragShader    = createShader( GL.GL_FRAGMENT_SHADER, fragSource )
+	local vertShader    = createShader( GL.GL_VERTEX_SHADER, vertSource )
+	local shaderProgram = GL.glCreateProgram()
+	GL.glAttachShader( shaderProgram, vertShader )
+	GL.glAttachShader( shaderProgram, fragShader )
 	return shaderProgram
 end
 
