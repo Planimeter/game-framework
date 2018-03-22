@@ -21,7 +21,7 @@ http://opensource.spotify.com/cefbuilds/index.html
 
 ### macOS
 ```bash
-brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet
+brew install luajit physfs sdl2 devil freetype sdl_sound opus chipmunk assimp enet
 ```
 
 ## Run
