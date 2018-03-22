@@ -55,6 +55,11 @@ function framebuffer:framebuffer( type, width, height )
 		nil
 	)
 
+	if ( type == "depth" ) then
+		GL.glDrawBuffer( GL.GL_NONE )
+		GL.glReadBuffer( GL.GL_NONE )
+	end
+
 	GL.glFramebufferTexture2D(
 		GL.GL_FRAMEBUFFER,
 		attachment,

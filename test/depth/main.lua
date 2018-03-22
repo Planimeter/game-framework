@@ -8,16 +8,6 @@ local kazmath = require( "kazmath" )
 local ffi     = require( "ffi" )
 
 function framework.load( arg )
-	-- Set depth shader
-	framework.graphics.setShader( "depth" )
-
-	-- View matrix
-	framework.graphics.lookAt(
-		0, 0, 4,
-		0, 0, 0,
-		0, 1, 0
-	)
-
 	-- Load scene
 	helmet = framework.graphics.newModel(
 		"models/DamagedHelmet/gltf/DamagedHelmet.gltf"
@@ -34,6 +24,16 @@ local pitch = 0
 local translate = 4
 
 function framework.draw()
+	-- Set depth shader
+	framework.graphics.setShader( "depth" )
+
+	-- View matrix
+	framework.graphics.lookAt(
+		0, 0, 4,
+		0, 0, 0,
+		0, 1, 0
+	)
+
 	local width, height = framework.graphics.getSize()
 	framework.graphics.setPerspectiveProjection( 45, width / height, 0.01, 100 )
 
