@@ -31,3 +31,10 @@ end
 function getDrawCalls()
 	return _drawCalls
 end
+
+function getOpenGLVersion()
+	local version = ffi.new( "GLint[2]" )
+	GL.glGetIntegerv( GL.GL_MAJOR_VERSION, version )
+	GL.glGetIntegerv( GL.GL_MINOR_VERSION, version + 1 )
+	return version[0] + version[1] / 10
+end
