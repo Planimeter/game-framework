@@ -10,9 +10,9 @@ local kazmath = require( "kazmath" )
 
 return function()
 	-- shader
-	local fragmentSource = framework.filesystem.read( "shaders/pbr-frag.glsl" )
-	local vertexSource   = framework.filesystem.read( "shaders/pbr-vert.glsl" )
-	local shader         = framework.graphics.newShader( fragmentSource, vertexSource )
+	local fragSource = framework.filesystem.read( "shaders/pbr-frag.glsl" )
+	local vertSource = framework.filesystem.read( "shaders/pbr-vert.glsl" )
+	local shader     = framework.graphics.newShader( fragSource, vertSource )
 	GL.glBindFragDataLocation( shader, 0, "FragColor" )
 	framework.graphics.linkShader( shader )
 	framework.graphics.setShader( shader )

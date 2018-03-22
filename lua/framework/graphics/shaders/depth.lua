@@ -10,9 +10,9 @@ local kazmath = require( "kazmath" )
 
 return function()
 	-- shader
-	local fragmentSource = framework.filesystem.read( "shaders/depth.frag" )
-	local vertexSource   = framework.filesystem.read( "shaders/depth.vert" )
-	local shader         = framework.graphics.newShader( fragmentSource, vertexSource )
+	local fragSource = framework.filesystem.read( "shaders/depth.frag" )
+	local vertSource = framework.filesystem.read( "shaders/depth.vert" )
+	local shader     = framework.graphics.newShader( fragSource, vertSource )
 	GL.glBindFragDataLocation( shader, 0, "FragDepth" )
 	framework.graphics.linkShader( shader )
 	framework.graphics.setShader( shader )
