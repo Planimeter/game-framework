@@ -37,6 +37,7 @@ brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet
 * FreeType for rendering text
 * SDL_sound for decoding several popular sound file formats
 * OpenAL for rendering 3D sound
+* Opus for in-game chat
 * Chipmunk for 2-dimensional real-time rigid body physics
 * Assimp for loading various 3D file formats
 * glTF 2.0 physically-based rendering reference shaders
@@ -65,6 +66,8 @@ LuaJIT FFI bindings for FreeType
 LuaJIT FFI bindings for SDL_sound
 * [lopenal](https://github.com/Planimeter/lopenal)  
 LuaJIT FFI bindings for OpenAL
+* [lopus](https://github.com/Planimeter/lopus)  
+LuaJIT FFI bindings for Opus
 * [lchipmunk](https://github.com/Planimeter/lchipmunk)  
 LuaJIT FFI bindings for Chipmunk
 * [lassimp](https://github.com/Planimeter/lassimp)  
