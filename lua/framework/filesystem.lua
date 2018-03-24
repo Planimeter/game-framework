@@ -4,16 +4,27 @@
 --
 --============================================================================--
 
-local physfs = require( "physicsfs" )
-local ffi    = require( "ffi" )
-local os     = os
-local string = string
-local table  = table
+local physfs     = require( "physicsfs" )
+local ffi        = require( "ffi" )
+local pcall      = pcall
+local error      = error
+local os         = os
+local string     = string
+local table      = table
+local loadstring = loadstring
 
 module( "framework.filesystem" )
 
 function createDirectory( dir )
 	return physfs.PHYSFS_mkdir( filename ) ~= 0
+end
+
+function doFile( filename )
+	local status, err = pcall( loadFile, filename )
+	if ( status == false ) then
+		error( err, 2 )
+	end
+	return err()
 end
 
 function exists( filename )
@@ -74,6 +85,14 @@ end
 
 function isFile( file )
 	return exists( file ) and not isDirectory( file )
+end
+
+function loadFile( filename )
+	local buffer, length = read( filename )
+	if ( buffer == nil ) then
+		error( length, 2 )
+	end
+	return loadstring( buffer, filename )
 end
 
 function mount( newDir, mountPoint, appendToPath )

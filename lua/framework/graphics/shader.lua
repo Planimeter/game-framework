@@ -10,7 +10,6 @@ local kazmath = require( "kazmath" )
 
 local error     = error
 local type      = type
-local dofile    = dofile
 local framework = framework
 
 module( "framework.graphics" )
@@ -66,7 +65,7 @@ function setShader( shader )
 		if ( not _shaders.loaded[ shader ] ) then
 			local dir      = "lua/framework/graphics/shaders/"
 			local filename = dir .. shader .. ".lua"
-			_shaders.loaded[ shader ] = dofile( filename )()
+			_shaders.loaded[ shader ] = framework.filesystem.doFile( filename )()
 		end
 		shader = _shaders.loaded[ shader ]
 	end

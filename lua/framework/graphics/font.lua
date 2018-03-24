@@ -42,7 +42,41 @@ function font:font( filename, size )
 	local mask = ffi.new( "GLint[4]", o, o, o, r )
 	GL.glTexParameteriv( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_SWIZZLE_RGBA, mask )
 
+	local s = self.face[0].size.metrics;
+	self.advance = bit.rshift( s.max_advance, 6 )
+	self.ascent  = bit.rshift( s.ascender, 6 )
+	self.descent = bit.rshift( s.descender, 6 )
+	self.height  = bit.rshift( s.height, 6 )
+
 	setproxy( self )
+end
+
+function font:getWidth( text )
+	local width = 0
+	local x     = 0
+	local face = self.face[0]
+	for i = 1, #text do
+		local char = string.sub( text, i, i )
+		if ( FT.FT_Load_Char( face, string.byte( char ), 4 ) == 0 ) then
+			local g  = face.glyph
+			local gx = x + g.bitmap_left
+			local bw = g.bitmap.width
+			x        = x + ( g.advance.x / 64 )
+			width    = width + gx + bw
+		else
+			error( "Could not load character '" .. char .. "'", 3 )
+		end
+	end
+	return width
+end
+
+function font:getHeight()
+	return math.floor( self.height / framework.window.getPixelScale() + 0.5 )
+end
+
+function font:getWrap()
+	-- TODO: Implement me.
+	return 0, {}
 end
 
 function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
@@ -110,5 +144,5 @@ end
 
 function font:__gc()
 	GL.glDeleteTextures( 1, self.texture )
-	FT.FT_Done_Face( self.face )
+	FT.FT_Done_Face( self.face[0] )
 end

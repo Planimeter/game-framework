@@ -139,6 +139,7 @@ end
 rotateZ = rotate
 
 function scale( x, y, z )
+	y = y or x
 	z = z or 1
 	local scaling = ffi.new( "kmMat4" )
 	kazmath.kmMat4Scaling( scaling, x, y, z )

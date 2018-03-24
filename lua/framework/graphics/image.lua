@@ -90,6 +90,14 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )
 end
 
+function image:getWidth()
+	return self.width
+end
+
+function image:getHeight()
+	return self.height
+end
+
 function image:__gc()
 	GL.glDeleteTextures( 1, self.texture )
 	IL.ilDeleteImages( 1, self.image )

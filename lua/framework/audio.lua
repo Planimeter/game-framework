@@ -23,3 +23,7 @@ end
 function play( source )
 	source:play()
 end
+
+function setVolume( volume )
+	--TODO: Implement me.
+end

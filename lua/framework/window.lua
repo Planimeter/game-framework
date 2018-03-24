@@ -89,3 +89,7 @@ function swap()
 	SDL.SDL_GL_SwapWindow( _window )
 	framework.graphics._drawCalls = 0
 end
+
+function toPixels( n )
+	return n * getPixelScale()
+end
