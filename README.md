@@ -10,11 +10,8 @@ Game development framework for Lua
 
 ## Install
 ### Windows
-**Microsoft Visual C++ 2010 SP1 Redistributable Package (x64)**  
-https://www.microsoft.com/en-us/download/details.aspx?id=13523
-
-**Visual C++ Redistributable for Visual Studio 2015**  
-https://www.microsoft.com/en-us/download/details.aspx?id=48145
+**Microsoft Visual C++ Redistributable for Visual Studio 2017**  
+https://www.visualstudio.com/downloads/
 
 **02/13/2018 - CEF 3.3282.1733.g9091548 / Chromium 64.0.3282.119**  
 http://opensource.spotify.com/cefbuilds/index.html
