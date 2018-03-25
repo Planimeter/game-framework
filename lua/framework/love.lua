@@ -30,6 +30,7 @@ local ffi       = require( "ffi" )
 local jit       = jit
 local print     = print
 local require   = require
+local type      = type
 
 local framework = framework
 _G.love         = framework
@@ -132,6 +133,16 @@ local function love_graphics()
 		notimplemented( "printf", 3 )
 	end
 
+	_setBackgroundColor = _setBackgroundColor or framework.graphics.setBackgroundColor
+
+	function setBackgroundColor( r, g, b, a )
+		if ( type( r ) ~= "table" ) then
+			_setBackgroundColor( { r, g, b, a } )
+			return
+		end
+		_setBackgroundColor( r )
+	end
+
 	function setBlendMode( mode, alphamode )
 		mode = mode or "none"
 		alphamode = alphamode or "alphamultiply"
@@ -184,6 +195,16 @@ local function love_graphics()
 		GL.glBlendFuncSeparate( srcRGB, dstRGB, srcA, dstA )
 		_blendMode = mode
 		_alphaMode = alphamode
+	end
+
+	_setColor = _setColor or framework.graphics.setColor
+
+	function setColor( r, g, b, a )
+		if ( type( r ) ~= "table" ) then
+			_setColor( { r, g, b, a } )
+			return
+		end
+		_setColor( r )
 	end
 
 	function setDefaultFilter( min, mag, anisotropy )

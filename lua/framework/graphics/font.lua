@@ -67,7 +67,7 @@ function font:getWidth( text )
 			error( "Could not load character '" .. char .. "'", 3 )
 		end
 	end
-	return width
+	return tonumber( width )
 end
 
 function font:getHeight()
