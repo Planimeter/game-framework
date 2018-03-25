@@ -25,5 +25,11 @@ function play( source )
 end
 
 function setVolume( volume )
-	--TODO: Implement me.
+	AL.alListenerf( AL.AL_GAIN, volume )
+end
+
+function getVolume()
+	local volume = ffi.new( "ALfloat[1]" )
+	AL.alGetListenerf( AL.AL_GAIN, volume[0] )
+	return volume
 end
