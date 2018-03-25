@@ -35,6 +35,7 @@ function framebuffer:framebuffer( type, width, height )
 
 	self.framebuffer = ffi.new( "GLuint[1]" )
 	GL.glGenFramebuffers( 1, self.framebuffer )
+	local framebuffer = framework.graphics.getFramebuffer()
 	framework.graphics.setFramebuffer( self )
 
 	self.texture = ffi.new( "GLuint[1]" )
@@ -69,7 +70,7 @@ function framebuffer:framebuffer( type, width, height )
 	)
 
 	framework.graphics.clear()
-	framework.graphics.setFramebuffer()
+	framework.graphics.setFramebuffer( framebuffer )
 
 	setproxy( self )
 end
