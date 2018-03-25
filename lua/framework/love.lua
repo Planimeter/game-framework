@@ -254,15 +254,6 @@ end
 
 local function love_mouse()
 	module( "love.mouse" )
-
-	function getSystemCursor()
-		notimplemented( "getSystemCursor", 3 )
-	end
-
-	function setCursor()
-		notimplemented( "setCursor", 3 )
-	end
-
 	return _M
 end
 
