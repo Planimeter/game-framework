@@ -111,3 +111,16 @@ function read( filename )
 	physfs.PHYSFS_close( file )
 	return ffi.string( buffer, length ), length
 end
+
+function write( filename, buffer, len )
+	local file = physfs.PHYSFS_openWrite( filename )
+	if ( file == nil ) then
+		return false, ffi.string( physfs.PHYSFS_getLastError() )
+	end
+	local bytes = physfs.PHYSFS_write( file, buffer, 1, len )
+	physfs.PHYSFS_close( file )
+	if ( bytes <= len ) then
+		return false, ffi.string( physfs.PHYSFS_getLastError() )
+	end
+	return true
+end

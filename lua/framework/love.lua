@@ -70,10 +70,6 @@ local function love_filesystem()
 		notimplemented( "setIdentity", 3 )
 	end
 
-	function write()
-		notimplemented( "write", 3 )
-	end
-
 	return _M
 end
 
