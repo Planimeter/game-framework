@@ -8,10 +8,11 @@ require( "framework.graphics.opengl" )
 require( "framework.graphics.primitive" )
 require( "framework.graphics.shader" )
 require( "framework.graphics.transformation" )
-local GL  = require( "opengl" )
-local ffi = require( "ffi" )
-local SDL = require( "sdl" )
-local bit = require( "bit" )
+local GL      = require( "opengl" )
+local ffi     = require( "ffi" )
+local SDL     = require( "sdl" )
+local kazmath = require( "kazmath" )
+local bit     = require( "bit" )
 
 local framework = framework
 local require   = require
@@ -104,8 +105,25 @@ end
 function setFramebuffer( framebuffer )
 	if ( framebuffer ) then
 		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, framebuffer.framebuffer[0] )
+		local mode = framework.graphics.getMatrixMode()
+		framework.graphics.setMatrixMode( "projection" )
+		framework.graphics.push()
+			local mat4   = framework.graphics.getTransformation()
+			local width  = framebuffer.width
+			local height = framebuffer.height
+			kazmath.kmMat4OrthographicProjection(
+				mat4, 0, width, 0, height, -1.0, 1.0
+			)
+		framework.graphics.setMatrixMode( mode )
+
+		local dpiScale = framework.window.getPixelScale()
+		setViewport( 0, 0, width * dpiScale, height * dpiScale )
 	else
 		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, 0 )
+		framework.graphics.setOrthographicProjection( width, height )
+
+		local width, height = getSize()
+		setViewport( 0, 0, width, height )
 	end
 
 	_framebuffer = framebuffer
@@ -118,6 +136,29 @@ function setPolygonMode( mode )
 		mode = GL.GL_FILL
 	end
 	GL.glPolygonMode( GL.GL_FRONT_AND_BACK, mode )
+end
+
+function setScissor( x, y, width, height )
+	if ( _framebuffer ~= nil ) then
+		GL.glScissor( x, y, width, height )
+	else
+		GL.glScissor( x, _viewport.height - ( y + height ), width, height )
+	end
+end
+
+_viewport  = _viewport or {
+	x      = 0,
+	y      = 0,
+	width  = 800,
+	height = 600
+}
+
+function setViewport( x, y, width, height )
+	GL.glViewport( x, y, width, height )
+	_viewport.x      = x
+	_viewport.y      = y
+	_viewport.width  = width
+	_viewport.height = height
 end
 
 function setVSync( vsync )

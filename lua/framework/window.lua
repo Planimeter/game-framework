@@ -40,7 +40,7 @@ function createWindow( title, x, y, width, height, flags, glattrs )
 	_context = SDL.SDL_GL_CreateContext( _window )
 
 	width, height = framework.graphics.getSize()
-	GL.glViewport( 0, 0, width, height )
+	framework.graphics.setViewport( 0, 0, width, height )
 	GL.glEnable( GL.GL_DEPTH_TEST )
 	GL.glDepthFunc( GL.GL_LEQUAL )
 	GL.glEnable( GL.GL_BLEND )
@@ -69,7 +69,7 @@ function getSize()
 end
 
 function resize( width, height )
-	GL.glViewport( 0, 0, width, height )
+	framework.graphics.setViewport( 0, 0, width, height )
 	framework.graphics.setOrthographicProjection( width, height )
 end
 
