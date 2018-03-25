@@ -10,10 +10,15 @@ module( "framework.timer" )
 
 _frames        = _frames        or 0
 _dt            = _dt            or 0
-_prevTime      = _prevTime      or 0
+_lastTime      = _lastTime      or 0
 _fps           = _fps           or 0
+_averageDelta  = _averageDelta  or 0
 _nextFPSUpdate = _nextFPSUpdate or 0
 _lastFPSUpdate = _lastFPSUpdate or 0
+
+function getAverageDelta()
+	return _averageDelta
+end
 
 function getDelta()
 	return _dt
@@ -35,13 +40,14 @@ function step()
 	_frames = _frames + 1
 
 	local time = getTime()
-	_dt = time - _prevTime
-	_prevTime = time
+	_dt = time - _lastTime
+	_lastTime = time
 
 	if ( _nextFPSUpdate <= time ) then
 		_fps = _frames
-		_nextFPSUpdate = time + ( 1 * 1000 )
-		_lastFPSUpdate = time
+		_averageDelta = ( time - _lastFPSUpdate ) / _frames
+		_nextFPSUpdate =  time + ( 1 * 1000 )
+		_lastFPSUpdate =  time
 		_frames = 0
 	end
 

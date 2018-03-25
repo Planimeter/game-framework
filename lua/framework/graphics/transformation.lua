@@ -20,8 +20,8 @@ local transformations = {
 	"projection"
 }
 
-_mode  = _mode  or "model"
-_stack = _stack or {}
+_matrixMode = _matrixMode  or "model"
+_stack      = _stack or {}
 
 for _, transformation in ipairs( transformations ) do
 	local mat4 = ffi.new( "kmMat4" )
@@ -34,11 +34,11 @@ kazmath.kmMat4Identity( mat4 )
 _normalMatrix = _normalMatrix or mat4
 
 function getMatrixMode()
-	return _mode
+	return _matrixMode
 end
 
 function setMatrixMode( mode )
-	_mode = mode
+	_matrixMode = mode
 end
 
 function getNormalMatrix()
@@ -148,6 +148,9 @@ function scale( x, y, z )
 end
 
 function translate( x, y, z )
+	if ( z == nil ) then
+		y = -y
+	end
 	z = z or 0
 	local translation = ffi.new( "kmMat4" )
 	kazmath.kmMat4Translation( translation, x, y, z )

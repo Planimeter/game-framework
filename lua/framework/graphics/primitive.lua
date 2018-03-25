@@ -76,6 +76,14 @@ function rectangle( mode, x, y, width, height, r )
 		x + width, y,
 		x,         y
 	}
+	if ( mode == "line" ) then
+		vertices = {
+			x,         y + height,
+			x + width, y + height,
+			x + width, y,
+			x,         y,
+		}
+	end
 	polygon( mode, vertices )
 end
 
@@ -137,4 +145,13 @@ function skybox( cubemap )
 	GL.glDepthMask( GL.GL_FALSE )
 	framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 3 )
 	GL.glDepthMask( GL.GL_TRUE )
+end
+
+function setLineWidth( width )
+	GL.glLineWidth( width )
+	_lineWidth = width
+end
+
+function getLineWidth()
+	return _lineWidth
 end

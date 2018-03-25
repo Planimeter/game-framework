@@ -116,7 +116,7 @@ function setColor( color )
 		( color[ 1 ] or 0 ) / 255,
 		( color[ 2 ] or 0 ) / 255,
 		( color[ 3 ] or 0 ) / 255,
-		( color[ 4 ] or 0 )
+		( color[ 4 ] or 0 ) / 255
 	)
 	local index = GL.glGetUniformLocation( getShader(), "color" )
 	GL.glUniform4fv( index, 1, pColor )

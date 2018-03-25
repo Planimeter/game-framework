@@ -24,7 +24,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  ]]
 
-local GL = require( "opengl" )
+local GL        = require( "opengl" )
+local ffi       = require( "ffi" )
 
 local jit       = jit
 local print     = print
@@ -33,7 +34,7 @@ local require   = require
 local framework = framework
 _G.love         = framework
 
-local function notimplemented( table, key, level )
+local function notimplemented( key, level )
 	level = level or 2
 	local ar = debug.getinfo( level, "Sl" )  --[[ get info about it ]]
 	local ret = nil
@@ -50,7 +51,7 @@ local function love_audio()
 	module( "love.audio" )
 
 	function setVolume( volume )
-		notimplemented( _M, "setVolume", 3 )
+		notimplemented( "setVolume", 3 )
 	end
 
 	return _M
@@ -64,16 +65,16 @@ local function love_filesystem()
 	end
 
 	function lines()
-		notimplemented( _M, "lines", 3 )
+		notimplemented( "lines", 3 )
 		return function() end, {}, nil
 	end
 
 	function setIdentity()
-		notimplemented( _M, "setIdentity", 3 )
+		notimplemented( "setIdentity", 3 )
 	end
 
 	function write()
-		notimplemented( _M, "write", 3 )
+		notimplemented( "write", 3 )
 	end
 
 	return _M
@@ -84,8 +85,11 @@ local function love_graphics()
 
 	module( "love.graphics" )
 
+	_blendMode = _blendMode or "alpha"
+	_alphaMode = _alphaMode or "alphamultiply"
+
 	function getBlendMode()
-		return _mode, _alphamode
+		return _blendMode, _alphaMode
 	end
 
 	function getCanvas()
@@ -106,8 +110,26 @@ local function love_graphics()
 		return framework.graphics.newFramebuffer( "color", width, height )
 	end
 
+	function line( ... )
+		local vertices       = { ... }
+		local defaultVBO     = framework.graphics._defaultVBO
+		local pVertices      = ffi.new( "GLfloat[?]", #vertices, vertices )
+		local size           = ffi.sizeof( pVertices )
+		local shader         = framework.graphics.getShader()
+		local position       = GL.glGetAttribLocation( shader, "position" )
+		local texcoord       = GL.glGetAttribLocation( shader, "texcoord" )
+		local defaultTexture = framework.graphics.getDefaultTexture()
+		GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
+		GL.glBufferData( GL.GL_ARRAY_BUFFER, size, pVertices, GL.GL_STREAM_DRAW )
+		GL.glVertexAttribPointer( position, 2, GL.GL_FLOAT, 0, 0, nil )
+		GL.glDisableVertexAttribArray( texcoord )
+		framework.graphics.updateTransformations()
+		GL.glBindTexture( GL.GL_TEXTURE_2D, defaultTexture[0] )
+		framework.graphics.drawArrays( GL.GL_LINES, 0, #vertices / 2 )
+	end
+
 	function printf()
-		notimplemented( _M, "printf", 3 )
+		notimplemented( "printf", 3 )
 	end
 
 	function setBlendMode( mode, alphamode )
@@ -160,26 +182,26 @@ local function love_graphics()
 
 		GL.glBlendEquation( func )
 		GL.glBlendFuncSeparate( srcRGB, dstRGB, srcA, dstA )
-		_mode = mode
-		_alphamode = alphamode
+		_blendMode = mode
+		_alphaMode = alphamode
 	end
 
 	function setDefaultFilter( min, mag, anisotropy )
-		notimplemented( _M, "setDefaultFilter", 3 )
+		notimplemented( "setDefaultFilter", 3 )
 	end
 
 	setCanvas = framework.graphics.setFramebuffer
 
-	function setLineWidth()
-		notimplemented( _M, "setLineWidth", 3 )
+	function setLineStyle( style )
+		notimplemented( "setLineStyle", 3 )
 	end
 
 	function setStencilTest()
-		notimplemented( _M, "setStencilTest", 3 )
+		notimplemented( "setStencilTest", 3 )
 	end
 
 	function stencil()
-		notimplemented( _M, "stencil", 3 )
+		notimplemented( "stencil", 3 )
 	end
 
 	return _M
@@ -193,8 +215,18 @@ local function love_image()
 	local image = framework.graphics.image
 
 	image.setFilter = function()
-		notimplemented( image, "setFilter", 3 )
+		notimplemented( "setFilter", 3 )
 	end
+
+	return _M
+end
+
+local function love_keyboard()
+	require( "framework.keyboard" )
+
+	module( "love.keyboard" )
+
+	_M.isDown = framework.keyboard.isPressed
 
 	return _M
 end
@@ -202,8 +234,12 @@ end
 local function love_mouse()
 	module( "love.mouse" )
 
+	function getSystemCursor()
+		notimplemented( "getSystemCursor", 3 )
+	end
+
 	function setCursor()
-		notimplemented( image, "setCursor", 3 )
+		notimplemented( "setCursor", 3 )
 	end
 
 	return _M
@@ -228,8 +264,19 @@ end
 local function love_window()
 	module( "love.window" )
 
+	function getFullscreenModes()
+		notimplemented( "getFullscreenModes", 3 )
+		return {
+			{ width = 800, height = 600 }
+		}
+	end
+
+	function setMode()
+		notimplemented( "setMode", 3 )
+	end
+
 	function toPixels( value )
-		notimplemented( _M, "toPixels", 3 )
+		notimplemented( "toPixels", 3 )
 		return value
 	end
 
@@ -241,6 +288,7 @@ local modules = {
 	[ "love.filesystem" ] = love_filesystem,
 	[ "love.graphics" ]   = love_graphics,
 	[ "love.image" ]      = love_image,
+	[ "love.keyboard" ]   = love_keyboard,
 	[ "love.mouse" ]      = love_mouse,
 	[ "love.system" ]     = love_system,
 	[ "love.window" ]     = love_window

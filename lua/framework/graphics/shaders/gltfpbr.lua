@@ -85,7 +85,7 @@ return function()
 	-- u_MetallicRoughnessValues
 	framework.graphics.setMetallicRoughnessValues( { 1, 1 } )
 	-- color
-	framework.graphics.setColor( { 255, 255, 255, 1 } )
+	framework.graphics.setColor( { 255, 255, 255, 255 } )
 
 	-- pbr-vert.glsl
 	-- attribs

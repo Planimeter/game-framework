@@ -8,6 +8,7 @@ local SDL = require( "sdl" )
 local ffi = require( "ffi" )
 
 local framework      = framework
+local string         = string
 local collectgarbage = collectgarbage
 
 module( "framework.event" )
@@ -54,21 +55,21 @@ function handle( e )
 		windowevent( e.window )
 	elseif ( e.type == ffi.C.SDL_KEYDOWN ) then
 		local key      = SDL.SDL_GetKeyName( e.key.keysym.sym )
-		key            = ffi.string( key )
+		key            = string.lower( ffi.string( key ) )
 		local scancode = SDL.SDL_GetScancodeName( e.key.keysym.scancode )
-		scancode       = ffi.string( scancode )
+		scancode       = string.lower( ffi.string( scancode ) )
 		local isrepeat = e.key[ "repeat" ] == 1 and true or false
 		framework.keypressed( key, scancode, isrepeat )
 	elseif ( e.type == ffi.C.SDL_KEYUP ) then
 		local key      = SDL.SDL_GetKeyName( e.key.keysym.sym )
-		key            = ffi.string( key )
+		key            = string.lower( ffi.string( key ) )
 		local scancode = SDL.SDL_GetScancodeName( e.key.keysym.scancode )
-		scancode       = ffi.string( scancode )
+		scancode       = string.lower( ffi.string( scancode ) )
 		framework.keyreleased( key, scancode )
 	elseif ( e.type == ffi.C.SDL_TEXTEDITING ) then
 		framework.textedited( e.edit.text, e.edit.start, e.edit.length )
 	elseif ( e.type == ffi.C.SDL_TEXTINPUT ) then
-		framework.textinput( e.text.text )
+		framework.textinput( ffi.string( e.text.text ) )
 	elseif ( e.type == ffi.C.SDL_MOUSEMOTION ) then
 		local x       = e.motion.x
 		local y       = e.motion.y
