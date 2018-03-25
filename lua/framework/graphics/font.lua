@@ -43,10 +43,10 @@ function font:font( filename, size )
 	GL.glTexParameteriv( GL.GL_TEXTURE_2D, GL.GL_TEXTURE_SWIZZLE_RGBA, mask )
 
 	local s = self.face[0].size.metrics;
-	self.advance = bit.rshift( s.max_advance, 6 )
-	self.ascent  = bit.rshift( s.ascender, 6 )
-	self.descent = bit.rshift( s.descender, 6 )
-	self.height  = bit.rshift( s.height, 6 )
+	self.advance = bit.rshift( tonumber( s.max_advance ), 6 )
+	self.ascent  = bit.rshift( tonumber( s.ascender ), 6 )
+	self.descent = bit.rshift( tonumber( s.descender ), 6 )
+	self.height  = bit.rshift( tonumber( s.height ), 6 )
 
 	setproxy( self )
 end
