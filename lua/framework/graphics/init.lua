@@ -107,7 +107,6 @@ function setFramebuffer( framebuffer )
 		GL.glBindFramebuffer( GL.GL_FRAMEBUFFER, framebuffer.framebuffer[0] )
 		local mode = framework.graphics.getMatrixMode()
 		framework.graphics.setMatrixMode( "projection" )
-		framework.graphics.push()
 			local mat4   = framework.graphics.getTransformation()
 			local width  = framebuffer.width
 			local height = framebuffer.height
@@ -115,6 +114,7 @@ function setFramebuffer( framebuffer )
 				mat4, 0, width, 0, height, -1.0, 1.0
 			)
 		framework.graphics.setMatrixMode( mode )
+		framework.graphics.updateTransformations()
 
 		local dpiScale = framework.window.getPixelScale()
 		setViewport( 0, 0, width * dpiScale, height * dpiScale )
