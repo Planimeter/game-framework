@@ -213,10 +213,6 @@ local function love_graphics()
 
 	setCanvas = framework.graphics.setFramebuffer
 
-	function setLineStyle( style )
-		notimplemented( "setLineStyle", 3 )
-	end
-
 	function setStencilTest()
 		notimplemented( "setStencilTest", 3 )
 	end

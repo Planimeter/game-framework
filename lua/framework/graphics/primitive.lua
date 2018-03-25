@@ -147,6 +147,14 @@ function skybox( cubemap )
 	GL.glDepthMask( GL.GL_TRUE )
 end
 
+function setLineStyle( style )
+	if ( style == "smooth" ) then
+		GL.glEnable( GL.GL_LINE_SMOOTH )
+	else
+		GL.glDisable( GL.GL_LINE_SMOOTH )
+	end
+end
+
 function setLineWidth( width )
 	GL.glLineWidth( width )
 	_lineWidth = width
