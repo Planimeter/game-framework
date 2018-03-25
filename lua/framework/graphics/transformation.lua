@@ -148,9 +148,6 @@ function scale( x, y, z )
 end
 
 function translate( x, y, z )
-	if ( z == nil ) then
-		y = -y
-	end
 	z = z or 0
 	local translation = ffi.new( "kmMat4" )
 	kazmath.kmMat4Translation( translation, x, y, z )
