@@ -98,6 +98,10 @@ function image:getHeight()
 	return self.height
 end
 
+function image:setFilter( min, mag )
+	-- TODO: Implement me.
+end
+
 function image:__gc()
 	GL.glDeleteTextures( 1, self.texture )
 	IL.ilDeleteImages( 1, self.image )

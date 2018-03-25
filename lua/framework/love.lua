@@ -235,10 +235,6 @@ local function love_image()
 
 	local image = framework.graphics.image
 
-	image.setFilter = function()
-		notimplemented( "setFilter", 3 )
-	end
-
 	return _M
 end
 
