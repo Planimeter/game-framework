@@ -47,6 +47,22 @@ function _M.kmMat4ReversedZPerspectiveProjection(pOut, fovY,
 	return pOut
 end
 
+function _M.kmMat4Transform( pOut, x, y, angle, sx, sy, ox, oy, kx, ky )
+	local c, s = math.cos(angle), math.sin(angle)
+	-- matrix multiplication carried out on paper:
+	-- |1     x| |c -s    | |sx       | | 1 ky    | |1     -ox|
+	-- |  1   y| |s  c    | |   sy    | |kx  1    | |  1   -oy|
+	-- |    1  | |     1  | |      1  | |      1  | |    1    |
+	-- |      1| |       1| |        1| |        1| |       1 |
+	--   move      rotate      scale       skew       origin	pOut.mat[10] = pOut.mat[15] = 1.0
+	pOut.mat[0]  = c * sx - ky * s * sy -- = a
+	pOut.mat[1]  = s * sx + ky * c * sy -- = b
+	pOut.mat[4]  = kx * c * sx - s * sy -- = c
+	pOut.mat[5]  = kx * s * sx + c * sy -- = d
+	pOut.mat[12] = x - ox * pOut.mat[0] - oy * pOut.mat[4]
+	pOut.mat[13] = y - ox * pOut.mat[1] - oy * pOut.mat[5]
+end
+
 return setmetatable( _M, {
 	__index = function( table, key )
 		return kazmath[ key ]
