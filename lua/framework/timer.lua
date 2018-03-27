@@ -45,9 +45,9 @@ function step()
 
 	if ( _nextFPSUpdate <= time ) then
 		_fps = _frames
-		_averageDelta = ( time - _lastFPSUpdate ) / _frames
-		_nextFPSUpdate =  time + ( 1 * 1000 )
-		_lastFPSUpdate =  time
+		_averageDelta = ( ( time - _lastFPSUpdate ) / _frames ) / 1000
+		_nextFPSUpdate =    time + ( 1 * 1000 )
+		_lastFPSUpdate =    time
 		_frames = 0
 	end
 
