@@ -131,7 +131,7 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 				GL.GL_UNSIGNED_BYTE,
 				g.bitmap.buffer
 			)
-			framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )
+			framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 4 )
 			x = x + ( g.advance.x / 64 )
 			y = y + ( g.advance.y / 64 )
 		else

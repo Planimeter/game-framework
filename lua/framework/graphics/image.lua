@@ -87,7 +87,7 @@ function image:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 	framework.graphics.updateTransformations()
 	GL.glBindTexture( GL.GL_TEXTURE_2D, self.texture[0] )
-	framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 2 )
+	framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 4 )
 end
 
 function image:getWidth()
