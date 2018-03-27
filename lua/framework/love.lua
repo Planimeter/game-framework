@@ -100,14 +100,15 @@ local function love_graphics()
 
 	function getHeight()
 		local width, height = framework.graphics.getSize()
-		return width
+		return height
 	end
 
 	function newCanvas( width, height )
 		return framework.graphics.newFramebuffer( "color", width, height )
 	end
 
-	function printf()
+	function printf( ... )
+		framework.graphics.print( ... )
 		notimplemented( "printf", 3 )
 	end
 
@@ -156,8 +157,7 @@ local function love_graphics()
 			srcA = GL.GL_ONE
 			dstRGB = GL.GL_ONE_MINUS_SRC_COLOR
 			dstA = GL.GL_ONE_MINUS_SRC_COLOR
-		-- elseif ( mode == BLEND_REPLACE or mode == "none" ) then
-		else
+		elseif ( mode == "replace" or mode == "none" ) then
 			srcRGB = GL.GL_ONE
 			srcA = GL.GL_ONE
 			dstRGB = GL.GL_ZERO
