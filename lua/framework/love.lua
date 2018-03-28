@@ -257,11 +257,6 @@ local function love_window()
 		notimplemented( "setMode", 3 )
 	end
 
-	function toPixels( value )
-		notimplemented( "toPixels", 3 )
-		return value
-	end
-
 	return _M
 end
 
