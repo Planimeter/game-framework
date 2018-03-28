@@ -131,9 +131,15 @@ function init()
 
 	local c = {
 		modules = {
-			window   = true,
+			event    = true,
+			keyboard = true,
+			mouse    = true,
 			timer    = true,
-			graphics = true
+			graphics = true,
+			audio    = true,
+			physics  = true,
+			sound    = true,
+			window   = true
 		},
 		window = {
 			title     = "",
