@@ -150,7 +150,7 @@ typedef struct cpArbiter cpArbiter;
 typedef struct cpSpace cpSpace;
 
 
-static const cpVect cpvzero = {0.0f,0.0f};
+// static const cpVect cpvzero = {0.0f,0.0f};
 
 
 static inline cpVect cpv(const cpFloat x, const cpFloat y)
@@ -488,7 +488,7 @@ cpBBOffset(const cpBB bb, const cpVect v)
   bb.t + v.y
  );
 }
-static const cpTransform cpTransformIdentity = {1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f};
+// static const cpTransform cpTransformIdentity = {1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f};
 
 
 
@@ -1148,9 +1148,9 @@ typedef struct cpShapeFilter {
 } cpShapeFilter;
 
 
-static const cpShapeFilter CP_SHAPE_FILTER_ALL = {((cpGroup)0), (~(cpBitmask)0), (~(cpBitmask)0)};
+// static const cpShapeFilter CP_SHAPE_FILTER_ALL = {((cpGroup)0), (~(cpBitmask)0), (~(cpBitmask)0)};
 
-static const cpShapeFilter CP_SHAPE_FILTER_NONE = {((cpGroup)0), ~(~(cpBitmask)0), ~(~(cpBitmask)0)};
+// static const cpShapeFilter CP_SHAPE_FILTER_NONE = {((cpGroup)0), ~(~(cpBitmask)0), ~(~(cpBitmask)0)};
 
 
 static inline cpShapeFilter
@@ -1949,22 +1949,22 @@ cpClosetPointOnSegment(const cpVect p, const cpVect a, const cpVect b)
 
 
 
-void cpSpaceEachBody_b(cpSpace *space, void (^block)(cpBody *body));
-void cpSpaceEachShape_b(cpSpace *space, void (^block)(cpShape *shape));
-void cpSpaceEachConstraint_b(cpSpace *space, void (^block)(cpConstraint *constraint));
+// void cpSpaceEachBody_b(cpSpace *space, void (^block)(cpBody *body));
+// void cpSpaceEachShape_b(cpSpace *space, void (^block)(cpShape *shape));
+// void cpSpaceEachConstraint_b(cpSpace *space, void (^block)(cpConstraint *constraint));
 
-void cpBodyEachShape_b(cpBody *body, void (^block)(cpShape *shape));
-void cpBodyEachConstraint_b(cpBody *body, void (^block)(cpConstraint *constraint));
-void cpBodyEachArbiter_b(cpBody *body, void (^block)(cpArbiter *arbiter));
+// void cpBodyEachShape_b(cpBody *body, void (^block)(cpShape *shape));
+// void cpBodyEachConstraint_b(cpBody *body, void (^block)(cpConstraint *constraint));
+// void cpBodyEachArbiter_b(cpBody *body, void (^block)(cpArbiter *arbiter));
 
-typedef void (^cpSpacePointQueryBlock)(cpShape *shape, cpVect point, cpFloat distance, cpVect gradient);
-void cpSpacePointQuery_b(cpSpace *space, cpVect point, cpFloat maxDistance, cpShapeFilter filter, cpSpacePointQueryBlock block);
+// typedef void (^cpSpacePointQueryBlock)(cpShape *shape, cpVect point, cpFloat distance, cpVect gradient);
+// void cpSpacePointQuery_b(cpSpace *space, cpVect point, cpFloat maxDistance, cpShapeFilter filter, cpSpacePointQueryBlock block);
 
-typedef void (^cpSpaceSegmentQueryBlock)(cpShape *shape, cpVect point, cpVect normal, cpFloat alpha);
-void cpSpaceSegmentQuery_b(cpSpace *space, cpVect start, cpVect end, cpFloat radius, cpShapeFilter filter, cpSpaceSegmentQueryBlock block);
+// typedef void (^cpSpaceSegmentQueryBlock)(cpShape *shape, cpVect point, cpVect normal, cpFloat alpha);
+// void cpSpaceSegmentQuery_b(cpSpace *space, cpVect start, cpVect end, cpFloat radius, cpShapeFilter filter, cpSpaceSegmentQueryBlock block);
 
-typedef void (^cpSpaceBBQueryBlock)(cpShape *shape);
-void cpSpaceBBQuery_b(cpSpace *space, cpBB bb, cpShapeFilter filter, cpSpaceBBQueryBlock block);
+// typedef void (^cpSpaceBBQueryBlock)(cpShape *shape);
+// void cpSpaceBBQuery_b(cpSpace *space, cpBB bb, cpShapeFilter filter, cpSpaceBBQueryBlock block);
 
-typedef void (^cpSpaceShapeQueryBlock)(cpShape *shape, cpContactPointSet *points);
-cpBool cpSpaceShapeQuery_b(cpSpace *space, cpShape *shape, cpSpaceShapeQueryBlock block);
+// typedef void (^cpSpaceShapeQueryBlock)(cpShape *shape, cpContactPointSet *points);
+// cpBool cpSpaceShapeQuery_b(cpSpace *space, cpShape *shape, cpSpaceShapeQueryBlock block);
