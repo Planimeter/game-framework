@@ -33,12 +33,12 @@ local mat4 = ffi.new( "kmMat4" )
 kazmath.kmMat4Identity( mat4 )
 _normalMatrix = _normalMatrix or mat4
 
-function getMatrixMode()
-	return _matrixMode
-end
-
 function setMatrixMode( mode )
 	_matrixMode = mode
+end
+
+function getMatrixMode()
+	return _matrixMode
 end
 
 function getNormalMatrix()
