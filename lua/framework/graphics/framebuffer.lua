@@ -17,6 +17,9 @@ class( "framework.graphics.framebuffer" )
 local framebuffer = framework.graphics.framebuffer
 
 function framebuffer:framebuffer( type, width, height )
+	width  = width  or select( 1, framework.graphics.getSize() )
+	height = height or select( 2, framework.graphics.getSize() )
+
 	local format     = GL.GL_RGBA
 	local dataType   = GL.GL_UNSIGNED_BYTE
 	local attachment = GL.GL_COLOR_ATTACHMENT0
@@ -24,10 +27,6 @@ function framebuffer:framebuffer( type, width, height )
 		format     = GL.GL_DEPTH_COMPONENT
 		dataType   = GL.GL_FLOAT
 		attachment = GL.GL_DEPTH_ATTACHMENT
-	end
-
-	if ( not width and not height ) then
-		width, height = framework.graphics.getSize()
 	end
 
 	self.width  = width
