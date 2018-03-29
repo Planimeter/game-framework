@@ -56,10 +56,6 @@ function linkShader( shader )
 	GL.glLinkProgram( shader )
 end
 
-function getShader()
-	return _shader
-end
-
 function setShader( shader )
 	if ( type( shader ) == "string" ) then
 		if ( not _shaders.loaded[ shader ] ) then
@@ -74,18 +70,18 @@ function setShader( shader )
 	_shader = shader
 end
 
-function getActiveTexture()
-	local texture = ffi.new( "GLint[1]" )
-	GL.glGetIntegerv( GL.GL_ACTIVE_TEXTURE, texture )
-	return texture[0]
+function getShader()
+	return _shader
 end
 
 function setActiveTexture( texture )
 	GL.glActiveTexture( GL[ "GL_TEXTURE" .. texture ] )
 end
 
-function getDefaultTexture()
-	return _defaultTexture
+function getActiveTexture()
+	local texture = ffi.new( "GLint[1]" )
+	GL.glGetIntegerv( GL.GL_ACTIVE_TEXTURE, texture )
+	return texture[0]
 end
 
 function setDefaultTexture()
@@ -107,8 +103,8 @@ function setDefaultTexture()
 	)
 end
 
-function getColor()
-	return _color
+function getDefaultTexture()
+	return _defaultTexture
 end
 
 function setColor( color )
@@ -123,8 +119,8 @@ function setColor( color )
 	_color = color
 end
 
-function getLightDirection()
-	return _lightDirection
+function getColor()
+	return _color
 end
 
 function setLightDirection( direction )
@@ -134,8 +130,8 @@ function setLightDirection( direction )
 	_lightDirection = direction
 end
 
-function getLightColor()
-	return _lightColor
+function getLightDirection()
+	return _lightDirection
 end
 
 function setLightColor( color )
@@ -149,8 +145,8 @@ function setLightColor( color )
 	_lightColor = color
 end
 
-function getBrdfLUT()
-	return _brdfLUT
+function getLightColor()
+	return _lightColor
 end
 
 function setBrdfLUT( filename )
@@ -163,8 +159,8 @@ function setBrdfLUT( filename )
 	setActiveTexture( 0 )
 end
 
-function getNormalScale()
-	return _normalScale
+function getBrdfLUT()
+	return _brdfLUT
 end
 
 function setNormalScale( normalScale )
@@ -174,8 +170,8 @@ function setNormalScale( normalScale )
 	_normalScale = normalScale
 end
 
-function getEmissiveFactor()
-	return _emissiveFactor
+function getNormalScale()
+	return _normalScale
 end
 
 function setEmissiveFactor( emissiveFactor )
@@ -185,8 +181,8 @@ function setEmissiveFactor( emissiveFactor )
 	_emissiveFactor = emissiveFactor
 end
 
-function getOcclusionStrength()
-	return _occlusionStrength
+function getEmissiveFactor()
+	return _emissiveFactor
 end
 
 function setOcclusionStrength( occlusionStrength )
@@ -196,8 +192,8 @@ function setOcclusionStrength( occlusionStrength )
 	_occlusionStrength = occlusionStrength
 end
 
-function getMetallicRoughnessValues()
-	return _metallicRoughnessValues
+function getOcclusionStrength()
+	return _occlusionStrength
 end
 
 function setMetallicRoughnessValues( metallicRoughnessValues )
@@ -212,8 +208,8 @@ function setMetallicRoughnessValues( metallicRoughnessValues )
 	_metallicRoughnessValues = metallicRoughnessValues
 end
 
-function getCameraPosition()
-	return _cameraPosition
+function getMetallicRoughnessValues()
+	return _metallicRoughnessValues
 end
 
 function setCameraPosition( cameraPosition )
@@ -221,4 +217,8 @@ function setCameraPosition( cameraPosition )
 	local index = GL.glGetUniformLocation( getShader(), "u_Camera" )
 	GL.glUniform3fv( index, 1, pCamera )
 	_cameraPosition = cameraPosition
+end
+
+function getCameraPosition()
+	return _cameraPosition
 end
