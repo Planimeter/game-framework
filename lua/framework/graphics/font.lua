@@ -85,6 +85,7 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	local pointer    = ffi.cast( "GLvoid *", 2 * ffi.sizeof( "GLfloat" ) )
 	GL.glBindBuffer( GL.GL_ARRAY_BUFFER, defaultVBO[0] )
 	GL.glVertexAttribPointer( position, 2, GL.GL_FLOAT, 0, stride, nil )
+	GL.glEnableVertexAttribArray( texcoord )
 	GL.glVertexAttribPointer( texcoord, 2, GL.GL_FLOAT, 0, stride, pointer )
 	framework.graphics.updateTransformations()
 
