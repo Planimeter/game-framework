@@ -118,6 +118,7 @@ function main()
 		update( dt )
 
 		if ( framework.graphics ) then
+			framework.graphics.origin()
 			framework.graphics.clear()
 			draw()
 			framework.window.swap()
