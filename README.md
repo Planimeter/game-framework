@@ -16,6 +16,8 @@ https://go.microsoft.com/fwlink/?LinkId=746572
 **02/13/2018 - CEF 3.3282.1733.g9091548 / Chromium 64.0.3282.119**  
 http://opensource.spotify.com/cefbuilds/index.html
 
+*lgf ships with exports of luajit physfs sdl2 devil freetype chipmunk assimp enet opus libflac libmikmod libmodplug libvorbis and smpeg2 from vcpkg*
+
 ### macOS
 ```bash
 brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet opus
