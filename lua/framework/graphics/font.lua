@@ -93,45 +93,52 @@ function font:print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	GL.glPixelStorei( GL.GL_UNPACK_ALIGNMENT, 1 )
 
 	local face = self.face[0]
+
+	local _x = x
 	for i = 1, #text do
 		local char = string.sub( text, i, i )
 		if ( FT.FT_Load_Char( face, string.byte( char ), 4 ) == 0 ) then
-			local g        = face.glyph
-			local gx       = x + g.bitmap_left
-			local gy       = y + face.size.metrics.ascender / 64 - g.bitmap_top
-			local width    = g.bitmap.width
-			local height   = g.bitmap.rows
-			local vertices = {
-				-- vertex                -- texcoord
-				gx,         gy + height, 0.0, 1.0,
-				gx + width, gy + height, 1.0, 1.0,
-				gx,         gy,          0.0, 0.0,
-				gx + width, gy + height, 1.0, 1.0,
-				gx + width, gy,          1.0, 0.0,
-				gx,         gy,          0.0, 0.0
-			}
-			local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
-			local size = ffi.sizeof( pVertices )
-			GL.glBufferData(
-				GL.GL_ARRAY_BUFFER,
-				size,
-				pVertices,
-				GL.GL_STREAM_DRAW
-			)
-			GL.glTexImage2D(
-				GL.GL_TEXTURE_2D,
-				0,
-				GL.GL_RED,
-				g.bitmap.width,
-				g.bitmap.rows,
-				0,
-				GL.GL_RED,
-				GL.GL_UNSIGNED_BYTE,
-				g.bitmap.buffer
-			)
-			framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 4 )
-			x = x + ( g.advance.x / 64 )
-			y = y + ( g.advance.y / 64 )
+			if ( char == "\n" ) then
+				x = _x
+				y =  y + self:getHeight()
+			else
+				local g        = face.glyph
+				local gx       = x + g.bitmap_left
+				local gy       = y + face.size.metrics.ascender / 64 - g.bitmap_top
+				local width    = g.bitmap.width
+				local height   = g.bitmap.rows
+				local vertices = {
+					-- vertex                -- texcoord
+					gx,         gy + height, 0.0, 1.0,
+					gx + width, gy + height, 1.0, 1.0,
+					gx,         gy,          0.0, 0.0,
+					gx + width, gy + height, 1.0, 1.0,
+					gx + width, gy,          1.0, 0.0,
+					gx,         gy,          0.0, 0.0
+				}
+				local pVertices = ffi.new( "GLfloat[?]", #vertices, vertices )
+				local size = ffi.sizeof( pVertices )
+				GL.glBufferData(
+					GL.GL_ARRAY_BUFFER,
+					size,
+					pVertices,
+					GL.GL_STREAM_DRAW
+				)
+				GL.glTexImage2D(
+					GL.GL_TEXTURE_2D,
+					0,
+					GL.GL_RED,
+					g.bitmap.width,
+					g.bitmap.rows,
+					0,
+					GL.GL_RED,
+					GL.GL_UNSIGNED_BYTE,
+					g.bitmap.buffer
+				)
+				framework.graphics.drawArrays( GL.GL_TRIANGLES, 0, #vertices / 4 )
+				x = x + ( g.advance.x / 64 )
+				y = y + ( g.advance.y / 64 )
+			end
 		else
 			error( "Could not load character '" .. char .. "'", 3 )
 		end
