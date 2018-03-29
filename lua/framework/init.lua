@@ -97,7 +97,13 @@ function main()
 			if ( e ) then
 				if ( e.type == ffi.C.SDL_QUIT or
 				     e.type == ffi.C.SDL_APP_TERMINATING ) then
-					if ( quit() ) then return end
+					if ( quit() ) then
+						if ( framework.audio ) then
+							framework.audio.quit()
+						end
+
+						return
+					end
 				end
 
 				framework.event.handle( e )
