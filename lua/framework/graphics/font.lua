@@ -53,16 +53,13 @@ end
 
 function font:getWidth( text )
 	local width = 0
-	local x     = 0
 	local face = self.face[0]
 	for i = 1, #text do
 		local char = string.sub( text, i, i )
 		if ( FT.FT_Load_Char( face, string.byte( char ), 4 ) == 0 ) then
 			local g  = face.glyph
-			local gx = x + g.bitmap_left
 			local bw = g.bitmap.width
-			x        = x + ( g.advance.x / 64 )
-			width    = width + gx + bw
+			width    = width + bw
 		else
 			error( "Could not load character '" .. char .. "'", 3 )
 		end
