@@ -123,7 +123,6 @@ local function love_graphics()
 	end
 
 	function setBlendMode( mode, alphamode )
-		mode = mode or "none"
 		alphamode = alphamode or "alphamultiply"
 		local func   = GL.GL_FUNC_ADD
 		local srcRGB = GL.GL_ONE
@@ -157,7 +156,8 @@ local function love_graphics()
 			srcA = GL.GL_ONE
 			dstRGB = GL.GL_ONE_MINUS_SRC_COLOR
 			dstA = GL.GL_ONE_MINUS_SRC_COLOR
-		elseif ( mode == "replace" or mode == "none" ) then
+		-- elseif ( mode == "replace" or mode == "none" ) then
+		else
 			srcRGB = GL.GL_ONE
 			srcA = GL.GL_ONE
 			dstRGB = GL.GL_ZERO
