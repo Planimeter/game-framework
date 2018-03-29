@@ -47,6 +47,10 @@ end
 
 function setCursor( cursor )
 	SDL.SDL_SetCursor( cursor )
+	if ( cursor ) then
+	else
+		SDL.SDL_SetCursor( SDL.SDL_GetDefaultCursor() )
+	end
 end
 
 function setVisible( visible )
