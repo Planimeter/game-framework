@@ -33,3 +33,7 @@ function getVolume()
 	AL.alGetListenerf( AL.AL_GAIN, volume[0] )
 	return volume
 end
+
+function quit()
+	AL.alcCloseDevice( _device )
+end
