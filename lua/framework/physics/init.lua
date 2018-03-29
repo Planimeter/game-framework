@@ -7,3 +7,7 @@
 local chipmunk = require( "chipmunk" )
 
 module( "framework.physics" )
+
+function newSpace()
+	return chipmunk.cpSpaceNew()
+end
