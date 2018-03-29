@@ -17,8 +17,9 @@ class( "framework.graphics.framebuffer" )
 local framebuffer = framework.graphics.framebuffer
 
 function framebuffer:framebuffer( type, width, height )
-	width  = width  or select( 1, framework.graphics.getSize() )
-	height = height or select( 2, framework.graphics.getSize() )
+	local size = { framework.graphics.getSize() }
+	width      = width  or size[ 1 ]
+	height     = height or size[ 2 ]
 
 	local format     = GL.GL_RGBA
 	local dataType   = GL.GL_UNSIGNED_BYTE
