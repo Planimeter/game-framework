@@ -119,7 +119,7 @@ function main()
 
 		if ( framework.graphics ) then
 			framework.graphics.origin()
-			framework.graphics.clear()
+			framework.graphics.clear( framework.graphics.getBackgroundColor() )
 			draw()
 			framework.window.swap()
 		end

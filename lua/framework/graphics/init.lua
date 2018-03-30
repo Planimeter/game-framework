@@ -14,11 +14,21 @@ local SDL     = require( "sdl" )
 local kazmath = require( "kazmath" )
 local bit     = require( "bit" )
 
+local unpack    = unpack
 local framework = framework
 local require   = require
 local tostring  = tostring
 
 module( "framework.graphics" )
+
+_backgroundColor = _backgroundColor or { 0, 0, 0, 0 }
+
+_viewport  = _viewport or {
+	x      = 0,
+	y      = 0,
+	width  = 800,
+	height = 600
+}
 
 function draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
 	x  = x  or 0
@@ -31,6 +41,10 @@ function draw( drawable, x, y, r, sx, sy, ox, oy, kx, ky )
 	kx = kx or 0
 	ky = ky or 0
 	drawable:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+end
+
+function getBackgroundColor()
+	return unpack( _backgroundColor )
 end
 
 function getFont()
@@ -97,12 +111,10 @@ function print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
 function setBackgroundColor( color )
-	GL.glClearColor(
-		( color[ 1 ] or 0 ) / 255,
-		( color[ 2 ] or 0 ) / 255,
-		( color[ 3 ] or 0 ) / 255,
-		( color[ 4 ] or 0 )
-	)
+	_backgroundColor[ 1 ] = color[ 1 ]
+	_backgroundColor[ 2 ] = color[ 2 ]
+	_backgroundColor[ 3 ] = color[ 3 ]
+	_backgroundColor[ 4 ] = color[ 4 ]
 end
 
 function setFont( font )
@@ -153,13 +165,6 @@ function setScissor( x, y, width, height )
 	end
 end
 
-_viewport  = _viewport or {
-	x      = 0,
-	y      = 0,
-	width  = 800,
-	height = 600
-}
-
 function setViewport( x, y, width, height )
 	GL.glViewport( x, y, width, height )
 	_viewport.x      = x
@@ -172,6 +177,11 @@ function setVSync( vsync )
 	SDL.SDL_GL_SetSwapInterval( vsync and 1 or 0 )
 end
 
-function clear()
+function clear( r, g, b, a )
+	r = r or 0
+	g = g or 0
+	b = b or 0
+	a = a or 0
+	GL.glClearColor( r / 255, g / 255, b / 255, a / 255 )
 	GL.glClear( bit.bor( GL.GL_COLOR_BUFFER_BIT, GL.GL_DEPTH_BUFFER_BIT ) )
 end
