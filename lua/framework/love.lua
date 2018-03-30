@@ -51,10 +51,6 @@ end
 local function love_audio()
 	module( "love.audio" )
 
-	function setVolume()
-		notimplemented( "setVolume", 3 )
-	end
-
 	return _M
 end
 
