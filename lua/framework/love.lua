@@ -272,6 +272,7 @@ local modules = {
 	[ "love.image" ]      = love_image,
 	[ "love.keyboard" ]   = love_keyboard,
 	[ "love.mouse" ]      = love_mouse,
+	[ "love.physics" ]    = love_physics,
 	[ "love.system" ]     = love_system,
 	[ "love.window" ]     = love_window
 }
