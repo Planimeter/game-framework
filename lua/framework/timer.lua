@@ -29,7 +29,7 @@ function getFPS()
 end
 
 function getTime()
-	return SDL.SDL_GetTicks()
+	return SDL.SDL_GetTicks() / 1000
 end
 
 function sleep( seconds )
@@ -45,8 +45,8 @@ function step()
 
 	if ( _nextFPSUpdate <= time ) then
 		_fps = _frames
-		_averageDelta = ( ( time - _lastFPSUpdate ) / _frames ) / 1000
-		_nextFPSUpdate =    time + ( 1 * 1000 )
+		_averageDelta = ( ( time - _lastFPSUpdate ) / _frames )
+		_nextFPSUpdate =    time + 1
 		_lastFPSUpdate =    time
 		_frames = 0
 	end
