@@ -19,8 +19,7 @@ function createWindow( title, x, y, width, height, flags, glattrs )
 	y = y or SDL.SDL_WINDOWPOS_UNDEFINED
 
 	local defaultFlags = bit.bor(
-		ffi.C.SDL_WINDOW_OPENGL,
-		ffi.C.SDL_WINDOW_ALLOW_HIGHDPI
+		ffi.C.SDL_WINDOW_OPENGL
 	)
 	flags = bit.bor( defaultFlags, flags or 0 )
 
