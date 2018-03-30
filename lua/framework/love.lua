@@ -227,6 +227,15 @@ local function love_mouse()
 	return _M
 end
 
+local function love_physics()
+	require( "framework.physics" )
+
+	module( "love.physics" )
+
+	newWorld = framework.physics.newSpace
+	return _M
+end
+
 local function love_system()
 	module( "love.system" )
 
