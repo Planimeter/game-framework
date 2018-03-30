@@ -7,6 +7,8 @@
 local ffi = require( "ffi" )
 local SDL = require( "sdl" )
 
+local framework = framework
+
 module( "framework.mouse" )
 
 function getPosition()
@@ -53,6 +55,10 @@ function setCursor( cursor )
 	end
 end
 
+function setPosition( x, y )
+	SDL.SDL_WarpMouseInWindow( framework.window._window, x, y )
+end
+
 function setVisible( visible )
-	SDL.SDL_ShowCursor( visible and SDL.SDL_ENABLE or SDL.SDL_DISABLE )
+	SDL.SDL_ShowCursor( visible and 1 or 0 )
 end
