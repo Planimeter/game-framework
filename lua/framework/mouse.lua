@@ -48,8 +48,8 @@ function getSystemCursor( id )
 end
 
 function setCursor( cursor )
-	SDL.SDL_SetCursor( cursor )
 	if ( cursor ) then
+		SDL.SDL_SetCursor( cursor )
 	else
 		SDL.SDL_SetCursor( SDL.SDL_GetDefaultCursor() )
 	end
