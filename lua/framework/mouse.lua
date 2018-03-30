@@ -47,6 +47,10 @@ function getSystemCursor( id )
 	return SDL.SDL_CreateSystemCursor( id )
 end
 
+function isVisible()
+	return SDL.SDL_ShowCursor( -1 ) == 1
+end
+
 function setCursor( cursor )
 	if ( cursor ) then
 		SDL.SDL_SetCursor( cursor )
