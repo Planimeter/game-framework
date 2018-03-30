@@ -76,6 +76,8 @@ end
 local function love_graphics()
 	require( "framework.graphics" )
 
+	local select = select
+
 	module( "love.graphics" )
 
 	_blendMode = _blendMode or "alpha"
@@ -90,13 +92,11 @@ local function love_graphics()
 	end
 
 	function getWidth()
-		local width, height = framework.graphics.getSize()
-		return width
+		return select( 1, framework.graphics.getSize() )
 	end
 
 	function getHeight()
-		local width, height = framework.graphics.getSize()
-		return height
+		return select( 2, framework.graphics.getSize() )
 	end
 
 	function newCanvas( width, height )
