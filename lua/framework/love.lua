@@ -76,6 +76,7 @@ end
 local function love_graphics()
 	require( "framework.graphics" )
 
+	local unpack = unpack
 	local select = select
 
 	module( "love.graphics" )
@@ -89,6 +90,12 @@ local function love_graphics()
 
 	function getCanvas()
 		return framework.graphics.getFramebuffer()
+	end
+
+	_getColor = _getColor or framework.graphics.getColor
+
+	function getColor()
+		return unpack( _getColor() )
 	end
 
 	function getWidth()
