@@ -61,11 +61,6 @@ local function love_filesystem()
 		return "./?.lua;lua/?.lua;lua/?/init.lua;"
 	end
 
-	function lines()
-		notimplemented( "lines", 3 )
-		return function() end, {}, nil
-	end
-
 	function setIdentity()
 		notimplemented( "setIdentity", 3 )
 	end

@@ -87,6 +87,19 @@ function isFile( file )
 	return exists( file ) and not isDirectory( file )
 end
 
+function lines( filename )
+	local buffer, length = read( filename )
+	if ( buffer == nil ) then
+		error( length, 2 )
+	end
+	local lines = string.split( buffer, "\n" )
+	local i     = 0
+	return function()
+		i = i + 1
+		return lines[ i ]
+	end
+end
+
 function loadFile( filename )
 	local buffer, length = read( filename )
 	if ( buffer == nil ) then
