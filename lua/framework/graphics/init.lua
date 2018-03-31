@@ -102,6 +102,17 @@ function newModel( filename )
 	return model( filename )
 end
 
+function newQuad( x, y, width, height, sw, sh )
+	require( "framework.graphics.quad" )
+	return quad( x, y, width, height, sw, sh )
+end
+
+function newSpriteBatch( image, maxSprites )
+	require( "framework.graphics.spritebatch" )
+	local spritebatch = framework.graphics.spritebatch
+	return spritebatch( image, maxSprites )
+end
+
 function print( text, x, y, r, sx, sy, ox, oy, kx, ky )
 	text = tostring( text )
 	x = x or 0
