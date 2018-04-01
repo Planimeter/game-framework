@@ -19,9 +19,26 @@ function body:body( world, x, y, type )
 	setproxy( self )
 end
 
+function body:applyLinearImpulse()
+end
+
 function body:getFixtureList()
 	local t = {}
 	return t
+end
+
+function body:getLinearVelocity()
+	local linearVelocity = chipmunk.cpBodyGetVelocity( self._body )
+	return linearVelocity.x, linearVelocity.y
+end
+
+function body:getMass()
+	return 0
+end
+
+function body:getPosition()
+	local position = chipmunk.cpBodyGetPosition( self._body )
+	return position.x, position.y
 end
 
 function body:setFixedRotation()

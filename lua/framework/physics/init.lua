@@ -12,7 +12,9 @@ local require   = require
 module( "framework.physics" )
 
 function newSpace()
-	return chipmunk.cpSpaceNew()
+	require( "framework.physics.space" )
+	local space = framework.physics.space
+	return space()
 end
 
 function newBody( world, x, y, type )
@@ -25,4 +27,7 @@ function newRectangleShape( width, height )
 end
 
 function newFixture( body, shape, density )
+	require( "framework.physics.fixture" )
+	local fixture = framework.physics.fixture
+	return fixture( body, shape, density )
 end
