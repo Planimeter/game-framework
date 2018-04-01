@@ -79,6 +79,9 @@ function framebuffer:draw( x, y, r, sx, sy, ox, oy, kx, ky )
 	image.draw( self, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
+function framebuffer:renderTo( func )
+end
+
 function framebuffer:__gc()
 	GL.glDeleteTextures( 1, self.texture )
 	GL.glDeleteFramebuffers( 1, self.framebuffer )
