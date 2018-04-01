@@ -19,6 +19,11 @@ function body:body( world, x, y, type )
 	setproxy( self )
 end
 
+function body:getFixtureList()
+	local t = {}
+	return t
+end
+
 function body:setFixedRotation()
 	chipmunk.cpBodySetMoment( self._body, math.huge )
 end

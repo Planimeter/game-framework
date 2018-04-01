@@ -20,3 +20,9 @@ function newBody( world, x, y, type )
 	local body = framework.physics.body
 	return body( world, x, y, type )
 end
+
+function newRectangleShape( width, height )
+end
+
+function newFixture( body, shape, density )
+end
