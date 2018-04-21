@@ -180,11 +180,14 @@ function init()
 		local y       = c.window.y
 		local width   = c.window.width
 		local height  = c.window.height
+		local bit     = require( "bit" )
 		local flags   = 0
 		local glattrs = nil
 		if ( c.window.resizable ) then
-			local bit = require( "bit" )
 			flags = bit.bor( flags, ffi.C.SDL_WINDOW_RESIZABLE )
+		end
+		if ( c.window.highdpi ) then
+			flags = bit.bor( flags, ffi.C.SDL_WINDOW_ALLOW_HIGHDPI )
 		end
 		if ( c.window.msaa > 0 ) then
 			glattrs = {
