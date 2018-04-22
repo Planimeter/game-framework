@@ -134,7 +134,7 @@ local function processMaterials( self, mesh )
 end
 
 local function processMesh( self, mesh, transformation )
-	local stride   = ( 3 + 3 + 3 + 2 )
+	local stride   = ( 3 + 3 + 3 + 3 + 2 )
 	local vertices = ffi.new( "GLfloat[?]", stride * mesh.mNumVertices )
 	for i = 0, mesh.mNumVertices - 1 do
 		do
@@ -155,9 +155,15 @@ local function processMesh( self, mesh, transformation )
 			vertices[stride * i + 8]  = mesh.mTangents[i].z
 		end
 
+		if ( mesh.mBitangents ~= nil ) then
+			vertices[stride * i + 9]  = mesh.mBitangents[i].x
+			vertices[stride * i + 10]  = mesh.mBitangents[i].y
+			vertices[stride * i + 11]  = mesh.mBitangents[i].z
+		end
+
 		if ( mesh.mTextureCoords[0] ~= nil ) then
-			vertices[stride * i + 9]  = mesh.mTextureCoords[0][i].x
-			vertices[stride * i + 10] = mesh.mTextureCoords[0][i].y
+			vertices[stride * i + 12]  = mesh.mTextureCoords[0][i].x
+			vertices[stride * i + 13] = mesh.mTextureCoords[0][i].y
 		end
 	end
 
