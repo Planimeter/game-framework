@@ -109,10 +109,10 @@ end
 
 function setColor( color )
 	local pColor = ffi.new( "GLfloat[4]",
-		( color[ 1 ] or 0 ) / 255,
-		( color[ 2 ] or 0 ) / 255,
-		( color[ 3 ] or 0 ) / 255,
-		( color[ 4 ] or 0 ) / 255
+		( color[ 1 ] or 0 ),
+		( color[ 2 ] or 0 ),
+		( color[ 3 ] or 0 ),
+		( color[ 4 ] or 0 )
 	)
 	local index = GL.glGetUniformLocation( getShader(), "color" )
 	GL.glUniform4fv( index, 1, pColor )

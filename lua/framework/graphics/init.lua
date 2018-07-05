@@ -193,6 +193,6 @@ function clear( r, g, b, a )
 	g = g or 0
 	b = b or 0
 	a = a or 0
-	GL.glClearColor( r / 255, g / 255, b / 255, a / 255 )
+	GL.glClearColor( r, g, b, a )
 	GL.glClear( bit.bor( GL.GL_COLOR_BUFFER_BIT, GL.GL_DEPTH_BUFFER_BIT ) )
 end
