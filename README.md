@@ -39,7 +39,7 @@ brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet op
 * Lua Lanes for multithreading
 * LuaSocket for network support
 * LuaSec for secure connections
-* [Drop-in LÖVE 0.10.2 support](https://github.com/Planimeter/lgf/blob/master/lua/framework/love.lua)
+* [Drop-in LÖVE 11.1 support](https://github.com/Planimeter/lgf/blob/master/lua/framework/love.lua)
 
 ## Libraries
 * [lphysicsfs](https://github.com/Planimeter/lphysicsfs)  

@@ -65,6 +65,16 @@ local function love_filesystem()
 		notimplemented( "setIdentity", 3 )
 	end
 
+	function getInfo( filename )
+		if ( not framework.filesystem.exists( filename ) ) then
+			return nil
+		end
+
+		return {
+			modtime = 0
+		}
+	end
+
 	return _M
 end
 
@@ -187,7 +197,13 @@ local function love_graphics()
 		notimplemented( "setDefaultFilter", 3 )
 	end
 
-	setCanvas = framework.graphics.setFramebuffer
+	function setCanvas( canvas )
+		if ( canvas and canvas.stencil ) then
+			framework.graphics.setFramebuffer( canvas[ 1 ] )
+		else
+			framework.graphics.setFramebuffer( canvas )
+		end
+	end
 
 	function setStencilTest()
 		notimplemented( "setStencilTest", 3 )
@@ -252,6 +268,10 @@ end
 
 local function love_window()
 	module( "love.window" )
+
+	function getDPIScale()
+		return 1
+	end
 
 	function getFullscreenModes()
 		notimplemented( "getFullscreenModes", 3 )
