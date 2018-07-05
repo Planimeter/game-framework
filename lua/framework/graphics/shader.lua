@@ -136,9 +136,9 @@ end
 
 function setLightColor( color )
 	local pColor = ffi.new( "GLfloat[3]",
-		( color[ 1 ] or 0 ) / 255,
-		( color[ 2 ] or 0 ) / 255,
-		( color[ 3 ] or 0 ) / 255
+		( color[ 1 ] or 0 ),
+		( color[ 2 ] or 0 ),
+		( color[ 3 ] or 0 )
 	)
 	local index = GL.glGetUniformLocation( getShader(), "u_LightColor" )
 	GL.glUniform3fv( index, 1, pColor )

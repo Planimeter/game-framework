@@ -22,7 +22,7 @@ return function()
 	-- u_LightDirection
 	framework.graphics.setLightDirection( { 0, 0, 0 } )
 	-- u_LightColor
-	framework.graphics.setLightColor( { 255, 255, 255 } )
+	framework.graphics.setLightColor( { 1, 1, 1 } )
 
 	-- u_DiffuseEnvSampler
 	local u_DiffuseEnvSampler = GL.glGetUniformLocation(
@@ -85,7 +85,7 @@ return function()
 	-- u_MetallicRoughnessValues
 	framework.graphics.setMetallicRoughnessValues( { 1, 1 } )
 	-- color
-	framework.graphics.setColor( { 255, 255, 255, 255 } )
+	framework.graphics.setColor( { 1, 1, 1, 1 } )
 
 	-- pbr-vert.glsl
 	-- attribs

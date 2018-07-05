@@ -23,7 +23,7 @@ return function()
 	framework.graphics.setDefaultTexture()
 
 	-- color
-	framework.graphics.setColor( { 255, 255, 255, 255 } )
+	framework.graphics.setColor( { 1, 1, 1, 1 } )
 
 	-- default3d.vert
 	-- attribs
