@@ -99,9 +99,82 @@ function browser:resize( width, height )
 	self.width  = width
 	self.height = height
 
+	local host  = self:getHost()
+	host.was_resized( host )
+end
+
+function browser:keypressed( key, scancode, isrepeat )
+	local host  = self:getHost()
+	local event = ffi.new( "cef_key_event_t", {
+		type = ffi.C.KEYEVENT_KEYDOWN
+	} )
+	host.send_key_event( host, event )
+end
+
+function browser:keyreleased( key, scancode )
+	local host  = self:getHost()
+	local event = ffi.new( "cef_key_event_t", {
+		type = ffi.C.KEYEVENT_KEYUP
+	} )
+	host.send_key_event( host, event )
+end
+
+function browser:mousemoved( x, y, dx, dy, istouch )
+	local host  = self:getHost()
+	local event = ffi.new( "cef_mouse_event_t", {
+		x = x,
+		y = y
+	} )
+	host.send_mouse_move_event( host, event, 0 )
+end
+
+function browser:mousepressed( x, y, button, istouch )
+	if ( button == 1 ) then
+		button = ffi.C.MBT_LEFT
+	elseif ( button == 2 ) then
+		button = ffi.C.MBT_RIGHT
+	elseif ( button == 3 ) then
+		button = ffi.C.MBT_MIDDLE
+	end
+
+	local host  = self:getHost()
+	local event = ffi.new( "cef_mouse_event_t", {
+		x = x,
+		y = y
+	} )
+	host.send_mouse_click_event( host, event, button, 0, 1 )
+end
+
+function browser:mousereleased( x, y, button, istouch )
+	if ( button == 1 ) then
+		button = ffi.C.MBT_LEFT
+	elseif ( button == 2 ) then
+		button = ffi.C.MBT_RIGHT
+	elseif ( button == 3 ) then
+		button = ffi.C.MBT_MIDDLE
+	end
+
+	local host  = self:getHost()
+	local event = ffi.new( "cef_mouse_event_t", {
+		x = x,
+		y = y
+	} )
+	host.send_mouse_click_event( host, event, button, 1, 0 )
+end
+
+function browser:wheelmoved( x, y )
+	local host  = self:getHost()
+	local event = ffi.new( "cef_mouse_event_t", {
+		x = x,
+		y = y
+	} )
+	host.send_mouse_wheel_event( host, event, x, y )
+end
+
+function browser:getHost()
 	local browser = self.browser
 	local host    = browser.get_host( browser )
-	host.was_resized( host )
+	return host
 end
 
 function browser:__gc()
