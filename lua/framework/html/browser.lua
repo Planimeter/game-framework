@@ -22,17 +22,28 @@ local function toutf16( s )
 	return value
 end
 
+framework.html.toutf16 = toutf16
+
 function browser:browser( url, width, height )
 	if ( not width and not height ) then
 		width, height = framework.graphics.getSize()
 	end
 
+	require( "framework.html.app" )
+	require( "framework.html.process" )
+	require( "framework.html.scheme" )
+	require( "framework.html.resource" )
 	require( "framework.html.client" )
 	require( "framework.html.lifespan" )
 	require( "framework.html.rendering" )
 
-	self.mainArgs         = ffi.new( "cef_main_args_t" )
-	self.app              = ffi.new( "cef_app_t" )
+	self.mainArgs = ffi.new( "cef_main_args_t" )
+
+	self:initializeApp()
+	self:initializeProcessHandler()
+	self:initializeSchemeHandler()
+	self:initializeResourceHandler()
+
 	local settings        = ffi.new( "cef_settings_t" )
 	settings.size         = ffi.sizeof( settings )
 	settings.log_severity = ffi.C.LOGSEVERITY_WARNING

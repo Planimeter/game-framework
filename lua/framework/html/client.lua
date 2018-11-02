@@ -12,18 +12,18 @@ class( "framework.html.browser" )
 local browser = framework.html.browser
 
 local function get_life_span_handler( self )
-	return function( handler )
+	return function( client )
 		return self.lifeSpanHandler
 	end
 end
 
 local function get_render_handler( self )
-	return function( handler )
+	return function( client )
 		return self.renderHandler
 	end
 end
 
-function browser:initializeClient( client )
+function browser:initializeClient()
 	local client = ffi.new( "cef_client_t" )
 	client.base.size = ffi.sizeof( client )
 	client.get_life_span_handler = get_life_span_handler( self )
