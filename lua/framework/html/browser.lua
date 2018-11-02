@@ -171,10 +171,11 @@ function browser:mousereleased( x, y, button, istouch )
 end
 
 function browser:wheelmoved( x, y )
-	local host  = self:getHost()
-	local event = ffi.new( "cef_mouse_event_t", {
-		x = x,
-		y = y
+	local host   = self:getHost()
+	local _x, _y = framework.mouse.getPosition()
+	local event  = ffi.new( "cef_mouse_event_t", {
+		x = _x,
+		y = _y
 	} )
 	host.send_mouse_wheel_event( host, event, x, y )
 end
