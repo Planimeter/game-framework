@@ -24,6 +24,14 @@ end
 
 framework.html.toutf16 = toutf16
 
+local function toutf8( s )
+	local value = ffi.new( "cef_string_utf8_t[1]" )
+	cef.cef_string_utf16_to_utf8( s.str, s.length, value[0] )
+	return ffi.string( value[0].str, value[0].length )
+end
+
+framework.html.toutf8 = toutf8
+
 function browser:browser( url, width, height )
 	if ( not width and not height ) then
 		width, height = framework.graphics.getSize()
