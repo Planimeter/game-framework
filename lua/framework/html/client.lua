@@ -12,15 +12,19 @@ class( "framework.html.browser" )
 local browser = framework.html.browser
 
 local function get_life_span_handler( self )
-	return function( client )
+	local func = function( client )
 		return self.lifeSpanHandler
 	end
+	jit.off( func, true )
+	return func
 end
 
 local function get_render_handler( self )
-	return function( client )
+	local func = function( client )
 		return self.renderHandler
 	end
+	jit.off( func, true )
+	return func
 end
 
 function browser:initializeClient()

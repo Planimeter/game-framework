@@ -14,11 +14,13 @@ local browser = framework.html.browser
 local toutf16 = framework.html.toutf16
 
 local function on_context_initialized( self )
-	return function( handler )
+	local func = function( handler )
 		cef.cef_register_scheme_handler_factory(
 			toutf16( "client" ), toutf16( "lgf" ), self.schemeHandler
 		)
 	end
+	jit.off( func, true )
+	return func
 end
 
 function browser:initializeProcessHandler()

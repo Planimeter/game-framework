@@ -22,6 +22,8 @@ local function process_request( self, request, callback )
 	return 0
 end
 
+jit.off( process_request, true )
+
 function browser:initializeResourceHandler()
 	local handler = ffi.new( "cef_resource_handler_t" )
 	handler.base.size = ffi.sizeof( handler )

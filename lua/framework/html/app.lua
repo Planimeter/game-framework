@@ -25,10 +25,14 @@ local function on_register_custom_schemes( self, registrar )
 	)
 end
 
+jit.off( on_register_custom_schemes, true )
+
 local function get_browser_process_handler( self )
-	return function( app )
+	local func = function( app )
 		return self.processHandler
 	end
+	jit.off( func, true )
+	return func
 end
 
 function browser:initializeApp()

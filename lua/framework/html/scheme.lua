@@ -13,9 +13,11 @@ local browser = framework.html.browser
 local toutf16 = framework.html.toutf16
 
 local function create( self )
-	return function( handler, browser, frame, scheme_name, request )
+	local func = function( handler, browser, frame, scheme_name, request )
 		return self.resourceHandler
 	end
+	jit.off( func, true )
+	return func
 end
 
 function browser:initializeSchemeHandler()

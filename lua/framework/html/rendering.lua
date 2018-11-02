@@ -14,14 +14,16 @@ class( "framework.html.browser" )
 local browser = framework.html.browser
 
 local function get_view_rect( self )
-	return function( handler, browser, rect )
+	local func = function( handler, browser, rect )
 		rect[0] = ffi.new( "cef_rect_t", 0, 0, self.width, self.height )
 		return 1
 	end
+	jit.off( func, true )
+	return func
 end
 
 local function on_paint( self )
-	return function(
+	local func = function(
 		handler,
 		browser,
 		type,
@@ -46,6 +48,8 @@ local function on_paint( self )
 			buffer
 		)
 	end
+	jit.off( func, true )
+	return func
 end
 
 function browser:initializeRenderHandler()
