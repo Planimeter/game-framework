@@ -29,8 +29,8 @@ if ( jit.os == "Windows" ) then
 	ffi.C.SetDllDirectoryA( execdir .. "bin" )
 
 	-- Add `lib'
-	package.path      = package.path  .. execdir .. "lib\\?.lua;"
-	package.cpath     = package.cpath .. ";".. execdir .. "lib\\?.dll;"
+	package.path      = package.path  .. ";" .. execdir .. "lib\\?.lua;"
+	package.cpath     = package.cpath .. ";" .. execdir .. "lib\\?.dll;"
 	package.cpath     = package.cpath .. execdir .. "lib\\loadall.dll"
 
 	-- Add `./?/init.lua'
