@@ -84,6 +84,10 @@ local function love_graphics()
 	local unpack = unpack
 	local select = select
 
+	require( "framework.graphics.framebuffer" )
+	local _R  = debug.getregistry()
+	_R.Canvas = framework.graphics.framebuffer
+
 	module( "love.graphics" )
 
 	_blendMode = _blendMode or "alpha"
