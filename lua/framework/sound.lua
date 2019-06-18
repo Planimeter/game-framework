@@ -10,7 +10,8 @@ local AL = require( "openal" )
 local SDL = require( "sdl" )
 local ffi = require( "ffi" )
 
-SDL_sound.Sound_Init()
+-- dyld: lazy symbol binding failed: Symbol not found: _Timidity_Init
+-- SDL_sound.Sound_Init()
 
 class( "framework.sound" )
 
