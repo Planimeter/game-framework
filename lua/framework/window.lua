@@ -67,6 +67,10 @@ function getSize()
 	return width[0], height[0]
 end
 
+function hasFocus()
+	return _window and SDL.SDL_GetKeyboardFocus() == _window
+end
+
 function resize( width, height )
 	framework.graphics.setViewport( 0, 0, width, height )
 	framework.graphics.setOrthographicProjection( width, height )
