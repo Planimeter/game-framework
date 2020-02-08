@@ -97,14 +97,16 @@ local function love_graphics()
 		return _blendMode, _alphaMode
 	end
 
-	function getCanvas()
-		return framework.graphics.getFramebuffer()
-	end
+	getCanvas = framework.graphics.getFramebuffer
 
 	_getColor = _getColor or framework.graphics.getColor
 
 	function getColor()
 		return unpack( _getColor() )
+	end
+
+	function getDPIScale()
+		return 1
 	end
 
 	function getWidth()
@@ -235,7 +237,7 @@ local function love_keyboard()
 
 	module( "love.keyboard" )
 
-	_M.isDown = framework.keyboard.isPressed
+	isDown = framework.keyboard.isPressed
 
 	return _M
 end
@@ -251,6 +253,7 @@ local function love_physics()
 	module( "love.physics" )
 
 	newWorld = framework.physics.newSpace
+
 	return _M
 end
 
@@ -266,6 +269,16 @@ local function love_system()
 			return jit.os
 		end
 	end
+
+	return _M
+end
+
+local function love_timer()
+	require( "framework.timer" )
+
+	module( "love.timer" )
+
+	getTime = framework.timer.getTime
 
 	return _M
 end
@@ -291,6 +304,7 @@ local function love_window()
 	return _M
 end
 
+-- From https://bitbucket.org/rude/love/src/8c6f6a0ca1f0d880c6aa73aaeff0bc510370f737/src/modules/love/love.cpp#lines-147
 local modules = {
 	[ "love.audio" ]      = love_audio,
 	[ "love.filesystem" ] = love_filesystem,
@@ -300,6 +314,7 @@ local modules = {
 	[ "love.mouse" ]      = love_mouse,
 	[ "love.physics" ]    = love_physics,
 	[ "love.system" ]     = love_system,
+	[ "love.timer" ]      = love_timer,
 	[ "love.window" ]     = love_window
 }
 
