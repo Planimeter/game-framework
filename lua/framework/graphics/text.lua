@@ -13,10 +13,12 @@ local text = framework.graphics.text
 
 function text:text( font, textstring )
 	self.font       = font
-	self.textstring = textstring
+	self.textstring = textstring or ""
 end
 
 function text:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+	local font = self.font
+	font:print( self.textstring, x, y, r, sx, sy, ox, oy, kx, ky )
 end
 
 function text:getFont()
