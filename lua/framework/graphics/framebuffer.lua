@@ -82,6 +82,10 @@ end
 function framebuffer:renderTo( func )
 end
 
+function framebuffer:setFilter( min, mag )
+	-- TODO: Implement me.
+end
+
 function framebuffer:__gc()
 	GL.glDeleteTextures( 1, self.texture )
 	GL.glDeleteFramebuffers( 1, self.framebuffer )
