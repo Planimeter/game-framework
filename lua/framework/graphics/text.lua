@@ -16,6 +16,13 @@ function text:text( font, textstring )
 	self.textstring = textstring
 end
 
+function text:draw( x, y, r, sx, sy, ox, oy, kx, ky )
+end
+
+function text:getFont()
+	return self.font
+end
+
 function text:set( textstring )
 	self.textstring = textstring
 end
