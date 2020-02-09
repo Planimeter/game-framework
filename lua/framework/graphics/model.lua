@@ -67,12 +67,12 @@ end
 
 local function PHYSFSCloseProc( self, file )
 	physfs.PHYSFS_close( ffi.cast( "void *", file.UserData ) )
-	file.ReadProc:free()
-	file.WriteProc:free()
-	file.TellProc:free()
-	file.FileSizeProc:free()
-	file.SeekProc:free()
 	file.FlushProc:free()
+	file.SeekProc:free()
+	file.FileSizeProc:free()
+	file.TellProc:free()
+	file.WriteProc:free()
+	file.ReadProc:free()
 end
 
 local function getPHYSFSFileIO()
