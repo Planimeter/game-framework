@@ -1,8 +1,8 @@
---=========== Copyright © 2018, Planimeter, All rights reserved. =============--
+--=========== Copyright © 2020, Planimeter, All rights reserved. ===========--
 --
 -- Purpose:
 --
---============================================================================--
+--==========================================================================--
 
 local kazmath = require( "kazmath" )
 local ffi     = require( "ffi" )
