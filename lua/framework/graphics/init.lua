@@ -102,6 +102,12 @@ function newModel( filename )
 	return model( filename )
 end
 
+function newText( font, textstring )
+	require( "framework.graphics.text" )
+	local text = framework.graphics.text
+	return text( font, textstring )
+end
+
 function newQuad( x, y, width, height, sw, sh )
 	require( "framework.graphics.quad" )
 	return quad( x, y, width, height, sw, sh )
