@@ -92,7 +92,7 @@ function lines( filename )
 	if ( buffer == nil ) then
 		error( length, 2 )
 	end
-	local lines = string.split( buffer, "\n" )
+	local lines = string.split( buffer, "\r?\n" )
 	local i     = 0
 	return function()
 		i = i + 1
