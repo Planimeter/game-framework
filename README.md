@@ -20,7 +20,7 @@ brew install luajit physfs sdl2 devil freetype sdl_sound chipmunk assimp enet op
 
 ## Run
 ```bash
-./lgf
+./game-framework
 ```
 
 ## Features
